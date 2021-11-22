@@ -1,0 +1,66 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "PORT=3201 umi dev",
+    "build": "umi build",
+    "postinstall": "umi generate tmp",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.{js,jsx,tsx,ts}\" --quiet --cache --fix",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write",
+      "eslint --quiet --cache --fix"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/pro-layout": "^6.30.1",
+    "@apollo/client": "^3.4.17",
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.1.1",
+    "@mui/material": "^5.1.1",
+    "clsx": "^1.1.1",
+    "graphql": "^16.0.1",
+    "lodash": "^4.17.21",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "store": "^2.0.12",
+    "subscriptions-transport-ws": "^0.11.0",
+    "umi": "^3.5.20"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.177",
+    "@types/react": "^17.0.35",
+    "@types/react-dom": "^17.0.11",
+    "@types/store": "^2.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "@umijs/preset-react": "^1.8.29",
+    "@umijs/test": "^3.5.20",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "lint-staged": "^12.0.3",
+    "prettier": "^2.4.1",
+    "typescript": "^4.5.2",
+    "yorkie": "^2.0.0"
+  }
+}
