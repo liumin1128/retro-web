@@ -16,8 +16,8 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
 
   const [id] = useState(randomStr());
   const [canvas, setCanvas] = useState();
-  console.log('id');
-  console.log(id);
+  // console.log('id');
+  // console.log(id);
 
   // useEffect(() => {}, []);
 
