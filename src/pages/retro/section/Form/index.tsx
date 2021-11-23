@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Card from '@/components/Retro/Card';
 
 const schema = yup
   .object({
@@ -35,36 +36,41 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({ onSubmit }) => {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack
-        sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-        }}
-      >
-        <TextField
-          label="Conetent"
-          variant="outlined"
-          fullWidth
-          error={!!errors?.content}
-          helperText={errors?.content?.message}
-          {...register('content', { required: true })}
-        />
-
-        <Button
-          fullWidth
-          size="large"
-          variant="contained"
-          color="secondary"
-          type="submit"
-          sx={{ color: '#000000', fontWeight: 'bold' }}
+    <Card sx={{ p: 3 }}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+          }}
+          spacing={2}
         >
-          Send
-        </Button>
-      </Stack>
-    </form>
+          <TextField
+            label="Conetent"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={4}
+            error={!!errors?.content}
+            helperText={errors?.content?.message}
+            {...register('content', { required: true })}
+          />
+
+          <Button
+            fullWidth
+            size="large"
+            variant="contained"
+            color="primary"
+            type="submit"
+            // sx={{ color: '#000000', fontWeight: 'bold' }}
+          >
+            Send
+          </Button>
+        </Stack>
+      </form>
+    </Card>
   );
 };
 
