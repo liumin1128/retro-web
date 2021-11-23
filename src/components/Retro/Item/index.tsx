@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
 import Card from '@/components/Retro/Card';
 import Piaise from '@/components/Praise';
+import Form from '@/components/Retro/Form';
 
 interface User {
   avatar: string;
@@ -20,6 +22,7 @@ interface IItemProps {
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
   const { content, user } = props;
+  const [edit, setEdit] = useState<boolean>(false);
   return (
     <Box sx={{ mb: 2 }}>
       <Card
@@ -48,7 +51,13 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
             <DeleteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
           </IconButton>
 
-          <IconButton className="action" size="small">
+          <IconButton
+            onClick={() => {
+              setEdit(!edit);
+            }}
+            className="action"
+            size="small"
+          >
             <EditIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
           </IconButton>
 
@@ -59,7 +68,19 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
           <Piaise />
         </Box>
 
-        {content}
+        <Box sx={{ mt: 2 }}>
+          {edit ? (
+            <Form
+              defaultValues={{ content }}
+              onSubmit={(values) => {
+                console.log('values');
+                console.log(values);
+              }}
+            />
+          ) : (
+            <Typography variant="h5">{content}</Typography>
+          )}
+        </Box>
       </Card>
     </Box>
   );

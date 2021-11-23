@@ -66,7 +66,7 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
           click();
         }}
         aria-label="zan"
-        className="action"
+        // className="action"
         size="small"
       >
         <ThumbUpIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
