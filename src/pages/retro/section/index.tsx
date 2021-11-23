@@ -28,8 +28,15 @@ const Section: React.FunctionComponent = () => {
       variables: {},
       updateQuery: (
         prev: { retroMessages: RetroMessage[] },
-        { subscriptionData },
+        args: {
+          subscriptionData: {
+            data: {
+              retroMessageCreated: RetroMessage;
+            };
+          };
+        },
       ) => {
+        const { subscriptionData } = args;
         if (!subscriptionData.data) return prev;
         const newItem = subscriptionData.data.retroMessageCreated;
         return {
