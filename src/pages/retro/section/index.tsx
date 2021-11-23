@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import get from 'lodash/get';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Item from '@/components/Retro/Item';
@@ -8,7 +8,9 @@ import {
   RETROMESSAGE_SUBSCRIPTION,
   RETROMESSAGES_QUERY,
   RetroMessage,
+  CREATE_RETROMESSAGE,
 } from '@/graphql/retroMessage';
+import Form from './Form';
 
 const user = {
   avatar: 'http://',
@@ -19,11 +21,10 @@ const Section: React.FunctionComponent = () => {
   const { data, loading, error, subscribeToMore } =
     useQuery<RetroMessage>(RETROMESSAGES_QUERY);
 
-  // console.log('data, loading, error');
-  // console.log(data, loading, error, subscribeToMore);
+  const [createRetro] = useMutation<RetroMessage>(CREATE_RETROMESSAGE);
 
   useEffect(() => {
-    const unsubscribe = subscribeToMore({
+    subscribeToMore({
       document: RETROMESSAGE_SUBSCRIPTION,
       variables: {},
       updateQuery: (
@@ -45,7 +46,10 @@ const Section: React.FunctionComponent = () => {
         };
       },
     });
-    return () => unsubscribe();
+
+    // return () => {
+    //   unsubscribe();
+    // };
   }, [subscribeToMore]);
 
   if (loading) return 'loading';
@@ -58,6 +62,13 @@ const Section: React.FunctionComponent = () => {
       <Container>
         <Grid container spacing={4} sx={{ mt: 10 }}>
           <Grid item xs={4}>
+            <Form
+              onSubmit={(values) => {
+                console.log('values');
+                console.log(values);
+                createRetro({ variables: values });
+              }}
+            />
             {list.map((i) => {
               return (
                 <Item key={i._id} user={user} content={i.content}>

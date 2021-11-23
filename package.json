@@ -26,6 +26,7 @@
     "@apollo/client": "^3.4.17",
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
+    "@hookform/resolvers": "^2.8.3",
     "@mui/icons-material": "^5.1.1",
     "@mui/material": "^5.1.1",
     "clsx": "^1.1.1",
@@ -33,9 +34,11 @@
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.20.2",
     "store": "^2.0.12",
     "subscriptions-transport-ws": "^0.11.0",
-    "umi": "^3.5.20"
+    "umi": "^3.5.20",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.177",
