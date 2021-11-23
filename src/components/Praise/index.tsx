@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { ThumbsUpAni } from './canvas';
 
 const randomStr = () => Math.random().toString(36).slice(-6);
@@ -66,8 +66,10 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
           click();
         }}
         aria-label="zan"
+        className="action"
+        size="small"
       >
-        <DeleteIcon />
+        <ThumbUpIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
       </IconButton>
     </Box>
   );
