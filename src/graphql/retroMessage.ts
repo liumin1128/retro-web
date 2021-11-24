@@ -4,6 +4,7 @@ export interface RetroMessage {
   _id: string;
   title: string;
   content: string;
+  status: string;
 }
 export interface RetroMessagesResult {
   retroMessages: RetroMessage[];
@@ -17,6 +18,7 @@ export const RETROMESSAGE_FRAGMENT = gql`
   fragment comparisonFields on RetroMessage {
     _id
     content
+    status
   }
 `;
 
@@ -47,11 +49,29 @@ export const CREATE_RETROMESSAGE = gql`
   }
 `;
 
-export const RETROMESSAGE_SUBSCRIPTION = gql`
+export const CREATE_RETROMESSAGE_SUBSCRIPTION = gql`
+  ${RETROMESSAGE_FRAGMENT}
   subscription retroMessageCreated {
     retroMessageCreated {
-      _id
-      content
+      ...comparisonFields
+    }
+  }
+`;
+
+export const UPDATE_RETROMESSAGE_SUBSCRIPTION = gql`
+  ${RETROMESSAGE_FRAGMENT}
+  subscription retroMessageUpdated {
+    retroMessageUpdated {
+      ...comparisonFields
+    }
+  }
+`;
+
+export const DELETE_RETROMESSAGE_SUBSCRIPTION = gql`
+  ${RETROMESSAGE_FRAGMENT}
+  subscription retroMessageDeleted {
+    retroMessageDeleted {
+      ...comparisonFields
     }
   }
 `;

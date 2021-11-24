@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import get from 'lodash/get';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Item from '@/components/Retro/Item';
 import {
-  RETROMESSAGE_SUBSCRIPTION,
   RETROMESSAGES_QUERY,
   RetroMessage,
   CREATE_RETROMESSAGE,
+  CREATE_RETROMESSAGE_SUBSCRIPTION,
+  UPDATE_RETROMESSAGE_SUBSCRIPTION,
+  DELETE_RETROMESSAGE_SUBSCRIPTION,
 } from '@/graphql/retroMessage';
 import Form from './Form';
 
@@ -21,11 +23,39 @@ const Section: React.FunctionComponent = () => {
   const { data, loading, error, subscribeToMore } =
     useQuery<RetroMessage>(RETROMESSAGES_QUERY);
 
+  // 会自动更新
+  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION, {
+    // onSubscriptionData: ({ client, subscriptionData }) => {
+    //   const _id = get(subscriptionData, 'data.retroMessageUpdated._id');
+    //   client.cache.modify({
+    //     fields: {
+    //       retroMessages(refs, { readField }) {
+    //         return refs.filter((ref) => _id !== readField('_id', ref));
+    //       },
+    //     },
+    //   });
+    // },
+  });
+
+  // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
+  useSubscription(DELETE_RETROMESSAGE_SUBSCRIPTION, {
+    onSubscriptionData: ({ client, subscriptionData }) => {
+      const _id = get(subscriptionData, 'data.retroMessageDeleted._id');
+      client.cache.modify({
+        fields: {
+          retroMessages(refs, { readField }) {
+            return refs.filter((ref) => _id !== readField('_id', ref));
+          },
+        },
+      });
+    },
+  });
+
   const [createRetro] = useMutation<RetroMessage>(CREATE_RETROMESSAGE);
 
   useEffect(() => {
     subscribeToMore({
-      document: RETROMESSAGE_SUBSCRIPTION,
+      document: CREATE_RETROMESSAGE_SUBSCRIPTION,
       variables: {},
       updateQuery: (
         prev: { retroMessages: RetroMessage[] },
