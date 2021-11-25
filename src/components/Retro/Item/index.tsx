@@ -18,10 +18,12 @@ interface User {
 interface IItemProps {
   content: string;
   user: User;
+  onUpdate: (v: unknown) => void;
+  onDelete: () => void;
 }
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
-  const { content, user } = props;
+  const { content, user, onUpdate, onDelete } = props;
   const [edit, setEdit] = useState<boolean>(false);
   return (
     <Box sx={{ mb: 2 }}>
@@ -47,7 +49,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
             </Avatar>
           </Box>
 
-          <IconButton className="action" size="small">
+          <IconButton onClick={onDelete} className="action" size="small">
             <DeleteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
           </IconButton>
 
@@ -70,13 +72,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
 
         <Box sx={{ mt: 2 }}>
           {edit ? (
-            <Form
-              defaultValues={{ content }}
-              onSubmit={(values) => {
-                console.log('values');
-                console.log(values);
-              }}
-            />
+            <Form defaultValues={{ content }} onSubmit={onUpdate} />
           ) : (
             <Typography variant="h5">{content}</Typography>
           )}

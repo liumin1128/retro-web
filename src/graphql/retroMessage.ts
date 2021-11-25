@@ -6,6 +6,7 @@ export interface RetroMessage {
   content: string;
   status: string;
 }
+
 export interface RetroMessagesResult {
   retroMessages: RetroMessage[];
 }
@@ -44,6 +45,24 @@ export const CREATE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
   mutation CreateRetroMessage($content: String!) {
     createRetroMessage(input: { content: $content }) {
+      ...comparisonFields
+    }
+  }
+`;
+
+export const UPDATE_RETROMESSAGE = gql`
+  ${RETROMESSAGE_FRAGMENT}
+  mutation UpdateRetroMessage($_id: ID!, $content: String!) {
+    updateRetroMessage(_id: $_id, input: { content: $content }) {
+      ...comparisonFields
+    }
+  }
+`;
+
+export const DELETE_RETROMESSAGE = gql`
+  ${RETROMESSAGE_FRAGMENT}
+  mutation DeleteRetroMessage($_id: ID!) {
+    deleteRetroMessage(_id: $_id) {
       ...comparisonFields
     }
   }

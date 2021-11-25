@@ -8,6 +8,8 @@ import {
   RETROMESSAGES_QUERY,
   RetroMessage,
   CREATE_RETROMESSAGE,
+  UPDATE_RETROMESSAGE,
+  DELETE_RETROMESSAGE,
   CREATE_RETROMESSAGE_SUBSCRIPTION,
   UPDATE_RETROMESSAGE_SUBSCRIPTION,
   DELETE_RETROMESSAGE_SUBSCRIPTION,
@@ -24,18 +26,7 @@ const Section: React.FunctionComponent = () => {
     useQuery<RetroMessage>(RETROMESSAGES_QUERY);
 
   // 会自动更新
-  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION, {
-    // onSubscriptionData: ({ client, subscriptionData }) => {
-    //   const _id = get(subscriptionData, 'data.retroMessageUpdated._id');
-    //   client.cache.modify({
-    //     fields: {
-    //       retroMessages(refs, { readField }) {
-    //         return refs.filter((ref) => _id !== readField('_id', ref));
-    //       },
-    //     },
-    //   });
-    // },
-  });
+  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION);
 
   // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
   useSubscription(DELETE_RETROMESSAGE_SUBSCRIPTION, {
@@ -52,6 +43,8 @@ const Section: React.FunctionComponent = () => {
   });
 
   const [createRetro] = useMutation<RetroMessage>(CREATE_RETROMESSAGE);
+  const [updateRetro] = useMutation<RetroMessage>(UPDATE_RETROMESSAGE);
+  const [deleteRetro] = useMutation<RetroMessage>(DELETE_RETROMESSAGE);
 
   useEffect(() => {
     subscribeToMore({
@@ -76,10 +69,6 @@ const Section: React.FunctionComponent = () => {
         };
       },
     });
-
-    // return () => {
-    //   unsubscribe();
-    // };
   }, [subscribeToMore]);
 
   if (loading) return 'loading';
@@ -101,7 +90,21 @@ const Section: React.FunctionComponent = () => {
             />
             {list.map((i) => {
               return (
-                <Item key={i._id} user={user} content={i.content}>
+                <Item
+                  key={i._id}
+                  user={user}
+                  content={i.content}
+                  onDelete={() => {
+                    console.log(i._id);
+                    deleteRetro({ variables: { _id: i._id } });
+                  }}
+                  onUpdate={(values) => {
+                    console.log(values);
+                    updateRetro({
+                      variables: { _id: i._id, content: values.content },
+                    });
+                  }}
+                >
                   {i.content}
                 </Item>
               );
