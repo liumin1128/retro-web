@@ -91,8 +91,24 @@ echo 'H4sIADRBr2ECA+0aa3PbNjKf9StQxW1sxyT1suVKo/H4nLjJXHLWROlce3Gqg0hQQg0SLAHqkV
 
 tar -xzvf nginxconfig.io-react.mobi.tar.gz | xargs chmod 0644
 
+# 实时监听日志
+tail -f 
+
+# 一键更新nginx
 podman stop mynginx
-
 podman rm mynginx  
+podman run \
+--name mynginx \
+--privileged=true \
+-v /root:/root \
+-v /etc/nginx:/etc/nginx \
+-p 80:80 \
+-p 443:443 \
+-d nginx
+podman logs mynginx  
 
+# ngixn 转发的路径问题
+https://www.cnblogs.com/wjoyxt/p/11949943.html
 
+# docker nginx访问宿主机
+ifconfig，查看容器ip，那个地址可以访问宿主机

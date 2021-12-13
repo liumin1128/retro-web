@@ -13,12 +13,12 @@ import { RetryLink } from '@apollo/client/link/retry';
 import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getStorage } from '@/utils/store';
-import { GRAPHQL_URL, USER_TOKEN } from '@/configs/base';
+import { USER_TOKEN } from '@/configs/base';
 
 import typeDefs from './typeDefs';
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:3101/graphql',
+  uri: process.env.GRAPHQL_URL_WS,
   options: {
     reconnect: true,
     // connectionParams: {
@@ -28,7 +28,7 @@ const wsLink = new WebSocketLink({
 });
 
 const httpLink = new BatchHttpLink({
-  uri: GRAPHQL_URL,
+  uri: process.env.GRAPHQL_URL,
   batchMax: 5, // No more than 5 operations per batch
   batchInterval: 20, // Wait no more than 20ms after first batched operation
 });
