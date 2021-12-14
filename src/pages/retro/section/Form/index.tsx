@@ -20,9 +20,13 @@ interface Values {
 interface IFormProps {
   // eslint-disable-next-line no-unused-vars
   onSubmit: (values: Values) => void;
+  placeholder: string;
 }
 
-const MessageForm: React.FunctionComponent<IFormProps> = ({ onSubmit }) => {
+const MessageForm: React.FunctionComponent<IFormProps> = ({
+  placeholder,
+  onSubmit,
+}) => {
   const {
     register,
     handleSubmit,
@@ -48,7 +52,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({ onSubmit }) => {
           spacing={2}
         >
           <TextField
-            label="Conetent"
+            label={placeholder}
             variant="outlined"
             fullWidth
             multiline

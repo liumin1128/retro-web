@@ -74,7 +74,14 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
           {edit ? (
             <Form defaultValues={{ content }} onSubmit={onUpdate} />
           ) : (
-            <Typography variant="h5">{content}</Typography>
+            <Box
+              sx={{
+                overflow: 'hidden',
+                wordWrap: 'breakWord',
+              }}
+            >
+              <Typography variant="h5">{content}</Typography>
+            </Box>
           )}
         </Box>
       </Card>

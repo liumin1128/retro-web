@@ -23,6 +23,13 @@ const user = {
   nickname: '本王今年八岁',
 };
 
+const placeholders = {
+  HAPPY: "I'm glad that...",
+  WONDERRING: "I'm wondering about...",
+  UNHAPPY: "It wasn't so great that...",
+  TODO: 'Add an action item',
+};
+
 const Section: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -134,6 +141,7 @@ const Section: React.FunctionComponent = () => {
             return (
               <Grid key={type} item xs={3}>
                 <Form
+                  placeholder={placeholders[type]}
                   onSubmit={(values) => {
                     console.log('values');
                     console.log(values);
