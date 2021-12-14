@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import { useSnackbar } from 'notistack';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
@@ -24,7 +25,7 @@ const user = {
   nickname: 'User',
 };
 
-const placeholders = {
+const placeholders: string[] = {
   HAPPY: "I'm glad that...",
   WONDERRING: "I'm wondering about...",
   UNHAPPY: "It wasn't so great that...",
@@ -115,13 +116,6 @@ const Section: React.FunctionComponent = () => {
       },
     });
 
-    // 3.5s后调用退订
-    // 3.5s后不再接受到被推送的数据，但是Observable的source$资源并没有终结
-    // 因为始终没有调用complete,只不过再也不会调用next函数了
-    // setTimeout(() => {
-    //   subscription.unsubscribe();
-    // }, 3500);
-
     return () => {
       subscription.unsubscribe();
     };
@@ -132,67 +126,87 @@ const Section: React.FunctionComponent = () => {
 
   const list = get(data, 'retroMessages', []);
 
-  console.log(list);
-
   return (
-    <div>
+    <Box sx={{ p: 2, py: 0 }}>
       <Container>
-        <Grid container spacing={4} sx={{ mt: 10 }}>
-          {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type) => {
+        <Grid container spacing={0} sx={{ py: 0 }}>
+          {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type: string) => {
             return (
-              <Grid key={type} item xs={3}>
-                <Card>
-                  <Form
-                    placeholder={placeholders[type]}
-                    onSubmit={(values) => {
-                      console.log('values');
-                      console.log(values);
-                      try {
-                        createRetro({ variables: { type, ...values } }).catch(
-                          (err) => {
+              <Grid
+                key={type}
+                item
+                xs={3}
+                sx={{ display: 'flex', flexDirection: 'column', py: 0 }}
+              >
+                <Box
+                  sx={{
+                    height: 'calc(100vh - 1px)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    p: 2,
+                  }}
+                >
+                  <Box sx={{ py: 2 }}>
+                    <Card>
+                      <Form
+                        placeholder={placeholders[type] as string}
+                        onSubmit={(values) => {
+                          try {
+                            createRetro({
+                              variables: { type, ...values },
+                            }).catch((err) => {
+                              console.log(err);
+                            });
+                          } catch (err) {
                             console.log(err);
-                          },
-                        );
-                      } catch (err) {
-                        console.log(err);
-                      }
-                    }}
-                  />
-                </Card>
+                          }
+                        }}
+                      />
+                    </Card>
+                  </Box>
 
-                {list
-                  .filter((i) => i.type === type)
-                  .map((i) => {
-                    return (
-                      <Item
-                        key={i._id}
-                        user={i.user || user}
-                        content={i.content}
-                        onDelete={() => {
-                          console.log(i._id);
-                          deleteRetro({ variables: { _id: i._id } });
-                        }}
-                        onUpdate={(values) => {
-                          console.log(values);
-                          updateRetro({
-                            variables: {
-                              _id: i._id,
-                              type,
-                              content: values.content,
-                            },
-                          });
-                        }}
-                      >
-                        {i.content}
-                      </Item>
-                    );
-                  })}
+                  <Box
+                    sx={{
+                      overflowY: 'auto',
+                      overflowX: 'hidden',
+                      flex: 1,
+                    }}
+                  >
+                    {list
+                      .filter((i) => i.type === type)
+                      .map((i) => {
+                        return (
+                          <Item
+                            key={i._id}
+                            user={i.user || user}
+                            content={i.content}
+                            onDelete={() => {
+                              console.log(i._id);
+                              deleteRetro({ variables: { _id: i._id } });
+                            }}
+                            onUpdate={(values) => {
+                              console.log(values);
+                              updateRetro({
+                                variables: {
+                                  _id: i._id,
+                                  type,
+                                  content: values.content,
+                                },
+                              });
+                            }}
+                          >
+                            {i.content}
+                          </Item>
+                        );
+                      })}
+                  </Box>
+                </Box>
               </Grid>
             );
           })}
         </Grid>
       </Container>
-    </div>
+    </Box>
   );
 };
 

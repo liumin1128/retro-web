@@ -52,7 +52,9 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                 wordWrap: 'breakWord',
               }}
             >
-              <Typography variant="h5">{content}</Typography>
+              <Typography variant="h5" sx={{ fontSize: 18 }}>
+                {content}
+              </Typography>
             </Box>
           )}
         </Box>

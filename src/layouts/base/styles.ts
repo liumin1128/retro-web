@@ -14,7 +14,7 @@
 
 const useStyles = {
   root: {
-    background: 'linear-gradient(111.44deg, #FADCE4, #FFB5CC 100%);',
+    background: 'linear-gradient(111.44deg, #0f5a9a, #00266b 100%);',
     width: '100vw',
     height: '100vh',
     boxSizing: 'border-content',
