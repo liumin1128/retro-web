@@ -20,23 +20,31 @@ interface IFormProps {
   // eslint-disable-next-line no-unused-vars
   onSubmit: (values: Values) => void;
   defaultValues?: Values;
+  placeholder?: string;
 }
 
 const MessageForm: React.FunctionComponent<IFormProps> = ({
   onSubmit,
   defaultValues,
+  placeholder,
 }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues,
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={() => {
+        handleSubmit(onSubmit)();
+        reset();
+      }}
+    >
       <Stack
         sx={{
           height: '100%',
@@ -47,11 +55,11 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
         spacing={2}
       >
         <TextField
-          label="Conetent"
+          label={placeholder}
           variant="outlined"
           fullWidth
           multiline
-          rows={4}
+          minRows={2}
           error={!!errors?.content}
           helperText={errors?.content?.message}
           {...register('content', { required: true })}
@@ -70,6 +78,10 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
       </Stack>
     </form>
   );
+};
+
+MessageForm.defaultProps = {
+  placeholder: 'Content',
 };
 
 export default MessageForm;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
+// import get from 'lodash/get';
+// import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -24,6 +25,8 @@ interface IItemProps {
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
   const { content, user, onUpdate, onDelete } = props;
+  console.log('user');
+  console.log(user);
   const [edit, setEdit] = useState<boolean>(false);
   return (
     <Box sx={{ mb: 2 }}>
@@ -39,14 +42,32 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
           },
         }}
       >
-        <Box className="toolbar" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box>
+          {edit ? (
+            <Form defaultValues={{ content }} onSubmit={onUpdate} />
+          ) : (
+            <Box
+              sx={{
+                overflow: 'hidden',
+                wordWrap: 'breakWord',
+              }}
+            >
+              <Typography variant="h5">{content}</Typography>
+            </Box>
+          )}
+        </Box>
+
+        <Box
+          className="toolbar"
+          sx={{ mb: -1, display: 'flex', alignItems: 'center' }}
+        >
           <Box sx={{ flex: 1 }}>
-            <Avatar
+            {/* <Avatar
               src={user?.avatar}
               sx={{ width: 24, height: 24, fontSize: 12 }}
             >
-              {user?.nickname[0]}
-            </Avatar>
+              {get(user, 'nickname[0]')}
+            </Avatar> */}
           </Box>
 
           <IconButton onClick={onDelete} className="action" size="small">
@@ -68,21 +89,6 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
           </IconButton> */}
 
           <Piaise />
-        </Box>
-
-        <Box sx={{ mt: 2 }}>
-          {edit ? (
-            <Form defaultValues={{ content }} onSubmit={onUpdate} />
-          ) : (
-            <Box
-              sx={{
-                overflow: 'hidden',
-                wordWrap: 'breakWord',
-              }}
-            >
-              <Typography variant="h5">{content}</Typography>
-            </Box>
-          )}
         </Box>
       </Card>
     </Box>

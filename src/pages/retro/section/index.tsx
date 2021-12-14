@@ -5,6 +5,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { useSnackbar } from 'notistack';
 import Item from '@/components/Retro/Item';
+import Form from '@/components/Retro/Form';
+import Card from '@/components/Retro/Card';
 import {
   RETROMESSAGES_QUERY,
   RetroMessage,
@@ -15,12 +17,11 @@ import {
   UPDATE_RETROMESSAGE_SUBSCRIPTION,
   DELETE_RETROMESSAGE_SUBSCRIPTION,
 } from '@/graphql/retroMessage';
-import Form from './Form';
 import { source$ } from '@/wrappers/apollo-provider/apollo';
 
 const user = {
   avatar: 'http://',
-  nickname: '本王今年八岁',
+  nickname: 'User',
 };
 
 const placeholders = {
@@ -76,7 +77,7 @@ const Section: React.FunctionComponent = () => {
         const newItem = subscriptionData.data.retroMessageCreated;
         return {
           ...prev,
-          retroMessages: [newItem, ...prev.retroMessages],
+          retroMessages: [...prev.retroMessages, newItem],
         };
       },
     });
@@ -140,29 +141,32 @@ const Section: React.FunctionComponent = () => {
           {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type) => {
             return (
               <Grid key={type} item xs={3}>
-                <Form
-                  placeholder={placeholders[type]}
-                  onSubmit={(values) => {
-                    console.log('values');
-                    console.log(values);
-                    try {
-                      createRetro({ variables: { type, ...values } }).catch(
-                        (err) => {
-                          console.log(err);
-                        },
-                      );
-                    } catch (err) {
-                      console.log(err);
-                    }
-                  }}
-                />
+                <Card>
+                  <Form
+                    placeholder={placeholders[type]}
+                    onSubmit={(values) => {
+                      console.log('values');
+                      console.log(values);
+                      try {
+                        createRetro({ variables: { type, ...values } }).catch(
+                          (err) => {
+                            console.log(err);
+                          },
+                        );
+                      } catch (err) {
+                        console.log(err);
+                      }
+                    }}
+                  />
+                </Card>
+
                 {list
                   .filter((i) => i.type === type)
                   .map((i) => {
                     return (
                       <Item
                         key={i._id}
-                        user={user}
+                        user={i.user || user}
                         content={i.content}
                         onDelete={() => {
                           console.log(i._id);

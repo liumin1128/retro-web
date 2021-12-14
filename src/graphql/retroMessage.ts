@@ -6,6 +6,7 @@ export interface RetroMessage {
   content: string;
   status: string;
   type: string;
+  user: unknown;
 }
 
 export interface RetroMessagesResult {
@@ -22,6 +23,11 @@ export const RETROMESSAGE_FRAGMENT = gql`
     content
     status
     type
+    user {
+      _id
+      nickname
+      avatarUrl
+    }
   }
 `;
 
