@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import { useSnackbar } from 'notistack';
 import Item from '@/components/Retro/Item';
 import {
   RETROMESSAGES_QUERY,
@@ -15,6 +16,7 @@ import {
   DELETE_RETROMESSAGE_SUBSCRIPTION,
 } from '@/graphql/retroMessage';
 import Form from './Form';
+import { source$ } from '@/wrappers/apollo-provider/apollo';
 
 const user = {
   avatar: 'http://',
@@ -22,7 +24,9 @@ const user = {
 };
 
 const Section: React.FunctionComponent = () => {
-  const { data, loading, error, subscribeToMore } =
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { data, loading, refetch, error, subscribeToMore } =
     useQuery<RetroMessage>(RETROMESSAGES_QUERY);
 
   // 会自动更新
@@ -71,6 +75,50 @@ const Section: React.FunctionComponent = () => {
     });
   }, [subscribeToMore]);
 
+  // 订阅断线重连
+  useEffect(() => {
+    // subscribe函数的返回结果存为变量subscription
+    const subscription = source$.subscribe({
+      complete: () => {
+        console.log('complete:');
+      },
+      next: (s) => {
+        console.log('next:', s);
+        switch (s) {
+          case 'onConnected': {
+            enqueueSnackbar('Connected', { variant: 'success' });
+            break;
+          }
+          case 'onReconnected': {
+            enqueueSnackbar('Reconnected', { variant: 'success' });
+            refetch();
+            break;
+          }
+          case 'onDisconnected': {
+            enqueueSnackbar('Disconnected', { variant: 'error' });
+            break;
+          }
+          case 'onReconnecting': {
+            enqueueSnackbar('Reconnecting', { variant: 'info' });
+            break;
+          }
+          default:
+        }
+      },
+    });
+
+    // 3.5s后调用退订
+    // 3.5s后不再接受到被推送的数据，但是Observable的source$资源并没有终结
+    // 因为始终没有调用complete,只不过再也不会调用next函数了
+    // setTimeout(() => {
+    //   subscription.unsubscribe();
+    // }, 3500);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [enqueueSnackbar, refetch]);
+
   if (loading) return 'loading';
   if (error) return 'error';
 
@@ -85,7 +133,13 @@ const Section: React.FunctionComponent = () => {
               onSubmit={(values) => {
                 console.log('values');
                 console.log(values);
-                createRetro({ variables: values });
+                try {
+                  createRetro({ variables: values }).catch((err) => {
+                    console.log(err);
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
               }}
             />
             {list.map((i) => {

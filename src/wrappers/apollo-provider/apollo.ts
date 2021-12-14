@@ -6,6 +6,7 @@ import {
   from,
   split,
 } from '@apollo/client';
+import { Observable } from 'rxjs';
 // import get from 'lodash/get';
 import { setContext } from '@apollo/client/link/context';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
@@ -13,21 +14,56 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { RetryLink } from '@apollo/client/link/retry';
 import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { history } from 'umi';
 import { getStorage } from '@/utils/store';
 import { USER_TOKEN } from '@/configs/base';
 
 import typeDefs from './typeDefs';
 
-const wsLink = new WebSocketLink({
-  uri: process.env.GRAPHQL_URL_WS,
-  options: {
-    reconnect: true,
-    // connectionParams: {
-    //   authToken: user.authToken,
-    // },
-  },
+const wsclient = new SubscriptionClient(process.env.GRAPHQL_URL_WS, {
+  reconnect: true,
 });
+
+// const observable = Observable.create();
+const onSubscribe = (observer) => {
+  // const Timer = setInterval(() => {
+  //   observer.next(number++);
+  // }, 1000);
+  wsclient.onConnected(() => {
+    console.log('onConnected');
+    observer.next('onConnected');
+  });
+
+  wsclient.onConnecting(() => {
+    console.log('onConnecting');
+    observer.next('onConnecting');
+  });
+
+  wsclient.onDisconnected(() => {
+    console.log('onDisconnected');
+    observer.next('onDisconnected');
+  });
+
+  wsclient.onReconnected(() => {
+    console.log('onReconnected');
+    observer.next('onReconnected');
+  });
+
+  wsclient.onReconnecting(() => {
+    console.log('onReconnecting');
+    observer.next('onReconnecting');
+  });
+  return {
+    unsubscribe: () => {
+      // clearInterval(Timer);
+    },
+  };
+};
+
+export const source$ = new Observable(onSubscribe);
+
+const wsLink = new WebSocketLink(wsclient);
 
 const httpLink = new BatchHttpLink({
   uri: process.env.GRAPHQL_URL,

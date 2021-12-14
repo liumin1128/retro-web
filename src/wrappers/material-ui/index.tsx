@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { SnackbarProvider } from 'notistack';
 import theme from '@/configs/theme';
 
 interface Props {
@@ -10,8 +11,10 @@ interface Props {
 export default ({ children }: Props) => {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
+      <SnackbarProvider maxSnack={3}>
+        <CssBaseline />
+        {children}
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };
