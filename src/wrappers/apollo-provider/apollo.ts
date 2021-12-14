@@ -6,12 +6,14 @@ import {
   from,
   split,
 } from '@apollo/client';
+// import get from 'lodash/get';
 import { setContext } from '@apollo/client/link/context';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { RetryLink } from '@apollo/client/link/retry';
 import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
+import { history } from 'umi';
 import { getStorage } from '@/utils/store';
 import { USER_TOKEN } from '@/configs/base';
 
@@ -71,14 +73,15 @@ const authLink = setContext((_, { headers }) => {
 // https://www.apollographql.com/docs/react/api/link/apollo-link-error/
 // Log any GraphQL errors or network error that occurred
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
-  if (networkError) {
-    console.log(networkError);
+  console.log('errorLink networkError:', networkError);
+  console.log('errorLink graphQLErrors:', graphQLErrors);
+  if (graphQLErrors) {
+    graphQLErrors.forEach((i) => {
+      if (i.extensions.code === 'UNAUTHENTICATED') {
+        history.push('/login');
+        // window.location.href = 'https://react.mobi/api/oauth/wechat';
+      }
+    });
   }
 });
 

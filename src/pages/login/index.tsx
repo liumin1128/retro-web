@@ -1,7 +1,16 @@
+const apiUrl = process.env.API_URL || '';
+
 export default function Home() {
   return (
     <div>
-      <a href="http://127.0.0.1:3101/oauth/github">github</a>
+      <ul>
+        <li>
+          <a href={`${apiUrl}/oauth/github`}>github</a>
+        </li>
+        <li>
+          <a href={`${apiUrl}/oauth/wechat`}>wechat</a>
+        </li>
+      </ul>
     </div>
   );
 }
