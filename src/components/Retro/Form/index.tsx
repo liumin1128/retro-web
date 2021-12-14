@@ -40,8 +40,8 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
 
   return (
     <form
-      onSubmit={() => {
-        handleSubmit(onSubmit)();
+      onSubmit={(e) => {
+        handleSubmit(onSubmit)(e);
         reset();
       }}
     >
