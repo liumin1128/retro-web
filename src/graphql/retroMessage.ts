@@ -5,6 +5,7 @@ export interface RetroMessage {
   title: string;
   content: string;
   status: string;
+  type: string;
 }
 
 export interface RetroMessagesResult {
@@ -20,6 +21,7 @@ export const RETROMESSAGE_FRAGMENT = gql`
     _id
     content
     status
+    type
   }
 `;
 
@@ -43,8 +45,8 @@ export const RETROMESSAGE_QUERY = gql`
 
 export const CREATE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
-  mutation CreateRetroMessage($content: String!) {
-    createRetroMessage(input: { content: $content }) {
+  mutation CreateRetroMessage($content: String!, $type: RetroMessageType!) {
+    createRetroMessage(input: { content: $content, type: $type }) {
       ...comparisonFields
     }
   }
@@ -52,8 +54,12 @@ export const CREATE_RETROMESSAGE = gql`
 
 export const UPDATE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
-  mutation UpdateRetroMessage($_id: ID!, $content: String!) {
-    updateRetroMessage(_id: $_id, input: { content: $content }) {
+  mutation UpdateRetroMessage(
+    $_id: ID!
+    $content: String!
+    $type: RetroMessageType!
+  ) {
+    updateRetroMessage(_id: $_id, input: { content: $content, type: $type }) {
       ...comparisonFields
     }
   }

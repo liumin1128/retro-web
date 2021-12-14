@@ -124,55 +124,60 @@ const Section: React.FunctionComponent = () => {
 
   const list = get(data, 'retroMessages', []);
 
+  console.log(list);
+
   return (
     <div>
       <Container>
         <Grid container spacing={4} sx={{ mt: 10 }}>
-          <Grid item xs={4}>
-            <Form
-              onSubmit={(values) => {
-                console.log('values');
-                console.log(values);
-                try {
-                  createRetro({ variables: values }).catch((err) => {
-                    console.log(err);
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            />
-            {list.map((i) => {
-              return (
-                <Item
-                  key={i._id}
-                  user={user}
-                  content={i.content}
-                  onDelete={() => {
-                    console.log(i._id);
-                    deleteRetro({ variables: { _id: i._id } });
-                  }}
-                  onUpdate={(values) => {
+          {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type) => {
+            return (
+              <Grid key={type} item xs={3}>
+                <Form
+                  onSubmit={(values) => {
+                    console.log('values');
                     console.log(values);
-                    updateRetro({
-                      variables: { _id: i._id, content: values.content },
-                    });
+                    try {
+                      createRetro({ variables: { type, ...values } }).catch(
+                        (err) => {
+                          console.log(err);
+                        },
+                      );
+                    } catch (err) {
+                      console.log(err);
+                    }
                   }}
-                >
-                  {i.content}
-                </Item>
-              );
-            })}
-          </Grid>
-          <Grid item xs={4}>
-            <Item>11111</Item>
-            <Item>11111</Item>
-          </Grid>
-          <Grid item xs={4}>
-            <Item>11111</Item>
-            <Item>11111</Item>
-            <Item>11111</Item>
-          </Grid>
+                />
+                {list
+                  .filter((i) => i.type === type)
+                  .map((i) => {
+                    return (
+                      <Item
+                        key={i._id}
+                        user={user}
+                        content={i.content}
+                        onDelete={() => {
+                          console.log(i._id);
+                          deleteRetro({ variables: { _id: i._id } });
+                        }}
+                        onUpdate={(values) => {
+                          console.log(values);
+                          updateRetro({
+                            variables: {
+                              _id: i._id,
+                              type,
+                              content: values.content,
+                            },
+                          });
+                        }}
+                      >
+                        {i.content}
+                      </Item>
+                    );
+                  })}
+              </Grid>
+            );
+          })}
         </Grid>
       </Container>
     </div>

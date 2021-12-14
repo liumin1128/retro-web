@@ -40,8 +40,8 @@ export const DynamicQuery = gql`
 
 export const CreateDynamic = gql`
   ${DynamicFragment}
-  mutation CreateDynamic($content: String!) {
-    createDynamic(input: { content: $content }) {
+  mutation CreateDynamic($content: String!, $type: String) {
+    createDynamic(input: { content: $content, type: $type }) {
       ...comparisonFields
     }
   }
