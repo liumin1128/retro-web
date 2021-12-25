@@ -29,7 +29,7 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
   return (
     <Box
       sx={{
-        display: 'inline-block',
+        display: 'flex',
         position: 'relative',
         zIndex: 99,
 
@@ -45,6 +45,8 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
           /*  filter: grayscale(1); */
           userSelect: 'none',
           cursor: 'pointer',
+
+          pointerEvents: 'none',
         },
 
         '& .heart:before, & .heart:after': {

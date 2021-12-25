@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import debounce from 'lodash/debounce';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HeartAnimation from '@/components/HeartAnimation';
 // import styles from './style.css';
@@ -51,6 +50,7 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
           fontSize: 12,
           fontWeight: 'bold',
           color: 'palette.text.secondary',
+          mr: 1,
         }}
       >
         {count}
@@ -59,12 +59,11 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
       <HeartAnimation
         onClick={(e) => {
           e.stopPropagation();
+          e.preventDefault();
           handleClick();
         }}
       >
-        <IconButton aria-label="zan" size="small">
-          <FavoriteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-        </IconButton>
+        <FavoriteIcon sx={{ fontSize: '20px', margin: 0, color: '#bdbdbd' }} />
       </HeartAnimation>
     </Box>
   );
