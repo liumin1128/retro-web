@@ -1,40 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import debounce from 'lodash/debounce';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import { ThumbsUpAni } from './canvas';
-
-const randomStr = () => Math.random().toString(36).slice(-6);
 
 interface IPraiseProps {
   count: number;
-  onClick: (event: MouseEvent) => void;
+  onClick: (event: number) => void;
 }
 
 const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
   const { count, onClick } = props;
+  const [temp, setTemp] = useState(0);
 
-  const [id] = useState(randomStr());
-  const [canvas, setCanvas] = useState();
-  // console.log('id');
-  // console.log(id);
+  // const debouncedSave = useCallback(
+  //   () => debounce((nextValue: number) => onClick(nextValue), 1000),
+  //   [onClick],
+  // );
 
-  // useEffect(() => {}, []);
+  function saveToDb(nextValue: number) {
+    setTemp(0);
+    onClick(nextValue);
+  }
 
-  function click() {
-    onClick();
-    if (!canvas) {
-      const thumbsUpAni = new ThumbsUpAni(id);
-      setCanvas(thumbsUpAni);
-      setTimeout(() => {
-        thumbsUpAni.start();
-      }, 100);
-      return;
-    }
-    canvas.start();
-    // setInterval(() => {
-    //   thumbsUpAni.start();
-    // }, 300);
+  const debouncedSave = useRef(
+    debounce((nextValue) => saveToDb(nextValue), 1000, {
+      maxWait: 1000,
+    }),
+  ).current;
+
+  function handleClick() {
+    setTemp(temp + 1);
+    debouncedSave(temp + 1);
   }
 
   return (
@@ -44,11 +41,7 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // width: '100px',
-        // border: '1px solid red',
-
         '& .canvas': {
-          // border: '1px solid red',
           position: 'absolute',
           bottom: 32,
           pointerEvents: 'none',
@@ -60,20 +53,17 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
         },
       }}
     >
-      <canvas className="canvas" id={id} width="200" height="400" />
-
       <IconButton
         onClick={() => {
-          click();
+          handleClick();
         }}
         aria-label="zan"
-        // className="action"
         size="small"
       >
         <ThumbUpIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
       </IconButton>
-
       {count}
+      {/* -:{temp} */}
     </Box>
   );
 };

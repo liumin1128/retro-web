@@ -22,7 +22,7 @@ interface IItemProps {
   like: number;
   onUpdate: (v: unknown) => void;
   onDelete: () => void;
-  onLike: () => void;
+  onLike: (count: number) => void;
 }
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
@@ -92,8 +92,8 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
 
           <Piaise
             count={like}
-            onClick={() => {
-              onLike();
+            onClick={(likeCount: number) => {
+              onLike(likeCount);
             }}
           />
         </Box>

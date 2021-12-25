@@ -138,6 +138,8 @@ const Section: React.FunctionComponent = () => {
 
   const list = get(data, 'retroMessages', []);
 
+  console.log('list, render');
+
   return (
     <Box sx={{ py: 0 }}>
       <Container>
@@ -209,10 +211,10 @@ const Section: React.FunctionComponent = () => {
                                 },
                               });
                             }}
-                            onLike={() => {
+                            onLike={(count: number) => {
                               console.log('xxxxx');
                               likeRetro({
-                                variables: { _id: i._id, count: 8 },
+                                variables: { _id: i._id, count },
                               });
                             }}
                           >
