@@ -7,11 +7,11 @@ const BaseLayout: React.FunctionComponent<IRoute> = (props) => {
 
   return (
     <Box
-      sx={(theme) => ({
-        backgroundImage: theme.palette.background.gradient,
+      sx={{
+        backgroundImage: (theme) => theme.palette.background.gradient,
         width: '100vw',
         height: '100vh',
-      })}
+      }}
     >
       {children}
     </Box>
