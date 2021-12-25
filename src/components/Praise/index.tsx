@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import HeartAnimation from '@/components/HeartAnimation';
+// import styles from './style.css';
 
 interface IPraiseProps {
   count: number;
@@ -54,16 +56,16 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
         {count}
       </Typography>
 
-      <IconButton
+      <HeartAnimation
         onClick={(e) => {
           e.stopPropagation();
           handleClick();
         }}
-        aria-label="zan"
-        size="small"
       >
-        <FavoriteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-      </IconButton>
+        <IconButton aria-label="zan" size="small">
+          <FavoriteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
+        </IconButton>
+      </HeartAnimation>
     </Box>
   );
 };

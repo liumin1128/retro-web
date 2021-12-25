@@ -64,16 +64,8 @@ const Section: React.FunctionComponent = () => {
   } = useQuery<RetroMessage>(RETROMESSAGES_QUERY);
 
   // 会自动更新
-  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION, {
-    onSubscriptionData: () => {
-      console.log('onUpdate');
-    },
-  });
-  useSubscription(LIKE_RETROMESSAGE_SUBSCRIPTION, {
-    onSubscriptionData: (...args) => {
-      console.log('onLike', args);
-    },
-  });
+  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION);
+  useSubscription(LIKE_RETROMESSAGE_SUBSCRIPTION);
 
   // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
   useSubscription(DELETE_RETROMESSAGE_SUBSCRIPTION, {
@@ -164,8 +156,7 @@ const Section: React.FunctionComponent = () => {
     data.retroMessages.findIndex((message) => message.status === 'FOCUSED') !==
     -1;
 
-  console.log('list, render');
-  console.log('hasFocus:', hasFocus);
+  console.log('list render:', list);
 
   return (
     <Box>
