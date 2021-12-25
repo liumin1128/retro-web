@@ -64,10 +64,14 @@ export const UPDATE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
   mutation UpdateRetroMessage(
     $_id: ID!
-    $content: String!
-    $type: RetroMessageType!
+    $content: String
+    $type: RetroMessageType
+    $status: RetroMessageStatus
   ) {
-    updateRetroMessage(_id: $_id, input: { content: $content, type: $type }) {
+    updateRetroMessage(
+      _id: $_id
+      input: { content: $content, type: $type, status: $status }
+    ) {
       ...comparisonFields
     }
   }

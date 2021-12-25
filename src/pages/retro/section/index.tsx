@@ -34,11 +34,22 @@ const placeholders = {
   TODO: 'Add an action item',
 };
 
+interface UpdateParams {
+  content?: string;
+  status?: string;
+  type?: string;
+}
+
 const Section: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { data, loading, refetch, error, subscribeToMore } =
-    useQuery<RetroMessage>(RETROMESSAGES_QUERY);
+  const {
+    data = [],
+    loading,
+    refetch,
+    error,
+    subscribeToMore,
+  } = useQuery<RetroMessage>(RETROMESSAGES_QUERY);
 
   // 会自动更新
   useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION, {
@@ -137,13 +148,17 @@ const Section: React.FunctionComponent = () => {
   if (error) return 'error';
 
   const list = get(data, 'retroMessages', []);
+  const hasFocus =
+    data.retroMessages.findIndex((message) => message.status === 'FOCUSED') !==
+    -1;
 
   console.log('list, render');
+  console.log('hasFocus:', hasFocus);
 
   return (
-    <Box sx={{ py: 0 }}>
-      <Container>
-        <Grid container spacing={0} sx={{ py: 0 }}>
+    <Box>
+      <Container maxWidth="lg">
+        <Grid container spacing={1}>
           {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type: string) => {
             return (
               <Grid
@@ -152,17 +167,16 @@ const Section: React.FunctionComponent = () => {
                 xs={12}
                 sm={6}
                 md={3}
-                sx={{ display: 'flex', flexDirection: 'column', py: 0 }}
+                sx={{ display: 'flex', flexDirection: 'column' }}
               >
                 <Box
                   sx={{
                     height: 'calc(100vh - 1px)',
                     display: 'flex',
                     flexDirection: 'column',
-                    p: 2,
                   }}
                 >
-                  <Box sx={{ py: 2 }}>
+                  <Box sx={{ p: 0.5 }}>
                     <Card>
                       <Form
                         placeholder={placeholders[type] as string}
@@ -193,19 +207,21 @@ const Section: React.FunctionComponent = () => {
                       .map((i) => {
                         return (
                           <Item
+                            blur={hasFocus && i.status !== 'FOCUSED'}
                             key={i._id}
                             user={i.user || user}
                             content={i.content}
+                            status={i.status}
+                            type={i.type}
                             like={i.like}
                             onDelete={() => {
                               deleteRetro({ variables: { _id: i._id } });
                             }}
-                            onUpdate={async (values) => {
+                            onUpdate={async (params: UpdateParams) => {
                               await updateRetro({
                                 variables: {
                                   _id: i._id,
-                                  type,
-                                  content: values.content,
+                                  ...params,
                                 },
                               });
                             }}

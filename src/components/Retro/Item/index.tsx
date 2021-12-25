@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import get from 'lodash/get';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
-import Card from '@/components/Retro/Card';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import Button from '@mui/material/Button';
 import Piaise from '@/components/Praise';
-import Form from '@/components/Retro/Form';
+import GradientBackground from '@/components/GradientBackground';
+import UserInfo from './components/UserInfo';
+import Form from './components/Form';
 
 interface User {
   avatar: string;
@@ -16,7 +16,10 @@ interface User {
 }
 
 interface IItemProps {
+  blur: boolean;
   content: string;
+  status: string;
+  // type: string;
   user: User;
   like: number;
   onUpdate: (v: unknown) => void;
@@ -25,57 +28,128 @@ interface IItemProps {
 }
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
-  const { content, user, like, onUpdate, onDelete, onLike } = props;
+  const { content, user, like, status, blur, onUpdate, onDelete, onLike } =
+    props;
   const [edit, setEdit] = useState<boolean>(false);
   return (
-    <Box sx={{ mb: 2 }}>
-      <Card
-        sx={{
-          '.action': {
-            opacity: 0,
-          },
-          '&:hover': {
-            '.action': {
-              opacity: 1,
-            },
-          },
-        }}
+    <Box sx={{ mb: 1 }}>
+      <GradientBackground
+        status={status}
+        blur={blur}
+        focus={status === 'FOCUSED'}
       >
-        <Box>
+        <Box
+          onClick={() => {
+            onUpdate({ status: status === 'FOCUSED' ? 'NORMAL' : 'FOCUSED' });
+          }}
+        >
           {edit ? (
             <Form
               defaultValues={{ content }}
-              onSubmit={async (values) => {
-                await onUpdate(values);
+              onSubmit={(values) => {
+                onUpdate(values);
                 setEdit(false);
+              }}
+              onCancel={() => {
+                setEdit(false);
+              }}
+              onDelete={() => {
+                onDelete();
               }}
             />
           ) : (
-            <Box
-              sx={{
-                overflow: 'hidden',
-                wordWrap: 'breakWord',
-              }}
-            >
-              <Typography variant="h5" sx={{ fontSize: 18 }}>
+            <>
+              <Typography
+                sx={{
+                  fontWeight: 'bold',
+                  lineHeight: 1.2,
+                  fontSize: 20,
+                  overflow: 'hidden',
+                  wordWrap: 'break-word',
+                  mb: 2,
+                }}
+              >
                 {content}
               </Typography>
-            </Box>
-          )}
-        </Box>
 
-        <Box
+              <Box
+                className="toolbar"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  mb: -0.5,
+                }}
+              >
+                {status !== 'FOCUSED' && (
+                  <UserInfo avatar={user?.avatar} nickname={user?.nickname} />
+                )}
+
+                {status === 'FOCUSED' && (
+                  <Button
+                    size="small"
+                    color="inherit"
+                    onClick={() => {
+                      onUpdate({
+                        status: 'NORMAL',
+                      });
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                )}
+
+                <Box sx={{ flex: 1 }} />
+
+                {status === 'CLOSED' ? (
+                  <CheckCircleOutlineOutlinedIcon color="success" sx={{}} />
+                ) : (
+                  <>
+                    <Piaise
+                      count={like}
+                      onClick={(likeCount: number) => {
+                        onLike(likeCount);
+                      }}
+                    />
+
+                    <IconButton
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEdit(!edit);
+                      }}
+                    >
+                      <EditIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
+                    </IconButton>
+
+                    {status === 'FOCUSED' && (
+                      <Button
+                        sx={{ ml: 1 }}
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onUpdate({
+                            status: 'CLOSED',
+                          });
+                        }}
+                      >
+                        Done
+                      </Button>
+                    )}
+                  </>
+                )}
+              </Box>
+            </>
+          )}
+
+          {/* <Box
           className="toolbar"
           sx={{ mb: -1, display: 'flex', alignItems: 'center' }}
         >
-          <Box sx={{ flex: 1 }}>
-            <Avatar
-              src={user?.avatar}
-              sx={{ width: 24, height: 24, fontSize: 12 }}
-            >
-              {get(user, 'nickname[0]')}
-            </Avatar>
-          </Box>
+          <IconButton onClick={onDelete} className="action" size="small">
+            <DeleteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
+          </IconButton>
 
           <IconButton onClick={onDelete} className="action" size="small">
             <DeleteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
@@ -97,8 +171,9 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
               onLike(likeCount);
             }}
           />
+        </Box> */}
         </Box>
-      </Card>
+      </GradientBackground>
     </Box>
   );
 };

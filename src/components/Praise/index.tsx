@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import debounce from 'lodash/debounce';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface IPraiseProps {
   count: number;
@@ -41,29 +42,22 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        '& .canvas': {
-          position: 'absolute',
-          bottom: 32,
-          pointerEvents: 'none',
-          margin: 'auto',
-          left: -1000,
-          right: -1000,
-          width: 200,
-          height: 400,
-        },
       }}
     >
+      <Typography sx={{ fontWeight: 'bold', fontSize: 12, color: '#666' }}>
+        {count}
+      </Typography>
+
       <IconButton
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           handleClick();
         }}
         aria-label="zan"
         size="small"
       >
-        <ThumbUpIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
+        <FavoriteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
       </IconButton>
-      {count}
-      {/* -:{temp} */}
     </Box>
   );
 };
