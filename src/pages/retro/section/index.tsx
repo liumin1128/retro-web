@@ -34,6 +34,13 @@ const placeholders = {
   TODO: 'Add an action item',
 };
 
+const colors = {
+  HAPPY: 'success',
+  WONDERRING: 'secondary',
+  UNHAPPY: 'error',
+  TODO: 'primary',
+};
+
 interface UpdateParams {
   content?: string;
   status?: string;
@@ -179,6 +186,7 @@ const Section: React.FunctionComponent = () => {
                   <Box sx={{ p: 0.5 }}>
                     <Card>
                       <Form
+                        color={colors[type]}
                         placeholder={placeholders[type] as string}
                         onSubmit={(values) => {
                           try {

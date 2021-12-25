@@ -21,12 +21,14 @@ interface IFormProps {
   onSubmit: (values: Values) => void;
   defaultValues?: Values;
   placeholder?: string;
+  color?: string;
 }
 
 const MessageForm: React.FunctionComponent<IFormProps> = ({
   onSubmit,
   defaultValues,
   placeholder,
+  color,
 }) => {
   const {
     register,
@@ -69,7 +71,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           fullWidth
           size="large"
           variant="contained"
-          color="primary"
+          color={color}
           type="submit"
           // sx={{ color: '#000000', fontWeight: 'bold' }}
         >

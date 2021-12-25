@@ -101,7 +101,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                 <Box sx={{ flex: 1 }} />
 
                 {status === 'CLOSED' ? (
-                  <CheckCircleOutlineOutlinedIcon color="success" sx={{}} />
+                  <CheckCircleOutlineOutlinedIcon color="secondary" sx={{}} />
                 ) : (
                   <>
                     <Piaise
@@ -142,36 +142,6 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
               </Box>
             </>
           )}
-
-          {/* <Box
-          className="toolbar"
-          sx={{ mb: -1, display: 'flex', alignItems: 'center' }}
-        >
-          <IconButton onClick={onDelete} className="action" size="small">
-            <DeleteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-          </IconButton>
-
-          <IconButton onClick={onDelete} className="action" size="small">
-            <DeleteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-          </IconButton>
-
-          <IconButton
-            onClick={() => {
-              setEdit(!edit);
-            }}
-            className="action"
-            size="small"
-          >
-            <EditIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-          </IconButton>
-
-          <Piaise
-            count={like}
-            onClick={(likeCount: number) => {
-              onLike(likeCount);
-            }}
-          />
-        </Box> */}
         </Box>
       </GradientBackground>
     </Box>

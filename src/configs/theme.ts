@@ -1,10 +1,12 @@
 import { createTheme } from '@mui/material/styles';
+import common from './theme.common';
 
 const palette = {
-  divider: '#eeeeee',
-  primary: {
-    main: '#8A64EB',
-    contrastText: '#fff',
+  ...common,
+  background: {
+    default: '#ddd',
+    paper: '#ffffff',
+    gradient: 'linear-gradient(111.44deg, #0f5a9a, #00266b 100%)',
   },
 };
 
@@ -26,15 +28,13 @@ const components = {
   //     },
   //   },
   // },
-  // MuiButton: {
-  //   styleOverrides: {
-  //     root: {
-  //       minHeight: 45,
-  //       borderRadius: 10,
-  //       padding: '6px 22px',
-  //     },
-  //   },
-  // },
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        color: 'secondary',
+      },
+    },
+  },
   // MuiPaper: {
   //   styleOverrides: {
   //     root: {

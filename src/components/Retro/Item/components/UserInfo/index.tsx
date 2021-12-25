@@ -23,7 +23,7 @@ const UserInfo: React.FunctionComponent<IUserInfoProps> = (props) => {
         sx={{
           fontWeight: 'bold',
           fontSize: 12,
-          color: '#666',
+          color: 'palette.text.secondary',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',

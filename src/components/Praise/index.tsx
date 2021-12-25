@@ -44,7 +44,13 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
         alignItems: 'center',
       }}
     >
-      <Typography sx={{ fontWeight: 'bold', fontSize: 12, color: '#666' }}>
+      <Typography
+        sx={{
+          fontSize: 12,
+          fontWeight: 'bold',
+          color: 'palette.text.secondary',
+        }}
+      >
         {count}
       </Typography>
 
