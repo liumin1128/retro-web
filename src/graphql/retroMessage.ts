@@ -6,6 +6,7 @@ export interface RetroMessage {
   content: string;
   status: string;
   type: string;
+  like: number;
   user: unknown;
 }
 
@@ -23,6 +24,7 @@ export const RETROMESSAGE_FRAGMENT = gql`
     content
     status
     type
+    like
     user {
       _id
       nickname
@@ -71,6 +73,15 @@ export const UPDATE_RETROMESSAGE = gql`
   }
 `;
 
+export const LIKE_RETROMESSAGE = gql`
+  ${RETROMESSAGE_FRAGMENT}
+  mutation LikeRetroMessage($_id: ID!, $count: Int) {
+    likeRetroMessage(_id: $_id, count: $count) {
+      ...comparisonFields
+    }
+  }
+`;
+
 export const DELETE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
   mutation DeleteRetroMessage($_id: ID!) {
@@ -102,6 +113,15 @@ export const DELETE_RETROMESSAGE_SUBSCRIPTION = gql`
   ${RETROMESSAGE_FRAGMENT}
   subscription retroMessageDeleted {
     retroMessageDeleted {
+      ...comparisonFields
+    }
+  }
+`;
+
+export const LIKE_RETROMESSAGE_SUBSCRIPTION = gql`
+  ${RETROMESSAGE_FRAGMENT}
+  subscription retroMessageLiked {
+    retroMessageLiked {
       ...comparisonFields
     }
   }

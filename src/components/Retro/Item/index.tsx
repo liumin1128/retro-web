@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import get from 'lodash/get';
-// import Avatar from '@mui/material/Avatar';
+import get from 'lodash/get';
+import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,14 +19,14 @@ interface User {
 interface IItemProps {
   content: string;
   user: User;
+  like: number;
   onUpdate: (v: unknown) => void;
   onDelete: () => void;
+  onLike: () => void;
 }
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
-  const { content, user, onUpdate, onDelete } = props;
-  console.log('user');
-  console.log(user);
+  const { content, user, like, onUpdate, onDelete, onLike } = props;
   const [edit, setEdit] = useState<boolean>(false);
   return (
     <Box sx={{ mb: 2 }}>
@@ -64,12 +64,12 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
           sx={{ mb: -1, display: 'flex', alignItems: 'center' }}
         >
           <Box sx={{ flex: 1 }}>
-            {/* <Avatar
+            <Avatar
               src={user?.avatar}
               sx={{ width: 24, height: 24, fontSize: 12 }}
             >
               {get(user, 'nickname[0]')}
-            </Avatar> */}
+            </Avatar>
           </Box>
 
           <IconButton onClick={onDelete} className="action" size="small">
@@ -90,7 +90,12 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
             <ThumbUpIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
           </IconButton> */}
 
-          <Piaise />
+          <Piaise
+            count={like}
+            onClick={() => {
+              onLike();
+            }}
+          />
         </Box>
       </Card>
     </Box>

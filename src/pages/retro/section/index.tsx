@@ -14,9 +14,11 @@ import {
   CREATE_RETROMESSAGE,
   UPDATE_RETROMESSAGE,
   DELETE_RETROMESSAGE,
+  LIKE_RETROMESSAGE,
   CREATE_RETROMESSAGE_SUBSCRIPTION,
   UPDATE_RETROMESSAGE_SUBSCRIPTION,
   DELETE_RETROMESSAGE_SUBSCRIPTION,
+  LIKE_RETROMESSAGE_SUBSCRIPTION,
 } from '@/graphql/retroMessage';
 import { source$ } from '@/wrappers/apollo-provider/apollo';
 
@@ -25,7 +27,7 @@ const user = {
   nickname: 'User',
 };
 
-const placeholders: string[] = {
+const placeholders = {
   HAPPY: "I'm glad that...",
   WONDERRING: "I'm wondering about...",
   UNHAPPY: "It wasn't so great that...",
@@ -39,7 +41,16 @@ const Section: React.FunctionComponent = () => {
     useQuery<RetroMessage>(RETROMESSAGES_QUERY);
 
   // 会自动更新
-  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION);
+  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION, {
+    onSubscriptionData: () => {
+      console.log('onUpdate');
+    },
+  });
+  useSubscription(LIKE_RETROMESSAGE_SUBSCRIPTION, {
+    onSubscriptionData: (...args) => {
+      console.log('onLike', args);
+    },
+  });
 
   // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
   useSubscription(DELETE_RETROMESSAGE_SUBSCRIPTION, {
@@ -58,6 +69,7 @@ const Section: React.FunctionComponent = () => {
   const [createRetro] = useMutation<RetroMessage>(CREATE_RETROMESSAGE);
   const [updateRetro] = useMutation<RetroMessage>(UPDATE_RETROMESSAGE);
   const [deleteRetro] = useMutation<RetroMessage>(DELETE_RETROMESSAGE);
+  const [likeRetro] = useMutation<RetroMessage>(LIKE_RETROMESSAGE);
 
   useEffect(() => {
     subscribeToMore({
@@ -127,7 +139,7 @@ const Section: React.FunctionComponent = () => {
   const list = get(data, 'retroMessages', []);
 
   return (
-    <Box sx={{ p: 2, py: 0 }}>
+    <Box sx={{ py: 0 }}>
       <Container>
         <Grid container spacing={0} sx={{ py: 0 }}>
           {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type: string) => {
@@ -135,7 +147,9 @@ const Section: React.FunctionComponent = () => {
               <Grid
                 key={type}
                 item
-                xs={3}
+                xs={12}
+                sm={6}
+                md={3}
                 sx={{ display: 'flex', flexDirection: 'column', py: 0 }}
               >
                 <Box
@@ -180,6 +194,7 @@ const Section: React.FunctionComponent = () => {
                             key={i._id}
                             user={i.user || user}
                             content={i.content}
+                            like={i.like}
                             onDelete={() => {
                               console.log(i._id);
                               deleteRetro({ variables: { _id: i._id } });
@@ -192,6 +207,12 @@ const Section: React.FunctionComponent = () => {
                                   type,
                                   content: values.content,
                                 },
+                              });
+                            }}
+                            onLike={() => {
+                              console.log('xxxxx');
+                              likeRetro({
+                                variables: { _id: i._id, count: 8 },
                               });
                             }}
                           >

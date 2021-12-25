@@ -7,12 +7,12 @@ import { ThumbsUpAni } from './canvas';
 const randomStr = () => Math.random().toString(36).slice(-6);
 
 interface IPraiseProps {
-  test: string;
+  count: number;
+  onClick: (event: MouseEvent) => void;
 }
 
 const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
-  const { test } = props;
-  console.log(test);
+  const { count, onClick } = props;
 
   const [id] = useState(randomStr());
   const [canvas, setCanvas] = useState();
@@ -22,6 +22,7 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
   // useEffect(() => {}, []);
 
   function click() {
+    onClick();
     if (!canvas) {
       const thumbsUpAni = new ThumbsUpAni(id);
       setCanvas(thumbsUpAni);
@@ -71,6 +72,8 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
       >
         <ThumbUpIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
       </IconButton>
+
+      {count}
     </Box>
   );
 };
