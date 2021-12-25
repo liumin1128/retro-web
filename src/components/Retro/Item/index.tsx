@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-// import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Box from '@mui/material/Box';
 import Card from '@/components/Retro/Card';
 import Piaise from '@/components/Praise';
@@ -44,7 +43,13 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
       >
         <Box>
           {edit ? (
-            <Form defaultValues={{ content }} onSubmit={onUpdate} />
+            <Form
+              defaultValues={{ content }}
+              onSubmit={async (values) => {
+                await onUpdate(values);
+                setEdit(false);
+              }}
+            />
           ) : (
             <Box
               sx={{
@@ -85,10 +90,6 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
           >
             <EditIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
           </IconButton>
-
-          {/* <IconButton className="action" size="small">
-            <ThumbUpIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-          </IconButton> */}
 
           <Piaise
             count={like}

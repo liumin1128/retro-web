@@ -198,12 +198,10 @@ const Section: React.FunctionComponent = () => {
                             content={i.content}
                             like={i.like}
                             onDelete={() => {
-                              console.log(i._id);
                               deleteRetro({ variables: { _id: i._id } });
                             }}
-                            onUpdate={(values) => {
-                              console.log(values);
-                              updateRetro({
+                            onUpdate={async (values) => {
+                              await updateRetro({
                                 variables: {
                                   _id: i._id,
                                   type,
@@ -212,7 +210,6 @@ const Section: React.FunctionComponent = () => {
                               });
                             }}
                             onLike={(count: number) => {
-                              console.log('xxxxx');
                               likeRetro({
                                 variables: { _id: i._id, count },
                               });
