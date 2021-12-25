@@ -5,15 +5,14 @@ interface IBGProps {
   children: React.ReactElement;
   focus: boolean;
   blur: boolean;
-  // status: string;
+  status: string;
 }
 
 const BG: React.FunctionComponent<IBGProps> = (props) => {
-  const { children, focus, blur } = props;
+  const { children, focus, blur, status } = props;
 
   const style = focus
     ? {
-        background: 'red',
         p: '4px',
         m: '-4px',
         borderRadius: '11px',
@@ -47,6 +46,9 @@ const BG: React.FunctionComponent<IBGProps> = (props) => {
     >
       <Box
         sx={{
+          bgcolor: 'background.paper',
+          borderRadius: '8px',
+          opacity: status === 'CLOSED' ? 0.5 : 1,
           ...style,
         }}
       >
@@ -54,9 +56,12 @@ const BG: React.FunctionComponent<IBGProps> = (props) => {
           sx={{
             bgcolor: 'background.paper',
             // background: 'hsl(222.8571428571deg 13.7254901961% 20%)',
-            // bgcolor: status === 'CLOSED' ? '#ffffff' : '#ffffff',
-            borderRadius: '8px',
+            // bgcolor:
+            //   status === 'CLOSED'
+            //     ? 'action.disabledBackground'
+            //     : 'background.paper',
             p: focus ? '16px' : '16px',
+            borderRadius: '8px',
             // color: '#fff',
           }}
         >

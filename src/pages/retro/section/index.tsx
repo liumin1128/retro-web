@@ -47,6 +47,11 @@ interface UpdateParams {
   type?: string;
 }
 
+function getSortNum(str) {
+  if (str === 'CLOSED') return 0;
+  return 1;
+}
+
 const Section: React.FunctionComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -212,6 +217,9 @@ const Section: React.FunctionComponent = () => {
                   >
                     {list
                       .filter((i) => i.type === type)
+                      .sort((a, b) => {
+                        return getSortNum(b.status) - getSortNum(a.status);
+                      })
                       .map((i) => {
                         return (
                           <Item
