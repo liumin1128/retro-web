@@ -169,7 +169,7 @@ const Section: React.FunctionComponent = () => {
 
   return (
     <Box>
-      <Container maxWidth="lg">
+      <Container sx={{ borderTop: '1px solid transparent' }} maxWidth="lg">
         <Grid container spacing={1}>
           {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type: string) => {
             return (
