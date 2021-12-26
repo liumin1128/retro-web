@@ -8,6 +8,7 @@ export interface RetroMessage {
   type: string;
   like: number;
   user: unknown;
+  createdAt: string;
 }
 
 export interface RetroMessagesResult {
@@ -25,6 +26,7 @@ export const RETROMESSAGE_FRAGMENT = gql`
     status
     type
     like
+    createdAt
     user {
       _id
       nickname

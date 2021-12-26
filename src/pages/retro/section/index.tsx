@@ -11,25 +11,7 @@ import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
 import useRetroMessage from './useRetroMessage';
-
-const user = {
-  avatar: 'http://',
-  nickname: 'User',
-};
-
-const placeholders = {
-  HAPPY: "I'm glad that...",
-  WONDERRING: "I'm wondering about...",
-  UNHAPPY: "It wasn't so great that...",
-  TODO: 'Add an action item',
-};
-
-const colors = {
-  HAPPY: 'success',
-  WONDERRING: 'secondary',
-  UNHAPPY: 'error',
-  TODO: 'primary',
-};
+import { user, placeholders, colors, TYPES, TabLabels } from './constants';
 
 interface UpdateParams {
   content?: string;
@@ -41,14 +23,6 @@ function getSortNum(str) {
   if (str === 'CLOSED') return 0;
   return 1;
 }
-
-const TYPES = ['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'];
-const TabLabels = {
-  HAPPY: 'Happy',
-  WONDERRING: 'Meh',
-  UNHAPPY: 'Sad',
-  TODO: 'Action',
-};
 
 const Section: React.FunctionComponent = (props) => {
   const theme = useTheme();
@@ -121,7 +95,10 @@ const Section: React.FunctionComponent = (props) => {
           {list
             .filter((i) => i.type === type)
             .sort((a, b) => {
-              return getSortNum(b.status) - getSortNum(a.status);
+              const sa = getSortNum(a.status);
+              const sb = getSortNum(b.status);
+              if (sa !== sb) return sb - sa;
+              return b.createdAt - a.createdAt;
             })
             .map((i) => {
               return (
