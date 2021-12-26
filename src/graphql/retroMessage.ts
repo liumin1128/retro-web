@@ -35,8 +35,8 @@ export const RETROMESSAGE_FRAGMENT = gql`
 
 export const RETROMESSAGES_QUERY = gql`
   ${RETROMESSAGE_FRAGMENT}
-  query RetroMessages {
-    retroMessages {
+  query RetroMessages($retro: ID) {
+    retroMessages(retro: $retro) {
       ...comparisonFields
     }
   }

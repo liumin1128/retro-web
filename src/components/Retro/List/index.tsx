@@ -1,20 +1,48 @@
+import React, { Fragment } from 'react';
+import { history } from 'umi';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 import { Retro } from '@/graphql/retro';
 
-interface Props {
+interface IAppProps {
   data?: Retro[];
 }
 
-export default function RetroList({ data }: Props) {
+const App: React.FunctionComponent<IAppProps> = ({ data }) => {
+  const handleClick = (_id: string) => {
+    history.push(`/retro/${_id}`);
+  };
   return (
-    <div>
-      {data?.map((i) => {
+    <List>
+      {data?.map((i, index) => {
         return (
-          <div key={i._id}>
-            {/* <Link href={`/news/detail?_id=${i._id}`}>{i._id}</Link> */}
-            <p>{i.content}</p>
-          </div>
+          <Fragment key={i._id}>
+            {index !== 0 && <Divider variant="inset" component="li" />}
+            <ListItemButton
+              onClick={() => {
+                handleClick(i._id);
+              }}
+            >
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt={i.user?.nickname} src={i.user?.avatarUrl} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={`${i.date} ${i.title}`}
+                  secondary={i.content}
+                />
+              </ListItem>
+            </ListItemButton>
+          </Fragment>
         );
       })}
-    </div>
+    </List>
   );
-}
+};
+
+export default App;

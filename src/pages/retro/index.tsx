@@ -1,37 +1,29 @@
-import { useSubscription } from '@apollo/client';
-import { RETRO_SUBSCRIPTION } from '@/graphql/retro';
-
-import RetroList from '@/container/Retro/List';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import CreateRetro from '@/container/Retro/Create';
+import ListRetro from '@/container/Retro/List';
 
-export default function Home() {
-  const { data, loading } = useSubscription(
-    RETRO_SUBSCRIPTION,
-    // { variables: { postID } }
-  );
-
-  console.log('RETRO_SUBSCRIPTION: data, loading');
-  console.log(data, loading);
-
+const Retro: React.FunctionComponent = () => {
   return (
-    <div>
-      212
-      <CreateRetro />
-      <RetroList />
-    </div>
+    <Container>
+      <Box sx={{ paddingY: 2, bgcolor: '#fff' }}>
+        <Box
+          sx={{
+            p: 2,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h6">Retro List</Typography>
+          <CreateRetro />
+        </Box>
+        <ListRetro />
+      </Box>
+    </Container>
   );
-}
+};
 
-// export async function getServerSideProps() {
-//   const apolloClient = initializeApollo();
-
-//   await apolloClient.query({
-//     query: NewsListQuery,
-//   });
-
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//   };
-// }
+export default Retro;

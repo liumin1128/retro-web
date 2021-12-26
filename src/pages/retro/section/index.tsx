@@ -52,7 +52,9 @@ function getSortNum(str) {
   return 1;
 }
 
-const Section: React.FunctionComponent = () => {
+const Section: React.FunctionComponent = (props) => {
+  const retro = get(props, 'match.params.retro');
+
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -61,7 +63,11 @@ const Section: React.FunctionComponent = () => {
     refetch,
     error,
     subscribeToMore,
-  } = useQuery<RetroMessage>(RETROMESSAGES_QUERY);
+  } = useQuery<RetroMessage>(RETROMESSAGES_QUERY, {
+    variables: {
+      retro,
+    },
+  });
 
   // 会自动更新
   useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION);
@@ -187,7 +193,7 @@ const Section: React.FunctionComponent = () => {
                         onSubmit={(values) => {
                           try {
                             createRetro({
-                              variables: { type, ...values },
+                              variables: { type, retro, ...values },
                             }).catch((err) => {
                               console.log(err);
                             });

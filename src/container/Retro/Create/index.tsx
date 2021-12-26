@@ -1,59 +1,31 @@
-import { useRef } from 'react';
+import * as React from 'react';
 import { useMutation } from '@apollo/client';
-import Button from '@mui/material/Button';
-import { CreateRetro, RetroResult } from '@/graphql/retro';
+import { CreateRetro, RetroResult, RetroFragment } from '@/graphql/retro';
+import Create from '@/components/Retro/CreateRetro';
 
-export default function RetroListContainer() {
-  const input = useRef<HTMLInputElement | null>(null);
+const Retro: React.FunctionComponent = () => {
+  const [createRetro] = useMutation<RetroResult>(CreateRetro);
 
-  const [createRetro, { data, loading, error }] =
-    useMutation<RetroResult>(CreateRetro);
-
-  console.log('data, loading, error');
-  console.log(data, loading, error);
-
-  if (loading) return 'loading';
-  if (error) return 'error';
-
-  function handleClick() {
+  const handleClick = (values) => {
     createRetro({
-      variables: { content: input.current?.value },
-
-      update(cache, { data: newData }) {
+      variables: values,
+      update(cache, { data }) {
         cache.modify({
           fields: {
-            todos(existingItems = []) {
-              console.log('existingItems');
-              console.log(existingItems);
-              console.log('newData');
-              console.log(newData);
-              //   const newTodoRef = cache.writeFragment({
-              //     data: addTodo,
-              //     fragment: gql`
-              //       fragment NewTodo on Todo {
-              //         id
-              //         type
-              //       }
-              //     `,
-              //   });
-              //   return [...existingTodos, newTodoRef];
+            retros(existingItems = []) {
+              const newTodoRef = cache.writeFragment({
+                data: data.createRetro,
+                fragment: RetroFragment,
+              });
+              return [...existingItems, newTodoRef];
             },
           },
         });
       },
     });
-  }
+  };
 
-  return (
-    <div>
-      <input ref={input} />
-      <Button
-        onClick={() => {
-          handleClick();
-        }}
-      >
-        createRetro
-      </Button>
-    </div>
-  );
-}
+  return <Create onSubmit={handleClick} />;
+};
+
+export default Retro;

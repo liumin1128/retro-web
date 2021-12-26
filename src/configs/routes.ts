@@ -47,15 +47,15 @@ export default [
         path: '/retro',
         routes: [
           {
-            path: '/retro/section',
-            component: '@/pages/retro/section',
-            title: 'Retro',
-            exact: true,
-          },
-          {
             path: '/retro',
             component: '@/pages/retro',
             title: 'Retro List',
+            exact: true,
+          },
+          {
+            path: '/retro/:retro',
+            component: '@/pages/retro/section',
+            title: 'Retro',
             exact: true,
           },
         ],
