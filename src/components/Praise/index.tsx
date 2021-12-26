@@ -50,7 +50,6 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
           fontSize: 12,
           fontWeight: 'bold',
           color: 'palette.text.secondary',
-          mr: 1,
         }}
       >
         {count}

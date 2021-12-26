@@ -89,7 +89,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
               Cancel
             </Button>
             <Box sx={{ flex: 1 }} />
-            <IconButton color="error" size="small" onClick={onDelete}>
+            <IconButton color="error" onClick={onDelete}>
               <DeleteIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
             </IconButton>
             <Button

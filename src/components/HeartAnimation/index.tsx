@@ -29,7 +29,14 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
   return (
     <Box
       sx={{
+        // border: '1px red solid',
+        width: '44px',
+        height: '44px',
+
         display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+
         position: 'relative',
         zIndex: 99,
 
@@ -137,9 +144,8 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
       <div
         style={{
           position: 'absolute',
-          width: '1em',
-          height: '1em',
-          // background: 'red',
+          width: '44px',
+          height: '44px',
           top: 0,
           bottom: 0,
           left: 0,
@@ -149,6 +155,7 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          // border: '1px red solid',
         }}
         ref={ref}
       />

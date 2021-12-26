@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+// import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import Button from '@mui/material/Button';
 import Piaise from '@/components/Praise';
@@ -72,13 +74,10 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                 {content}
               </Typography>
 
-              <Box
-                className="toolbar"
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  mb: -0.5,
-                }}
+              <Stack
+                justifyContent="flex-start"
+                direction="row"
+                sx={{ mb: -1 }}
               >
                 {status !== 'FOCUSED' && (
                   <UserInfo
@@ -89,7 +88,6 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
 
                 {status === 'FOCUSED' && (
                   <Button
-                    size="small"
                     color="inherit"
                     onClick={() => {
                       onUpdate({
@@ -99,6 +97,18 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                   >
                     Cancel
                   </Button>
+
+                  // <IconButton
+                  //   size="large"
+                  //   onClick={(e) => {
+                  //     e.stopPropagation();
+                  //     onUpdate({
+                  //       status: 'NORMAL',
+                  //     });
+                  //   }}
+                  // >
+                  //   <CloseIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
+                  // </IconButton>
                 )}
 
                 <Box sx={{ flex: 1 }} />
@@ -114,20 +124,20 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                       }}
                     />
 
-                    <IconButton
-                      size="small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setEdit(!edit);
-                      }}
-                    >
-                      <EditIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-                    </IconButton>
+                    {status !== 'FOCUSED' && (
+                      <IconButton
+                        size="large"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEdit(!edit);
+                        }}
+                      >
+                        <EditIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
+                      </IconButton>
+                    )}
 
                     {status === 'FOCUSED' && (
                       <Button
-                        sx={{ ml: 1 }}
-                        size="small"
                         variant="contained"
                         color="success"
                         onClick={(e) => {
@@ -142,7 +152,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                     )}
                   </>
                 )}
-              </Box>
+              </Stack>
             </>
           )}
         </Box>
