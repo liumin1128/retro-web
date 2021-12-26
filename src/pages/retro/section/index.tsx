@@ -60,7 +60,7 @@ const Section: React.FunctionComponent = (props) => {
       <Box
         sx={{
           pt: 2,
-          height: isUpMd ? 'calc(100vh - 1px)' : 'calc(100vh - 49px)',
+          height: isUpMd ? 'calc(100vh - 65px)' : 'calc(100vh - 105px)',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -161,9 +161,7 @@ const Section: React.FunctionComponent = (props) => {
           })}
         </Tabs>
 
-        <Container sx={{ borderTop: '1px solid transparent' }} maxWidth="lg">
-          {renderItem(currentType)}
-        </Container>
+        <Container maxWidth="lg">{renderItem(currentType)}</Container>
       </Box>
     );
   }

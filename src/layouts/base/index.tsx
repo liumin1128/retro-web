@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IRoute } from 'umi';
 import Box from '@mui/material/Box';
+import AppBar from '@/components/AppBar';
 
 const BaseLayout: React.FunctionComponent<IRoute> = (props) => {
   const { children } = props;
@@ -13,6 +14,7 @@ const BaseLayout: React.FunctionComponent<IRoute> = (props) => {
         height: '100vh',
       }}
     >
+      <AppBar />
       {children}
     </Box>
   );
