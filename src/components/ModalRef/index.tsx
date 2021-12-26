@@ -10,7 +10,7 @@ import {
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import isEmpty from 'lodash/isEmpty';
 
-interface ModalProps extends Omit<DialogProps, 'open'> {
+export interface ModalProps extends Omit<DialogProps, 'open'> {
   component?: ElementType;
   render?: (props?: Record<string, unknown>) => ReactNode;
   children?: ReactChildren;
@@ -68,5 +68,7 @@ const ref = useRef<ModalRefInstance<unknown>>();
     return <>hello</>;
   }}
 />
+
+ref.current?.open();
 
 */
