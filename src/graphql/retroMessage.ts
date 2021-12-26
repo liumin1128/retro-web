@@ -53,8 +53,14 @@ export const RETROMESSAGE_QUERY = gql`
 
 export const CREATE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
-  mutation CreateRetroMessage($content: String!, $type: RetroMessageType!) {
-    createRetroMessage(input: { content: $content, type: $type }) {
+  mutation CreateRetroMessage(
+    $retro: ID!
+    $content: String!
+    $type: RetroMessageType!
+  ) {
+    createRetroMessage(
+      input: { retro: $retro, content: $content, type: $type }
+    ) {
       ...comparisonFields
     }
   }
