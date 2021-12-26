@@ -81,7 +81,10 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                 }}
               >
                 {status !== 'FOCUSED' && (
-                  <UserInfo avatar={user?.avatar} nickname={user?.nickname} />
+                  <UserInfo
+                    avatarUrl={user?.avatarUrl}
+                    nickname={user?.nickname}
+                  />
                 )}
 
                 {status === 'FOCUSED' && (
