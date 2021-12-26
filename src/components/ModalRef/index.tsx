@@ -4,46 +4,69 @@ import {
   forwardRef,
   ElementType,
   ForwardedRef,
+  ReactChildren,
+  ReactNode,
 } from 'react';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import isEmpty from 'lodash/isEmpty';
 
-interface Props extends DialogProps {
-  component: ElementType;
+interface ModalProps extends Omit<DialogProps, 'open'> {
+  component?: ElementType;
+  render?: (props?: Record<string, unknown>) => ReactNode;
+  children?: ReactChildren;
 }
 
-export interface ModalWrapperInstance<T> {
+export interface ModalRefInstance<T> {
   open: (props?: T) => void;
   close: () => void;
 }
 
-const ModalWrapper = forwardRef((props: Props, ref: ForwardedRef<unknown>) => {
-  const [visible, setVisible] = useState(false);
-  const [data, setData] = useState({});
+const ModalRef = forwardRef(
+  (modalProps: ModalProps, ref: ForwardedRef<unknown>) => {
+    const [visible, setVisible] = useState(false);
+    const [props, setProps] = useState({});
 
-  const handleClose = () => {
-    setVisible(false);
-  };
+    const handleClose = () => {
+      setVisible(false);
+    };
 
-  const handleOpen = (args: Record<string, unknown>) => {
-    setVisible(true);
-    if (!isEmpty(args)) {
-      setData(args);
-    }
-  };
+    const handleOpen = (args: Record<string, unknown>) => {
+      setVisible(true);
+      if (!isEmpty(args)) {
+        setProps(args);
+      }
+    };
 
-  useImperativeHandle(ref, () => ({
-    open: handleOpen,
-    close: handleClose,
-  }));
+    useImperativeHandle(ref, () => ({
+      open: handleOpen,
+      close: handleClose,
+    }));
 
-  const { component: Component, ...other } = props;
+    const { component: Component, render, children, ...other } = modalProps;
 
-  return (
-    <Dialog {...other} onClose={handleClose} open={visible}>
-      <Component {...data} />
-    </Dialog>
-  );
-});
+    return (
+      <Dialog {...other} onClose={handleClose} open={visible}>
+        {children}
+        {Component && <Component {...props} />}
+        {render && render(props)}
+      </Dialog>
+    );
+  },
+);
 
-export default ModalWrapper;
+export default ModalRef;
+
+/* example
+
+import ModalRef, { ModalRefInstance } from '@/components/ModalRef';
+
+const ref = useRef<ModalRefInstance<unknown>>();
+
+<ModalRef
+  ref={ref}
+  render={() => {
+    return <>hello</>;
+  }}
+/>
+
+*/
