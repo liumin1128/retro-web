@@ -5,16 +5,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 interface IUserInfoProps {
-  avatar: string;
+  avatarUrl: string;
   nickname: string;
 }
 
 const UserInfo: React.FunctionComponent<IUserInfoProps> = (props) => {
-  const { avatar = '', nickname = '' } = props;
+  const { avatarUrl = '', nickname = '' } = props;
   return (
     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
       <Avatar
-        src={avatar}
+        src={avatarUrl}
         sx={{ width: 20, height: 20, fontSize: 10, mr: 0.5 }}
       >
         {get(nickname, '[0]')}
