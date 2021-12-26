@@ -33,6 +33,7 @@ const App: React.FunctionComponent<IAppProps> = ({ data }) => {
                   <Avatar alt={i.user?.nickname} src={i.user?.avatarUrl} />
                 </ListItemAvatar>
                 <ListItemText
+                  color="inherit"
                   primary={`${i.date} ${i.title}`}
                   secondary={i.content}
                 />

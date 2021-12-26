@@ -33,7 +33,7 @@ export default [
     routes: [
       {
         path: '/',
-        component: '@/pages/home',
+        component: '@/pages/retro',
         title: 'Home',
         exact: true,
       },
