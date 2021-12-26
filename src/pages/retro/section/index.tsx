@@ -1,26 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
-import { useQuery, useMutation, useSubscription } from '@apollo/client';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { useSnackbar } from 'notistack';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
-import {
-  RETROMESSAGES_QUERY,
-  RetroMessage,
-  CREATE_RETROMESSAGE,
-  UPDATE_RETROMESSAGE,
-  DELETE_RETROMESSAGE,
-  LIKE_RETROMESSAGE,
-  CREATE_RETROMESSAGE_SUBSCRIPTION,
-  UPDATE_RETROMESSAGE_SUBSCRIPTION,
-  DELETE_RETROMESSAGE_SUBSCRIPTION,
-  LIKE_RETROMESSAGE_SUBSCRIPTION,
-} from '@/graphql/retroMessage';
-import { source$ } from '@/wrappers/apollo-provider/apollo';
+import useRetroMessage from './useRetroMessage';
 
 const user = {
   avatar: 'http://',
@@ -52,204 +42,170 @@ function getSortNum(str) {
   return 1;
 }
 
+const TYPES = ['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'];
+const TabLabels = {
+  HAPPY: 'Happy',
+  WONDERRING: 'Meh',
+  UNHAPPY: 'Sad',
+  TODO: 'Action',
+};
+
 const Section: React.FunctionComponent = (props) => {
+  const theme = useTheme();
+  const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
+
+  console.log('isUpMd:', isUpMd);
+
   const retro = get(props, 'match.params.retro');
 
-  const { enqueueSnackbar } = useSnackbar();
+  const [currentType, setCurrentType] = useState(TYPES[0]);
 
   const {
-    data = [],
+    data,
     loading,
-    refetch,
     error,
-    subscribeToMore,
-  } = useQuery<RetroMessage>(RETROMESSAGES_QUERY, {
-    variables: {
-      retro,
-    },
-  });
-
-  // 会自动更新
-  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION);
-  useSubscription(LIKE_RETROMESSAGE_SUBSCRIPTION);
-
-  // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
-  useSubscription(DELETE_RETROMESSAGE_SUBSCRIPTION, {
-    onSubscriptionData: ({ client, subscriptionData }) => {
-      const _id = get(subscriptionData, 'data.retroMessageDeleted._id');
-      client.cache.modify({
-        fields: {
-          retroMessages(refs, { readField }) {
-            return refs.filter((ref) => _id !== readField('_id', ref));
-          },
-        },
-      });
-    },
-  });
-
-  const [createRetro] = useMutation<RetroMessage>(CREATE_RETROMESSAGE);
-  const [updateRetro] = useMutation<RetroMessage>(UPDATE_RETROMESSAGE);
-  const [deleteRetro] = useMutation<RetroMessage>(DELETE_RETROMESSAGE);
-  const [likeRetro] = useMutation<RetroMessage>(LIKE_RETROMESSAGE);
-
-  useEffect(() => {
-    subscribeToMore({
-      document: CREATE_RETROMESSAGE_SUBSCRIPTION,
-      variables: {},
-      updateQuery: (
-        prev: { retroMessages: RetroMessage[] },
-        args: {
-          subscriptionData: {
-            data: {
-              retroMessageCreated: RetroMessage;
-            };
-          };
-        },
-      ) => {
-        const { subscriptionData } = args;
-        if (!subscriptionData.data) return prev;
-        const newItem = subscriptionData.data.retroMessageCreated;
-        return {
-          ...prev,
-          retroMessages: [...prev.retroMessages, newItem],
-        };
-      },
-    });
-  }, [subscribeToMore]);
-
-  // 订阅断线重连
-  useEffect(() => {
-    // subscribe函数的返回结果存为变量subscription
-    const subscription = source$.subscribe({
-      complete: () => {
-        console.log('complete:');
-      },
-      next: (s) => {
-        console.log('next:', s);
-        switch (s) {
-          case 'onConnected': {
-            enqueueSnackbar('Connected', { variant: 'success' });
-            break;
-          }
-          case 'onReconnected': {
-            enqueueSnackbar('Reconnected', { variant: 'success' });
-            refetch();
-            break;
-          }
-          case 'onDisconnected': {
-            enqueueSnackbar('Disconnected', { variant: 'error' });
-            break;
-          }
-          case 'onReconnecting': {
-            enqueueSnackbar('Reconnecting', { variant: 'info' });
-            break;
-          }
-          default:
-        }
-      },
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [enqueueSnackbar, refetch]);
+    createRetro,
+    updateRetro,
+    deleteRetro,
+    likeRetro,
+  } = useRetroMessage({ retro });
 
   if (loading) return 'loading';
   if (error) return 'error';
 
   const list = get(data, 'retroMessages', []);
+
   const hasFocus =
     data.retroMessages.findIndex((message) => message.status === 'FOCUSED') !==
     -1;
 
   console.log('list render:', list);
 
+  function renderItem(type) {
+    return (
+      <Box
+        sx={{
+          pt: 2,
+          height: isUpMd ? 'calc(100vh - 1px)' : 'calc(100vh - 49px)',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Box sx={{ p: 0.5 }}>
+          <Card>
+            <Form
+              color={colors[type]}
+              placeholder={placeholders[type] as string}
+              onSubmit={(values) => {
+                try {
+                  createRetro({
+                    variables: { type, retro, ...values },
+                  }).catch((err) => {
+                    console.log(err);
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            />
+          </Card>
+        </Box>
+
+        <Box
+          sx={{
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            flex: 1,
+          }}
+        >
+          {list
+            .filter((i) => i.type === type)
+            .sort((a, b) => {
+              return getSortNum(b.status) - getSortNum(a.status);
+            })
+            .map((i) => {
+              return (
+                <Item
+                  blur={hasFocus && i.status !== 'FOCUSED'}
+                  key={i._id}
+                  user={i.user || user}
+                  content={i.content}
+                  status={i.status}
+                  type={i.type}
+                  like={i.like}
+                  onDelete={() => {
+                    deleteRetro({ variables: { _id: i._id } });
+                  }}
+                  onUpdate={async (params: UpdateParams) => {
+                    await updateRetro({
+                      variables: {
+                        _id: i._id,
+                        ...params,
+                      },
+                    });
+                  }}
+                  onLike={(count: number) => {
+                    likeRetro({
+                      variables: { _id: i._id, count },
+                    });
+                  }}
+                >
+                  {i.content}
+                </Item>
+              );
+            })}
+        </Box>
+      </Box>
+    );
+  }
+
+  if (!isUpMd) {
+    return (
+      <Box>
+        <Tabs
+          value={currentType}
+          onChange={(e, v) => {
+            setCurrentType(v);
+          }}
+        >
+          {TYPES.map((i) => {
+            return (
+              <Tab
+                key={i}
+                label={TabLabels[i]}
+                sx={{
+                  width: '25%',
+                  bgcolor: `${colors[i]}.main`,
+                  color: '#fff !important',
+                }}
+                value={i}
+              />
+            );
+          })}
+        </Tabs>
+
+        <Container sx={{ borderTop: '1px solid transparent' }} maxWidth="lg">
+          {renderItem(currentType)}
+        </Container>
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <Container sx={{ borderTop: '1px solid transparent' }} maxWidth="lg">
         <Grid container spacing={1}>
-          {['HAPPY', 'WONDERRING', 'UNHAPPY', 'TODO'].map((type: string) => {
+          {TYPES.map((type: string) => {
             return (
               <Grid
                 key={type}
                 item
                 xs={12}
-                sm={6}
+                // sm={6}
                 md={3}
                 sx={{ display: 'flex', flexDirection: 'column' }}
               >
-                <Box
-                  sx={{
-                    height: 'calc(100vh - 1px)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Box sx={{ p: 0.5 }}>
-                    <Card>
-                      <Form
-                        color={colors[type]}
-                        placeholder={placeholders[type] as string}
-                        onSubmit={(values) => {
-                          try {
-                            createRetro({
-                              variables: { type, retro, ...values },
-                            }).catch((err) => {
-                              console.log(err);
-                            });
-                          } catch (err) {
-                            console.log(err);
-                          }
-                        }}
-                      />
-                    </Card>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      overflowY: 'auto',
-                      overflowX: 'hidden',
-                      flex: 1,
-                    }}
-                  >
-                    {list
-                      .filter((i) => i.type === type)
-                      .sort((a, b) => {
-                        return getSortNum(b.status) - getSortNum(a.status);
-                      })
-                      .map((i) => {
-                        return (
-                          <Item
-                            blur={hasFocus && i.status !== 'FOCUSED'}
-                            key={i._id}
-                            user={i.user || user}
-                            content={i.content}
-                            status={i.status}
-                            type={i.type}
-                            like={i.like}
-                            onDelete={() => {
-                              deleteRetro({ variables: { _id: i._id } });
-                            }}
-                            onUpdate={async (params: UpdateParams) => {
-                              await updateRetro({
-                                variables: {
-                                  _id: i._id,
-                                  ...params,
-                                },
-                              });
-                            }}
-                            onLike={(count: number) => {
-                              likeRetro({
-                                variables: { _id: i._id, count },
-                              });
-                            }}
-                          >
-                            {i.content}
-                          </Item>
-                        );
-                      })}
-                  </Box>
-                </Box>
+                {renderItem(type)}
               </Grid>
             );
           })}
