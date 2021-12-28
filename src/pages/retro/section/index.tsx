@@ -228,7 +228,7 @@ const Section: FunctionComponent = (props) => {
         </Fab>
 
         <ModalRef
-          // title="Create"
+          title="Create"
           ref={modalRef}
           fullWidth
           render={() => {
