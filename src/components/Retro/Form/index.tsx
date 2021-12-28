@@ -65,6 +65,12 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           error={!!errors?.content}
           helperText={errors?.content?.message}
           {...register('content', { required: true })}
+          onKeyDown={(e) => {
+            if (e.code === 'Enter') {
+              handleSubmit(onSubmit)(e);
+              reset();
+            }
+          }}
         />
 
         <Button
@@ -73,7 +79,6 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           variant="contained"
           color={color}
           type="submit"
-          // sx={{ color: '#000000', fontWeight: 'bold' }}
         >
           Send
         </Button>

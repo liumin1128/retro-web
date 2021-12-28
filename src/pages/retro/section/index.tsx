@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, FunctionComponent } from 'react';
 import get from 'lodash/get';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Container from '@mui/material/Container';
+import EditIcon from '@mui/icons-material/Edit';
+import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
@@ -10,8 +12,10 @@ import Tab from '@mui/material/Tab';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
+import ModalRef, { ModalRefInstance } from '@/components/ModalRef/Dialog';
 import useRetroMessage from './useRetroMessage';
 import { user, placeholders, colors, TYPES, TabLabels } from './constants';
+import { sortItem } from './utils';
 
 interface UpdateParams {
   content?: string;
@@ -19,12 +23,9 @@ interface UpdateParams {
   type?: string;
 }
 
-function getSortNum(str) {
-  if (str === 'CLOSED') return 0;
-  return 1;
-}
+const Section: FunctionComponent = (props) => {
+  const modalRef = useRef<ModalRefInstance<unknown>>();
 
-const Section: React.FunctionComponent = (props) => {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -44,6 +45,31 @@ const Section: React.FunctionComponent = (props) => {
     likeRetro,
   } = useRetroMessage({ retro });
 
+  const handleDelete = (_id: string) => {
+    deleteRetro({ variables: { _id } });
+  };
+
+  const handleUpdate = (_id: string, params: UpdateParams) => {
+    updateRetro({
+      variables: {
+        _id,
+        ...params,
+      },
+    });
+  };
+
+  const handleLike = (_id: string, count: number) => {
+    likeRetro({
+      variables: { _id, count },
+    });
+  };
+
+  const handleCreate = (type: string, values: Record<string, unknown>) => {
+    createRetro({
+      variables: { type, retro, ...values },
+    });
+  };
+
   if (loading) return 'loading';
   if (error) return 'error';
 
@@ -55,7 +81,23 @@ const Section: React.FunctionComponent = (props) => {
 
   console.log('list render:', list);
 
-  function renderItem(type) {
+  function renderForm(type) {
+    const color = colors[type];
+    const placeholder = placeholders[type];
+    return (
+      <Form
+        color={color}
+        placeholder={placeholder}
+        onSubmit={(values) => {
+          handleCreate(type, values);
+          modalRef.current?.close();
+        }}
+      />
+    );
+  }
+
+  function renderItem(type: string) {
+    const items = list.filter((i) => i.type === type).sort(sortItem);
     return (
       <Box
         sx={{
@@ -65,25 +107,11 @@ const Section: React.FunctionComponent = (props) => {
           flexDirection: 'column',
         }}
       >
-        <Box sx={{ p: 0.5 }}>
-          <Card>
-            <Form
-              color={colors[type]}
-              placeholder={placeholders[type] as string}
-              onSubmit={(values) => {
-                try {
-                  createRetro({
-                    variables: { type, retro, ...values },
-                  }).catch((err) => {
-                    console.log(err);
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            />
-          </Card>
-        </Box>
+        {isUpMd && (
+          <Box sx={{ p: 0.5 }}>
+            <Card>{renderForm(type)}</Card>
+          </Box>
+        )}
 
         <Box
           sx={{
@@ -92,45 +120,30 @@ const Section: React.FunctionComponent = (props) => {
             flex: 1,
           }}
         >
-          {list
-            .filter((i) => i.type === type)
-            .sort((a, b) => {
-              const sa = getSortNum(a.status);
-              const sb = getSortNum(b.status);
-              if (sa !== sb) return sb - sa;
-              return b.createdAt - a.createdAt;
-            })
-            .map((i) => {
-              return (
-                <Item
-                  blur={hasFocus && i.status !== 'FOCUSED'}
-                  key={i._id}
-                  user={i.user || user}
-                  content={i.content}
-                  status={i.status}
-                  type={i.type}
-                  like={i.like}
-                  onDelete={() => {
-                    deleteRetro({ variables: { _id: i._id } });
-                  }}
-                  onUpdate={async (params: UpdateParams) => {
-                    await updateRetro({
-                      variables: {
-                        _id: i._id,
-                        ...params,
-                      },
-                    });
-                  }}
-                  onLike={(count: number) => {
-                    likeRetro({
-                      variables: { _id: i._id, count },
-                    });
-                  }}
-                >
-                  {i.content}
-                </Item>
-              );
-            })}
+          {items.map((i) => {
+            return (
+              <Item
+                blur={hasFocus && i.status !== 'FOCUSED'}
+                key={i._id}
+                user={i.user || user}
+                content={i.content}
+                status={i.status}
+                type={i.type}
+                like={i.like}
+                onDelete={() => {
+                  handleDelete(i._id);
+                }}
+                onUpdate={(params: UpdateParams) => {
+                  handleUpdate(i._id, params);
+                }}
+                onLike={(count: number) => {
+                  handleLike(i._id, count);
+                }}
+              >
+                {i.content}
+              </Item>
+            );
+          })}
         </Box>
       </Box>
     );
@@ -146,13 +159,15 @@ const Section: React.FunctionComponent = (props) => {
           }}
         >
           {TYPES.map((i) => {
+            const label = TabLabels[i];
+            const color = colors[i];
             return (
               <Tab
                 key={i}
-                label={TabLabels[i]}
+                label={label}
                 sx={{
                   width: '25%',
-                  bgcolor: `${colors[i]}.main`,
+                  bgcolor: `${color}.main`,
                   color: '#fff !important',
                 }}
                 value={i}
@@ -162,6 +177,29 @@ const Section: React.FunctionComponent = (props) => {
         </Tabs>
 
         <Container maxWidth="lg">{renderItem(currentType)}</Container>
+
+        <Fab
+          sx={{
+            position: 'absolute',
+            bottom: 24,
+            right: 24,
+          }}
+          onClick={() => {
+            modalRef.current?.open();
+          }}
+          color="primary"
+        >
+          <EditIcon />
+        </Fab>
+
+        <ModalRef
+          title="Create"
+          ref={modalRef}
+          fullWidth
+          render={() => {
+            return <Box>{renderForm(currentType)}</Box>;
+          }}
+        />
       </Box>
     );
   }
@@ -173,11 +211,10 @@ const Section: React.FunctionComponent = (props) => {
           {TYPES.map((type: string) => {
             return (
               <Grid
-                key={type}
                 item
                 xs={12}
-                // sm={6}
                 md={3}
+                key={type}
                 sx={{ display: 'flex', flexDirection: 'column' }}
               >
                 {renderItem(type)}

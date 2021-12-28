@@ -116,17 +116,19 @@ const ModalRef = forwardRef(
           {render && render(props)}
         </DialogContent>
 
-        <DialogActions>
-          <Button
-            autoFocus
-            onClick={() => {
-              if (onOk) onOk();
-            }}
-            variant="contained"
-          >
-            OK
-          </Button>
-        </DialogActions>
+        {onOk && (
+          <DialogActions>
+            <Button
+              autoFocus
+              onClick={() => {
+                if (onOk) onOk();
+              }}
+              variant="contained"
+            >
+              OK
+            </Button>
+          </DialogActions>
+        )}
       </BootstrapDialog>
     );
   },
