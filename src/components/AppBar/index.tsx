@@ -24,7 +24,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       color: '#fff',
       transform: 'translateX(22px)',
       '& .MuiSwitch-thumb:before': {
-        content: "' 🌛'",
+        content: "'🌛'",
         lineHeight: '32px',
       },
       '& + .MuiSwitch-track': {
@@ -43,7 +43,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     '&:before': {
       content: "'☀️'",
       position: 'absolute',
-      width: '90%',
+      width: '100%',
       height: '100%',
       left: 0,
       top: 0,
