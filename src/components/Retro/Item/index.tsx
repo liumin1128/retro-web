@@ -9,20 +9,20 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import Button from '@mui/material/Button';
 import Piaise from '@/components/Praise';
 import GradientBackground from '@/components/GradientBackground';
-import UserInfo from './components/UserInfo';
+// import UserInfo from './components/UserInfo';
 import Form from './components/Form';
 
-interface User {
-  avatar: string;
-  nickname: string;
-}
+// interface User {
+//   avatar: string;
+//   nickname: string;
+// }
 
 interface IItemProps {
   blur: boolean;
   content: string;
   status: string;
   // type: string;
-  user: User;
+  // user: User;
   like: number;
   onUpdate: (v: unknown) => void;
   onDelete: () => void;
@@ -30,8 +30,7 @@ interface IItemProps {
 }
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
-  const { content, user, like, status, blur, onUpdate, onDelete, onLike } =
-    props;
+  const { content, like, status, blur, onUpdate, onDelete, onLike } = props;
   const [edit, setEdit] = useState<boolean>(false);
   return (
     <Box sx={{ mb: 1 }}>
@@ -79,12 +78,12 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                 direction="row"
                 sx={{ mb: -1 }}
               >
-                {status !== 'FOCUSED' && (
+                {/* {status !== 'FOCUSED' && (
                   <UserInfo
                     avatarUrl={user?.avatarUrl}
                     nickname={user?.nickname}
                   />
-                )}
+                )} */}
 
                 {status === 'FOCUSED' && (
                   <Button

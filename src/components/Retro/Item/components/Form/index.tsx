@@ -75,6 +75,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
             minRows={2}
             error={!!errors?.content}
             helperText={errors?.content?.message}
+            type="submit"
             {...register('content', { required: true })}
           />
 

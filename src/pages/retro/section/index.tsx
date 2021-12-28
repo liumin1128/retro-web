@@ -1,4 +1,4 @@
-import React, { useState, useRef, FunctionComponent } from 'react';
+import React, { useState, useRef, useEffect, FunctionComponent } from 'react';
 import get from 'lodash/get';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -45,6 +45,16 @@ const Section: FunctionComponent = (props) => {
     likeRetro,
   } = useRetroMessage({ retro });
 
+  useEffect(() => {
+    const obj = data?.retroMessages?.find(
+      (message) => message.status === 'FOCUSED',
+    );
+
+    if (obj && obj.type !== currentType) {
+      setCurrentType(obj.type);
+    }
+  }, [currentType, data]);
+
   const handleDelete = (_id: string) => {
     deleteRetro({ variables: { _id } });
   };
@@ -78,6 +88,15 @@ const Section: FunctionComponent = (props) => {
   const hasFocus =
     data.retroMessages.findIndex((message) => message.status === 'FOCUSED') !==
     -1;
+
+  if (hasFocus) {
+    const obj = data.retroMessages.find(
+      (message) => message.status === 'FOCUSED',
+    );
+    if (obj.type !== currentType) {
+      setCurrentType(obj.type);
+    }
+  }
 
   console.log('list render:', list);
 
@@ -157,6 +176,22 @@ const Section: FunctionComponent = (props) => {
           onChange={(e, v) => {
             setCurrentType(v);
           }}
+          TabIndicatorProps={{
+            children: <span className="MuiTabs-indicatorSpan" />,
+          }}
+          sx={{
+            '& .MuiTabs-indicator': {
+              display: 'flex',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              height: 4,
+            },
+            '& .MuiTabs-indicatorSpan': {
+              width: '100%',
+              height: 4,
+              backgroundColor: '#fff',
+            },
+          }}
         >
           {TYPES.map((i) => {
             const label = TabLabels[i];
@@ -193,7 +228,7 @@ const Section: FunctionComponent = (props) => {
         </Fab>
 
         <ModalRef
-          title="Create"
+          // title="Create"
           ref={modalRef}
           fullWidth
           render={() => {
