@@ -100,11 +100,12 @@ const Section: FunctionComponent = (props) => {
 
   console.log('list render:', list);
 
-  function renderForm(type) {
+  function renderForm(type, autoFocus = false) {
     const color = colors[type];
     const placeholder = placeholders[type];
     return (
       <Form
+        autoFocus={autoFocus}
         color={color}
         placeholder={placeholder}
         onSubmit={(values) => {
@@ -232,7 +233,7 @@ const Section: FunctionComponent = (props) => {
           ref={modalRef}
           fullWidth
           render={() => {
-            return <Box>{renderForm(currentType)}</Box>;
+            return <Box>{renderForm(currentType, true)}</Box>;
           }}
         />
       </Box>
