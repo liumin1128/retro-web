@@ -90,20 +90,32 @@ export default function useRetroMessage({ retro }) {
         console.log('next:', s);
         switch (s) {
           case 'onConnected': {
-            enqueueSnackbar('Connected', { variant: 'success' });
+            enqueueSnackbar('Connected', {
+              variant: 'success',
+              autoHideDuration: 1000,
+            });
             break;
           }
           case 'onReconnected': {
-            enqueueSnackbar('Reconnected', { variant: 'success' });
+            enqueueSnackbar('Reconnected', {
+              variant: 'success',
+              autoHideDuration: 1000,
+            });
             refetch();
             break;
           }
           case 'onDisconnected': {
-            enqueueSnackbar('Disconnected', { variant: 'error' });
+            enqueueSnackbar('Disconnected', {
+              variant: 'error',
+              autoHideDuration: 1000,
+            });
             break;
           }
           case 'onReconnecting': {
-            enqueueSnackbar('Reconnecting', { variant: 'info' });
+            enqueueSnackbar('Reconnecting', {
+              variant: 'info',
+              autoHideDuration: 1000,
+            });
             break;
           }
           default:
