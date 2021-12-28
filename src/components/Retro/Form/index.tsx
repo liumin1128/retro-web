@@ -22,6 +22,7 @@ interface IFormProps {
   defaultValues?: Values;
   placeholder?: string;
   color?: string;
+  autoFocus?: boolean;
 }
 
 const MessageForm: React.FunctionComponent<IFormProps> = ({
@@ -29,6 +30,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
   defaultValues,
   placeholder,
   color,
+  autoFocus,
 }) => {
   const {
     register,
@@ -57,6 +59,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
         spacing={2}
       >
         <TextField
+          autoFocus={autoFocus}
           label={placeholder}
           variant="outlined"
           fullWidth
@@ -65,6 +68,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           error={!!errors?.content}
           helperText={errors?.content?.message}
           {...register('content', { required: true })}
+          type="submit"
           onKeyDown={(e) => {
             if (e.code === 'Enter') {
               handleSubmit(onSubmit)(e);
