@@ -20,6 +20,12 @@ export default [
         title: 'oauth',
         exact: true,
       },
+      {
+        path: '/login/register',
+        component: '@/pages/login/register',
+        title: 'register',
+        exact: true,
+      },
     ],
   },
   {

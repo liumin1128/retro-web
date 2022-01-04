@@ -1,7 +1,7 @@
 // css to jss: ALT + X
 const useStyles = {
   root: {
-    background: 'linear-gradient(111.44deg, #FEF65B 17.28%, #64E8DE 100%);',
+    // background: 'linear-gradient(111.44deg, #FEF65B 17.28%, #64E8DE 100%);',
     width: '100vw',
     height: '100vh',
     display: 'flex',

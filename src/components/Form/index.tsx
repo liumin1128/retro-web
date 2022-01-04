@@ -1,4 +1,4 @@
-import React, {
+import {
   ElementType,
   ReactNode,
   forwardRef,
@@ -9,7 +9,6 @@ import get from 'lodash/get';
 import * as yup from 'yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -105,12 +104,6 @@ const MessageForm = forwardRef(
 
             return <Component {...componentProps} />;
           })}
-
-          {!ref && (
-            <Button fullWidth size="large" variant="contained" type="submit">
-              Send
-            </Button>
-          )}
         </Stack>
       </form>
     );
