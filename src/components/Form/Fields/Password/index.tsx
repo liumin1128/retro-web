@@ -27,7 +27,7 @@ const Password = forwardRef(
                 onMouseDown={handleClick}
                 edge="end"
               >
-                {visible ? <VisibilityOff /> : <Visibility />}
+                {visible ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>
           ),
