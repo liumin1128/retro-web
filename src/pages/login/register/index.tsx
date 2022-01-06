@@ -27,8 +27,8 @@ export default function Home() {
             Register
           </Typography>
           <Form ref={formRef} items={items} />
-          <Button variant="contained" onClick={handleClick}>
-            Login
+          <Button size="large" variant="contained" onClick={handleClick}>
+            Register
           </Button>
         </Stack>
       </Card>

@@ -23,7 +23,7 @@ export default function Home() {
       <Card sx={{ px: 2, py: 4 }}>
         <Stack spacing={2}>
           <Form ref={formRef} items={items} />
-          <Button variant="contained" onClick={handleClick}>
+          <Button size="large" variant="contained" onClick={handleClick}>
             Login
           </Button>
         </Stack>
