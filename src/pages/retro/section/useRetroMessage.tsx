@@ -5,7 +5,7 @@ import { StoreObject } from '@apollo/client';
 import { source$ } from '@/wrappers/apollo-provider/apollo';
 import {
   RetroMessageCreatedDocument,
-  useFindRetroMessagesQuery,
+  useFindRetroSectionQuery,
   useCreateRetroMessageMutation,
   useUpdateRetroMessageMutation,
   useDeleteRetroMessageMutation,
@@ -24,7 +24,7 @@ export default function useRetroMessage({ retro }: { retro: string }) {
     refetch,
     error,
     subscribeToMore,
-  } = useFindRetroMessagesQuery({
+  } = useFindRetroSectionQuery({
     variables: {
       retro,
     },

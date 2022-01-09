@@ -1,13 +1,23 @@
 fragment userFields on User {
   __typename
   _id
+  nickname
+  username
+  avatarUrl
 }
 
-query Users {
-  users {
+query FindUsers {
+  findUsers {
     ...userFields
   }
 }
+
+query FindUserInfo {
+  findUserInfo {
+    ...userFields
+  }
+}
+
 
 query Login($input: LoginUserInput) {
   login(input: $input) {

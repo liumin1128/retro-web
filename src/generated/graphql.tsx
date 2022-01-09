@@ -181,6 +181,9 @@ export type Query = {
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
   findRetros?: Maybe<Array<Maybe<Retro>>>;
+  findUser?: Maybe<User>;
+  findUserInfo?: Maybe<User>;
+  findUsers?: Maybe<Array<Maybe<User>>>;
   login?: Maybe<UserWithToken>;
   news?: Maybe<News>;
   newsList?: Maybe<Array<Maybe<News>>>;
@@ -212,6 +215,10 @@ export type QueryFindRetroMessageArgs = {
 
 export type QueryFindRetroMessagesArgs = {
   retro?: InputMaybe<Scalars['ID']>;
+};
+
+export type QueryFindUserArgs = {
+  _id: Scalars['String'];
 };
 
 export type QueryLoginArgs = {
@@ -539,6 +546,69 @@ export type RetroMessageFieldsFragment = {
     | undefined;
 };
 
+export type FindRetroSectionQueryVariables = Exact<{
+  retro: Scalars['ID'];
+}>;
+
+export type FindRetroSectionQuery = {
+  __typename?: 'Query';
+  findRetroMessages?:
+    | Array<
+        | {
+            __typename?: 'RetroMessage';
+            _id: string;
+            content?: string | null | undefined;
+            status?: RetroMessageStatus | null | undefined;
+            type?: RetroMessageType | null | undefined;
+            like?: number | null | undefined;
+            createdAt?: string | null | undefined;
+            user?:
+              | {
+                  __typename?: 'User';
+                  _id: string;
+                  nickname?: string | null | undefined;
+                  username?: string | null | undefined;
+                  avatarUrl?: string | null | undefined;
+                }
+              | null
+              | undefined;
+          }
+        | null
+        | undefined
+      >
+    | null
+    | undefined;
+  findRetro?:
+    | {
+        __typename: 'Retro';
+        _id: string;
+        title?: string | null | undefined;
+        content?: string | null | undefined;
+        date?: string | null | undefined;
+        user?:
+          | {
+              __typename?: 'User';
+              _id: string;
+              nickname?: string | null | undefined;
+              avatarUrl?: string | null | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+  findUserInfo?:
+    | {
+        __typename: 'User';
+        _id: string;
+        nickname?: string | null | undefined;
+        username?: string | null | undefined;
+        avatarUrl?: string | null | undefined;
+      }
+    | null
+    | undefined;
+};
+
 export type FindRetroMessagesQueryVariables = Exact<{
   retro: Scalars['ID'];
 }>;
@@ -569,13 +639,6 @@ export type FindRetroMessagesQuery = {
         | null
         | undefined
       >
-    | null
-    | undefined;
-  retro?:
-    | {
-        __typename?: 'Retro';
-        user?: { __typename?: 'User'; _id: string } | null | undefined;
-      }
     | null
     | undefined;
 };
@@ -856,14 +919,46 @@ export type RetroMessageLikedSubscription = {
     | undefined;
 };
 
-export type UserFieldsFragment = { __typename: 'User'; _id: string };
+export type UserFieldsFragment = {
+  __typename: 'User';
+  _id: string;
+  nickname?: string | null | undefined;
+  username?: string | null | undefined;
+  avatarUrl?: string | null | undefined;
+};
 
-export type UsersQueryVariables = Exact<{ [key: string]: never }>;
+export type FindUsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type UsersQuery = {
+export type FindUsersQuery = {
   __typename?: 'Query';
-  users?:
-    | Array<{ __typename: 'User'; _id: string } | null | undefined>
+  findUsers?:
+    | Array<
+        | {
+            __typename: 'User';
+            _id: string;
+            nickname?: string | null | undefined;
+            username?: string | null | undefined;
+            avatarUrl?: string | null | undefined;
+          }
+        | null
+        | undefined
+      >
+    | null
+    | undefined;
+};
+
+export type FindUserInfoQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindUserInfoQuery = {
+  __typename?: 'Query';
+  findUserInfo?:
+    | {
+        __typename: 'User';
+        _id: string;
+        nickname?: string | null | undefined;
+        username?: string | null | undefined;
+        avatarUrl?: string | null | undefined;
+      }
     | null
     | undefined;
 };
@@ -878,7 +973,13 @@ export type LoginQuery = {
     | {
         __typename?: 'UserWithToken';
         token: string;
-        user: { __typename: 'User'; _id: string };
+        user: {
+          __typename: 'User';
+          _id: string;
+          nickname?: string | null | undefined;
+          username?: string | null | undefined;
+          avatarUrl?: string | null | undefined;
+        };
       }
     | null
     | undefined;
@@ -924,6 +1025,9 @@ export const UserFieldsFragmentDoc = gql`
   fragment userFields on User {
     __typename
     _id
+    nickname
+    username
+    avatarUrl
   }
 `;
 export const FindDynamicsDocument = gql`
@@ -1296,15 +1400,77 @@ export type RetroCreatedSubscriptionHookResult = ReturnType<
 >;
 export type RetroCreatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroCreatedSubscription>;
+export const FindRetroSectionDocument = gql`
+  query FindRetroSection($retro: ID!) {
+    findRetroMessages(retro: $retro) {
+      ...retroMessageFields
+    }
+    findRetro(_id: $retro) {
+      ...retroFields
+    }
+    findUserInfo {
+      ...userFields
+    }
+  }
+  ${RetroMessageFieldsFragmentDoc}
+  ${RetroFieldsFragmentDoc}
+  ${UserFieldsFragmentDoc}
+`;
+
+/**
+ * __useFindRetroSectionQuery__
+ *
+ * To run a query within a React component, call `useFindRetroSectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRetroSectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindRetroSectionQuery({
+ *   variables: {
+ *      retro: // value for 'retro'
+ *   },
+ * });
+ */
+export function useFindRetroSectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindRetroSectionQuery,
+    FindRetroSectionQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindRetroSectionQuery, FindRetroSectionQueryVariables>(
+    FindRetroSectionDocument,
+    options,
+  );
+}
+export function useFindRetroSectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindRetroSectionQuery,
+    FindRetroSectionQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindRetroSectionQuery,
+    FindRetroSectionQueryVariables
+  >(FindRetroSectionDocument, options);
+}
+export type FindRetroSectionQueryHookResult = ReturnType<
+  typeof useFindRetroSectionQuery
+>;
+export type FindRetroSectionLazyQueryHookResult = ReturnType<
+  typeof useFindRetroSectionLazyQuery
+>;
+export type FindRetroSectionQueryResult = Apollo.QueryResult<
+  FindRetroSectionQuery,
+  FindRetroSectionQueryVariables
+>;
 export const FindRetroMessagesDocument = gql`
   query FindRetroMessages($retro: ID!) {
     findRetroMessages(retro: $retro) {
       ...retroMessageFields
-    }
-    retro(_id: $retro) {
-      user {
-        _id
-      }
     }
   }
   ${RetroMessageFieldsFragmentDoc}
@@ -1807,9 +1973,9 @@ export type RetroMessageLikedSubscriptionHookResult = ReturnType<
 >;
 export type RetroMessageLikedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageLikedSubscription>;
-export const UsersDocument = gql`
-  query Users {
-    users {
+export const FindUsersDocument = gql`
+  query FindUsers {
+    findUsers {
       ...userFields
     }
   }
@@ -1817,43 +1983,109 @@ export const UsersDocument = gql`
 `;
 
 /**
- * __useUsersQuery__
+ * __useFindUsersQuery__
  *
- * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUsersQuery({
+ * const { data, loading, error } = useFindUsersQuery({
  *   variables: {
  *   },
  * });
  */
-export function useUsersQuery(
-  baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>,
+export function useFindUsersQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FindUsersQuery,
+    FindUsersQueryVariables
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<UsersQuery, UsersQueryVariables>(
-    UsersDocument,
+  return Apollo.useQuery<FindUsersQuery, FindUsersQueryVariables>(
+    FindUsersDocument,
     options,
   );
 }
-export function useUsersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>,
+export function useFindUsersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUsersQuery,
+    FindUsersQueryVariables
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(
-    UsersDocument,
+  return Apollo.useLazyQuery<FindUsersQuery, FindUsersQueryVariables>(
+    FindUsersDocument,
     options,
   );
 }
-export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
-export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = Apollo.QueryResult<
-  UsersQuery,
-  UsersQueryVariables
+export type FindUsersQueryHookResult = ReturnType<typeof useFindUsersQuery>;
+export type FindUsersLazyQueryHookResult = ReturnType<
+  typeof useFindUsersLazyQuery
+>;
+export type FindUsersQueryResult = Apollo.QueryResult<
+  FindUsersQuery,
+  FindUsersQueryVariables
+>;
+export const FindUserInfoDocument = gql`
+  query FindUserInfo {
+    findUserInfo {
+      ...userFields
+    }
+  }
+  ${UserFieldsFragmentDoc}
+`;
+
+/**
+ * __useFindUserInfoQuery__
+ *
+ * To run a query within a React component, call `useFindUserInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserInfoQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindUserInfoQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FindUserInfoQuery,
+    FindUserInfoQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindUserInfoQuery, FindUserInfoQueryVariables>(
+    FindUserInfoDocument,
+    options,
+  );
+}
+export function useFindUserInfoLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserInfoQuery,
+    FindUserInfoQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindUserInfoQuery, FindUserInfoQueryVariables>(
+    FindUserInfoDocument,
+    options,
+  );
+}
+export type FindUserInfoQueryHookResult = ReturnType<
+  typeof useFindUserInfoQuery
+>;
+export type FindUserInfoLazyQueryHookResult = ReturnType<
+  typeof useFindUserInfoLazyQuery
+>;
+export type FindUserInfoQueryResult = Apollo.QueryResult<
+  FindUserInfoQuery,
+  FindUserInfoQueryVariables
 >;
 export const LoginDocument = gql`
   query Login($input: LoginUserInput) {

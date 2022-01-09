@@ -88,7 +88,10 @@ const Section: FunctionComponent = (props) => {
   if (error) return 'error';
 
   const list = get(data, 'findRetroMessages', []);
+  const retroUserId = get(data, 'findRetro.user._id', '');
+  const userId = get(data, 'findUserInfo._id', '');
 
+  const isCreator = retroUserId === userId;
   const hasFocus =
     data.findRetroMessages.findIndex(
       (message) => message.status === 'FOCUSED',
@@ -158,11 +161,17 @@ const Section: FunctionComponent = (props) => {
                 onDelete={() => {
                   handleDelete(i._id);
                 }}
-                onUpdate={(params: UpdateParams) => {
-                  handleUpdate(i._id, params);
-                }}
                 onLike={(count: number) => {
                   handleLike(i._id, count);
+                }}
+                onUpdateContent={(params: UpdateParams) => {
+                  handleUpdate(i._id, params);
+                }}
+                onUpdateStatus={(params: UpdateParams) => {
+                  if (!isCreator) {
+                    return;
+                  }
+                  handleUpdate(i._id, params);
                 }}
               >
                 {i.content}

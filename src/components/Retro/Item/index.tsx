@@ -22,18 +22,29 @@ interface IItemProps {
   blur: boolean;
   content: string;
   status: string;
-  // type: string;
   user: User;
   like: number;
-  onUpdate: (v: unknown) => void;
   onDelete: () => void;
   onLike: (count: number) => void;
+  onUpdateContent: (v: unknown) => void;
+  onUpdateStatus: (v: unknown) => void;
 }
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
-  const { content, like, status, user, blur, onUpdate, onDelete, onLike } =
-    props;
+  const {
+    content,
+    like,
+    status,
+    user,
+    blur,
+    onLike,
+    onDelete,
+    onUpdateContent,
+    onUpdateStatus,
+  } = props;
+
   const [edit, setEdit] = useState<boolean>(false);
+
   return (
     <Box sx={{ mb: 1 }}>
       <GradientBackground
@@ -43,14 +54,16 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
       >
         <Box
           onClick={() => {
-            onUpdate({ status: status === 'FOCUSED' ? 'NORMAL' : 'FOCUSED' });
+            onUpdateStatus({
+              status: status === 'FOCUSED' ? 'NORMAL' : 'FOCUSED',
+            });
           }}
         >
           {edit ? (
             <Form
               defaultValues={{ content }}
               onSubmit={(values) => {
-                onUpdate(values);
+                onUpdateContent(values);
                 setEdit(false);
               }}
               onCancel={() => {
@@ -91,7 +104,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                   <Button
                     color="inherit"
                     onClick={() => {
-                      onUpdate({
+                      onUpdateStatus({
                         status: 'NORMAL',
                       });
                     }}
@@ -143,7 +156,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                         color="success"
                         onClick={(e) => {
                           e.stopPropagation();
-                          onUpdate({
+                          onUpdateStatus({
                             status: 'CLOSED',
                           });
                         }}

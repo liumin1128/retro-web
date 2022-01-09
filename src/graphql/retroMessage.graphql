@@ -13,14 +13,21 @@ fragment retroMessageFields on RetroMessage {
   }
 }
 
-query FindRetroMessages($retro: ID!) {
+query FindRetroSection($retro: ID!) {
   findRetroMessages(retro: $retro) {
     ...retroMessageFields
   }
-  retro(_id: $retro) {
-    user {
-      _id
-    }
+  findRetro(_id: $retro) {
+    ...retroFields
+  }
+  findUserInfo {
+    ...userFields
+  }
+}
+
+query FindRetroMessages($retro: ID!) {
+  findRetroMessages(retro: $retro) {
+    ...retroMessageFields
   }
 }
 
