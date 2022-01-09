@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -327,9 +326,9 @@ export type DynamicFieldsFragment = {
   content?: string | null | undefined;
 };
 
-export type DynamicsQueryVariables = Exact<{ [key: string]: never }>;
+export type FindDynamicsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type DynamicsQuery = {
+export type FindDynamicsQuery = {
   __typename?: 'Query';
   dynamics?:
     | Array<
@@ -345,11 +344,11 @@ export type DynamicsQuery = {
     | undefined;
 };
 
-export type DynamicQueryVariables = Exact<{
+export type FindDynamicQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type DynamicQuery = {
+export type FindDynamicQuery = {
   __typename?: 'Query';
   dynamic?:
     | {
@@ -394,9 +393,9 @@ export type RetroFieldsFragment = {
     | undefined;
 };
 
-export type RetrosQueryVariables = Exact<{ [key: string]: never }>;
+export type FindRetrosQueryVariables = Exact<{ [key: string]: never }>;
 
-export type RetrosQuery = {
+export type FindRetrosQuery = {
   __typename?: 'Query';
   retros?:
     | Array<
@@ -423,11 +422,11 @@ export type RetrosQuery = {
     | undefined;
 };
 
-export type RetroQueryVariables = Exact<{
+export type FindRetroQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type RetroQuery = {
+export type FindRetroQuery = {
   __typename?: 'Query';
   retro?:
     | {
@@ -523,11 +522,11 @@ export type RetroMessageFieldsFragment = {
     | undefined;
 };
 
-export type RetroMessagesQueryVariables = Exact<{
-  retro?: InputMaybe<Scalars['ID']>;
+export type FindRetroMessagesQueryVariables = Exact<{
+  retro: Scalars['ID'];
 }>;
 
-export type RetroMessagesQuery = {
+export type FindRetroMessagesQuery = {
   __typename?: 'Query';
   retroMessages?:
     | Array<
@@ -556,11 +555,11 @@ export type RetroMessagesQuery = {
     | undefined;
 };
 
-export type RetroMessageQueryVariables = Exact<{
+export type FindRetroMessageQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type RetroMessageQuery = {
+export type FindRetroMessageQuery = {
   __typename?: 'Query';
   retroMessage?:
     | {
@@ -892,8 +891,8 @@ export const UserFieldsFragmentDoc = gql`
     _id
   }
 `;
-export const DynamicsDocument = gql`
-  query Dynamics {
+export const FindDynamicsDocument = gql`
+  query FindDynamics {
     dynamics {
       ...dynamicFields
     }
@@ -902,51 +901,56 @@ export const DynamicsDocument = gql`
 `;
 
 /**
- * __useDynamicsQuery__
+ * __useFindDynamicsQuery__
  *
- * To run a query within a React component, call `useDynamicsQuery` and pass it any options that fit your needs.
- * When your component renders, `useDynamicsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindDynamicsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDynamicsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useDynamicsQuery({
+ * const { data, loading, error } = useFindDynamicsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useDynamicsQuery(
-  baseOptions?: Apollo.QueryHookOptions<DynamicsQuery, DynamicsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<DynamicsQuery, DynamicsQueryVariables>(
-    DynamicsDocument,
-    options,
-  );
-}
-export function useDynamicsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    DynamicsQuery,
-    DynamicsQueryVariables
+export function useFindDynamicsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FindDynamicsQuery,
+    FindDynamicsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<DynamicsQuery, DynamicsQueryVariables>(
-    DynamicsDocument,
+  return Apollo.useQuery<FindDynamicsQuery, FindDynamicsQueryVariables>(
+    FindDynamicsDocument,
     options,
   );
 }
-export type DynamicsQueryHookResult = ReturnType<typeof useDynamicsQuery>;
-export type DynamicsLazyQueryHookResult = ReturnType<
-  typeof useDynamicsLazyQuery
+export function useFindDynamicsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindDynamicsQuery,
+    FindDynamicsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindDynamicsQuery, FindDynamicsQueryVariables>(
+    FindDynamicsDocument,
+    options,
+  );
+}
+export type FindDynamicsQueryHookResult = ReturnType<
+  typeof useFindDynamicsQuery
 >;
-export type DynamicsQueryResult = Apollo.QueryResult<
-  DynamicsQuery,
-  DynamicsQueryVariables
+export type FindDynamicsLazyQueryHookResult = ReturnType<
+  typeof useFindDynamicsLazyQuery
 >;
-export const DynamicDocument = gql`
-  query Dynamic($_id: ID!) {
+export type FindDynamicsQueryResult = Apollo.QueryResult<
+  FindDynamicsQuery,
+  FindDynamicsQueryVariables
+>;
+export const FindDynamicDocument = gql`
+  query FindDynamic($_id: ID!) {
     dynamic(_id: $_id) {
       ...dynamicFields
     }
@@ -955,47 +959,52 @@ export const DynamicDocument = gql`
 `;
 
 /**
- * __useDynamicQuery__
+ * __useFindDynamicQuery__
  *
- * To run a query within a React component, call `useDynamicQuery` and pass it any options that fit your needs.
- * When your component renders, `useDynamicQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindDynamicQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDynamicQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useDynamicQuery({
+ * const { data, loading, error } = useFindDynamicQuery({
  *   variables: {
  *      _id: // value for '_id'
  *   },
  * });
  */
-export function useDynamicQuery(
-  baseOptions: Apollo.QueryHookOptions<DynamicQuery, DynamicQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<DynamicQuery, DynamicQueryVariables>(
-    DynamicDocument,
-    options,
-  );
-}
-export function useDynamicLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    DynamicQuery,
-    DynamicQueryVariables
+export function useFindDynamicQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindDynamicQuery,
+    FindDynamicQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<DynamicQuery, DynamicQueryVariables>(
-    DynamicDocument,
+  return Apollo.useQuery<FindDynamicQuery, FindDynamicQueryVariables>(
+    FindDynamicDocument,
     options,
   );
 }
-export type DynamicQueryHookResult = ReturnType<typeof useDynamicQuery>;
-export type DynamicLazyQueryHookResult = ReturnType<typeof useDynamicLazyQuery>;
-export type DynamicQueryResult = Apollo.QueryResult<
-  DynamicQuery,
-  DynamicQueryVariables
+export function useFindDynamicLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindDynamicQuery,
+    FindDynamicQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindDynamicQuery, FindDynamicQueryVariables>(
+    FindDynamicDocument,
+    options,
+  );
+}
+export type FindDynamicQueryHookResult = ReturnType<typeof useFindDynamicQuery>;
+export type FindDynamicLazyQueryHookResult = ReturnType<
+  typeof useFindDynamicLazyQuery
+>;
+export type FindDynamicQueryResult = Apollo.QueryResult<
+  FindDynamicQuery,
+  FindDynamicQueryVariables
 >;
 export const CreateDynamicDocument = gql`
   mutation CreateDynamic($content: String!) {
@@ -1048,8 +1057,8 @@ export type CreateDynamicMutationOptions = Apollo.BaseMutationOptions<
   CreateDynamicMutation,
   CreateDynamicMutationVariables
 >;
-export const RetrosDocument = gql`
-  query Retros {
+export const FindRetrosDocument = gql`
+  query FindRetros {
     retros {
       ...retroFields
     }
@@ -1058,46 +1067,54 @@ export const RetrosDocument = gql`
 `;
 
 /**
- * __useRetrosQuery__
+ * __useFindRetrosQuery__
  *
- * To run a query within a React component, call `useRetrosQuery` and pass it any options that fit your needs.
- * When your component renders, `useRetrosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindRetrosQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRetrosQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRetrosQuery({
+ * const { data, loading, error } = useFindRetrosQuery({
  *   variables: {
  *   },
  * });
  */
-export function useRetrosQuery(
-  baseOptions?: Apollo.QueryHookOptions<RetrosQuery, RetrosQueryVariables>,
+export function useFindRetrosQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FindRetrosQuery,
+    FindRetrosQueryVariables
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RetrosQuery, RetrosQueryVariables>(
-    RetrosDocument,
+  return Apollo.useQuery<FindRetrosQuery, FindRetrosQueryVariables>(
+    FindRetrosDocument,
     options,
   );
 }
-export function useRetrosLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<RetrosQuery, RetrosQueryVariables>,
+export function useFindRetrosLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindRetrosQuery,
+    FindRetrosQueryVariables
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RetrosQuery, RetrosQueryVariables>(
-    RetrosDocument,
+  return Apollo.useLazyQuery<FindRetrosQuery, FindRetrosQueryVariables>(
+    FindRetrosDocument,
     options,
   );
 }
-export type RetrosQueryHookResult = ReturnType<typeof useRetrosQuery>;
-export type RetrosLazyQueryHookResult = ReturnType<typeof useRetrosLazyQuery>;
-export type RetrosQueryResult = Apollo.QueryResult<
-  RetrosQuery,
-  RetrosQueryVariables
+export type FindRetrosQueryHookResult = ReturnType<typeof useFindRetrosQuery>;
+export type FindRetrosLazyQueryHookResult = ReturnType<
+  typeof useFindRetrosLazyQuery
 >;
-export const RetroDocument = gql`
-  query Retro($_id: ID!) {
+export type FindRetrosQueryResult = Apollo.QueryResult<
+  FindRetrosQuery,
+  FindRetrosQueryVariables
+>;
+export const FindRetroDocument = gql`
+  query FindRetro($_id: ID!) {
     retro(_id: $_id) {
       ...retroFields
     }
@@ -1106,44 +1123,49 @@ export const RetroDocument = gql`
 `;
 
 /**
- * __useRetroQuery__
+ * __useFindRetroQuery__
  *
- * To run a query within a React component, call `useRetroQuery` and pass it any options that fit your needs.
- * When your component renders, `useRetroQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindRetroQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRetroQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRetroQuery({
+ * const { data, loading, error } = useFindRetroQuery({
  *   variables: {
  *      _id: // value for '_id'
  *   },
  * });
  */
-export function useRetroQuery(
-  baseOptions: Apollo.QueryHookOptions<RetroQuery, RetroQueryVariables>,
+export function useFindRetroQuery(
+  baseOptions: Apollo.QueryHookOptions<FindRetroQuery, FindRetroQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RetroQuery, RetroQueryVariables>(
-    RetroDocument,
+  return Apollo.useQuery<FindRetroQuery, FindRetroQueryVariables>(
+    FindRetroDocument,
     options,
   );
 }
-export function useRetroLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<RetroQuery, RetroQueryVariables>,
+export function useFindRetroLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindRetroQuery,
+    FindRetroQueryVariables
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RetroQuery, RetroQueryVariables>(
-    RetroDocument,
+  return Apollo.useLazyQuery<FindRetroQuery, FindRetroQueryVariables>(
+    FindRetroDocument,
     options,
   );
 }
-export type RetroQueryHookResult = ReturnType<typeof useRetroQuery>;
-export type RetroLazyQueryHookResult = ReturnType<typeof useRetroLazyQuery>;
-export type RetroQueryResult = Apollo.QueryResult<
-  RetroQuery,
-  RetroQueryVariables
+export type FindRetroQueryHookResult = ReturnType<typeof useFindRetroQuery>;
+export type FindRetroLazyQueryHookResult = ReturnType<
+  typeof useFindRetroLazyQuery
+>;
+export type FindRetroQueryResult = Apollo.QueryResult<
+  FindRetroQuery,
+  FindRetroQueryVariables
 >;
 export const CreateRetroDocument = gql`
   mutation CreateRetro($title: String, $content: String, $date: String!) {
@@ -1199,7 +1221,7 @@ export type CreateRetroMutationOptions = Apollo.BaseMutationOptions<
   CreateRetroMutationVariables
 >;
 export const RetroCreatedDocument = gql`
-  subscription retroCreated {
+  subscription RetroCreated {
     retroCreated {
       ...retroFields
     }
@@ -1239,8 +1261,8 @@ export type RetroCreatedSubscriptionHookResult = ReturnType<
 >;
 export type RetroCreatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroCreatedSubscription>;
-export const RetroMessagesDocument = gql`
-  query RetroMessages($retro: ID) {
+export const FindRetroMessagesDocument = gql`
+  query FindRetroMessages($retro: ID!) {
     retroMessages(retro: $retro) {
       ...retroMessageFields
     }
@@ -1249,57 +1271,57 @@ export const RetroMessagesDocument = gql`
 `;
 
 /**
- * __useRetroMessagesQuery__
+ * __useFindRetroMessagesQuery__
  *
- * To run a query within a React component, call `useRetroMessagesQuery` and pass it any options that fit your needs.
- * When your component renders, `useRetroMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindRetroMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRetroMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRetroMessagesQuery({
+ * const { data, loading, error } = useFindRetroMessagesQuery({
  *   variables: {
  *      retro: // value for 'retro'
  *   },
  * });
  */
-export function useRetroMessagesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    RetroMessagesQuery,
-    RetroMessagesQueryVariables
+export function useFindRetroMessagesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindRetroMessagesQuery,
+    FindRetroMessagesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RetroMessagesQuery, RetroMessagesQueryVariables>(
-    RetroMessagesDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    FindRetroMessagesQuery,
+    FindRetroMessagesQueryVariables
+  >(FindRetroMessagesDocument, options);
 }
-export function useRetroMessagesLazyQuery(
+export function useFindRetroMessagesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    RetroMessagesQuery,
-    RetroMessagesQueryVariables
+    FindRetroMessagesQuery,
+    FindRetroMessagesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RetroMessagesQuery, RetroMessagesQueryVariables>(
-    RetroMessagesDocument,
-    options,
-  );
+  return Apollo.useLazyQuery<
+    FindRetroMessagesQuery,
+    FindRetroMessagesQueryVariables
+  >(FindRetroMessagesDocument, options);
 }
-export type RetroMessagesQueryHookResult = ReturnType<
-  typeof useRetroMessagesQuery
+export type FindRetroMessagesQueryHookResult = ReturnType<
+  typeof useFindRetroMessagesQuery
 >;
-export type RetroMessagesLazyQueryHookResult = ReturnType<
-  typeof useRetroMessagesLazyQuery
+export type FindRetroMessagesLazyQueryHookResult = ReturnType<
+  typeof useFindRetroMessagesLazyQuery
 >;
-export type RetroMessagesQueryResult = Apollo.QueryResult<
-  RetroMessagesQuery,
-  RetroMessagesQueryVariables
+export type FindRetroMessagesQueryResult = Apollo.QueryResult<
+  FindRetroMessagesQuery,
+  FindRetroMessagesQueryVariables
 >;
-export const RetroMessageDocument = gql`
-  query RetroMessage($_id: ID!) {
+export const FindRetroMessageDocument = gql`
+  query FindRetroMessage($_id: ID!) {
     retroMessage(_id: $_id) {
       ...retroMessageFields
     }
@@ -1308,54 +1330,54 @@ export const RetroMessageDocument = gql`
 `;
 
 /**
- * __useRetroMessageQuery__
+ * __useFindRetroMessageQuery__
  *
- * To run a query within a React component, call `useRetroMessageQuery` and pass it any options that fit your needs.
- * When your component renders, `useRetroMessageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindRetroMessageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRetroMessageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRetroMessageQuery({
+ * const { data, loading, error } = useFindRetroMessageQuery({
  *   variables: {
  *      _id: // value for '_id'
  *   },
  * });
  */
-export function useRetroMessageQuery(
+export function useFindRetroMessageQuery(
   baseOptions: Apollo.QueryHookOptions<
-    RetroMessageQuery,
-    RetroMessageQueryVariables
+    FindRetroMessageQuery,
+    FindRetroMessageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RetroMessageQuery, RetroMessageQueryVariables>(
-    RetroMessageDocument,
+  return Apollo.useQuery<FindRetroMessageQuery, FindRetroMessageQueryVariables>(
+    FindRetroMessageDocument,
     options,
   );
 }
-export function useRetroMessageLazyQuery(
+export function useFindRetroMessageLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    RetroMessageQuery,
-    RetroMessageQueryVariables
+    FindRetroMessageQuery,
+    FindRetroMessageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RetroMessageQuery, RetroMessageQueryVariables>(
-    RetroMessageDocument,
-    options,
-  );
+  return Apollo.useLazyQuery<
+    FindRetroMessageQuery,
+    FindRetroMessageQueryVariables
+  >(FindRetroMessageDocument, options);
 }
-export type RetroMessageQueryHookResult = ReturnType<
-  typeof useRetroMessageQuery
+export type FindRetroMessageQueryHookResult = ReturnType<
+  typeof useFindRetroMessageQuery
 >;
-export type RetroMessageLazyQueryHookResult = ReturnType<
-  typeof useRetroMessageLazyQuery
+export type FindRetroMessageLazyQueryHookResult = ReturnType<
+  typeof useFindRetroMessageLazyQuery
 >;
-export type RetroMessageQueryResult = Apollo.QueryResult<
-  RetroMessageQuery,
-  RetroMessageQueryVariables
+export type FindRetroMessageQueryResult = Apollo.QueryResult<
+  FindRetroMessageQuery,
+  FindRetroMessageQueryVariables
 >;
 export const CreateRetroMessageDocument = gql`
   mutation CreateRetroMessage(
@@ -1582,7 +1604,7 @@ export type DeleteRetroMessageMutationOptions = Apollo.BaseMutationOptions<
   DeleteRetroMessageMutationVariables
 >;
 export const RetroMessageCreatedDocument = gql`
-  subscription retroMessageCreated {
+  subscription RetroMessageCreated {
     retroMessageCreated {
       ...retroMessageFields
     }
@@ -1623,7 +1645,7 @@ export type RetroMessageCreatedSubscriptionHookResult = ReturnType<
 export type RetroMessageCreatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageCreatedSubscription>;
 export const RetroMessageUpdatedDocument = gql`
-  subscription retroMessageUpdated {
+  subscription RetroMessageUpdated {
     retroMessageUpdated {
       ...retroMessageFields
     }
@@ -1664,7 +1686,7 @@ export type RetroMessageUpdatedSubscriptionHookResult = ReturnType<
 export type RetroMessageUpdatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageUpdatedSubscription>;
 export const RetroMessageDeletedDocument = gql`
-  subscription retroMessageDeleted {
+  subscription RetroMessageDeleted {
     retroMessageDeleted {
       ...retroMessageFields
     }
@@ -1705,7 +1727,7 @@ export type RetroMessageDeletedSubscriptionHookResult = ReturnType<
 export type RetroMessageDeletedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
 export const RetroMessageLikedDocument = gql`
-  subscription retroMessageLiked {
+  subscription RetroMessageLiked {
     retroMessageLiked {
       ...retroMessageFields
     }

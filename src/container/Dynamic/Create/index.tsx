@@ -1,13 +1,11 @@
 import { useRef } from 'react';
-import { useMutation } from '@apollo/client';
 import Button from '@mui/material/Button';
-import { CreateDynamic, DynamicResult } from '@/graphql/dynamic';
+import { useCreateDynamicMutation } from '@/generated/graphql';
 
 export default function DynamicListContainer() {
   const input = useRef<HTMLInputElement | null>(null);
 
-  const [createDynamic, { data, loading, error }] =
-    useMutation<DynamicResult>(CreateDynamic);
+  const [createDynamic, { data, loading, error }] = useCreateDynamicMutation();
 
   console.log('data, loading, error');
   console.log(data, loading, error);
@@ -17,7 +15,7 @@ export default function DynamicListContainer() {
 
   function handleClick() {
     createDynamic({
-      variables: { content: input.current?.value },
+      variables: { content: input.current?.value as string },
 
       update(cache, { data: newData }) {
         cache.modify({

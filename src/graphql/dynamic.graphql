@@ -1,0 +1,22 @@
+fragment dynamicFields on Dynamic {
+  _id
+  content
+}
+
+query FindDynamics {
+  dynamics {
+    ...dynamicFields
+  }
+}
+
+query FindDynamic($_id: ID!) {
+  dynamic(_id: $_id) {
+    ...dynamicFields
+  }
+}
+
+mutation CreateDynamic($content: String!) {
+  createDynamic(input: { content: $content }) {
+    ...dynamicFields
+  }
+}

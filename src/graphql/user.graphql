@@ -1,0 +1,19 @@
+fragment userFields on User {
+  __typename
+  _id
+}
+
+query Users {
+  users {
+    ...userFields
+  }
+}
+
+query Login($input: LoginUserInput) {
+  login(input: $input) {
+    user {
+      ...userFields
+    }
+    token
+  }
+}

@@ -1,0 +1,85 @@
+fragment retroMessageFields on RetroMessage {
+  _id
+  content
+  status
+  type
+  like
+  createdAt
+  user {
+    _id
+    nickname
+    avatarUrl
+  }
+}
+
+query FindRetroMessages($retro: ID!) {
+  retroMessages(retro: $retro) {
+    ...retroMessageFields
+  }
+}
+
+query FindRetroMessage($_id: ID!) {
+  retroMessage(_id: $_id) {
+    ...retroMessageFields
+  }
+}
+
+mutation CreateRetroMessage(
+  $retro: ID!
+  $content: String!
+  $type: RetroMessageType!
+) {
+  createRetroMessage(input: { retro: $retro, content: $content, type: $type }) {
+    ...retroMessageFields
+  }
+}
+
+mutation UpdateRetroMessage(
+  $_id: ID!
+  $content: String
+  $type: RetroMessageType
+  $status: RetroMessageStatus
+) {
+  updateRetroMessage(
+    _id: $_id
+    input: { content: $content, type: $type, status: $status }
+  ) {
+    ...retroMessageFields
+  }
+}
+
+mutation LikeRetroMessage($_id: ID!, $count: Int) {
+  likeRetroMessage(_id: $_id, count: $count) {
+    ...retroMessageFields
+  }
+}
+
+mutation DeleteRetroMessage($_id: ID!) {
+  deleteRetroMessage(_id: $_id) {
+    ...retroMessageFields
+  }
+}
+
+subscription RetroMessageCreated {
+  retroMessageCreated {
+    ...retroMessageFields
+  }
+}
+
+subscription RetroMessageUpdated {
+  retroMessageUpdated {
+    ...retroMessageFields
+  }
+}
+
+subscription RetroMessageDeleted {
+  retroMessageDeleted {
+    ...retroMessageFields
+  }
+}
+
+subscription RetroMessageLiked {
+  retroMessageLiked {
+    ...retroMessageFields
+  }
+}

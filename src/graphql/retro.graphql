@@ -1,0 +1,36 @@
+fragment retroFields on Retro {
+  __typename
+  _id
+  title
+  content
+  date
+  user {
+    _id
+    nickname
+    avatarUrl
+  }
+}
+
+query FindRetros {
+  retros {
+    ...retroFields
+  }
+}
+
+query FindRetro($_id: ID!) {
+  retro(_id: $_id) {
+    ...retroFields
+  }
+}
+
+mutation CreateRetro($title: String, $content: String, $date: String!) {
+  createRetro(input: { title: $title, content: $content, date: $date }) {
+    ...retroFields
+  }
+}
+
+subscription RetroCreated {
+  retroCreated {
+    ...retroFields
+  }
+}

@@ -1,22 +1,21 @@
 import { useEffect } from 'react';
 import get from 'lodash/get';
-import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import { useSnackbar } from 'notistack';
-import {
-  RETROMESSAGES_QUERY,
-  RetroMessage,
-  CREATE_RETROMESSAGE,
-  UPDATE_RETROMESSAGE,
-  DELETE_RETROMESSAGE,
-  LIKE_RETROMESSAGE,
-  CREATE_RETROMESSAGE_SUBSCRIPTION,
-  UPDATE_RETROMESSAGE_SUBSCRIPTION,
-  DELETE_RETROMESSAGE_SUBSCRIPTION,
-  LIKE_RETROMESSAGE_SUBSCRIPTION,
-} from '@/graphql/retroMessage';
+import { StoreObject } from '@apollo/client';
 import { source$ } from '@/wrappers/apollo-provider/apollo';
+import {
+  RetroMessageCreatedDocument,
+  useFindRetroMessagesQuery,
+  useCreateRetroMessageMutation,
+  useUpdateRetroMessageMutation,
+  useDeleteRetroMessageMutation,
+  useLikeRetroMessageMutation,
+  useRetroMessageLikedSubscription,
+  useRetroMessageUpdatedSubscription,
+  useRetroMessageDeletedSubscription,
+} from '@/generated/graphql';
 
-export default function useRetroMessage({ retro }) {
+export default function useRetroMessage({ retro }: { retro: string }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -25,49 +24,41 @@ export default function useRetroMessage({ retro }) {
     refetch,
     error,
     subscribeToMore,
-  } = useQuery<RetroMessage>(RETROMESSAGES_QUERY, {
+  } = useFindRetroMessagesQuery({
     variables: {
       retro,
     },
   });
 
   // 会自动更新
-  useSubscription(UPDATE_RETROMESSAGE_SUBSCRIPTION);
-  useSubscription(LIKE_RETROMESSAGE_SUBSCRIPTION);
+  useRetroMessageUpdatedSubscription();
+  useRetroMessageLikedSubscription();
 
   // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
-  useSubscription(DELETE_RETROMESSAGE_SUBSCRIPTION, {
+  useRetroMessageDeletedSubscription({
     onSubscriptionData: ({ client, subscriptionData }) => {
       const _id = get(subscriptionData, 'data.retroMessageDeleted._id');
       client.cache.modify({
         fields: {
           retroMessages(refs, { readField }) {
-            return refs.filter((ref) => _id !== readField('_id', ref));
+            return refs.filter(
+              (ref: StoreObject) => _id !== readField('_id', ref),
+            );
           },
         },
       });
     },
   });
 
-  const [createRetro] = useMutation<RetroMessage>(CREATE_RETROMESSAGE);
-  const [updateRetro] = useMutation<RetroMessage>(UPDATE_RETROMESSAGE);
-  const [deleteRetro] = useMutation<RetroMessage>(DELETE_RETROMESSAGE);
-  const [likeRetro] = useMutation<RetroMessage>(LIKE_RETROMESSAGE);
+  const [createRetro] = useCreateRetroMessageMutation();
+  const [updateRetro] = useUpdateRetroMessageMutation();
+  const [deleteRetro] = useDeleteRetroMessageMutation();
+  const [likeRetro] = useLikeRetroMessageMutation();
 
   useEffect(() => {
     subscribeToMore({
-      document: CREATE_RETROMESSAGE_SUBSCRIPTION,
-      variables: {},
-      updateQuery: (
-        prev: { retroMessages: RetroMessage[] },
-        args: {
-          subscriptionData: {
-            data: {
-              retroMessageCreated: RetroMessage;
-            };
-          };
-        },
-      ) => {
+      document: RetroMessageCreatedDocument,
+      updateQuery: (prev, args) => {
         const { subscriptionData } = args;
         if (!subscriptionData.data) return prev;
         const newItem = subscriptionData.data.retroMessageCreated;

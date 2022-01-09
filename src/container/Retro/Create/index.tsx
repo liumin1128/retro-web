@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { useMutation } from '@apollo/client';
-import { CreateRetro, RetroResult, RetroFragment } from '@/graphql/retro';
 import Create from '@/components/Retro/CreateRetro';
+import {
+  useCreateRetroMessageMutation,
+  RetroFieldsFragmentDoc,
+} from '@/generated/graphql';
 
 const Retro: React.FunctionComponent = () => {
-  const [createRetro] = useMutation<RetroResult>(CreateRetro);
+  const [createRetro] = useCreateRetroMessageMutation();
 
   const handleClick = (values) => {
     createRetro({
@@ -15,7 +17,7 @@ const Retro: React.FunctionComponent = () => {
             retros(existingItems = []) {
               const newTodoRef = cache.writeFragment({
                 data: data.createRetro,
-                fragment: RetroFragment,
+                fragment: RetroFieldsFragmentDoc,
               });
               return [...existingItems, newTodoRef];
             },

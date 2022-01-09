@@ -1,19 +1,15 @@
-// import Button from '@mui/material/Button';
-import { useQuery } from '@apollo/client';
 import DynamicList from '@/components/Dynamic/List';
-import { DynamicsQuery, DynamicsResult } from '@/graphql/dynamic';
+import { useFindDynamicsQuery, Dynamic } from '@/generated/graphql';
 
 export default function DynamicListContainer() {
-  const { data, loading, error } = useQuery<DynamicsResult>(DynamicsQuery);
-  // console.log("data, loading, error");
-  // console.log(data, loading, error);
+  const { data, loading, error } = useFindDynamicsQuery();
 
   if (loading) return 'loading';
   if (error) return 'error';
 
   return (
     <div>
-      <DynamicList data={data?.dynamics} />
+      <DynamicList data={data?.dynamics as Dynamic[]} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { history } from 'umi';
+import React, { Fragment } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -7,7 +7,7 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { Retro } from '@/graphql/retro';
+import { Retro } from '@/generated/graphql';
 
 interface IAppProps {
   data?: Retro[];
@@ -30,7 +30,10 @@ const App: React.FunctionComponent<IAppProps> = ({ data }) => {
             >
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar alt={i.user?.nickname} src={i.user?.avatarUrl} />
+                  <Avatar
+                    alt={i?.user?.nickname as string}
+                    src={i?.user?.avatarUrl as string}
+                  />
                 </ListItemAvatar>
                 <ListItemText
                   color="inherit"

@@ -1,16 +1,15 @@
-import { useQuery } from '@apollo/client';
 import RetroList from '@/components/Retro/List';
-import { RetrosQuery, RetrosResult } from '@/graphql/retro';
+import { useFindRetrosQuery, Retro } from '@/generated/graphql';
 
 export default function RetroListContainer() {
-  const { data, loading, error } = useQuery<RetrosResult>(RetrosQuery);
+  const { data, loading, error } = useFindRetrosQuery();
 
   if (loading) return 'loading';
   if (error) return 'error';
 
   return (
     <div>
-      <RetroList data={data?.retros} />
+      <RetroList data={data?.retros as Retro[]} />
     </div>
   );
 }
