@@ -14,7 +14,7 @@ fragment retroMessageFields on RetroMessage {
 }
 
 query FindRetroMessages($retro: ID!) {
-  retroMessages(retro: $retro) {
+  findRetroMessages(retro: $retro) {
     ...retroMessageFields
   }
   retro(_id: $retro) {
@@ -25,7 +25,7 @@ query FindRetroMessages($retro: ID!) {
 }
 
 query FindRetroMessage($_id: ID!) {
-  retroMessage(_id: $_id) {
+  findRetroMessage(_id: $_id) {
     ...retroMessageFields
   }
 }

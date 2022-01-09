@@ -14,6 +14,7 @@ import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
 import ModalRef, { ModalRefInstance } from '@/components/ModalRef/Dialog';
 import useRetroMessage from './useRetroMessage';
+import { RetroMessageType } from '@/generated/graphql';
 import { user, placeholders, colors, TYPES, TabLabels } from './constants';
 import { sortItem } from './utils';
 
@@ -46,7 +47,7 @@ const Section: FunctionComponent = (props) => {
   } = useRetroMessage({ retro });
 
   useEffect(() => {
-    const obj = data?.retroMessages?.find(
+    const obj = data?.findRetroMessages?.find(
       (message) => message.status === 'FOCUSED',
     );
 
@@ -74,7 +75,10 @@ const Section: FunctionComponent = (props) => {
     });
   };
 
-  const handleCreate = (type: string, values: Record<string, unknown>) => {
+  const handleCreate = (
+    type: RetroMessageType,
+    values: Record<string, unknown>,
+  ) => {
     createRetro({
       variables: { type, retro, ...values },
     });
@@ -83,14 +87,15 @@ const Section: FunctionComponent = (props) => {
   if (loading) return 'loading';
   if (error) return 'error';
 
-  const list = get(data, 'retroMessages', []);
+  const list = get(data, 'findRetroMessages', []);
 
   const hasFocus =
-    data.retroMessages.findIndex((message) => message.status === 'FOCUSED') !==
-    -1;
+    data.findRetroMessages.findIndex(
+      (message) => message.status === 'FOCUSED',
+    ) !== -1;
 
   if (hasFocus) {
-    const obj = data.retroMessages.find(
+    const obj = data.findRetroMessages.find(
       (message) => message.status === 'FOCUSED',
     );
     if (obj.type !== currentType) {

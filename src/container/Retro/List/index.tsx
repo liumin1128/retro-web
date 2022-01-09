@@ -9,7 +9,7 @@ export default function RetroListContainer() {
 
   return (
     <div>
-      <RetroList data={data?.retros as Retro[]} />
+      <RetroList data={data?.findRetros as Retro[]} />
     </div>
   );
 }

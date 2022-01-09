@@ -178,6 +178,8 @@ export type Query = {
   dynamic?: Maybe<Dynamic>;
   dynamics?: Maybe<Array<Maybe<Dynamic>>>;
   findRetro?: Maybe<Retro>;
+  findRetroMessage?: Maybe<RetroMessage>;
+  findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
   findRetros?: Maybe<Array<Maybe<Retro>>>;
   login?: Maybe<UserWithToken>;
   news?: Maybe<News>;
@@ -202,6 +204,14 @@ export type QueryDynamicArgs = {
 
 export type QueryFindRetroArgs = {
   _id: Scalars['ID'];
+};
+
+export type QueryFindRetroMessageArgs = {
+  _id: Scalars['ID'];
+};
+
+export type QueryFindRetroMessagesArgs = {
+  retro?: InputMaybe<Scalars['ID']>;
 };
 
 export type QueryLoginArgs = {
@@ -535,7 +545,7 @@ export type FindRetroMessagesQueryVariables = Exact<{
 
 export type FindRetroMessagesQuery = {
   __typename?: 'Query';
-  retroMessages?:
+  findRetroMessages?:
     | Array<
         | {
             __typename?: 'RetroMessage';
@@ -576,7 +586,7 @@ export type FindRetroMessageQueryVariables = Exact<{
 
 export type FindRetroMessageQuery = {
   __typename?: 'Query';
-  retroMessage?:
+  findRetroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -1288,7 +1298,7 @@ export type RetroCreatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroCreatedSubscription>;
 export const FindRetroMessagesDocument = gql`
   query FindRetroMessages($retro: ID!) {
-    retroMessages(retro: $retro) {
+    findRetroMessages(retro: $retro) {
       ...retroMessageFields
     }
     retro(_id: $retro) {
@@ -1352,7 +1362,7 @@ export type FindRetroMessagesQueryResult = Apollo.QueryResult<
 >;
 export const FindRetroMessageDocument = gql`
   query FindRetroMessage($_id: ID!) {
-    retroMessage(_id: $_id) {
+    findRetroMessage(_id: $_id) {
       ...retroMessageFields
     }
   }
