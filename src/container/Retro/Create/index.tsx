@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Create from '@/components/Retro/CreateRetro';
 import {
-  useCreateRetroMessageMutation,
+  useCreateRetroMutation,
   RetroFieldsFragmentDoc,
 } from '@/generated/graphql';
 
 const Retro: React.FunctionComponent = () => {
-  const [createRetro] = useCreateRetroMessageMutation();
+  const [createRetro] = useCreateRetroMutation();
 
   const handleClick = (values) => {
     createRetro({
