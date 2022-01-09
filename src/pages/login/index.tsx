@@ -3,16 +3,34 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useLazyQuery } from '@apollo/client';
+import { useSnackbar } from 'notistack';
+import { LoginQuery } from '@/graphql/user';
 import Form, { FormRefInstance } from '@/components/Form';
+import { handleLogin } from '@/service/user';
 import items from './items';
 
 const apiUrl = process.env.API_URL || '';
 
 export default function Home() {
+  const { enqueueSnackbar } = useSnackbar();
+
   const formRef = useRef<FormRefInstance>();
 
+  const [login] = useLazyQuery(LoginQuery, {
+    onError: (err) => {
+      enqueueSnackbar(err.message, {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
+    },
+    onCompleted: (data) => {
+      handleLogin(data.token);
+    },
+  });
+
   const handleSubmit = (e) => {
-    console.log(e);
+    login({ variables: { input: e } });
   };
 
   const handleClick = () => {

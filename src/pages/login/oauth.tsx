@@ -1,19 +1,7 @@
-import React, { useEffect } from 'react';
 import { history } from 'umi';
+import { useEffect } from 'react';
 import get from 'lodash/get';
-import { setStorage, removeStorage, getStorage } from '@/utils/store';
-import { PATH_BEFORELOGIN, USER_TOKEN } from '@/configs/base';
-
-async function handleLogin(token: string) {
-  let path = await getStorage(PATH_BEFORELOGIN);
-  if (path) {
-    await removeStorage(PATH_BEFORELOGIN);
-  } else {
-    path = '/';
-  }
-  await setStorage(USER_TOKEN, token);
-  history.push(path);
-}
+import { handleLogin } from '@/service/user';
 
 export default function Home() {
   const token = get(history, 'location.query.token');
