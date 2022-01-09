@@ -15,7 +15,7 @@ const UserInfo: React.FunctionComponent<IUserInfoProps> = (props) => {
     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
       <Avatar
         src={avatarUrl}
-        sx={{ width: 20, height: 20, fontSize: 10, mr: 0.5 }}
+        sx={{ width: 20, height: 20, fontSize: 10, mr: 1 }}
       >
         {get(nickname, '[0]')}
       </Avatar>

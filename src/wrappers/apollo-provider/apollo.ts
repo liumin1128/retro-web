@@ -1,3 +1,4 @@
+import { history } from 'umi';
 import {
   gql,
   ApolloClient,
@@ -15,7 +16,6 @@ import { RetryLink } from '@apollo/client/link/retry';
 import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { history } from 'umi';
 import { getStorage } from '@/utils/store';
 import { USER_TOKEN } from '@/configs/base';
 

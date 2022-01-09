@@ -8,6 +8,7 @@ fragment retroMessageFields on RetroMessage {
   user {
     _id
     nickname
+    username
     avatarUrl
   }
 }
@@ -15,6 +16,11 @@ fragment retroMessageFields on RetroMessage {
 query FindRetroMessages($retro: ID!) {
   retroMessages(retro: $retro) {
     ...retroMessageFields
+  }
+  retro(_id: $retro) {
+    user {
+      _id
+    }
   }
 }
 

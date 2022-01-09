@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, FunctionComponent } from 'react';
+import { useState, useRef, useEffect, FunctionComponent } from 'react';
 import get from 'lodash/get';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';

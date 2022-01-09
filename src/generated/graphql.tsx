@@ -177,6 +177,8 @@ export type Query = {
   comments?: Maybe<Array<Maybe<Comment>>>;
   dynamic?: Maybe<Dynamic>;
   dynamics?: Maybe<Array<Maybe<Dynamic>>>;
+  findRetro?: Maybe<Retro>;
+  findRetros?: Maybe<Array<Maybe<Retro>>>;
   login?: Maybe<UserWithToken>;
   news?: Maybe<News>;
   newsList?: Maybe<Array<Maybe<News>>>;
@@ -195,6 +197,10 @@ export type QueryCommentArgs = {
 };
 
 export type QueryDynamicArgs = {
+  _id: Scalars['ID'];
+};
+
+export type QueryFindRetroArgs = {
   _id: Scalars['ID'];
 };
 
@@ -316,8 +322,8 @@ export type User = {
 
 export type UserWithToken = {
   __typename?: 'UserWithToken';
-  token?: Maybe<Scalars['String']>;
-  user?: Maybe<User>;
+  token: Scalars['String'];
+  user: User;
 };
 
 export type DynamicFieldsFragment = {
@@ -397,7 +403,7 @@ export type FindRetrosQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindRetrosQuery = {
   __typename?: 'Query';
-  retros?:
+  findRetros?:
     | Array<
         | {
             __typename: 'Retro';
@@ -428,7 +434,7 @@ export type FindRetroQueryVariables = Exact<{
 
 export type FindRetroQuery = {
   __typename?: 'Query';
-  retro?:
+  findRetro?:
     | {
         __typename: 'Retro';
         _id: string;
@@ -516,6 +522,7 @@ export type RetroMessageFieldsFragment = {
         __typename?: 'User';
         _id: string;
         nickname?: string | null | undefined;
+        username?: string | null | undefined;
         avatarUrl?: string | null | undefined;
       }
     | null
@@ -543,6 +550,7 @@ export type FindRetroMessagesQuery = {
                   __typename?: 'User';
                   _id: string;
                   nickname?: string | null | undefined;
+                  username?: string | null | undefined;
                   avatarUrl?: string | null | undefined;
                 }
               | null
@@ -551,6 +559,13 @@ export type FindRetroMessagesQuery = {
         | null
         | undefined
       >
+    | null
+    | undefined;
+  retro?:
+    | {
+        __typename?: 'Retro';
+        user?: { __typename?: 'User'; _id: string } | null | undefined;
+      }
     | null
     | undefined;
 };
@@ -575,6 +590,7 @@ export type FindRetroMessageQuery = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -606,6 +622,7 @@ export type CreateRetroMessageMutation = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -638,6 +655,7 @@ export type UpdateRetroMessageMutation = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -668,6 +686,7 @@ export type LikeRetroMessageMutation = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -697,6 +716,7 @@ export type DeleteRetroMessageMutation = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -726,6 +746,7 @@ export type RetroMessageCreatedSubscription = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -755,6 +776,7 @@ export type RetroMessageUpdatedSubscription = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -784,6 +806,7 @@ export type RetroMessageDeletedSubscription = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -813,6 +836,7 @@ export type RetroMessageLikedSubscription = {
               __typename?: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -843,8 +867,8 @@ export type LoginQuery = {
   login?:
     | {
         __typename?: 'UserWithToken';
-        token?: string | null | undefined;
-        user?: { __typename: 'User'; _id: string } | null | undefined;
+        token: string;
+        user: { __typename: 'User'; _id: string };
       }
     | null
     | undefined;
@@ -881,6 +905,7 @@ export const RetroMessageFieldsFragmentDoc = gql`
     user {
       _id
       nickname
+      username
       avatarUrl
     }
   }
@@ -1059,7 +1084,7 @@ export type CreateDynamicMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const FindRetrosDocument = gql`
   query FindRetros {
-    retros {
+    findRetros {
       ...retroFields
     }
   }
@@ -1115,7 +1140,7 @@ export type FindRetrosQueryResult = Apollo.QueryResult<
 >;
 export const FindRetroDocument = gql`
   query FindRetro($_id: ID!) {
-    retro(_id: $_id) {
+    findRetro(_id: $_id) {
       ...retroFields
     }
   }
@@ -1265,6 +1290,11 @@ export const FindRetroMessagesDocument = gql`
   query FindRetroMessages($retro: ID!) {
     retroMessages(retro: $retro) {
       ...retroMessageFields
+    }
+    retro(_id: $retro) {
+      user {
+        _id
+      }
     }
   }
   ${RetroMessageFieldsFragmentDoc}

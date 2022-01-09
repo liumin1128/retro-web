@@ -12,13 +12,13 @@ fragment retroFields on Retro {
 }
 
 query FindRetros {
-  retros {
+  findRetros {
     ...retroFields
   }
 }
 
 query FindRetro($_id: ID!) {
-  retro(_id: $_id) {
+  findRetro(_id: $_id) {
     ...retroFields
   }
 }
