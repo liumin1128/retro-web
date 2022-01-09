@@ -14,7 +14,7 @@ export interface DynamicResult {
 }
 
 export const DynamicFragment = gql`
-  fragment comparisonFields on Dynamic {
+  fragment dynamicFields on Dynamic {
     _id
     content
   }
@@ -24,7 +24,7 @@ export const DynamicsQuery = gql`
   ${DynamicFragment}
   query Dynamics {
     dynamics {
-      ...comparisonFields
+      ...dynamicFields
     }
   }
 `;
@@ -33,16 +33,16 @@ export const DynamicQuery = gql`
   ${DynamicFragment}
   query Dynamic($_id: ID!) {
     dynamic(_id: $_id) {
-      ...comparisonFields
+      ...dynamicFields
     }
   }
 `;
 
 export const CreateDynamic = gql`
   ${DynamicFragment}
-  mutation CreateDynamic($content: String!, $type: String) {
-    createDynamic(input: { content: $content, type: $type }) {
-      ...comparisonFields
+  mutation CreateDynamic($content: String!) {
+    createDynamic(input: { content: $content }) {
+      ...dynamicFields
     }
   }
 `;

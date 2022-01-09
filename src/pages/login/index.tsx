@@ -9,6 +9,7 @@ import { LoginQuery } from '@/graphql/user';
 import Form, { FormRefInstance } from '@/components/Form';
 import { handleLogin } from '@/service/user';
 import items from './items';
+import { UserWithToken, LoginUserInput } from '@/generated/graphql';
 
 const apiUrl = process.env.API_URL || '';
 
@@ -24,12 +25,12 @@ export default function Home() {
         autoHideDuration: 3000,
       });
     },
-    onCompleted: (data) => {
-      handleLogin(data.token);
+    onCompleted: (data: UserWithToken) => {
+      handleLogin(data.token as string);
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: LoginUserInput) => {
     login({ variables: { input: e } });
   };
 

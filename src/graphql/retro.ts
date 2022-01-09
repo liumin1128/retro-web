@@ -15,7 +15,7 @@ export interface RetroResult {
 }
 
 export const RetroFragment = gql`
-  fragment comparisonFields on Retro {
+  fragment retroFields on Retro {
     __typename
     _id
     title
@@ -33,7 +33,7 @@ export const RetrosQuery = gql`
   ${RetroFragment}
   query Retros {
     retros {
-      ...comparisonFields
+      ...retroFields
     }
   }
 `;
@@ -42,7 +42,7 @@ export const RetroQuery = gql`
   ${RetroFragment}
   query Retro($_id: ID!) {
     retro(_id: $_id) {
-      ...comparisonFields
+      ...retroFields
     }
   }
 `;
@@ -51,7 +51,7 @@ export const CreateRetro = gql`
   ${RetroFragment}
   mutation CreateRetro($title: String, $content: String, $date: String!) {
     createRetro(input: { title: $title, content: $content, date: $date }) {
-      ...comparisonFields
+      ...retroFields
     }
   }
 `;
@@ -60,7 +60,7 @@ export const RETRO_SUBSCRIPTION = gql`
   ${RetroFragment}
   subscription retroCreated {
     retroCreated {
-      ...comparisonFields
+      ...retroFields
     }
   }
 `;

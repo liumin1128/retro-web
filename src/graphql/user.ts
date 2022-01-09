@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const UserFragment = gql`
-  fragment comparisonFields on User {
+  fragment userFields on User {
     __typename
     _id
   }
@@ -11,7 +11,7 @@ export const UsersQuery = gql`
   ${UserFragment}
   query Users {
     users {
-      ...comparisonFields
+      ...userFields
     }
   }
 `;
@@ -21,7 +21,7 @@ export const LoginQuery = gql`
   query Login($input: LoginUserInput) {
     login(input: $input) {
       user {
-        ...comparisonFields
+        ...userFields
       }
       token
     }

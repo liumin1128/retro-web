@@ -20,7 +20,7 @@ export interface RetroMessageResult {
 }
 
 export const RETROMESSAGE_FRAGMENT = gql`
-  fragment comparisonFields on RetroMessage {
+  fragment retroMessageFields on RetroMessage {
     _id
     content
     status
@@ -39,7 +39,7 @@ export const RETROMESSAGES_QUERY = gql`
   ${RETROMESSAGE_FRAGMENT}
   query RetroMessages($retro: ID) {
     retroMessages(retro: $retro) {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -48,7 +48,7 @@ export const RETROMESSAGE_QUERY = gql`
   ${RETROMESSAGE_FRAGMENT}
   query RetroMessage($_id: ID!) {
     retroMessage(_id: $_id) {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -63,7 +63,7 @@ export const CREATE_RETROMESSAGE = gql`
     createRetroMessage(
       input: { retro: $retro, content: $content, type: $type }
     ) {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -80,7 +80,7 @@ export const UPDATE_RETROMESSAGE = gql`
       _id: $_id
       input: { content: $content, type: $type, status: $status }
     ) {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -89,7 +89,7 @@ export const LIKE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
   mutation LikeRetroMessage($_id: ID!, $count: Int) {
     likeRetroMessage(_id: $_id, count: $count) {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -98,7 +98,7 @@ export const DELETE_RETROMESSAGE = gql`
   ${RETROMESSAGE_FRAGMENT}
   mutation DeleteRetroMessage($_id: ID!) {
     deleteRetroMessage(_id: $_id) {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -107,7 +107,7 @@ export const CREATE_RETROMESSAGE_SUBSCRIPTION = gql`
   ${RETROMESSAGE_FRAGMENT}
   subscription retroMessageCreated {
     retroMessageCreated {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -116,7 +116,7 @@ export const UPDATE_RETROMESSAGE_SUBSCRIPTION = gql`
   ${RETROMESSAGE_FRAGMENT}
   subscription retroMessageUpdated {
     retroMessageUpdated {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -125,7 +125,7 @@ export const DELETE_RETROMESSAGE_SUBSCRIPTION = gql`
   ${RETROMESSAGE_FRAGMENT}
   subscription retroMessageDeleted {
     retroMessageDeleted {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
@@ -134,7 +134,7 @@ export const LIKE_RETROMESSAGE_SUBSCRIPTION = gql`
   ${RETROMESSAGE_FRAGMENT}
   subscription retroMessageLiked {
     retroMessageLiked {
-      ...comparisonFields
+      ...retroMessageFields
     }
   }
 `;
