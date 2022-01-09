@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Form, { FormRefInstance } from '@/components/Form';
 import items from './items';
 
@@ -22,6 +23,9 @@ export default function Home() {
     <div>
       <Card sx={{ px: 2, py: 4 }}>
         <Stack spacing={2}>
+          <Typography variant="h5" color="inherit">
+            Login
+          </Typography>
           <Form ref={formRef} items={items} />
           <Button size="large" variant="contained" onClick={handleClick}>
             Login

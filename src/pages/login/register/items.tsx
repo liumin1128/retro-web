@@ -1,20 +1,42 @@
-import * as yup from 'yup';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 import Password from '@/components/Form/Fields/Password';
 
 const items = [
   {
     key: 'username',
     label: 'Username',
-    required: true,
-    schema: yup.string().required(),
+    registerOptions: {
+      required: true,
+    },
   },
   {
     key: 'password',
     label: 'Password',
+    type: 'password',
+    component: Password,
+    registerOptions: {
+      required: true,
+    },
+  },
+  {
+    key: 'confirmPassword',
+    label: 'Confirm Password',
     required: true,
     type: 'password',
     component: Password,
-    schema: yup.string().required(),
+    registerFunction: (form: UseFormReturn<FieldValues, object>) => {
+      return {
+        validate: {
+          passwordConfirmation: (value: string | boolean) => {
+            if (!value) {
+              return false;
+            }
+            const { password } = form.getValues();
+            return password === value || 'Passwords should match!';
+          },
+        },
+      };
+    },
   },
 ];
 
