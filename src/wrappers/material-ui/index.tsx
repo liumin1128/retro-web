@@ -18,7 +18,7 @@ interface Props {
 export default ({ children }: Props) => {
   return (
     <ThemeContextProvider>
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider maxSnack={1}>
         <CssBaseline />
         {children}
       </SnackbarProvider>

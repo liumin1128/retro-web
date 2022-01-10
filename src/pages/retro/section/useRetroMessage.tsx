@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import get from 'lodash/get';
-import { useSnackbar } from 'notistack';
+// import { useSnackbar } from 'notistack';
 import { StoreObject } from '@apollo/client';
 import { source$ } from '@/wrappers/apollo-provider/apollo';
 import {
@@ -16,19 +16,14 @@ import {
 } from '@/generated/graphql';
 
 export default function useRetroMessage({ retro }: { retro: string }) {
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
 
-  const {
-    data = [],
-    loading,
-    refetch,
-    error,
-    subscribeToMore,
-  } = useFindRetroSectionQuery({
-    variables: {
-      retro,
-    },
-  });
+  const { data, loading, refetch, error, subscribeToMore } =
+    useFindRetroSectionQuery({
+      variables: {
+        retro,
+      },
+    });
 
   // 会自动更新
   useRetroMessageUpdatedSubscription();
@@ -37,10 +32,10 @@ export default function useRetroMessage({ retro }: { retro: string }) {
   // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
   useRetroMessageDeletedSubscription({
     onSubscriptionData: ({ client, subscriptionData }) => {
-      const _id = get(subscriptionData, 'data.retroMessageDeleted._id');
+      const _id = get(subscriptionData, 'data.retroMessage._id');
       client.cache.modify({
         fields: {
-          retroMessages(refs, { readField }) {
+          findRetroMessages(refs, { readField }) {
             return refs.filter(
               (ref: StoreObject) => _id !== readField('_id', ref),
             );
@@ -61,7 +56,7 @@ export default function useRetroMessage({ retro }: { retro: string }) {
       updateQuery: (prev, args) => {
         const { subscriptionData } = args;
         if (!subscriptionData.data) return prev;
-        const newItem = subscriptionData.data.retroMessageCreated;
+        const newItem = subscriptionData.data.retroMessage;
         return {
           ...prev,
           retroMessages: [...prev.retroMessages, newItem],
@@ -81,32 +76,32 @@ export default function useRetroMessage({ retro }: { retro: string }) {
         console.log('next:', s);
         switch (s) {
           case 'onConnected': {
-            enqueueSnackbar('Connected', {
-              variant: 'success',
-              autoHideDuration: 1000,
-            });
+            // enqueueSnackbar('Connected', {
+            //   variant: 'success',
+            //   autoHideDuration: 1000,
+            // });
             break;
           }
           case 'onReconnected': {
-            enqueueSnackbar('Reconnected', {
-              variant: 'success',
-              autoHideDuration: 1000,
-            });
+            // enqueueSnackbar('Reconnected', {
+            //   variant: 'success',
+            //   autoHideDuration: 1000,
+            // });
             refetch();
             break;
           }
           case 'onDisconnected': {
-            enqueueSnackbar('Disconnected', {
-              variant: 'error',
-              autoHideDuration: 1000,
-            });
+            // enqueueSnackbar('Disconnected', {
+            //   variant: 'error',
+            //   autoHideDuration: 1000,
+            // });
             break;
           }
           case 'onReconnecting': {
-            enqueueSnackbar('Reconnecting', {
-              variant: 'info',
-              autoHideDuration: 1000,
-            });
+            // enqueueSnackbar('Reconnecting', {
+            //   variant: 'info',
+            //   autoHideDuration: 1000,
+            // });
             break;
           }
           default:
@@ -117,7 +112,7 @@ export default function useRetroMessage({ retro }: { retro: string }) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [enqueueSnackbar, refetch]);
+  }, [refetch]);
 
   return {
     data,

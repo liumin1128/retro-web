@@ -14,25 +14,25 @@ fragment retroMessageFields on RetroMessage {
 }
 
 query FindRetroSection($retro: ID!) {
-  findRetroMessages(retro: $retro) {
+  retroMessages: findRetroMessages(retro: $retro) {
     ...retroMessageFields
   }
-  findRetro(_id: $retro) {
+  retro: findRetro(_id: $retro) {
     ...retroFields
   }
-  findUserInfo {
+  userInfo: findUserInfo {
     ...userFields
   }
 }
 
 query FindRetroMessages($retro: ID!) {
-  findRetroMessages(retro: $retro) {
+  retroMessages: findRetroMessages(retro: $retro) {
     ...retroMessageFields
   }
 }
 
 query FindRetroMessage($_id: ID!) {
-  findRetroMessage(_id: $_id) {
+  retroMessage: findRetroMessage(_id: $_id) {
     ...retroMessageFields
   }
 }
@@ -42,7 +42,7 @@ mutation CreateRetroMessage(
   $content: String!
   $type: RetroMessageType!
 ) {
-  createRetroMessage(input: { retro: $retro, content: $content, type: $type }) {
+  retroMessage: createRetroMessage(input: { retro: $retro, content: $content, type: $type }) {
     ...retroMessageFields
   }
 }
@@ -53,7 +53,7 @@ mutation UpdateRetroMessage(
   $type: RetroMessageType
   $status: RetroMessageStatus
 ) {
-  updateRetroMessage(
+  retroMessage: updateRetroMessage(
     _id: $_id
     input: { content: $content, type: $type, status: $status }
   ) {
@@ -62,37 +62,37 @@ mutation UpdateRetroMessage(
 }
 
 mutation LikeRetroMessage($_id: ID!, $count: Int) {
-  likeRetroMessage(_id: $_id, count: $count) {
+  retroMessage: likeRetroMessage(_id: $_id, count: $count) {
     ...retroMessageFields
   }
 }
 
 mutation DeleteRetroMessage($_id: ID!) {
-  deleteRetroMessage(_id: $_id) {
+  retroMessage: deleteRetroMessage(_id: $_id) {
     ...retroMessageFields
   }
 }
 
 subscription RetroMessageCreated {
-  retroMessageCreated {
+  retroMessage: retroMessageCreated {
     ...retroMessageFields
   }
 }
 
 subscription RetroMessageUpdated {
-  retroMessageUpdated {
-    ...retroMessageFields
-  }
-}
-
-subscription RetroMessageDeleted {
-  retroMessageDeleted {
+  retroMessage: retroMessageUpdated {
     ...retroMessageFields
   }
 }
 
 subscription RetroMessageLiked {
-  retroMessageLiked {
+  retroMessage: retroMessageLiked {
+    ...retroMessageFields
+  }
+}
+
+subscription RetroMessageDeleted {
+  retroMessage: retroMessageDeleted {
     ...retroMessageFields
   }
 }

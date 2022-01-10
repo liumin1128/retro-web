@@ -47,7 +47,7 @@ const Section: FunctionComponent = (props) => {
   } = useRetroMessage({ retro });
 
   useEffect(() => {
-    const obj = data?.findRetroMessages?.find(
+    const obj = data?.retroMessages?.find(
       (message) => message.status === 'FOCUSED',
     );
 
@@ -87,18 +87,17 @@ const Section: FunctionComponent = (props) => {
   if (loading) return 'loading';
   if (error) return 'error';
 
-  const list = get(data, 'findRetroMessages', []);
-  const retroUserId = get(data, 'findRetro.user._id', '');
-  const userId = get(data, 'findUserInfo._id', '');
+  const list = get(data, 'retroMessages', []);
+  const retroUserId = get(data, 'retro.user._id', '');
+  const userId = get(data, 'userInfo._id', '');
 
   const isCreator = retroUserId === userId;
   const hasFocus =
-    data.findRetroMessages.findIndex(
-      (message) => message.status === 'FOCUSED',
-    ) !== -1;
+    data.retroMessages.findIndex((message) => message.status === 'FOCUSED') !==
+    -1;
 
   if (hasFocus) {
-    const obj = data.findRetroMessages.find(
+    const obj = data.retroMessages.find(
       (message) => message.status === 'FOCUSED',
     );
     if (obj.type !== currentType) {

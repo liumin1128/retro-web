@@ -32,16 +32,17 @@ export type Comment = Document & {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
-export type CommentObjectUnion = Comment | News;
+export type CommentObjectUnion = Comment | News | RetroMessage;
 
 export enum CommentObjectUnionModel {
   Comment = 'Comment',
   News = 'News',
+  RetroMessage = 'RetroMessage',
 }
 
 export type CreateCommentInput = {
   content?: InputMaybe<Scalars['String']>;
-  object: Scalars['String'];
+  object: Scalars['ID'];
   objectModel: CommentObjectUnionModel;
 };
 
@@ -112,7 +113,7 @@ export type Mutation = {
 };
 
 export type MutationCreateCommentArgs = {
-  createCommentInput?: InputMaybe<CreateCommentInput>;
+  input?: InputMaybe<CreateCommentInput>;
 };
 
 export type MutationCreateDynamicArgs = {
@@ -189,12 +190,6 @@ export type Query = {
   newsList?: Maybe<Array<Maybe<News>>>;
   oauth?: Maybe<OAuth>;
   oauths?: Maybe<Array<Maybe<OAuth>>>;
-  retro?: Maybe<Retro>;
-  retroMessage?: Maybe<RetroMessage>;
-  retroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
-  retros?: Maybe<Array<Maybe<Retro>>>;
-  user?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
 };
 
 export type QueryCommentArgs = {
@@ -231,22 +226,6 @@ export type QueryNewsArgs = {
 
 export type QueryOauthArgs = {
   _id: Scalars['ID'];
-};
-
-export type QueryRetroArgs = {
-  _id: Scalars['ID'];
-};
-
-export type QueryRetroMessageArgs = {
-  _id: Scalars['ID'];
-};
-
-export type QueryRetroMessagesArgs = {
-  retro?: InputMaybe<Scalars['ID']>;
-};
-
-export type QueryUserArgs = {
-  _id: Scalars['String'];
 };
 
 export type RegisterUserInput = {
@@ -552,7 +531,7 @@ export type FindRetroSectionQueryVariables = Exact<{
 
 export type FindRetroSectionQuery = {
   __typename?: 'Query';
-  findRetroMessages?:
+  retroMessages?:
     | Array<
         | {
             __typename?: 'RetroMessage';
@@ -578,7 +557,7 @@ export type FindRetroSectionQuery = {
       >
     | null
     | undefined;
-  findRetro?:
+  retro?:
     | {
         __typename: 'Retro';
         _id: string;
@@ -597,7 +576,7 @@ export type FindRetroSectionQuery = {
       }
     | null
     | undefined;
-  findUserInfo?:
+  userInfo?:
     | {
         __typename: 'User';
         _id: string;
@@ -615,7 +594,7 @@ export type FindRetroMessagesQueryVariables = Exact<{
 
 export type FindRetroMessagesQuery = {
   __typename?: 'Query';
-  findRetroMessages?:
+  retroMessages?:
     | Array<
         | {
             __typename?: 'RetroMessage';
@@ -649,7 +628,7 @@ export type FindRetroMessageQueryVariables = Exact<{
 
 export type FindRetroMessageQuery = {
   __typename?: 'Query';
-  findRetroMessage?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -681,7 +660,7 @@ export type CreateRetroMessageMutationVariables = Exact<{
 
 export type CreateRetroMessageMutation = {
   __typename?: 'Mutation';
-  createRetroMessage?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -714,7 +693,7 @@ export type UpdateRetroMessageMutationVariables = Exact<{
 
 export type UpdateRetroMessageMutation = {
   __typename?: 'Mutation';
-  updateRetroMessage?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -745,7 +724,7 @@ export type LikeRetroMessageMutationVariables = Exact<{
 
 export type LikeRetroMessageMutation = {
   __typename?: 'Mutation';
-  likeRetroMessage?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -775,7 +754,7 @@ export type DeleteRetroMessageMutationVariables = Exact<{
 
 export type DeleteRetroMessageMutation = {
   __typename?: 'Mutation';
-  deleteRetroMessage?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -805,7 +784,7 @@ export type RetroMessageCreatedSubscriptionVariables = Exact<{
 
 export type RetroMessageCreatedSubscription = {
   __typename?: 'Subscription';
-  retroMessageCreated?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -835,7 +814,7 @@ export type RetroMessageUpdatedSubscriptionVariables = Exact<{
 
 export type RetroMessageUpdatedSubscription = {
   __typename?: 'Subscription';
-  retroMessageUpdated?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -865,7 +844,7 @@ export type RetroMessageDeletedSubscriptionVariables = Exact<{
 
 export type RetroMessageDeletedSubscription = {
   __typename?: 'Subscription';
-  retroMessageDeleted?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -895,7 +874,7 @@ export type RetroMessageLikedSubscriptionVariables = Exact<{
 
 export type RetroMessageLikedSubscription = {
   __typename?: 'Subscription';
-  retroMessageLiked?:
+  retroMessage?:
     | {
         __typename?: 'RetroMessage';
         _id: string;
@@ -1402,13 +1381,13 @@ export type RetroCreatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroCreatedSubscription>;
 export const FindRetroSectionDocument = gql`
   query FindRetroSection($retro: ID!) {
-    findRetroMessages(retro: $retro) {
+    retroMessages: findRetroMessages(retro: $retro) {
       ...retroMessageFields
     }
-    findRetro(_id: $retro) {
+    retro: findRetro(_id: $retro) {
       ...retroFields
     }
-    findUserInfo {
+    userInfo: findUserInfo {
       ...userFields
     }
   }
@@ -1469,7 +1448,7 @@ export type FindRetroSectionQueryResult = Apollo.QueryResult<
 >;
 export const FindRetroMessagesDocument = gql`
   query FindRetroMessages($retro: ID!) {
-    findRetroMessages(retro: $retro) {
+    retroMessages: findRetroMessages(retro: $retro) {
       ...retroMessageFields
     }
   }
@@ -1528,7 +1507,7 @@ export type FindRetroMessagesQueryResult = Apollo.QueryResult<
 >;
 export const FindRetroMessageDocument = gql`
   query FindRetroMessage($_id: ID!) {
-    findRetroMessage(_id: $_id) {
+    retroMessage: findRetroMessage(_id: $_id) {
       ...retroMessageFields
     }
   }
@@ -1591,7 +1570,7 @@ export const CreateRetroMessageDocument = gql`
     $content: String!
     $type: RetroMessageType!
   ) {
-    createRetroMessage(
+    retroMessage: createRetroMessage(
       input: { retro: $retro, content: $content, type: $type }
     ) {
       ...retroMessageFields
@@ -1651,7 +1630,7 @@ export const UpdateRetroMessageDocument = gql`
     $type: RetroMessageType
     $status: RetroMessageStatus
   ) {
-    updateRetroMessage(
+    retroMessage: updateRetroMessage(
       _id: $_id
       input: { content: $content, type: $type, status: $status }
     ) {
@@ -1708,7 +1687,7 @@ export type UpdateRetroMessageMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const LikeRetroMessageDocument = gql`
   mutation LikeRetroMessage($_id: ID!, $count: Int) {
-    likeRetroMessage(_id: $_id, count: $count) {
+    retroMessage: likeRetroMessage(_id: $_id, count: $count) {
       ...retroMessageFields
     }
   }
@@ -1760,7 +1739,7 @@ export type LikeRetroMessageMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const DeleteRetroMessageDocument = gql`
   mutation DeleteRetroMessage($_id: ID!) {
-    deleteRetroMessage(_id: $_id) {
+    retroMessage: deleteRetroMessage(_id: $_id) {
       ...retroMessageFields
     }
   }
@@ -1811,7 +1790,7 @@ export type DeleteRetroMessageMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const RetroMessageCreatedDocument = gql`
   subscription RetroMessageCreated {
-    retroMessageCreated {
+    retroMessage: retroMessageCreated {
       ...retroMessageFields
     }
   }
@@ -1852,7 +1831,7 @@ export type RetroMessageCreatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageCreatedSubscription>;
 export const RetroMessageUpdatedDocument = gql`
   subscription RetroMessageUpdated {
-    retroMessageUpdated {
+    retroMessage: retroMessageUpdated {
       ...retroMessageFields
     }
   }
@@ -1893,7 +1872,7 @@ export type RetroMessageUpdatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageUpdatedSubscription>;
 export const RetroMessageDeletedDocument = gql`
   subscription RetroMessageDeleted {
-    retroMessageDeleted {
+    retroMessage: retroMessageDeleted {
       ...retroMessageFields
     }
   }
@@ -1934,7 +1913,7 @@ export type RetroMessageDeletedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
 export const RetroMessageLikedDocument = gql`
   subscription RetroMessageLiked {
-    retroMessageLiked {
+    retroMessage: retroMessageLiked {
       ...retroMessageFields
     }
   }
@@ -2139,3 +2118,16 @@ export type LoginQueryResult = Apollo.QueryResult<
   LoginQuery,
   LoginQueryVariables
 >;
+
+export interface PossibleTypesResultData {
+  possibleTypes: {
+    [key: string]: string[];
+  };
+}
+const result: PossibleTypesResultData = {
+  possibleTypes: {
+    CommentObjectUnion: ['Comment', 'News', 'RetroMessage'],
+    Document: ['Comment', 'Dynamic', 'Retro', 'RetroMessage'],
+  },
+};
+export default result;
