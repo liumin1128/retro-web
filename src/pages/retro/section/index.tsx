@@ -30,8 +30,6 @@ const Section: FunctionComponent = (props) => {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
-  console.log('isUpMd:', isUpMd);
-
   const retro = get(props, 'match.params.retro');
 
   const [currentType, setCurrentType] = useState(TYPES[0]);
@@ -86,6 +84,7 @@ const Section: FunctionComponent = (props) => {
 
   if (loading) return 'loading';
   if (error) return 'error';
+  if (!data) return 'error';
 
   const list = get(data, 'retroMessages', []);
   const retroUserId = get(data, 'retro.user._id', '');
@@ -104,8 +103,6 @@ const Section: FunctionComponent = (props) => {
       setCurrentType(obj.type);
     }
   }
-
-  console.log('list render:', list);
 
   function renderForm(type, autoFocus = false) {
     const color = colors[type];
@@ -150,6 +147,7 @@ const Section: FunctionComponent = (props) => {
           {items.map((i) => {
             return (
               <Item
+                anonymous={data?.retro?.anonymous}
                 blur={hasFocus && i.status !== 'FOCUSED'}
                 key={i._id}
                 user={i.user || user}

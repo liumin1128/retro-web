@@ -20,6 +20,7 @@ interface User {
 
 interface IItemProps {
   blur: boolean;
+  anonymous: boolean;
   content: string;
   status: string;
   user: User;
@@ -32,6 +33,7 @@ interface IItemProps {
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
   const {
+    anonymous,
     content,
     like,
     status,
@@ -93,7 +95,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                 direction="row"
                 sx={{ mb: -1 }}
               >
-                {status !== 'FOCUSED' && (
+                {!anonymous && status !== 'FOCUSED' && (
                   <UserInfo
                     avatarUrl={user?.avatarUrl as string}
                     nickname={(user?.nickname || user?.username) as string}

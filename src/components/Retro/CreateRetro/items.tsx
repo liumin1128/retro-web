@@ -1,17 +1,15 @@
-import * as yup from 'yup';
+import Select from '@/components/Form/Fields/Select';
 
 const items = [
   {
     key: 'title',
     label: 'title',
     placeholder: 'title',
-    schema: yup.string().required(),
   },
   {
     key: 'date',
     label: 'date',
     placeholder: 'date',
-    schema: yup.string().required(),
     type: 'date',
     InputLabelProps: {
       shrink: true,
@@ -21,7 +19,22 @@ const items = [
     key: 'content',
     label: 'content',
     placeholder: 'content',
-    schema: yup.string().required(),
+  },
+  {
+    key: 'anonymous',
+    label: 'userInfo',
+    placeholder: 'userInfo',
+    render: (props) => {
+      return (
+        <Select
+          {...props}
+          options={[
+            { value: false, label: 'visible' },
+            { value: true, label: 'hide' },
+          ]}
+        />
+      );
+    },
   },
 ];
 

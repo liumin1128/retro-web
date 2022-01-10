@@ -4,6 +4,7 @@ fragment retroFields on Retro {
   title
   content
   date
+  anonymous
   user {
     _id
     nickname
@@ -23,8 +24,8 @@ query FindRetro($_id: ID!) {
   }
 }
 
-mutation CreateRetro($title: String, $content: String, $date: String!) {
-  createRetro(input: { title: $title, content: $content, date: $date }) {
+mutation CreateRetro($title: String, $content: String, $date: String!, $anonymous: Boolean) {
+  createRetro(input: { title: $title, content: $content, date: $date, anonymous: $anonymous }) {
     ...retroFields
   }
 }

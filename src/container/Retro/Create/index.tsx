@@ -9,12 +9,15 @@ const Retro: React.FunctionComponent = () => {
   const [createRetro] = useCreateRetroMutation();
 
   const handleClick = (values) => {
+    // eslint-disable-next-line
+    values.anonymous = values.anonymous === 'true';
+
     createRetro({
       variables: values,
       update(cache, { data }) {
         cache.modify({
           fields: {
-            retros(existingItems = []) {
+            findRetros(existingItems = []) {
               const newTodoRef = cache.writeFragment({
                 data: data.createRetro,
                 fragment: RetroFieldsFragmentDoc,

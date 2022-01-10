@@ -61,6 +61,7 @@ export type CreateOAuthInput = {
 };
 
 export type CreateRetroInput = {
+  anonymous?: InputMaybe<Scalars['Boolean']>;
   content?: InputMaybe<Scalars['String']>;
   date?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -244,6 +245,7 @@ export type RegisterUserInput = {
 export type Retro = Document & {
   __typename?: 'Retro';
   _id: Scalars['ID'];
+  anonymous?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
@@ -384,6 +386,7 @@ export type RetroFieldsFragment = {
   title?: string | null | undefined;
   content?: string | null | undefined;
   date?: string | null | undefined;
+  anonymous?: boolean | null | undefined;
   user?:
     | {
         __typename?: 'User';
@@ -407,6 +410,7 @@ export type FindRetrosQuery = {
             title?: string | null | undefined;
             content?: string | null | undefined;
             date?: string | null | undefined;
+            anonymous?: boolean | null | undefined;
             user?:
               | {
                   __typename?: 'User';
@@ -437,6 +441,7 @@ export type FindRetroQuery = {
         title?: string | null | undefined;
         content?: string | null | undefined;
         date?: string | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -455,6 +460,7 @@ export type CreateRetroMutationVariables = Exact<{
   title?: InputMaybe<Scalars['String']>;
   content?: InputMaybe<Scalars['String']>;
   date: Scalars['String'];
+  anonymous?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type CreateRetroMutation = {
@@ -466,6 +472,7 @@ export type CreateRetroMutation = {
         title?: string | null | undefined;
         content?: string | null | undefined;
         date?: string | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -491,6 +498,7 @@ export type RetroCreatedSubscription = {
         title?: string | null | undefined;
         content?: string | null | undefined;
         date?: string | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -564,6 +572,7 @@ export type FindRetroSectionQuery = {
         title?: string | null | undefined;
         content?: string | null | undefined;
         date?: string | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -838,11 +847,11 @@ export type RetroMessageUpdatedSubscription = {
     | undefined;
 };
 
-export type RetroMessageDeletedSubscriptionVariables = Exact<{
+export type RetroMessageLikedSubscriptionVariables = Exact<{
   [key: string]: never;
 }>;
 
-export type RetroMessageDeletedSubscription = {
+export type RetroMessageLikedSubscription = {
   __typename?: 'Subscription';
   retroMessage?:
     | {
@@ -868,11 +877,11 @@ export type RetroMessageDeletedSubscription = {
     | undefined;
 };
 
-export type RetroMessageLikedSubscriptionVariables = Exact<{
+export type RetroMessageDeletedSubscriptionVariables = Exact<{
   [key: string]: never;
 }>;
 
-export type RetroMessageLikedSubscription = {
+export type RetroMessageDeletedSubscription = {
   __typename?: 'Subscription';
   retroMessage?:
     | {
@@ -977,6 +986,7 @@ export const RetroFieldsFragmentDoc = gql`
     title
     content
     date
+    anonymous
     user {
       _id
       nickname
@@ -1286,8 +1296,20 @@ export type FindRetroQueryResult = Apollo.QueryResult<
   FindRetroQueryVariables
 >;
 export const CreateRetroDocument = gql`
-  mutation CreateRetro($title: String, $content: String, $date: String!) {
-    createRetro(input: { title: $title, content: $content, date: $date }) {
+  mutation CreateRetro(
+    $title: String
+    $content: String
+    $date: String!
+    $anonymous: Boolean
+  ) {
+    createRetro(
+      input: {
+        title: $title
+        content: $content
+        date: $date
+        anonymous: $anonymous
+      }
+    ) {
       ...retroFields
     }
   }
@@ -1314,6 +1336,7 @@ export type CreateRetroMutationFn = Apollo.MutationFunction<
  *      title: // value for 'title'
  *      content: // value for 'content'
  *      date: // value for 'date'
+ *      anonymous: // value for 'anonymous'
  *   },
  * });
  */
@@ -1870,47 +1893,6 @@ export type RetroMessageUpdatedSubscriptionHookResult = ReturnType<
 >;
 export type RetroMessageUpdatedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageUpdatedSubscription>;
-export const RetroMessageDeletedDocument = gql`
-  subscription RetroMessageDeleted {
-    retroMessage: retroMessageDeleted {
-      ...retroMessageFields
-    }
-  }
-  ${RetroMessageFieldsFragmentDoc}
-`;
-
-/**
- * __useRetroMessageDeletedSubscription__
- *
- * To run a query within a React component, call `useRetroMessageDeletedSubscription` and pass it any options that fit your needs.
- * When your component renders, `useRetroMessageDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useRetroMessageDeletedSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useRetroMessageDeletedSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    RetroMessageDeletedSubscription,
-    RetroMessageDeletedSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    RetroMessageDeletedSubscription,
-    RetroMessageDeletedSubscriptionVariables
-  >(RetroMessageDeletedDocument, options);
-}
-export type RetroMessageDeletedSubscriptionHookResult = ReturnType<
-  typeof useRetroMessageDeletedSubscription
->;
-export type RetroMessageDeletedSubscriptionResult =
-  Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
 export const RetroMessageLikedDocument = gql`
   subscription RetroMessageLiked {
     retroMessage: retroMessageLiked {
@@ -1952,6 +1934,47 @@ export type RetroMessageLikedSubscriptionHookResult = ReturnType<
 >;
 export type RetroMessageLikedSubscriptionResult =
   Apollo.SubscriptionResult<RetroMessageLikedSubscription>;
+export const RetroMessageDeletedDocument = gql`
+  subscription RetroMessageDeleted {
+    retroMessage: retroMessageDeleted {
+      ...retroMessageFields
+    }
+  }
+  ${RetroMessageFieldsFragmentDoc}
+`;
+
+/**
+ * __useRetroMessageDeletedSubscription__
+ *
+ * To run a query within a React component, call `useRetroMessageDeletedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRetroMessageDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRetroMessageDeletedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRetroMessageDeletedSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    RetroMessageDeletedSubscription,
+    RetroMessageDeletedSubscriptionVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    RetroMessageDeletedSubscription,
+    RetroMessageDeletedSubscriptionVariables
+  >(RetroMessageDeletedDocument, options);
+}
+export type RetroMessageDeletedSubscriptionHookResult = ReturnType<
+  typeof useRetroMessageDeletedSubscription
+>;
+export type RetroMessageDeletedSubscriptionResult =
+  Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
 export const FindUsersDocument = gql`
   query FindUsers {
     findUsers {
