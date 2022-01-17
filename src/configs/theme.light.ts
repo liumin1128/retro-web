@@ -3,10 +3,10 @@ import common from './theme.common';
 
 const palette: PaletteOptions = {
   ...common,
-  mode: 'dark',
+  mode: 'light',
   background: {
-    default: 'hsl(225deg 9.5238095238% 8.2352941176%)',
-    paper: 'hsl(222.8571428571deg 13.7254901961% 20%)',
+    default: '#ddd',
+    paper: '#ffffff',
   },
 };
 

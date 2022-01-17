@@ -1,54 +1,32 @@
-import React, {
-  useState,
-  createContext,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useMemo,
-} from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import defaultTheme from '@/configs/theme';
+import { ReactNode, useMemo } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { useGlobalSettingsContext } from '@/context/globalSettings';
 import darkTheme from '@/configs/theme.dark';
-import { getStorage, setStorage } from '@/utils/store';
-import { STORE_THEME_KEY } from '@/configs/base';
+import lightTheme from '@/configs/theme.light';
 
-export interface ThemeContenxt {
-  theme?: string;
-  setTheme?: Dispatch<SetStateAction<string>>;
-}
+const themeMap = {
+  dark: darkTheme,
+  light: lightTheme,
+};
 
-export interface ThemeContextProviderProps {
+export interface IProps {
   children: ReactNode;
 }
 
-export const ThemeContext = createContext<ThemeContenxt>({});
+export const ThemeContextProvider = ({ children }: IProps) => {
+  const globalSettings = useGlobalSettingsContext();
+  const { paletteMode } = globalSettings;
 
-export const ThemeContextProvider = ({
-  children,
-}: ThemeContextProviderProps) => {
-  const defaultThemeKey = getStorage(STORE_THEME_KEY);
-
-  const [theme, setTheme] = useState<string>(defaultThemeKey || 'default');
-  const themeValue = useMemo(
-    () => ({
-      theme,
-      setTheme: (key: string) => {
-        setTheme(key);
-        setStorage(STORE_THEME_KEY, key);
-      },
-    }),
-    [theme],
+  const theme = useMemo(
+    () => createTheme(themeMap[paletteMode]),
+    [paletteMode],
   );
+
   return (
-    <ThemeContext.Provider value={themeValue}>
-      <ThemeProvider theme={theme === 'dark' ? darkTheme : defaultTheme}>
-        {children}
-      </ThemeProvider>
-    </ThemeContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
   );
-};
-
-export const useThemeContext = () => {
-  return useContext(ThemeContext);
 };

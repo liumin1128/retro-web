@@ -1,6 +1,6 @@
 import Switch from '@mui/material/Switch';
-import { styled } from '@mui/material/styles';
-import { useThemeContext } from '@/context/theme';
+import { styled, useTheme } from '@mui/material/styles';
+import { useChangeThemePaletteMode } from '@/context/globalSettings';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -51,13 +51,15 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function MaterialUISwitchButton() {
-  const { theme, setTheme } = useThemeContext();
+  const theme = useTheme();
+  const changeThemePaletteMode = useChangeThemePaletteMode();
+
   return (
     <MaterialUISwitch
       sx={{ m: 1 }}
-      checked={theme === 'dark'}
+      checked={theme.palette.mode === 'dark'}
       onChange={(_, checked: boolean) => {
-        setTheme(checked ? 'dark' : 'default');
+        changeThemePaletteMode(checked ? 'dark' : 'light');
       }}
     />
   );

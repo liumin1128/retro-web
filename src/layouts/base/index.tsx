@@ -5,7 +5,6 @@ import AppBar from '@/components/AppBar';
 
 const BaseLayout: React.FunctionComponent<IRoute> = (props) => {
   const { children } = props;
-
   return (
     <Box
       sx={{
