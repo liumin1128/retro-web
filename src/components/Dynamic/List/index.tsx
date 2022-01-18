@@ -12,10 +12,8 @@ export default function DynamicList({ data }: Props) {
       {data?.map((i) => {
         return (
           <div key={i._id}>
-            <Paper variant="outlined">
-              <Box sx={{ p: 2 }}>
-                <p>{i.content}</p>
-              </Box>
+            <Paper sx={{ mb: 2, p: 2 }}>
+              <p>{i.content}</p>
             </Paper>
           </div>
         );

@@ -1,15 +1,28 @@
-import { PaletteOptions } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import common from './theme.common';
 
-const palette: PaletteOptions = {
-  ...common,
-  mode: 'light',
-  background: {
-    default: '#ddd',
-    paper: '#ffffff',
+const theme = createTheme({
+  palette: {
+    ...common,
+    mode: 'light',
+    background: {
+      default: '#f8f8f8',
+      paper: '#ffffff',
+    },
   },
-};
+  shape: {
+    borderRadius: 10,
+  },
+});
 
-export default {
-  palette,
-};
+const nextTheme = createTheme(theme, {
+  components: {
+    MuiPaper: {
+      defaultProps: {
+        elevation: 0,
+      },
+    },
+  },
+});
+
+export default nextTheme;

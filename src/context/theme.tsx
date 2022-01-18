@@ -1,5 +1,5 @@
 import { ReactNode, useMemo } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useGlobalSettingsContext } from '@/context/globalSettings';
 import darkTheme from '@/configs/theme.dark';
@@ -18,10 +18,7 @@ export const ThemeContextProvider = ({ children }: IProps) => {
   const globalSettings = useGlobalSettingsContext();
   const { paletteMode } = globalSettings;
 
-  const theme = useMemo(
-    () => createTheme(themeMap[paletteMode]),
-    [paletteMode],
-  );
+  const theme = useMemo(() => themeMap[paletteMode], [paletteMode]);
 
   return (
     <ThemeProvider theme={theme}>
