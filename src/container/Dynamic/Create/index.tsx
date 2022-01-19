@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import Button from '@mui/material/Button';
 import { useCreateDynamicMutation } from '@/generated/graphql';
+import UploadPictures from '@/components/Upload/Pictures';
+import { upload } from '@/service/qiniu';
 
 export default function DynamicListContainer() {
   const input = useRef<HTMLInputElement | null>(null);
@@ -44,6 +46,16 @@ export default function DynamicListContainer() {
 
   return (
     <div>
+      <UploadPictures
+        onChange={(sss) => {
+          console.log('sss');
+          console.log(sss);
+          upload(sss).then((jjj) => {
+            console.log('jjj');
+            console.log(jjj);
+          });
+        }}
+      />
       <input ref={input} />
       <Button
         onClick={() => {
