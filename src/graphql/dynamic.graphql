@@ -15,8 +15,8 @@ query FindDynamic($_id: ID!) {
   }
 }
 
-mutation CreateDynamic($content: String!) {
-  createDynamic(input: { content: $content }) {
+mutation CreateDynamic($content: String!, $pictures: []String) {
+  createDynamic(input: { content: $content, pictures: $pictures, }) {
     ...dynamicFields
   }
 }

@@ -1,11 +1,15 @@
 import { useRef } from 'react';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { useCreateDynamicMutation } from '@/generated/graphql';
-import UploadPictures from '@/components/Upload/Pictures';
-import { upload } from '@/service/qiniu';
+import { uploadItem } from '@/service/qiniu';
+import Form, { FormRefInstance } from '@/components/Form';
+import items from './items';
 
 export default function DynamicListContainer() {
   const input = useRef<HTMLInputElement | null>(null);
+  const formRef = useRef<FormRefInstance>();
 
   const [createDynamic, { data, loading, error }] = useCreateDynamicMutation();
 
@@ -15,9 +19,22 @@ export default function DynamicListContainer() {
   if (loading) return 'loading';
   if (error) return 'error';
 
-  function handleClick() {
+  const handleSubmit = async (values: unknown) => {
+    console.log('values');
+    console.log(values);
+    if (values.pictures) {
+      // eslint-disable-next-line no-param-reassign
+      values.pictures = await uploadItem(values.pictures);
+    }
+    console.log('values');
+    console.log(values);
+    // formRef.current?.form.reset();
+
     createDynamic({
-      variables: { content: input.current?.value as string },
+      variables: {
+        content: values.content as string,
+        pictures: values.pictures as string[],
+      },
 
       update(cache, { data: newData }) {
         cache.modify({
@@ -42,20 +59,37 @@ export default function DynamicListContainer() {
         });
       },
     });
+  };
+
+  function handleClick() {
+    formRef.current?.form.handleSubmit(handleSubmit)();
   }
 
   return (
     <div>
-      <UploadPictures
-        onChange={(sss) => {
-          console.log('sss');
-          console.log(sss);
-          upload(sss).then((jjj) => {
-            console.log('jjj');
-            console.log(jjj);
-          });
-        }}
-      />
+      <Paper sx={{ p: 2 }}>
+        <Stack spacing={1}>
+          <Form
+            ref={formRef}
+            items={items}
+            defaultValues={{
+              content: 'xxxx',
+              pictures: [
+                'https://imgs.react.mobi/FiuNn6JvGldeUKBLOi_MfxS7XrVT',
+              ],
+            }}
+          />
+        </Stack>
+
+        <Button
+          onClick={() => {
+            handleClick();
+          }}
+        >
+          createDynamic
+        </Button>
+      </Paper>
+
       <input ref={input} />
       <Button
         onClick={() => {

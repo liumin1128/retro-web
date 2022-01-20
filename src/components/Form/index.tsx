@@ -110,6 +110,7 @@ const MessageForm = forwardRef(
               : registerOptions;
 
             const componentProps = {
+              form,
               key,
               error,
               helperText,

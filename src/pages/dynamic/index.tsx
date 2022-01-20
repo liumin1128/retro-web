@@ -9,17 +9,3 @@ export default function Home() {
     </div>
   );
 }
-
-// export async function getServerSideProps() {
-//   const apolloClient = initializeApollo();
-
-//   await apolloClient.query({
-//     query: NewsListQuery,
-//   });
-
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//   };
-// }
