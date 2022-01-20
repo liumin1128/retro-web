@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import remove from 'lodash/remove';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -8,17 +9,41 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 
-interface IUploadPicturesProps {
-  onChange: (args: File[]) => void;
+interface Item {
+  id: string;
+  file?: File;
+  src?: string;
+  url?: string;
 }
+
+interface IUploadPicturesProps {
+  onChange: (args: Item[]) => void;
+  defaultValue?: Item[];
+}
+
+export const file2Item = (file: File) => {
+  return {
+    file,
+    id: uuidv4(),
+    src: URL.createObjectURL(file),
+  };
+};
+
+export const url2Item = (url: string) => {
+  return {
+    id: uuidv4(),
+    src: url,
+    url,
+  };
+};
 
 const UploadPictures: React.FunctionComponent<IUploadPicturesProps> = (
   props,
 ) => {
-  const { onChange } = props;
-  const [files, setFiles] = useState<File[]>([]);
+  const { onChange, defaultValue } = props;
+  const [files, setFiles] = useState<Item[]>(defaultValue || []);
 
-  const handleChange = (list: File[]) => {
+  const handleChange = (list: Item[]) => {
     setFiles(list);
     onChange(list);
   };
@@ -37,7 +62,6 @@ const UploadPictures: React.FunctionComponent<IUploadPicturesProps> = (
               borderRadius: 0,
               borderStyle: 'dashed',
             }}
-            // onClick={() => {}}
           >
             <AddIcon fontSize="large" />
           </Button>
@@ -47,8 +71,9 @@ const UploadPictures: React.FunctionComponent<IUploadPicturesProps> = (
             multiple
             onChange={(e) => {
               if (e.target?.files && e.target?.files.length > 0) {
-                const temp = Array.prototype.slice.call(e.target?.files);
-                handleChange([...files, ...temp]);
+                const tempFiles = Array.prototype.slice.call(e.target?.files);
+                const tempList = tempFiles.map(file2Item);
+                handleChange([...files, ...tempList]);
               }
             }}
             style={{
@@ -65,15 +90,14 @@ const UploadPictures: React.FunctionComponent<IUploadPicturesProps> = (
         </Box>
       </Grid>
 
-      {files.map((file, index) => {
-        const src = URL.createObjectURL(file);
+      {files.map((item, index) => {
         return (
-          <Grid item key={file.name}>
+          <Grid item key={item.id}>
             <Box sx={{ position: 'relative' }}>
               <CardMedia
                 alt=""
                 component="img"
-                image={src}
+                image={item.src}
                 sx={{ width: 100, height: 100 }}
               />
               <IconButton
