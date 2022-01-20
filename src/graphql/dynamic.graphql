@@ -1,21 +1,22 @@
 fragment dynamicFields on Dynamic {
   _id
   content
+  pictures
 }
 
 query FindDynamics {
-  dynamics {
+  findDynamics {
     ...dynamicFields
   }
 }
 
 query FindDynamic($_id: ID!) {
-  dynamic(_id: $_id) {
+  findDynamic(_id: $_id) {
     ...dynamicFields
   }
 }
 
-mutation CreateDynamic($content: String!, $pictures: []String) {
+mutation CreateDynamic($content: String!, $pictures: [String!]) {
   createDynamic(input: { content: $content, pictures: $pictures, }) {
     ...dynamicFields
   }

@@ -38,13 +38,17 @@ interface Item {
   url?: string;
 }
 
-export const uploadItem = async (files: Item[]): Promise<Item[]> => {
+export const uploadItem = async (
+  files: (Item | string)[],
+): Promise<string[]> => {
   const token = await getToken();
 
-  const list = await Promise.all(
-    files.map(async (i: Item) => {
+  const urlList: string[] = await Promise.all(
+    files.map(async (i: Item | string): Promise<string> => {
+      if (typeof i === 'string') return i;
+
       // 已有url跳过上传
-      if (i.url) return i;
+      if (i.url) return i.url;
 
       // 抛弃异常文件
       if (!i.file) throw new Error('File Error');
@@ -62,12 +66,9 @@ export const uploadItem = async (files: Item[]): Promise<Item[]> => {
         },
       });
 
-      return {
-        ...i,
-        url: `${QINIUURL}/${res.data.key}`,
-      };
+      return `${QINIUURL}/${res.data.key}`;
     }),
   );
 
-  return list;
+  return urlList;
 };

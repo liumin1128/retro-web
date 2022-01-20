@@ -11,7 +11,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-const defaultOptions = {};
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -48,6 +48,7 @@ export type CreateCommentInput = {
 
 export type CreateDynamicInput = {
   content?: InputMaybe<Scalars['String']>;
+  pictures?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type CreateNewsInput = {
@@ -89,6 +90,7 @@ export type Dynamic = Document & {
   _id: Scalars['ID'];
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
+  pictures?: Maybe<Array<Scalars['String']>>;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
@@ -177,8 +179,8 @@ export type Query = {
   __typename?: 'Query';
   comment?: Maybe<Comment>;
   comments?: Maybe<Array<Maybe<Comment>>>;
-  dynamic?: Maybe<Dynamic>;
-  dynamics?: Maybe<Array<Maybe<Dynamic>>>;
+  findDynamic?: Maybe<Dynamic>;
+  findDynamics?: Maybe<Array<Maybe<Dynamic>>>;
   findRetro?: Maybe<Retro>;
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
@@ -197,7 +199,7 @@ export type QueryCommentArgs = {
   _id: Scalars['ID'];
 };
 
-export type QueryDynamicArgs = {
+export type QueryFindDynamicArgs = {
   _id: Scalars['ID'];
 };
 
@@ -328,18 +330,20 @@ export type DynamicFieldsFragment = {
   __typename?: 'Dynamic';
   _id: string;
   content?: string | null | undefined;
+  pictures?: Array<string> | null | undefined;
 };
 
 export type FindDynamicsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindDynamicsQuery = {
   __typename?: 'Query';
-  dynamics?:
+  findDynamics?:
     | Array<
         | {
             __typename?: 'Dynamic';
             _id: string;
             content?: string | null | undefined;
+            pictures?: Array<string> | null | undefined;
           }
         | null
         | undefined
@@ -354,11 +358,12 @@ export type FindDynamicQueryVariables = Exact<{
 
 export type FindDynamicQuery = {
   __typename?: 'Query';
-  dynamic?:
+  findDynamic?:
     | {
         __typename?: 'Dynamic';
         _id: string;
         content?: string | null | undefined;
+        pictures?: Array<string> | null | undefined;
       }
     | null
     | undefined;
@@ -366,6 +371,7 @@ export type FindDynamicQuery = {
 
 export type CreateDynamicMutationVariables = Exact<{
   content: Scalars['String'];
+  pictures?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
 export type CreateDynamicMutation = {
@@ -375,6 +381,7 @@ export type CreateDynamicMutation = {
         __typename?: 'Dynamic';
         _id: string;
         content?: string | null | undefined;
+        pictures?: Array<string> | null | undefined;
       }
     | null
     | undefined;
@@ -977,6 +984,7 @@ export const DynamicFieldsFragmentDoc = gql`
   fragment dynamicFields on Dynamic {
     _id
     content
+    pictures
   }
 `;
 export const RetroFieldsFragmentDoc = gql`
@@ -1021,7 +1029,7 @@ export const UserFieldsFragmentDoc = gql`
 `;
 export const FindDynamicsDocument = gql`
   query FindDynamics {
-    dynamics {
+    findDynamics {
       ...dynamicFields
     }
   }
@@ -1079,7 +1087,7 @@ export type FindDynamicsQueryResult = Apollo.QueryResult<
 >;
 export const FindDynamicDocument = gql`
   query FindDynamic($_id: ID!) {
-    dynamic(_id: $_id) {
+    findDynamic(_id: $_id) {
       ...dynamicFields
     }
   }
@@ -1135,8 +1143,8 @@ export type FindDynamicQueryResult = Apollo.QueryResult<
   FindDynamicQueryVariables
 >;
 export const CreateDynamicDocument = gql`
-  mutation CreateDynamic($content: String!) {
-    createDynamic(input: { content: $content }) {
+  mutation CreateDynamic($content: String!, $pictures: [String!]) {
+    createDynamic(input: { content: $content, pictures: $pictures }) {
       ...dynamicFields
     }
   }
@@ -1161,6 +1169,7 @@ export type CreateDynamicMutationFn = Apollo.MutationFunction<
  * const [createDynamicMutation, { data, loading, error }] = useCreateDynamicMutation({
  *   variables: {
  *      content: // value for 'content'
+ *      pictures: // value for 'pictures'
  *   },
  * });
  */

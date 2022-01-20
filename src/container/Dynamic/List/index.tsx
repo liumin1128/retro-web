@@ -9,7 +9,7 @@ export default function DynamicListContainer() {
 
   return (
     <div>
-      <DynamicList data={data?.dynamics as Dynamic[]} />
+      <DynamicList data={data?.findDynamics as Dynamic[]} />
     </div>
   );
 }

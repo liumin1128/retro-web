@@ -8,7 +8,6 @@ import Form, { FormRefInstance } from '@/components/Form';
 import items from './items';
 
 export default function DynamicListContainer() {
-  const input = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<FormRefInstance>();
 
   const [createDynamic, { data, loading, error }] = useCreateDynamicMutation();
@@ -85,19 +84,11 @@ export default function DynamicListContainer() {
           onClick={() => {
             handleClick();
           }}
+          disabled={loading}
         >
           createDynamic
         </Button>
       </Paper>
-
-      <input ref={input} />
-      <Button
-        onClick={() => {
-          handleClick();
-        }}
-      >
-        createDynamic
-      </Button>
     </div>
   );
 }
