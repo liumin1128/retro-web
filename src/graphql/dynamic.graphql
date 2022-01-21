@@ -2,6 +2,12 @@ fragment dynamicFields on Dynamic {
   _id
   content
   pictures
+  createdAt
+  user {
+    nickname
+    avatarUrl
+    _id
+  }
 }
 
 query FindDynamics {

@@ -92,6 +92,7 @@ export type Dynamic = Document & {
   createdAt?: Maybe<Scalars['String']>;
   pictures?: Maybe<Array<Scalars['String']>>;
   updatedAt?: Maybe<Scalars['String']>;
+  user: User;
 };
 
 export type LoginUserInput = {
@@ -331,6 +332,13 @@ export type DynamicFieldsFragment = {
   _id: string;
   content?: string | null | undefined;
   pictures?: Array<string> | null | undefined;
+  createdAt?: string | null | undefined;
+  user: {
+    __typename?: 'User';
+    nickname?: string | null | undefined;
+    avatarUrl?: string | null | undefined;
+    _id: string;
+  };
 };
 
 export type FindDynamicsQueryVariables = Exact<{ [key: string]: never }>;
@@ -344,6 +352,13 @@ export type FindDynamicsQuery = {
             _id: string;
             content?: string | null | undefined;
             pictures?: Array<string> | null | undefined;
+            createdAt?: string | null | undefined;
+            user: {
+              __typename?: 'User';
+              nickname?: string | null | undefined;
+              avatarUrl?: string | null | undefined;
+              _id: string;
+            };
           }
         | null
         | undefined
@@ -364,6 +379,13 @@ export type FindDynamicQuery = {
         _id: string;
         content?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        createdAt?: string | null | undefined;
+        user: {
+          __typename?: 'User';
+          nickname?: string | null | undefined;
+          avatarUrl?: string | null | undefined;
+          _id: string;
+        };
       }
     | null
     | undefined;
@@ -382,6 +404,13 @@ export type CreateDynamicMutation = {
         _id: string;
         content?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        createdAt?: string | null | undefined;
+        user: {
+          __typename?: 'User';
+          nickname?: string | null | undefined;
+          avatarUrl?: string | null | undefined;
+          _id: string;
+        };
       }
     | null
     | undefined;
@@ -985,6 +1014,12 @@ export const DynamicFieldsFragmentDoc = gql`
     _id
     content
     pictures
+    createdAt
+    user {
+      nickname
+      avatarUrl
+      _id
+    }
   }
 `;
 export const RetroFieldsFragmentDoc = gql`

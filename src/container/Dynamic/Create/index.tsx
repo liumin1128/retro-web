@@ -10,10 +10,7 @@ import items from './items';
 export default function DynamicListContainer() {
   const formRef = useRef<FormRefInstance>();
 
-  const [createDynamic, { data, loading, error }] = useCreateDynamicMutation();
-
-  console.log('data, loading, error');
-  console.log(data, loading, error);
+  const [createDynamic, { loading, error }] = useCreateDynamicMutation();
 
   if (loading) return 'loading';
   if (error) return 'error';
@@ -78,16 +75,18 @@ export default function DynamicListContainer() {
               ],
             }}
           />
+          <Stack direction="row" justifyContent="flex-end">
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleClick();
+              }}
+              disabled={loading}
+            >
+              Submit
+            </Button>
+          </Stack>
         </Stack>
-
-        <Button
-          onClick={() => {
-            handleClick();
-          }}
-          disabled={loading}
-        >
-          createDynamic
-        </Button>
       </Paper>
     </div>
   );

@@ -22,6 +22,13 @@ const nextTheme = createTheme(theme, {
         elevation: 0,
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: 'rgba(0,0,0,0.05)',
+        },
+      },
+    },
   },
 });
 
