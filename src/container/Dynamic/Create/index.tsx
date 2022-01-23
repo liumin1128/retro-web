@@ -9,21 +9,16 @@ import items from './items';
 
 export default function DynamicListContainer() {
   const formRef = useRef<FormRefInstance>();
-
   const [createDynamic, { loading, error }] = useCreateDynamicMutation();
-
   if (loading) return 'loading';
   if (error) return 'error';
 
   const handleSubmit = async (values: unknown) => {
-    console.log('values');
-    console.log(values);
     if (values.pictures) {
       // eslint-disable-next-line no-param-reassign
       values.pictures = await uploadItem(values.pictures);
     }
-    console.log('values');
-    console.log(values);
+
     // formRef.current?.form.reset();
 
     createDynamic({
