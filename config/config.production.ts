@@ -1,4 +1,5 @@
 export default {
+  dynamicImport: {},
   define: {
     'process.env.API_URL': 'https://react.mobi/api',
     'process.env.GRAPHQL_URL': 'https://react.mobi/api/graphql',

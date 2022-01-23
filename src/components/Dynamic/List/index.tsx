@@ -16,7 +16,7 @@ export default function DynamicList({ data }: Props) {
   console.log('data');
   console.log(data);
   return (
-    <Box>
+    <Box sx={{ overflow: 'hidden', borderRadius: '10px' }}>
       {data?.map((i) => {
         return (
           <Fragment key={i._id}>

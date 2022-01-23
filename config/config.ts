@@ -3,13 +3,11 @@ import routes from '../src/configs/routes';
 
 export default defineConfig({
   routes,
-  // dynamicImport: true,
   nodeModulesTransform: {
     type: 'none',
   },
   hash: true,
   history: { type: 'hash' },
-  fastRefresh: {},
   publicPath: './',
   define: {
     'process.env.API_URL': 'http://localhost:3101',
