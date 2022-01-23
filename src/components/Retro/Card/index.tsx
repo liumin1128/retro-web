@@ -5,7 +5,6 @@ const Card = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
   marginBottom: theme.spacing(1),
-  borderRadius: '4px',
 }));
 
 export default Card;

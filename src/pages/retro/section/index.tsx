@@ -125,8 +125,7 @@ const Section: FunctionComponent = (props) => {
     return (
       <Box
         sx={{
-          pt: 2,
-          height: isUpMd ? 'calc(100vh - 65px)' : 'calc(100vh - 105px)',
+          height: isUpMd ? 'calc(100vh - 81px)' : 'calc(100vh - 121px)',
           display: 'flex',
           flexDirection: 'column',
         }}

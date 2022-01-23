@@ -15,7 +15,9 @@ const BaseLayout: React.FunctionComponent<IRoute> = (props) => {
         height: '100vh',
       }}
     >
-      <AppBar />
+      <Box>
+        <AppBar />
+      </Box>
       <Box sx={{ overflow: 'auto' }}>{children}</Box>
     </Stack>
   );
