@@ -125,7 +125,7 @@ const Section: FunctionComponent = (props) => {
     return (
       <Box
         sx={{
-          height: isUpMd ? 'calc(100vh - 81px)' : 'calc(100vh - 121px)',
+          height: isUpMd ? 'calc(100vh - 4px)' : 'calc(100vh - 64px)',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -222,7 +222,9 @@ const Section: FunctionComponent = (props) => {
           })}
         </Tabs>
 
-        <Container maxWidth="lg">{renderItem(currentType)}</Container>
+        <Container sx={{ p: isUpMd ? undefined : 1 }}>
+          {renderItem(currentType)}
+        </Container>
 
         <Fab
           sx={{
@@ -252,7 +254,9 @@ const Section: FunctionComponent = (props) => {
 
   return (
     <Box>
-      <Container sx={{ borderTop: '1px solid transparent' }} maxWidth="lg">
+      <Container
+        sx={{ borderTop: '1px solid transparent', p: isUpMd ? undefined : 0 }}
+      >
         <Grid container spacing={1}>
           {TYPES.map((type: string) => {
             return (

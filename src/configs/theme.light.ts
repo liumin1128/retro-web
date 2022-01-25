@@ -8,6 +8,8 @@ const theme = createTheme({
     background: {
       default: '#f8f8f8',
       paper: '#ffffff',
+      gradient:
+        'linear-gradient(111.44deg, rgb(15, 90, 154), rgb(0, 38, 107) 100%)',
     },
   },
   shape: {

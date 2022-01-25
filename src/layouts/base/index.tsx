@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IRoute } from 'umi';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import AppBar from '@/components/AppBar';
+// import AppBar from '@/components/AppBar';
 
 const BaseLayout: React.FunctionComponent<IRoute> = (props) => {
   const { children } = props;
@@ -15,9 +15,6 @@ const BaseLayout: React.FunctionComponent<IRoute> = (props) => {
         height: '100vh',
       }}
     >
-      <Box>
-        <AppBar />
-      </Box>
       <Box sx={{ overflow: 'auto' }}>{children}</Box>
     </Stack>
   );
