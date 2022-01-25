@@ -152,6 +152,7 @@ const Section: FunctionComponent = (props) => {
                 user={i.user || user}
                 content={i.content}
                 status={i.status}
+                pictures={i.pictures}
                 type={i.type}
                 like={i.like}
                 onDelete={() => {

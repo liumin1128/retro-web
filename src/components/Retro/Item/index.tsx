@@ -11,6 +11,7 @@ import Piaise from '@/components/Praise';
 import GradientBackground from '@/components/GradientBackground';
 import UserInfo from './components/UserInfo';
 import Form from './components/Form';
+import Pictures from './components/Pictures';
 
 interface User {
   nickname: string;
@@ -22,6 +23,7 @@ interface IItemProps {
   blur: boolean;
   anonymous: boolean;
   content: string;
+  pictures?: string[];
   status: string;
   user: User;
   like: number;
@@ -39,6 +41,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
     status,
     user,
     blur,
+    pictures,
     onLike,
     onDelete,
     onUpdateContent,
@@ -89,6 +92,15 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
               >
                 {content}
               </Typography>
+
+              <Box
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                sx={{ mb: 1 }}
+              >
+                <Pictures pictures={pictures || []} />
+              </Box>
 
               <Stack
                 justifyContent="flex-start"

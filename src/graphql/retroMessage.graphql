@@ -5,6 +5,7 @@ fragment retroMessageFields on RetroMessage {
   type
   like
   createdAt
+  pictures
   user {
     _id
     nickname
@@ -41,8 +42,9 @@ mutation CreateRetroMessage(
   $retro: ID!
   $content: String!
   $type: RetroMessageType!
+  $pictures: [String!]
 ) {
-  retroMessage: createRetroMessage(input: { retro: $retro, content: $content, type: $type }) {
+  retroMessage: createRetroMessage(input: { retro: $retro, content: $content, type: $type, pictures: $pictures }) {
     ...retroMessageFields
   }
 }
@@ -52,10 +54,11 @@ mutation UpdateRetroMessage(
   $content: String
   $type: RetroMessageType
   $status: RetroMessageStatus
+  $pictures: [String!]
 ) {
   retroMessage: updateRetroMessage(
     _id: $_id
-    input: { content: $content, type: $type, status: $status }
+    input: { content: $content, type: $type, status: $status, pictures: $pictures }
   ) {
     ...retroMessageFields
   }
