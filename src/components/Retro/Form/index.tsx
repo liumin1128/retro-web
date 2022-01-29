@@ -73,7 +73,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           flexDirection: 'column',
           justifyContent: 'space-around',
         }}
-        spacing={2}
+        spacing={1}
       >
         <TextField
           autoFocus={autoFocus}
