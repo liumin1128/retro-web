@@ -3,13 +3,16 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import IconCamera from '@mui/icons-material/CameraAltOutlined';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Wrapper from './Upload/Wrapper';
-import Pictures from './Upload/Pictures';
+import FaceIcon from '@mui/icons-material/Face';
+import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
 import { uploadItem } from '@/service/qiniu';
+import Pictures from './Upload/Pictures';
+import Wrapper from './Upload/Wrapper';
 
 const schema = yup
   .object({
@@ -39,6 +42,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
 }) => {
   const picturesRef = useRef();
   const [loading, setLoading] = useState();
+  const [anonymous, setAnonymous] = useState<boolean>();
   const {
     register,
     handleSubmit,
@@ -59,6 +63,8 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
             // eslint-disable-next-line no-param-reassign
             values.pictures = await uploadItem(pictures);
           }
+          // eslint-disable-next-line no-param-reassign
+          values.anonymous = anonymous;
           await onSubmit(values);
           picturesRef?.current?.reset();
           reset();
@@ -102,7 +108,11 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           }}
         />
 
-        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
+        <Stack
+          direction="row"
+          sx={{ justifyContent: 'space-between' }}
+          spacing={1}
+        >
           <Wrapper
             onChange={(e) => {
               picturesRef?.current?.onChange(e);
@@ -112,6 +122,17 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
               <IconCamera />
             </IconButton>
           </Wrapper>
+
+          <IconButton
+            onClick={() => {
+              setAnonymous(!anonymous);
+            }}
+          >
+            {anonymous ? <FaceRetouchingOffIcon /> : <FaceIcon />}
+          </IconButton>
+
+          <Box sx={{ flex: 1 }} />
+
           <Button
             disabled={loading}
             loading={loading}

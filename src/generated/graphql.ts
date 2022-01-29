@@ -69,6 +69,7 @@ export type CreateRetroInput = {
 };
 
 export type CreateRetroMessageInput = {
+  anonymous?: InputMaybe<Scalars['Boolean']>;
   content: Scalars['String'];
   pictures?: InputMaybe<Array<Scalars['String']>>;
   retro: Scalars['ID'];
@@ -261,6 +262,7 @@ export type Retro = Document & {
 export type RetroMessage = Document & {
   __typename?: 'RetroMessage';
   _id: Scalars['ID'];
+  anonymous?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   like?: Maybe<Scalars['Int']>;
@@ -304,6 +306,7 @@ export type Subscription = {
 };
 
 export type UpdateRetroMessageInput = {
+  anonymous?: InputMaybe<Scalars['Boolean']>;
   content?: InputMaybe<Scalars['String']>;
   pictures?: InputMaybe<Array<Scalars['String']>>;
   status?: InputMaybe<RetroMessageStatus>;
@@ -561,6 +564,7 @@ export type RetroMessageFieldsFragment = {
   like?: number | null | undefined;
   createdAt?: string | null | undefined;
   pictures?: Array<string> | null | undefined;
+  anonymous?: boolean | null | undefined;
   user?:
     | {
         __typename?: 'User';
@@ -590,6 +594,7 @@ export type FindRetroSectionQuery = {
             like?: number | null | undefined;
             createdAt?: string | null | undefined;
             pictures?: Array<string> | null | undefined;
+            anonymous?: boolean | null | undefined;
             user?:
               | {
                   __typename?: 'User';
@@ -655,6 +660,7 @@ export type FindRetroMessagesQuery = {
             like?: number | null | undefined;
             createdAt?: string | null | undefined;
             pictures?: Array<string> | null | undefined;
+            anonymous?: boolean | null | undefined;
             user?:
               | {
                   __typename?: 'User';
@@ -689,6 +695,7 @@ export type FindRetroMessageQuery = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -709,6 +716,7 @@ export type CreateRetroMessageMutationVariables = Exact<{
   content: Scalars['String'];
   type: RetroMessageType;
   pictures?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  anonymous?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type CreateRetroMessageMutation = {
@@ -723,6 +731,7 @@ export type CreateRetroMessageMutation = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -744,6 +753,7 @@ export type UpdateRetroMessageMutationVariables = Exact<{
   type?: InputMaybe<RetroMessageType>;
   status?: InputMaybe<RetroMessageStatus>;
   pictures?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  anonymous?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type UpdateRetroMessageMutation = {
@@ -758,6 +768,7 @@ export type UpdateRetroMessageMutation = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -790,6 +801,7 @@ export type LikeRetroMessageMutation = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -821,6 +833,7 @@ export type DeleteRetroMessageMutation = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -852,6 +865,7 @@ export type RetroMessageCreatedSubscription = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -883,6 +897,7 @@ export type RetroMessageUpdatedSubscription = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -914,6 +929,7 @@ export type RetroMessageLikedSubscription = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -945,6 +961,7 @@ export type RetroMessageDeletedSubscription = {
         like?: number | null | undefined;
         createdAt?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
+        anonymous?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -1063,6 +1080,7 @@ export const RetroMessageFieldsFragmentDoc = gql`
     like
     createdAt
     pictures
+    anonymous
     user {
       _id
       nickname
@@ -1655,6 +1673,7 @@ export const CreateRetroMessageDocument = gql`
     $content: String!
     $type: RetroMessageType!
     $pictures: [String!]
+    $anonymous: Boolean
   ) {
     retroMessage: createRetroMessage(
       input: {
@@ -1662,6 +1681,7 @@ export const CreateRetroMessageDocument = gql`
         content: $content
         type: $type
         pictures: $pictures
+        anonymous: $anonymous
       }
     ) {
       ...retroMessageFields
@@ -1691,6 +1711,7 @@ export type CreateRetroMessageMutationFn = Apollo.MutationFunction<
  *      content: // value for 'content'
  *      type: // value for 'type'
  *      pictures: // value for 'pictures'
+ *      anonymous: // value for 'anonymous'
  *   },
  * });
  */
@@ -1722,6 +1743,7 @@ export const UpdateRetroMessageDocument = gql`
     $type: RetroMessageType
     $status: RetroMessageStatus
     $pictures: [String!]
+    $anonymous: Boolean
   ) {
     retroMessage: updateRetroMessage(
       _id: $_id
@@ -1730,6 +1752,7 @@ export const UpdateRetroMessageDocument = gql`
         type: $type
         status: $status
         pictures: $pictures
+        anonymous: $anonymous
       }
     ) {
       ...retroMessageFields
@@ -1760,6 +1783,7 @@ export type UpdateRetroMessageMutationFn = Apollo.MutationFunction<
  *      type: // value for 'type'
  *      status: // value for 'status'
  *      pictures: // value for 'pictures'
+ *      anonymous: // value for 'anonymous'
  *   },
  * });
  */

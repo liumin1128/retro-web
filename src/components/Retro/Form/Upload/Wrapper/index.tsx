@@ -12,7 +12,7 @@ const UploadPictures: React.FunctionComponent<IUploadPicturesProps> = (
   const { onChange, children } = props;
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative', display: 'flex' }}>
       {children}
 
       <input

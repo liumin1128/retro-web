@@ -131,7 +131,7 @@ const Section: FunctionComponent = (props) => {
         }}
       >
         {isUpMd && (
-          <Box sx={{ p: 0.5 }}>
+          <Box sx={{ p: 0.5, mt: 1 }}>
             <Card>{renderForm(type)}</Card>
           </Box>
         )}
@@ -146,7 +146,7 @@ const Section: FunctionComponent = (props) => {
           {items.map((i) => {
             return (
               <Item
-                anonymous={data?.retro?.anonymous}
+                anonymous={data?.retro?.anonymous || i.anonymous}
                 blur={hasFocus && i.status !== 'FOCUSED'}
                 key={i._id}
                 user={i.user || user}
