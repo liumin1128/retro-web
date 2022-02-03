@@ -11,6 +11,9 @@ const theme = createTheme({
       gradient:
         'linear-gradient(111.44deg, rgb(15, 90, 154), rgb(0, 38, 107) 100%)',
     },
+    grey: {
+      '500': 'rgba(0,0,0,0.5)',
+    },
   },
   shape: {
     borderRadius: 10,

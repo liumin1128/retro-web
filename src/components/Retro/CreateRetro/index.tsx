@@ -28,6 +28,7 @@ export default function Home({ onSubmit }: Props) {
           modalRef.current?.open();
         }}
         color="primary"
+        size="large"
       >
         Create Retro
       </Button>

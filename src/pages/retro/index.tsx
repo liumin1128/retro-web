@@ -1,34 +1,35 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import AppBar from '@mui/material/AppBar';
 import CreateRetro from '@/container/Retro/Create';
 import ListRetro from '@/container/Retro/List';
-import AppBar from '@/components/AppBar';
+import MaterialUISwitch from '@/components/MaterialUISwitch';
 
 const Retro: React.FunctionComponent = () => {
   return (
-    <Stack spacing={2}>
-      <AppBar />
-      <Container>
-        <Card sx={{ paddingY: 2 }}>
-          <Box
-            sx={{
-              p: 2,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
+    <Box>
+      <AppBar color="default" position="static">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            color="inherit"
+            component="div"
+            sx={{ flexGrow: 1 }}
           >
-            <Typography variant="h6">Retro List</Typography>
-            <CreateRetro />
-          </Box>
-          <ListRetro />
-        </Card>
+            Retro List
+          </Typography>
+
+          <CreateRetro />
+          <MaterialUISwitch />
+        </Toolbar>
+      </AppBar>
+      <Container sx={{ mt: 3 }}>
+        <ListRetro />
       </Container>
-    </Stack>
+    </Box>
   );
 };
 

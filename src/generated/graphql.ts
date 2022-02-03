@@ -252,11 +252,20 @@ export type Retro = Document & {
   _id: Scalars['ID'];
   anonymous?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
+  count?: Maybe<RetroCount>;
   createdAt?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
+};
+
+export type RetroCount = {
+  __typename?: 'RetroCount';
+  HAPPY?: Maybe<Scalars['Int']>;
+  TODO?: Maybe<Scalars['Int']>;
+  UNHAPPY?: Maybe<Scalars['Int']>;
+  WONDERRING?: Maybe<Scalars['Int']>;
 };
 
 export type RetroMessage = Document & {
@@ -429,6 +438,16 @@ export type RetroFieldsFragment = {
   content?: string | null | undefined;
   date?: string | null | undefined;
   anonymous?: boolean | null | undefined;
+  count?:
+    | {
+        __typename?: 'RetroCount';
+        HAPPY?: number | null | undefined;
+        WONDERRING?: number | null | undefined;
+        UNHAPPY?: number | null | undefined;
+        TODO?: number | null | undefined;
+      }
+    | null
+    | undefined;
   user?:
     | {
         __typename?: 'User';
@@ -453,6 +472,16 @@ export type FindRetrosQuery = {
             content?: string | null | undefined;
             date?: string | null | undefined;
             anonymous?: boolean | null | undefined;
+            count?:
+              | {
+                  __typename?: 'RetroCount';
+                  HAPPY?: number | null | undefined;
+                  WONDERRING?: number | null | undefined;
+                  UNHAPPY?: number | null | undefined;
+                  TODO?: number | null | undefined;
+                }
+              | null
+              | undefined;
             user?:
               | {
                   __typename?: 'User';
@@ -484,6 +513,16 @@ export type FindRetroQuery = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
+        count?:
+          | {
+              __typename?: 'RetroCount';
+              HAPPY?: number | null | undefined;
+              WONDERRING?: number | null | undefined;
+              UNHAPPY?: number | null | undefined;
+              TODO?: number | null | undefined;
+            }
+          | null
+          | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -515,6 +554,16 @@ export type CreateRetroMutation = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
+        count?:
+          | {
+              __typename?: 'RetroCount';
+              HAPPY?: number | null | undefined;
+              WONDERRING?: number | null | undefined;
+              UNHAPPY?: number | null | undefined;
+              TODO?: number | null | undefined;
+            }
+          | null
+          | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -541,6 +590,16 @@ export type RetroCreatedSubscription = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
+        count?:
+          | {
+              __typename?: 'RetroCount';
+              HAPPY?: number | null | undefined;
+              WONDERRING?: number | null | undefined;
+              UNHAPPY?: number | null | undefined;
+              TODO?: number | null | undefined;
+            }
+          | null
+          | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -619,6 +678,16 @@ export type FindRetroSectionQuery = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
+        count?:
+          | {
+              __typename?: 'RetroCount';
+              HAPPY?: number | null | undefined;
+              WONDERRING?: number | null | undefined;
+              UNHAPPY?: number | null | undefined;
+              TODO?: number | null | undefined;
+            }
+          | null
+          | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -1064,6 +1133,12 @@ export const RetroFieldsFragmentDoc = gql`
     content
     date
     anonymous
+    count {
+      HAPPY
+      WONDERRING
+      UNHAPPY
+      TODO
+    }
     user {
       _id
       nickname

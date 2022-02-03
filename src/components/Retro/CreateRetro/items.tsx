@@ -5,12 +5,18 @@ const items = [
     key: 'title',
     label: 'title',
     placeholder: 'title',
+    registerOptions: {
+      required: true,
+    },
   },
   {
     key: 'date',
     label: 'date',
     placeholder: 'date',
     type: 'date',
+    registerOptions: {
+      required: true,
+    },
     InputLabelProps: {
       shrink: true,
     },

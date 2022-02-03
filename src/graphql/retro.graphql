@@ -5,6 +5,12 @@ fragment retroFields on Retro {
   content
   date
   anonymous
+  count {
+    HAPPY
+    WONDERRING
+    UNHAPPY
+    TODO
+  }
   user {
     _id
     nickname

@@ -9,6 +9,9 @@ const theme = createTheme({
       default: 'hsl(225deg 9.5238095238% 8.2352941176%)',
       paper: 'hsl(222.8571428571deg 13.7254901961% 20%)',
     },
+    grey: {
+      '500': 'rgba(255,255,255,0.5)',
+    },
   },
   shape: {
     borderRadius: 10,
