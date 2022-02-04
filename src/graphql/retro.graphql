@@ -5,12 +5,11 @@ fragment retroFields on Retro {
   content
   date
   anonymous
-  count {
-    HAPPY
-    WONDERRING
-    UNHAPPY
-    TODO
-  }
+  likeCount
+  happyCount
+  unhappyCount
+  wonderringCount
+  todoCount
   user {
     _id
     nickname
@@ -30,8 +29,20 @@ query FindRetro($_id: ID!) {
   }
 }
 
-mutation CreateRetro($title: String, $content: String, $date: String!, $anonymous: Boolean) {
-  createRetro(input: { title: $title, content: $content, date: $date, anonymous: $anonymous }) {
+mutation CreateRetro(
+  $title: String
+  $content: String
+  $date: String!
+  $anonymous: Boolean
+) {
+  createRetro(
+    input: {
+      title: $title
+      content: $content
+      date: $date
+      anonymous: $anonymous
+    }
+  ) {
     ...retroFields
   }
 }
