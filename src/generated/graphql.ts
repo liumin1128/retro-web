@@ -187,7 +187,7 @@ export type Query = {
   findRetro?: Maybe<Retro>;
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
-  findRetros?: Maybe<Array<Maybe<Retro>>>;
+  findRetros?: Maybe<Array<Maybe<RetroListItem>>>;
   findUser?: Maybe<User>;
   findUserInfo?: Maybe<User>;
   findUsers?: Maybe<Array<Maybe<User>>>;
@@ -249,6 +249,18 @@ export type RegisterUserInput = {
 
 export type Retro = Document & {
   __typename?: 'Retro';
+  _id: Scalars['ID'];
+  anonymous?: Maybe<Scalars['Boolean']>;
+  content?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type RetroListItem = Document & {
+  __typename?: 'RetroListItem';
   _id: Scalars['ID'];
   anonymous?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
@@ -434,6 +446,24 @@ export type RetroFieldsFragment = {
   content?: string | null | undefined;
   date?: string | null | undefined;
   anonymous?: boolean | null | undefined;
+  user?:
+    | {
+        __typename?: 'User';
+        _id: string;
+        nickname?: string | null | undefined;
+        avatarUrl?: string | null | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type RetroListItemFieldsFragment = {
+  __typename: 'RetroListItem';
+  _id: string;
+  title?: string | null | undefined;
+  content?: string | null | undefined;
+  date?: string | null | undefined;
+  anonymous?: boolean | null | undefined;
   likeCount?: number | null | undefined;
   happyCount?: number | null | undefined;
   unhappyCount?: number | null | undefined;
@@ -457,7 +487,7 @@ export type FindRetrosQuery = {
   findRetros?:
     | Array<
         | {
-            __typename: 'Retro';
+            __typename: 'RetroListItem';
             _id: string;
             title?: string | null | undefined;
             content?: string | null | undefined;
@@ -499,11 +529,6 @@ export type FindRetroQuery = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
-        likeCount?: number | null | undefined;
-        happyCount?: number | null | undefined;
-        unhappyCount?: number | null | undefined;
-        wonderringCount?: number | null | undefined;
-        todoCount?: number | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -535,11 +560,6 @@ export type CreateRetroMutation = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
-        likeCount?: number | null | undefined;
-        happyCount?: number | null | undefined;
-        unhappyCount?: number | null | undefined;
-        wonderringCount?: number | null | undefined;
-        todoCount?: number | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -566,11 +586,6 @@ export type RetroCreatedSubscription = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
-        likeCount?: number | null | undefined;
-        happyCount?: number | null | undefined;
-        unhappyCount?: number | null | undefined;
-        wonderringCount?: number | null | undefined;
-        todoCount?: number | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -649,11 +664,6 @@ export type FindRetroSectionQuery = {
         content?: string | null | undefined;
         date?: string | null | undefined;
         anonymous?: boolean | null | undefined;
-        likeCount?: number | null | undefined;
-        happyCount?: number | null | undefined;
-        unhappyCount?: number | null | undefined;
-        wonderringCount?: number | null | undefined;
-        todoCount?: number | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -1099,6 +1109,21 @@ export const RetroFieldsFragmentDoc = gql`
     content
     date
     anonymous
+    user {
+      _id
+      nickname
+      avatarUrl
+    }
+  }
+`;
+export const RetroListItemFieldsFragmentDoc = gql`
+  fragment retroListItemFields on RetroListItem {
+    __typename
+    _id
+    title
+    content
+    date
+    anonymous
     likeCount
     happyCount
     unhappyCount
@@ -1308,10 +1333,10 @@ export type CreateDynamicMutationOptions = Apollo.BaseMutationOptions<
 export const FindRetrosDocument = gql`
   query FindRetros {
     findRetros {
-      ...retroFields
+      ...retroListItemFields
     }
   }
-  ${RetroFieldsFragmentDoc}
+  ${RetroListItemFieldsFragmentDoc}
 `;
 
 /**
@@ -2290,7 +2315,7 @@ export interface PossibleTypesResultData {
 const result: PossibleTypesResultData = {
   possibleTypes: {
     CommentObjectUnion: ['Comment', 'News', 'RetroMessage'],
-    Document: ['Comment', 'Dynamic', 'Retro', 'RetroMessage'],
+    Document: ['Comment', 'Dynamic', 'Retro', 'RetroListItem', 'RetroMessage'],
   },
 };
 export default result;

@@ -5,12 +5,26 @@ fragment retroFields on Retro {
   content
   date
   anonymous
+  user {
+    _id
+    nickname
+    avatarUrl
+  }
+}
+
+fragment retroListItemFields on RetroListItem {
+  __typename
+  _id
+  title
+  content
+  date
+  anonymous
   likeCount
   happyCount
   unhappyCount
   wonderringCount
   todoCount
-  user {
+    user {
     _id
     nickname
     avatarUrl
@@ -19,7 +33,7 @@ fragment retroFields on Retro {
 
 query FindRetros {
   findRetros {
-    ...retroFields
+    ...retroListItemFields
   }
 }
 

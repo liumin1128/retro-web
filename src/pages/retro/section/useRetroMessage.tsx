@@ -18,12 +18,17 @@ import {
 export default function useRetroMessage({ retro }: { retro: string }) {
   // const { enqueueSnackbar } = useSnackbar();
 
-  const { data, loading, refetch, error, subscribeToMore } =
-    useFindRetroSectionQuery({
-      variables: {
-        retro,
-      },
-    });
+  const {
+    data = {},
+    loading,
+    refetch,
+    error,
+    subscribeToMore,
+  } = useFindRetroSectionQuery({
+    variables: {
+      retro,
+    },
+  });
 
   // 会自动更新
   useRetroMessageUpdatedSubscription();
