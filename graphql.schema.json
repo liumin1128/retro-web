@@ -92,6 +92,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "user",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -141,6 +153,12 @@
         "enumValues": [
           {
             "name": "Comment",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Dynamic",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -1190,7 +1208,7 @@
         "description": null,
         "fields": [
           {
-            "name": "comment",
+            "name": "findComment",
             "description": null,
             "args": [
               {
@@ -1219,9 +1237,26 @@
             "deprecationReason": null
           },
           {
-            "name": "comments",
+            "name": "findComments",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "object",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "LIST",
               "name": null,

@@ -30,12 +30,14 @@ export type Comment = Document & {
   createdAt?: Maybe<Scalars['String']>;
   object: CommentObjectUnion;
   updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
 };
 
 export type CommentObjectUnion = Comment | News | RetroMessage;
 
 export enum CommentObjectUnionModel {
   Comment = 'Comment',
+  Dynamic = 'Dynamic',
   News = 'News',
   RetroMessage = 'RetroMessage',
 }
@@ -180,8 +182,8 @@ export type OAuth = {
 
 export type Query = {
   __typename?: 'Query';
-  comment?: Maybe<Comment>;
-  comments?: Maybe<Array<Maybe<Comment>>>;
+  findComment?: Maybe<Comment>;
+  findComments?: Maybe<Array<Maybe<Comment>>>;
   findDynamic?: Maybe<Dynamic>;
   findDynamics?: Maybe<Array<Maybe<Dynamic>>>;
   findRetro?: Maybe<Retro>;
@@ -198,8 +200,12 @@ export type Query = {
   oauths?: Maybe<Array<Maybe<OAuth>>>;
 };
 
-export type QueryCommentArgs = {
+export type QueryFindCommentArgs = {
   _id: Scalars['ID'];
+};
+
+export type QueryFindCommentsArgs = {
+  object: Scalars['ID'];
 };
 
 export type QueryFindDynamicArgs = {
@@ -348,6 +354,86 @@ export type UserWithToken = {
   __typename?: 'UserWithToken';
   token: Scalars['String'];
   user: User;
+};
+
+export type CommentFieldsFragment = {
+  __typename?: 'Comment';
+  _id: string;
+  content?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  user?:
+    | { __typename?: 'User'; nickname?: string | null | undefined }
+    | null
+    | undefined;
+};
+
+export type FindCommentsQueryVariables = Exact<{
+  object: Scalars['ID'];
+}>;
+
+export type FindCommentsQuery = {
+  __typename?: 'Query';
+  findComments?:
+    | Array<
+        | {
+            __typename?: 'Comment';
+            _id: string;
+            content?: string | null | undefined;
+            createdAt?: string | null | undefined;
+            user?:
+              | { __typename?: 'User'; nickname?: string | null | undefined }
+              | null
+              | undefined;
+          }
+        | null
+        | undefined
+      >
+    | null
+    | undefined;
+};
+
+export type FindCommentQueryVariables = Exact<{
+  _id: Scalars['ID'];
+}>;
+
+export type FindCommentQuery = {
+  __typename?: 'Query';
+  findComment?:
+    | {
+        __typename?: 'Comment';
+        _id: string;
+        content?: string | null | undefined;
+        createdAt?: string | null | undefined;
+        user?:
+          | { __typename?: 'User'; nickname?: string | null | undefined }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type CreateCommentMutationVariables = Exact<{
+  object: Scalars['ID'];
+  objectModel: CommentObjectUnionModel;
+  content: Scalars['String'];
+}>;
+
+export type CreateCommentMutation = {
+  __typename?: 'Mutation';
+  createComment?:
+    | {
+        __typename?: 'Comment';
+        _id: string;
+        content?: string | null | undefined;
+        createdAt?: string | null | undefined;
+        user?:
+          | { __typename?: 'User'; nickname?: string | null | undefined }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
 };
 
 export type DynamicFieldsFragment = {
@@ -1088,6 +1174,16 @@ export type LoginQuery = {
     | undefined;
 };
 
+export const CommentFieldsFragmentDoc = gql`
+  fragment commentFields on Comment {
+    _id
+    content
+    createdAt
+    user {
+      nickname
+    }
+  }
+`;
 export const DynamicFieldsFragmentDoc = gql`
   fragment dynamicFields on Dynamic {
     _id
@@ -1163,6 +1259,181 @@ export const UserFieldsFragmentDoc = gql`
     avatarUrl
   }
 `;
+export const FindCommentsDocument = gql`
+  query FindComments($object: ID!) {
+    findComments(object: $object) {
+      ...commentFields
+    }
+  }
+  ${CommentFieldsFragmentDoc}
+`;
+
+/**
+ * __useFindCommentsQuery__
+ *
+ * To run a query within a React component, call `useFindCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindCommentsQuery({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useFindCommentsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindCommentsQuery,
+    FindCommentsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindCommentsQuery, FindCommentsQueryVariables>(
+    FindCommentsDocument,
+    options,
+  );
+}
+export function useFindCommentsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindCommentsQuery,
+    FindCommentsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindCommentsQuery, FindCommentsQueryVariables>(
+    FindCommentsDocument,
+    options,
+  );
+}
+export type FindCommentsQueryHookResult = ReturnType<
+  typeof useFindCommentsQuery
+>;
+export type FindCommentsLazyQueryHookResult = ReturnType<
+  typeof useFindCommentsLazyQuery
+>;
+export type FindCommentsQueryResult = Apollo.QueryResult<
+  FindCommentsQuery,
+  FindCommentsQueryVariables
+>;
+export const FindCommentDocument = gql`
+  query FindComment($_id: ID!) {
+    findComment(_id: $_id) {
+      ...commentFields
+    }
+  }
+  ${CommentFieldsFragmentDoc}
+`;
+
+/**
+ * __useFindCommentQuery__
+ *
+ * To run a query within a React component, call `useFindCommentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindCommentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindCommentQuery({
+ *   variables: {
+ *      _id: // value for '_id'
+ *   },
+ * });
+ */
+export function useFindCommentQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindCommentQuery,
+    FindCommentQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindCommentQuery, FindCommentQueryVariables>(
+    FindCommentDocument,
+    options,
+  );
+}
+export function useFindCommentLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindCommentQuery,
+    FindCommentQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindCommentQuery, FindCommentQueryVariables>(
+    FindCommentDocument,
+    options,
+  );
+}
+export type FindCommentQueryHookResult = ReturnType<typeof useFindCommentQuery>;
+export type FindCommentLazyQueryHookResult = ReturnType<
+  typeof useFindCommentLazyQuery
+>;
+export type FindCommentQueryResult = Apollo.QueryResult<
+  FindCommentQuery,
+  FindCommentQueryVariables
+>;
+export const CreateCommentDocument = gql`
+  mutation CreateComment(
+    $object: ID!
+    $objectModel: CommentObjectUnionModel!
+    $content: String!
+  ) {
+    createComment(
+      input: { object: $object, objectModel: $objectModel, content: $content }
+    ) {
+      ...commentFields
+    }
+  }
+  ${CommentFieldsFragmentDoc}
+`;
+export type CreateCommentMutationFn = Apollo.MutationFunction<
+  CreateCommentMutation,
+  CreateCommentMutationVariables
+>;
+
+/**
+ * __useCreateCommentMutation__
+ *
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *      objectModel: // value for 'objectModel'
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useCreateCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCommentMutation,
+    CreateCommentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateCommentMutation,
+    CreateCommentMutationVariables
+  >(CreateCommentDocument, options);
+}
+export type CreateCommentMutationHookResult = ReturnType<
+  typeof useCreateCommentMutation
+>;
+export type CreateCommentMutationResult =
+  Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
+  CreateCommentMutation,
+  CreateCommentMutationVariables
+>;
 export const FindDynamicsDocument = gql`
   query FindDynamics {
     findDynamics {

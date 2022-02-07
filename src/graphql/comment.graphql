@@ -1,17 +1,14 @@
 fragment commentFields on Comment {
   _id
   content
-  pictures
   createdAt
   user {
     nickname
-    avatarUrl
-    _id
   }
 }
 
-query FindComments {
-  findComments {
+query FindComments($object: ID!) {
+  findComments(object: $object) {
     ...commentFields
   }
 }
@@ -22,8 +19,8 @@ query FindComment($_id: ID!) {
   }
 }
 
-mutation CreateComment($content: String!, $pictures: [String!]) {
-  createComment(input: { content: $content, pictures: $pictures, }) {
+mutation CreateComment($object: ID!, $objectModel: CommentObjectUnionModel!, $content: String!, ) {
+  createComment(input: { object: $object, objectModel: $objectModel, content: $content }) {
     ...commentFields
   }
 }
