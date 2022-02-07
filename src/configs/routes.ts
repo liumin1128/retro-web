@@ -45,9 +45,21 @@ export default [
       },
       {
         path: '/dynamic',
-        component: '@/pages/dynamic',
-        title: 'Dynamic',
-        exact: true,
+
+        routes: [
+          {
+            path: '/dynamic',
+            component: '@/pages/dynamic',
+            title: 'Dynamic',
+            exact: true,
+          },
+          {
+            path: '/dynamic/:id',
+            component: '@/pages/dynamic/detail',
+            title: 'Dynamic Detail',
+            exact: true,
+          },
+        ],
       },
       {
         path: '/retro',

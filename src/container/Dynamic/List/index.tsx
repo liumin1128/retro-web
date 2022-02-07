@@ -1,7 +1,7 @@
-import DynamicList from '@/components/Dynamic/List';
 import { useFindDynamicsQuery, Dynamic } from '@/generated/graphql';
 import Error from '@/components/Error/common';
 import Skeleton from '@/components/Skeleton/Dynamic/List';
+import DynamicList from '@/components/Dynamic/List';
 
 export default function DynamicListContainer() {
   const { data, loading, error } = useFindDynamicsQuery();

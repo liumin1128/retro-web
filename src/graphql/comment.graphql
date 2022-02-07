@@ -1,0 +1,29 @@
+fragment commentFields on Comment {
+  _id
+  content
+  pictures
+  createdAt
+  user {
+    nickname
+    avatarUrl
+    _id
+  }
+}
+
+query FindComments {
+  findComments {
+    ...commentFields
+  }
+}
+
+query FindComment($_id: ID!) {
+  findComment(_id: $_id) {
+    ...commentFields
+  }
+}
+
+mutation CreateComment($content: String!, $pictures: [String!]) {
+  createComment(input: { content: $content, pictures: $pictures, }) {
+    ...commentFields
+  }
+}
