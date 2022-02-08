@@ -18,7 +18,7 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
         src={comment?.user?.avatarUrl as string}
         sx={{ width: 48, height: 48 }}
       />
-      <Stack>
+      <Stack spacing={1}>
         <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
           {comment.user?.nickname as string}
         </Typography>
