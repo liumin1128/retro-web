@@ -5,6 +5,7 @@ import { useFindCommentsQuery } from '@/generated/graphql';
 import Error from '@/components/Error/common';
 import Skeleton from '@/components/Skeleton/Dynamic/List';
 import CommentItem from '@/container/Comment/Item';
+import ReplyItem from '@/container/Comment/ReplyItem';
 
 interface ICommentListProps {
   object: string;
@@ -26,6 +27,16 @@ const CommentList: React.FunctionComponent<ICommentListProps> = (props) => {
         return (
           <Fragment key={i?._id}>
             <CommentItem comment={i} />
+            <Stack spacing={2} sx={{ pl: 8 }}>
+              {Array.isArray(i?.comments) &&
+                i?.comments.map((j) => {
+                  return (
+                    <Fragment key={j?._id}>
+                      <ReplyItem comment={j} />
+                    </Fragment>
+                  );
+                })}
+            </Stack>
           </Fragment>
         );
       })}

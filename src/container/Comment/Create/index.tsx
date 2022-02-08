@@ -36,6 +36,7 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
       <Paper sx={{ p: 2 }}>
         <Stack spacing={1}>
           <InputBase
+            autoFocus
             multiline
             placeholder="发一条友善的评论"
             inputRef={inputRef}

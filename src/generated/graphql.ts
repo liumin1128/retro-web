@@ -26,9 +26,12 @@ export type Scalars = {
 export type Comment = Document & {
   __typename?: 'Comment';
   _id: Scalars['ID'];
+  comments?: Maybe<Array<Maybe<Reply>>>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
-  object: CommentObjectUnion;
+  object?: Maybe<Scalars['ID']>;
+  objectModel?: Maybe<CommentObjectUnionModel>;
+  objectUnion?: Maybe<CommentObjectUnion>;
   updatedAt?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
 };
@@ -117,6 +120,7 @@ export type Mutation = {
   deleteRetroMessage?: Maybe<RetroMessage>;
   likeRetroMessage?: Maybe<RetroMessage>;
   register?: Maybe<User>;
+  replyComment?: Maybe<Comment>;
   updateRetroMessage?: Maybe<RetroMessage>;
 };
 
@@ -159,6 +163,10 @@ export type MutationLikeRetroMessageArgs = {
 
 export type MutationRegisterArgs = {
   input?: InputMaybe<RegisterUserInput>;
+};
+
+export type MutationReplyCommentArgs = {
+  input?: InputMaybe<ReplyCommentInput>;
 };
 
 export type MutationUpdateRetroMessageArgs = {
@@ -251,6 +259,24 @@ export type RegisterUserInput = {
   sex?: InputMaybe<Scalars['Int']>;
   sign?: InputMaybe<Scalars['String']>;
   username: Scalars['String'];
+};
+
+export type Reply = {
+  __typename?: 'Reply';
+  _id: Scalars['ID'];
+  content?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  object?: Maybe<Scalars['ID']>;
+  objectModel?: Maybe<CommentObjectUnionModel>;
+  objectUnion?: Maybe<CommentObjectUnion>;
+  replyTo?: Maybe<Comment>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type ReplyCommentInput = {
+  content?: InputMaybe<Scalars['String']>;
+  to: Scalars['ID'];
 };
 
 export type Retro = Document & {
@@ -371,6 +397,46 @@ export type CommentFieldsFragment = {
       }
     | null
     | undefined;
+  comments?:
+    | Array<
+        | {
+            __typename?: 'Reply';
+            _id: string;
+            content?: string | null | undefined;
+            createdAt?: string | null | undefined;
+            user?:
+              | {
+                  __typename: 'User';
+                  _id: string;
+                  nickname?: string | null | undefined;
+                  username?: string | null | undefined;
+                  avatarUrl?: string | null | undefined;
+                }
+              | null
+              | undefined;
+            replyTo?:
+              | {
+                  __typename?: 'Comment';
+                  content?: string | null | undefined;
+                  user?:
+                    | {
+                        __typename: 'User';
+                        _id: string;
+                        nickname?: string | null | undefined;
+                        username?: string | null | undefined;
+                        avatarUrl?: string | null | undefined;
+                      }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          }
+        | null
+        | undefined
+      >
+    | null
+    | undefined;
 };
 
 export type FindCommentsQueryVariables = Exact<{
@@ -394,6 +460,46 @@ export type FindCommentsQuery = {
                   username?: string | null | undefined;
                   avatarUrl?: string | null | undefined;
                 }
+              | null
+              | undefined;
+            comments?:
+              | Array<
+                  | {
+                      __typename?: 'Reply';
+                      _id: string;
+                      content?: string | null | undefined;
+                      createdAt?: string | null | undefined;
+                      user?:
+                        | {
+                            __typename: 'User';
+                            _id: string;
+                            nickname?: string | null | undefined;
+                            username?: string | null | undefined;
+                            avatarUrl?: string | null | undefined;
+                          }
+                        | null
+                        | undefined;
+                      replyTo?:
+                        | {
+                            __typename?: 'Comment';
+                            content?: string | null | undefined;
+                            user?:
+                              | {
+                                  __typename: 'User';
+                                  _id: string;
+                                  nickname?: string | null | undefined;
+                                  username?: string | null | undefined;
+                                  avatarUrl?: string | null | undefined;
+                                }
+                              | null
+                              | undefined;
+                          }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined
+                >
               | null
               | undefined;
           }
@@ -426,6 +532,46 @@ export type FindCommentQuery = {
             }
           | null
           | undefined;
+        comments?:
+          | Array<
+              | {
+                  __typename?: 'Reply';
+                  _id: string;
+                  content?: string | null | undefined;
+                  createdAt?: string | null | undefined;
+                  user?:
+                    | {
+                        __typename: 'User';
+                        _id: string;
+                        nickname?: string | null | undefined;
+                        username?: string | null | undefined;
+                        avatarUrl?: string | null | undefined;
+                      }
+                    | null
+                    | undefined;
+                  replyTo?:
+                    | {
+                        __typename?: 'Comment';
+                        content?: string | null | undefined;
+                        user?:
+                          | {
+                              __typename: 'User';
+                              _id: string;
+                              nickname?: string | null | undefined;
+                              username?: string | null | undefined;
+                              avatarUrl?: string | null | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
       }
     | null
     | undefined;
@@ -453,6 +599,114 @@ export type CreateCommentMutation = {
               username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
+          | null
+          | undefined;
+        comments?:
+          | Array<
+              | {
+                  __typename?: 'Reply';
+                  _id: string;
+                  content?: string | null | undefined;
+                  createdAt?: string | null | undefined;
+                  user?:
+                    | {
+                        __typename: 'User';
+                        _id: string;
+                        nickname?: string | null | undefined;
+                        username?: string | null | undefined;
+                        avatarUrl?: string | null | undefined;
+                      }
+                    | null
+                    | undefined;
+                  replyTo?:
+                    | {
+                        __typename?: 'Comment';
+                        content?: string | null | undefined;
+                        user?:
+                          | {
+                              __typename: 'User';
+                              _id: string;
+                              nickname?: string | null | undefined;
+                              username?: string | null | undefined;
+                              avatarUrl?: string | null | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ReplyCommentMutationVariables = Exact<{
+  to: Scalars['ID'];
+  content: Scalars['String'];
+}>;
+
+export type ReplyCommentMutation = {
+  __typename?: 'Mutation';
+  replyComment?:
+    | {
+        __typename?: 'Comment';
+        _id: string;
+        content?: string | null | undefined;
+        createdAt?: string | null | undefined;
+        user?:
+          | {
+              __typename: 'User';
+              _id: string;
+              nickname?: string | null | undefined;
+              username?: string | null | undefined;
+              avatarUrl?: string | null | undefined;
+            }
+          | null
+          | undefined;
+        comments?:
+          | Array<
+              | {
+                  __typename?: 'Reply';
+                  _id: string;
+                  content?: string | null | undefined;
+                  createdAt?: string | null | undefined;
+                  user?:
+                    | {
+                        __typename: 'User';
+                        _id: string;
+                        nickname?: string | null | undefined;
+                        username?: string | null | undefined;
+                        avatarUrl?: string | null | undefined;
+                      }
+                    | null
+                    | undefined;
+                  replyTo?:
+                    | {
+                        __typename?: 'Comment';
+                        content?: string | null | undefined;
+                        user?:
+                          | {
+                              __typename: 'User';
+                              _id: string;
+                              nickname?: string | null | undefined;
+                              username?: string | null | undefined;
+                              avatarUrl?: string | null | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined
+            >
           | null
           | undefined;
       }
@@ -1224,6 +1478,20 @@ export const CommentFieldsFragmentDoc = gql`
     user {
       ...userFields
     }
+    comments {
+      _id
+      content
+      createdAt
+      user {
+        ...userFields
+      }
+      replyTo {
+        user {
+          ...userFields
+        }
+        content
+      }
+    }
   }
   ${UserFieldsFragmentDoc}
 `;
@@ -1463,6 +1731,58 @@ export type CreateCommentMutationResult =
 export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
   CreateCommentMutation,
   CreateCommentMutationVariables
+>;
+export const ReplyCommentDocument = gql`
+  mutation ReplyComment($to: ID!, $content: String!) {
+    replyComment(input: { to: $to, content: $content }) {
+      ...commentFields
+    }
+  }
+  ${CommentFieldsFragmentDoc}
+`;
+export type ReplyCommentMutationFn = Apollo.MutationFunction<
+  ReplyCommentMutation,
+  ReplyCommentMutationVariables
+>;
+
+/**
+ * __useReplyCommentMutation__
+ *
+ * To run a mutation, you first call `useReplyCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReplyCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [replyCommentMutation, { data, loading, error }] = useReplyCommentMutation({
+ *   variables: {
+ *      to: // value for 'to'
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useReplyCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ReplyCommentMutation,
+    ReplyCommentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ReplyCommentMutation,
+    ReplyCommentMutationVariables
+  >(ReplyCommentDocument, options);
+}
+export type ReplyCommentMutationHookResult = ReturnType<
+  typeof useReplyCommentMutation
+>;
+export type ReplyCommentMutationResult =
+  Apollo.MutationResult<ReplyCommentMutation>;
+export type ReplyCommentMutationOptions = Apollo.BaseMutationOptions<
+  ReplyCommentMutation,
+  ReplyCommentMutationVariables
 >;
 export const FindDynamicsDocument = gql`
   query FindDynamics {

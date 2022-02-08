@@ -5,6 +5,20 @@ fragment commentFields on Comment {
   user {
     ...userFields
   }
+  comments {
+    _id
+    content
+    createdAt
+    user {
+      ...userFields
+    }
+    replyTo {
+      user {
+        ...userFields
+      }
+      content
+    }
+  }
 }
 
 query FindComments($object: ID!) {
@@ -19,8 +33,20 @@ query FindComment($_id: ID!) {
   }
 }
 
-mutation CreateComment($object: ID!, $objectModel: CommentObjectUnionModel!, $content: String!, ) {
-  createComment(input: { object: $object, objectModel: $objectModel, content: $content }) {
+mutation CreateComment(
+  $object: ID!
+  $objectModel: CommentObjectUnionModel!
+  $content: String!
+) {
+  createComment(
+    input: { object: $object, objectModel: $objectModel, content: $content }
+  ) {
+    ...commentFields
+  }
+}
+
+mutation ReplyComment($to: ID!, $content: String!) {
+  replyComment(input: { to: $to, content: $content }) {
     ...commentFields
   }
 }

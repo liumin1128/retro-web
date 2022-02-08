@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Stack from '@mui/material/Stack';
-import { Comment } from '@/generated/graphql';
-import CommentItem from '@/components/Comment/Item';
+import { Reply } from '@/generated/graphql';
+import CommentItem from '@/components/Comment/ReplyItem';
 import CommentReply from '@/container/Comment/Create/Reply';
 
 interface ICommentItemContainerProps {
-  comment: Comment;
+  comment: Reply;
 }
 
 const CommentItemContainer: React.FunctionComponent<
