@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 import { useFindCommentsQuery } from '@/generated/graphql';
 import Error from '@/components/Error/common';
 import Skeleton from '@/components/Skeleton/Dynamic/List';
+import CommentItem from '@/container/Comment/Item';
 
 interface ICommentListProps {
   object: string;
@@ -19,9 +21,13 @@ const CommentList: React.FunctionComponent<ICommentListProps> = (props) => {
   if (!data?.findComments) return <Error />;
 
   return (
-    <Stack>
+    <Stack spacing={3} divider={<Divider variant="inset" />}>
       {data?.findComments.map((i) => {
-        return <div key={i?._id}>{i?.content}</div>;
+        return (
+          <Fragment key={i?._id}>
+            <CommentItem comment={i} />
+          </Fragment>
+        );
       })}
     </Stack>
   );

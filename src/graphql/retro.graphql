@@ -6,9 +6,7 @@ fragment retroFields on Retro {
   date
   anonymous
   user {
-    _id
-    nickname
-    avatarUrl
+    ...userFields
   }
 }
 

@@ -8,10 +8,7 @@ fragment retroMessageFields on RetroMessage {
   pictures
   anonymous
   user {
-    _id
-    nickname
-    username
-    avatarUrl
+    ...userFields
   }
 }
 

@@ -17,17 +17,17 @@ export default function Home() {
     <div>
       <Container fixed sx={{ p: isUpMd ? undefined : 0 }}>
         <Grid container>
-          <Grid item lg={2}>
+          <Grid item xs={12} lg={2}>
             left
           </Grid>
-          <Grid item lg={6}>
+          <Grid item xs={12} lg={6}>
             <Stack spacing={2}>
               <DynamicDetail id={params.id} />
               <CommentList object={params.id} />
               <CommentCreate object={params.id} />
             </Stack>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item xs={12} lg={4}>
             right
           </Grid>
         </Grid>

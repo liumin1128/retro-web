@@ -4,9 +4,7 @@ fragment dynamicFields on Dynamic {
   pictures
   createdAt
   user {
-    nickname
-    avatarUrl
-    _id
+    ...userFields
   }
 }
 

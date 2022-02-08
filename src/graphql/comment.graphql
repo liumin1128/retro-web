@@ -3,7 +3,7 @@ fragment commentFields on Comment {
   content
   createdAt
   user {
-    nickname
+    ...userFields
   }
 }
 

@@ -362,7 +362,13 @@ export type CommentFieldsFragment = {
   content?: string | null | undefined;
   createdAt?: string | null | undefined;
   user?:
-    | { __typename?: 'User'; nickname?: string | null | undefined }
+    | {
+        __typename: 'User';
+        _id: string;
+        nickname?: string | null | undefined;
+        username?: string | null | undefined;
+        avatarUrl?: string | null | undefined;
+      }
     | null
     | undefined;
 };
@@ -381,7 +387,13 @@ export type FindCommentsQuery = {
             content?: string | null | undefined;
             createdAt?: string | null | undefined;
             user?:
-              | { __typename?: 'User'; nickname?: string | null | undefined }
+              | {
+                  __typename: 'User';
+                  _id: string;
+                  nickname?: string | null | undefined;
+                  username?: string | null | undefined;
+                  avatarUrl?: string | null | undefined;
+                }
               | null
               | undefined;
           }
@@ -405,7 +417,13 @@ export type FindCommentQuery = {
         content?: string | null | undefined;
         createdAt?: string | null | undefined;
         user?:
-          | { __typename?: 'User'; nickname?: string | null | undefined }
+          | {
+              __typename: 'User';
+              _id: string;
+              nickname?: string | null | undefined;
+              username?: string | null | undefined;
+              avatarUrl?: string | null | undefined;
+            }
           | null
           | undefined;
       }
@@ -428,7 +446,13 @@ export type CreateCommentMutation = {
         content?: string | null | undefined;
         createdAt?: string | null | undefined;
         user?:
-          | { __typename?: 'User'; nickname?: string | null | undefined }
+          | {
+              __typename: 'User';
+              _id: string;
+              nickname?: string | null | undefined;
+              username?: string | null | undefined;
+              avatarUrl?: string | null | undefined;
+            }
           | null
           | undefined;
       }
@@ -443,10 +467,11 @@ export type DynamicFieldsFragment = {
   pictures?: Array<string> | null | undefined;
   createdAt?: string | null | undefined;
   user: {
-    __typename?: 'User';
-    nickname?: string | null | undefined;
-    avatarUrl?: string | null | undefined;
+    __typename: 'User';
     _id: string;
+    nickname?: string | null | undefined;
+    username?: string | null | undefined;
+    avatarUrl?: string | null | undefined;
   };
 };
 
@@ -463,10 +488,11 @@ export type FindDynamicsQuery = {
             pictures?: Array<string> | null | undefined;
             createdAt?: string | null | undefined;
             user: {
-              __typename?: 'User';
-              nickname?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
+              __typename: 'User';
               _id: string;
+              nickname?: string | null | undefined;
+              username?: string | null | undefined;
+              avatarUrl?: string | null | undefined;
             };
           }
         | null
@@ -490,10 +516,11 @@ export type FindDynamicQuery = {
         pictures?: Array<string> | null | undefined;
         createdAt?: string | null | undefined;
         user: {
-          __typename?: 'User';
-          nickname?: string | null | undefined;
-          avatarUrl?: string | null | undefined;
+          __typename: 'User';
           _id: string;
+          nickname?: string | null | undefined;
+          username?: string | null | undefined;
+          avatarUrl?: string | null | undefined;
         };
       }
     | null
@@ -515,10 +542,11 @@ export type CreateDynamicMutation = {
         pictures?: Array<string> | null | undefined;
         createdAt?: string | null | undefined;
         user: {
-          __typename?: 'User';
-          nickname?: string | null | undefined;
-          avatarUrl?: string | null | undefined;
+          __typename: 'User';
           _id: string;
+          nickname?: string | null | undefined;
+          username?: string | null | undefined;
+          avatarUrl?: string | null | undefined;
         };
       }
     | null
@@ -534,9 +562,10 @@ export type RetroFieldsFragment = {
   anonymous?: boolean | null | undefined;
   user?:
     | {
-        __typename?: 'User';
+        __typename: 'User';
         _id: string;
         nickname?: string | null | undefined;
+        username?: string | null | undefined;
         avatarUrl?: string | null | undefined;
       }
     | null
@@ -617,9 +646,10 @@ export type FindRetroQuery = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -648,9 +678,10 @@ export type CreateRetroMutation = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -674,9 +705,10 @@ export type RetroCreatedSubscription = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -698,7 +730,7 @@ export type RetroMessageFieldsFragment = {
   anonymous?: boolean | null | undefined;
   user?:
     | {
-        __typename?: 'User';
+        __typename: 'User';
         _id: string;
         nickname?: string | null | undefined;
         username?: string | null | undefined;
@@ -728,7 +760,7 @@ export type FindRetroSectionQuery = {
             anonymous?: boolean | null | undefined;
             user?:
               | {
-                  __typename?: 'User';
+                  __typename: 'User';
                   _id: string;
                   nickname?: string | null | undefined;
                   username?: string | null | undefined;
@@ -752,9 +784,10 @@ export type FindRetroSectionQuery = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
+              username?: string | null | undefined;
               avatarUrl?: string | null | undefined;
             }
           | null
@@ -794,7 +827,7 @@ export type FindRetroMessagesQuery = {
             anonymous?: boolean | null | undefined;
             user?:
               | {
-                  __typename?: 'User';
+                  __typename: 'User';
                   _id: string;
                   nickname?: string | null | undefined;
                   username?: string | null | undefined;
@@ -829,7 +862,7 @@ export type FindRetroMessageQuery = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -865,7 +898,7 @@ export type CreateRetroMessageMutation = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -902,7 +935,7 @@ export type UpdateRetroMessageMutation = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -935,7 +968,7 @@ export type LikeRetroMessageMutation = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -967,7 +1000,7 @@ export type DeleteRetroMessageMutation = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -999,7 +1032,7 @@ export type RetroMessageCreatedSubscription = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -1031,7 +1064,7 @@ export type RetroMessageUpdatedSubscription = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -1063,7 +1096,7 @@ export type RetroMessageLikedSubscription = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -1095,7 +1128,7 @@ export type RetroMessageDeletedSubscription = {
         anonymous?: boolean | null | undefined;
         user?:
           | {
-              __typename?: 'User';
+              __typename: 'User';
               _id: string;
               nickname?: string | null | undefined;
               username?: string | null | undefined;
@@ -1174,15 +1207,25 @@ export type LoginQuery = {
     | undefined;
 };
 
+export const UserFieldsFragmentDoc = gql`
+  fragment userFields on User {
+    __typename
+    _id
+    nickname
+    username
+    avatarUrl
+  }
+`;
 export const CommentFieldsFragmentDoc = gql`
   fragment commentFields on Comment {
     _id
     content
     createdAt
     user {
-      nickname
+      ...userFields
     }
   }
+  ${UserFieldsFragmentDoc}
 `;
 export const DynamicFieldsFragmentDoc = gql`
   fragment dynamicFields on Dynamic {
@@ -1191,11 +1234,10 @@ export const DynamicFieldsFragmentDoc = gql`
     pictures
     createdAt
     user {
-      nickname
-      avatarUrl
-      _id
+      ...userFields
     }
   }
+  ${UserFieldsFragmentDoc}
 `;
 export const RetroFieldsFragmentDoc = gql`
   fragment retroFields on Retro {
@@ -1206,11 +1248,10 @@ export const RetroFieldsFragmentDoc = gql`
     date
     anonymous
     user {
-      _id
-      nickname
-      avatarUrl
+      ...userFields
     }
   }
+  ${UserFieldsFragmentDoc}
 `;
 export const RetroListItemFieldsFragmentDoc = gql`
   fragment retroListItemFields on RetroListItem {
@@ -1243,21 +1284,10 @@ export const RetroMessageFieldsFragmentDoc = gql`
     pictures
     anonymous
     user {
-      _id
-      nickname
-      username
-      avatarUrl
+      ...userFields
     }
   }
-`;
-export const UserFieldsFragmentDoc = gql`
-  fragment userFields on User {
-    __typename
-    _id
-    nickname
-    username
-    avatarUrl
-  }
+  ${UserFieldsFragmentDoc}
 `;
 export const FindCommentsDocument = gql`
   query FindComments($object: ID!) {
