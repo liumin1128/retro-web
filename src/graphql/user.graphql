@@ -8,21 +8,29 @@ fragment userFields on User {
 
 query FindUsers {
   findUsers {
-    ...userFields
+    _id
+    nickname
+    username
+    avatarUrl
   }
 }
 
 query FindUserInfo {
   findUserInfo {
-    ...userFields
+    _id
+    nickname
+    username
+    avatarUrl
   }
 }
-
 
 query Login($input: LoginUserInput) {
   login(input: $input) {
     user {
-      ...userFields
+      _id
+      nickname
+      username
+      avatarUrl
     }
     token
   }

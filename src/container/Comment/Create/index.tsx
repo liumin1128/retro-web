@@ -6,6 +6,7 @@ import InputBase from '@mui/material/InputBase';
 import {
   useCreateCommentMutation,
   CommentObjectUnionModel,
+  CommentFieldsFragmentDoc,
 } from '@/generated/graphql';
 
 interface ICommentCreateProps {
@@ -27,6 +28,21 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
         object,
         objectModel: CommentObjectUnionModel.Dynamic,
         content: inputRef.current.value,
+      },
+      update(cache, { data }) {
+        console.log('data');
+        console.log(data);
+        cache.modify({
+          fields: {
+            findComments(list = []) {
+              const item = cache.writeFragment({
+                data: data?.createComment,
+                fragment: CommentFieldsFragmentDoc,
+              });
+              return [...list, item];
+            },
+          },
+        });
       },
     });
   };

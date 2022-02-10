@@ -2,7 +2,12 @@ import { useRef } from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
-import { useReplyCommentMutation, Comment, Reply } from '@/generated/graphql';
+import {
+  useReplyCommentMutation,
+  Comment,
+  Reply,
+  CommentFieldsFragmentDoc,
+} from '@/generated/graphql';
 
 interface ICommentReplyProps {
   to: Comment | Reply;
@@ -22,6 +27,18 @@ export default function CommentReplyContainer(props: ICommentReplyProps) {
       variables: {
         to: to._id,
         content: inputRef.current.value,
+      },
+      update(cache, { data }) {
+        cache.updateFragment(
+          {
+            id: `Comment:${to._id}`,
+            fragment: CommentFieldsFragmentDoc,
+          },
+          (item) => {
+            const newComments = [...(item.comments || []), data?.replyComment];
+            return { ...item, comments: newComments };
+          },
+        );
       },
     });
   };

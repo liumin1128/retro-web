@@ -8,7 +8,10 @@ fragment retroMessageFields on RetroMessage {
   pictures
   anonymous
   user {
-    ...userFields
+    _id
+    nickname
+    username
+    avatarUrl
   }
 }
 
@@ -20,7 +23,10 @@ query FindRetroSection($retro: ID!) {
     ...retroFields
   }
   userInfo: findUserInfo {
-    ...userFields
+    _id
+    nickname
+    username
+    avatarUrl
   }
 }
 

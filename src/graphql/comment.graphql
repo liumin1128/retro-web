@@ -3,21 +3,51 @@ fragment commentFields on Comment {
   content
   createdAt
   user {
-    ...userFields
+    _id
+    nickname
+    username
+    avatarUrl
   }
   comments {
     _id
     content
     createdAt
     user {
-      ...userFields
+      _id
+      nickname
+      username
+      avatarUrl
     }
     replyTo {
       user {
-        ...userFields
+        _id
+        nickname
+        username
+        avatarUrl
       }
       content
     }
+  }
+}
+
+fragment replyFields on Reply {
+  _id
+  content
+  createdAt
+  user {
+    _id
+    nickname
+    username
+    avatarUrl
+  }
+  replyTo {
+    user {
+      _id
+      nickname
+      username
+      avatarUrl
+    }
+    content
   }
 }
 
@@ -47,6 +77,6 @@ mutation CreateComment(
 
 mutation ReplyComment($to: ID!, $content: String!) {
   replyComment(input: { to: $to, content: $content }) {
-    ...commentFields
+    ...replyFields
   }
 }

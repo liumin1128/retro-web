@@ -4,7 +4,10 @@ fragment dynamicFields on Dynamic {
   pictures
   createdAt
   user {
-    ...userFields
+    _id
+    nickname
+    username
+    avatarUrl
   }
 }
 
@@ -21,7 +24,7 @@ query FindDynamic($_id: ID!) {
 }
 
 mutation CreateDynamic($content: String!, $pictures: [String!]) {
-  createDynamic(input: { content: $content, pictures: $pictures, }) {
+  createDynamic(input: { content: $content, pictures: $pictures }) {
     ...dynamicFields
   }
 }

@@ -6,7 +6,10 @@ fragment retroFields on Retro {
   date
   anonymous
   user {
-    ...userFields
+    _id
+    nickname
+    username
+    avatarUrl
   }
 }
 
@@ -22,7 +25,7 @@ fragment retroListItemFields on RetroListItem {
   unhappyCount
   wonderringCount
   todoCount
-    user {
+  user {
     _id
     nickname
     avatarUrl
