@@ -29,6 +29,8 @@ export type Comment = Document & {
   comments?: Maybe<Array<Maybe<Reply>>>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
+  likeCount?: Maybe<Scalars['Int']>;
+  likeStatus?: Maybe<Scalars['Boolean']>;
   object?: Maybe<Scalars['ID']>;
   objectModel?: Maybe<CommentObjectUnionModel>;
   objectUnion?: Maybe<CommentObjectUnion>;
@@ -54,6 +56,11 @@ export type CreateCommentInput = {
 export type CreateDynamicInput = {
   content?: InputMaybe<Scalars['String']>;
   pictures?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type CreateLikeInput = {
+  object: Scalars['ID'];
+  objectModel: LikeObjectUnionModel;
 };
 
 export type CreateNewsInput = {
@@ -102,6 +109,26 @@ export type Dynamic = Document & {
   user: User;
 };
 
+export type Like = Document & {
+  __typename?: 'Like';
+  _id: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  object?: Maybe<Scalars['ID']>;
+  objectModel?: Maybe<LikeObjectUnionModel>;
+  objectUnion?: Maybe<LikeObjectUnion>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type LikeObjectUnion = Comment | Dynamic | News | RetroMessage;
+
+export enum LikeObjectUnionModel {
+  Comment = 'Comment',
+  Dynamic = 'Dynamic',
+  News = 'News',
+  RetroMessage = 'RetroMessage',
+}
+
 export type LoginUserInput = {
   password?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
@@ -112,6 +139,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createComment?: Maybe<Comment>;
   createDynamic?: Maybe<Dynamic>;
+  createLike?: Maybe<Like>;
   createNews?: Maybe<News>;
   createOAuth?: Maybe<OAuth>;
   createRetro?: Maybe<Retro>;
@@ -130,6 +158,10 @@ export type MutationCreateCommentArgs = {
 
 export type MutationCreateDynamicArgs = {
   input?: InputMaybe<CreateDynamicInput>;
+};
+
+export type MutationCreateLikeArgs = {
+  input?: InputMaybe<CreateLikeInput>;
 };
 
 export type MutationCreateNewsArgs = {
@@ -194,6 +226,8 @@ export type Query = {
   findComments?: Maybe<Array<Maybe<Comment>>>;
   findDynamic?: Maybe<Dynamic>;
   findDynamics?: Maybe<Array<Maybe<Dynamic>>>;
+  findLike?: Maybe<Like>;
+  findLikes?: Maybe<Array<Maybe<Like>>>;
   findRetro?: Maybe<Retro>;
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
@@ -218,6 +252,14 @@ export type QueryFindCommentsArgs = {
 
 export type QueryFindDynamicArgs = {
   _id: Scalars['ID'];
+};
+
+export type QueryFindLikeArgs = {
+  _id: Scalars['ID'];
+};
+
+export type QueryFindLikesArgs = {
+  object: Scalars['ID'];
 };
 
 export type QueryFindRetroArgs = {
@@ -267,6 +309,8 @@ export type Reply = {
   commentTo?: Maybe<Comment>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
+  likeCount?: Maybe<Scalars['Int']>;
+  likeStatus?: Maybe<Scalars['Boolean']>;
   object?: Maybe<Scalars['ID']>;
   objectModel?: Maybe<CommentObjectUnionModel>;
   objectUnion?: Maybe<CommentObjectUnion>;
@@ -347,6 +391,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   commentCreated?: Maybe<Comment>;
   dynamicCreated?: Maybe<Dynamic>;
+  likeCreated?: Maybe<Like>;
   newsCreated?: Maybe<News>;
   retroCreated?: Maybe<Retro>;
   retroMessageCreated?: Maybe<RetroMessage>;
@@ -388,6 +433,8 @@ export type CommentFieldsFragment = {
   _id: string;
   content?: string | null | undefined;
   createdAt?: string | null | undefined;
+  likeCount?: number | null | undefined;
+  likeStatus?: boolean | null | undefined;
   user?:
     | {
         __typename?: 'User';
@@ -405,6 +452,8 @@ export type CommentFieldsFragment = {
             _id: string;
             content?: string | null | undefined;
             createdAt?: string | null | undefined;
+            likeCount?: number | null | undefined;
+            likeStatus?: boolean | null | undefined;
             user?:
               | {
                   __typename?: 'User';
@@ -413,6 +462,10 @@ export type CommentFieldsFragment = {
                   username?: string | null | undefined;
                   avatarUrl?: string | null | undefined;
                 }
+              | null
+              | undefined;
+            commentTo?:
+              | { __typename?: 'Comment'; _id: string }
               | null
               | undefined;
             replyTo?:
@@ -445,6 +498,8 @@ export type ReplyFieldsFragment = {
   _id: string;
   content?: string | null | undefined;
   createdAt?: string | null | undefined;
+  likeCount?: number | null | undefined;
+  likeStatus?: boolean | null | undefined;
   user?:
     | {
         __typename?: 'User';
@@ -489,6 +544,8 @@ export type FindCommentsQuery = {
             _id: string;
             content?: string | null | undefined;
             createdAt?: string | null | undefined;
+            likeCount?: number | null | undefined;
+            likeStatus?: boolean | null | undefined;
             user?:
               | {
                   __typename?: 'User';
@@ -506,6 +563,8 @@ export type FindCommentsQuery = {
                       _id: string;
                       content?: string | null | undefined;
                       createdAt?: string | null | undefined;
+                      likeCount?: number | null | undefined;
+                      likeStatus?: boolean | null | undefined;
                       user?:
                         | {
                             __typename?: 'User';
@@ -514,6 +573,10 @@ export type FindCommentsQuery = {
                             username?: string | null | undefined;
                             avatarUrl?: string | null | undefined;
                           }
+                        | null
+                        | undefined;
+                      commentTo?:
+                        | { __typename?: 'Comment'; _id: string }
                         | null
                         | undefined;
                       replyTo?:
@@ -559,6 +622,8 @@ export type FindCommentQuery = {
         _id: string;
         content?: string | null | undefined;
         createdAt?: string | null | undefined;
+        likeCount?: number | null | undefined;
+        likeStatus?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -576,6 +641,8 @@ export type FindCommentQuery = {
                   _id: string;
                   content?: string | null | undefined;
                   createdAt?: string | null | undefined;
+                  likeCount?: number | null | undefined;
+                  likeStatus?: boolean | null | undefined;
                   user?:
                     | {
                         __typename?: 'User';
@@ -584,6 +651,10 @@ export type FindCommentQuery = {
                         username?: string | null | undefined;
                         avatarUrl?: string | null | undefined;
                       }
+                    | null
+                    | undefined;
+                  commentTo?:
+                    | { __typename?: 'Comment'; _id: string }
                     | null
                     | undefined;
                   replyTo?:
@@ -628,6 +699,8 @@ export type CreateCommentMutation = {
         _id: string;
         content?: string | null | undefined;
         createdAt?: string | null | undefined;
+        likeCount?: number | null | undefined;
+        likeStatus?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -645,6 +718,8 @@ export type CreateCommentMutation = {
                   _id: string;
                   content?: string | null | undefined;
                   createdAt?: string | null | undefined;
+                  likeCount?: number | null | undefined;
+                  likeStatus?: boolean | null | undefined;
                   user?:
                     | {
                         __typename?: 'User';
@@ -653,6 +728,10 @@ export type CreateCommentMutation = {
                         username?: string | null | undefined;
                         avatarUrl?: string | null | undefined;
                       }
+                    | null
+                    | undefined;
+                  commentTo?:
+                    | { __typename?: 'Comment'; _id: string }
                     | null
                     | undefined;
                   replyTo?:
@@ -696,6 +775,8 @@ export type ReplyCommentMutation = {
         _id: string;
         content?: string | null | undefined;
         createdAt?: string | null | undefined;
+        likeCount?: number | null | undefined;
+        likeStatus?: boolean | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -821,6 +902,39 @@ export type CreateDynamicMutation = {
       }
     | null
     | undefined;
+};
+
+export type LikeFieldsFragment = { __typename?: 'Like'; _id: string };
+
+export type FindLikesQueryVariables = Exact<{
+  object: Scalars['ID'];
+}>;
+
+export type FindLikesQuery = {
+  __typename?: 'Query';
+  findLikes?:
+    | Array<{ __typename?: 'Like'; _id: string } | null | undefined>
+    | null
+    | undefined;
+};
+
+export type FindLikeQueryVariables = Exact<{
+  _id: Scalars['ID'];
+}>;
+
+export type FindLikeQuery = {
+  __typename?: 'Query';
+  findLike?: { __typename?: 'Like'; _id: string } | null | undefined;
+};
+
+export type CreateLikeMutationVariables = Exact<{
+  object: Scalars['ID'];
+  objectModel: LikeObjectUnionModel;
+}>;
+
+export type CreateLikeMutation = {
+  __typename?: 'Mutation';
+  createLike?: { __typename?: 'Like'; _id: string } | null | undefined;
 };
 
 export type RetroFieldsFragment = {
@@ -1482,6 +1596,8 @@ export const CommentFieldsFragmentDoc = gql`
     _id
     content
     createdAt
+    likeCount
+    likeStatus
     user {
       _id
       nickname
@@ -1492,11 +1608,16 @@ export const CommentFieldsFragmentDoc = gql`
       _id
       content
       createdAt
+      likeCount
+      likeStatus
       user {
         _id
         nickname
         username
         avatarUrl
+      }
+      commentTo {
+        _id
       }
       replyTo {
         user {
@@ -1515,6 +1636,8 @@ export const ReplyFieldsFragmentDoc = gql`
     _id
     content
     createdAt
+    likeCount
+    likeStatus
     user {
       _id
       nickname
@@ -1548,6 +1671,11 @@ export const DynamicFieldsFragmentDoc = gql`
       username
       avatarUrl
     }
+  }
+`;
+export const LikeFieldsFragmentDoc = gql`
+  fragment likeFields on Like {
+    _id
   }
 `;
 export const RetroFieldsFragmentDoc = gql`
@@ -2006,6 +2134,166 @@ export type CreateDynamicMutationResult =
 export type CreateDynamicMutationOptions = Apollo.BaseMutationOptions<
   CreateDynamicMutation,
   CreateDynamicMutationVariables
+>;
+export const FindLikesDocument = gql`
+  query FindLikes($object: ID!) {
+    findLikes(object: $object) {
+      ...likeFields
+    }
+  }
+  ${LikeFieldsFragmentDoc}
+`;
+
+/**
+ * __useFindLikesQuery__
+ *
+ * To run a query within a React component, call `useFindLikesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindLikesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindLikesQuery({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useFindLikesQuery(
+  baseOptions: Apollo.QueryHookOptions<FindLikesQuery, FindLikesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindLikesQuery, FindLikesQueryVariables>(
+    FindLikesDocument,
+    options,
+  );
+}
+export function useFindLikesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindLikesQuery,
+    FindLikesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindLikesQuery, FindLikesQueryVariables>(
+    FindLikesDocument,
+    options,
+  );
+}
+export type FindLikesQueryHookResult = ReturnType<typeof useFindLikesQuery>;
+export type FindLikesLazyQueryHookResult = ReturnType<
+  typeof useFindLikesLazyQuery
+>;
+export type FindLikesQueryResult = Apollo.QueryResult<
+  FindLikesQuery,
+  FindLikesQueryVariables
+>;
+export const FindLikeDocument = gql`
+  query FindLike($_id: ID!) {
+    findLike(_id: $_id) {
+      ...likeFields
+    }
+  }
+  ${LikeFieldsFragmentDoc}
+`;
+
+/**
+ * __useFindLikeQuery__
+ *
+ * To run a query within a React component, call `useFindLikeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindLikeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindLikeQuery({
+ *   variables: {
+ *      _id: // value for '_id'
+ *   },
+ * });
+ */
+export function useFindLikeQuery(
+  baseOptions: Apollo.QueryHookOptions<FindLikeQuery, FindLikeQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindLikeQuery, FindLikeQueryVariables>(
+    FindLikeDocument,
+    options,
+  );
+}
+export function useFindLikeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindLikeQuery,
+    FindLikeQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindLikeQuery, FindLikeQueryVariables>(
+    FindLikeDocument,
+    options,
+  );
+}
+export type FindLikeQueryHookResult = ReturnType<typeof useFindLikeQuery>;
+export type FindLikeLazyQueryHookResult = ReturnType<
+  typeof useFindLikeLazyQuery
+>;
+export type FindLikeQueryResult = Apollo.QueryResult<
+  FindLikeQuery,
+  FindLikeQueryVariables
+>;
+export const CreateLikeDocument = gql`
+  mutation CreateLike($object: ID!, $objectModel: LikeObjectUnionModel!) {
+    createLike(input: { object: $object, objectModel: $objectModel }) {
+      ...likeFields
+    }
+  }
+  ${LikeFieldsFragmentDoc}
+`;
+export type CreateLikeMutationFn = Apollo.MutationFunction<
+  CreateLikeMutation,
+  CreateLikeMutationVariables
+>;
+
+/**
+ * __useCreateLikeMutation__
+ *
+ * To run a mutation, you first call `useCreateLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createLikeMutation, { data, loading, error }] = useCreateLikeMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *      objectModel: // value for 'objectModel'
+ *   },
+ * });
+ */
+export function useCreateLikeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateLikeMutation,
+    CreateLikeMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(
+    CreateLikeDocument,
+    options,
+  );
+}
+export type CreateLikeMutationHookResult = ReturnType<
+  typeof useCreateLikeMutation
+>;
+export type CreateLikeMutationResult =
+  Apollo.MutationResult<CreateLikeMutation>;
+export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<
+  CreateLikeMutation,
+  CreateLikeMutationVariables
 >;
 export const FindRetrosDocument = gql`
   query FindRetros {
@@ -3000,7 +3288,15 @@ export interface PossibleTypesResultData {
 const result: PossibleTypesResultData = {
   possibleTypes: {
     CommentObjectUnion: ['Comment', 'News', 'RetroMessage'],
-    Document: ['Comment', 'Dynamic', 'Retro', 'RetroListItem', 'RetroMessage'],
+    Document: [
+      'Comment',
+      'Dynamic',
+      'Like',
+      'Retro',
+      'RetroListItem',
+      'RetroMessage',
+    ],
+    LikeObjectUnion: ['Comment', 'Dynamic', 'News', 'RetroMessage'],
   },
 };
 export default result;

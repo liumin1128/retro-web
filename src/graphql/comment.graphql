@@ -2,6 +2,8 @@ fragment commentFields on Comment {
   _id
   content
   createdAt
+  likeCount
+  likeStatus
   user {
     _id
     nickname
@@ -12,11 +14,16 @@ fragment commentFields on Comment {
     _id
     content
     createdAt
+    likeCount
+    likeStatus
     user {
       _id
       nickname
       username
       avatarUrl
+    }
+    commentTo {
+      _id
     }
     replyTo {
       user {
@@ -34,6 +41,8 @@ fragment replyFields on Reply {
   _id
   content
   createdAt
+  likeCount
+  likeStatus
   user {
     _id
     nickname

@@ -27,7 +27,7 @@ const CommentList: React.FunctionComponent<ICommentListProps> = (props) => {
         return (
           <Fragment key={i?._id}>
             <CommentItem comment={i} />
-            <Stack spacing={2} sx={{ pl: 8 }}>
+            <Stack spacing={3} sx={{ pl: 8 }}>
               {Array.isArray(i?.comments) &&
                 i?.comments.map((j) => {
                   return (

@@ -3,12 +3,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
 import CommentIcon from '@mui/icons-material/CommentOutlined';
-import { Reply } from '@/generated/graphql';
+import { ReplyFieldsFragment } from '@/generated/graphql';
 import { getTimeAgo } from '@/utils/format';
 
 interface ICommentItemProps {
-  comment: Reply;
+  comment: ReplyFieldsFragment;
   onZan?: () => void;
   onReply?: () => void;
 }
@@ -42,18 +43,21 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
       </Stack>
 
       <Stack direction="row" spacing={4} sx={{ alignItems: 'center' }}>
-        <Typography variant="caption" sx={{ minWidth: 64 }}>
+        <Typography variant="caption" sx={{ minWidth: 48 }}>
           {getTimeAgo(parseInt(comment.createdAt as string, 10))}
         </Typography>
-
         <Stack
           onClick={onZan}
           direction="row"
           spacing={1}
-          sx={{ alignItems: 'center' }}
+          sx={{ alignItems: 'center', minWidth: 48 }}
         >
-          <FavoriteIcon sx={{ fontSize: 'inherit' }} />
-          <Typography variant="caption">1</Typography>
+          {comment.likeStatus ? (
+            <FavoriteSharpIcon sx={{ fontSize: 'inherit' }} />
+          ) : (
+            <FavoriteIcon sx={{ fontSize: 'inherit' }} />
+          )}
+          <Typography variant="caption">{comment.likeCount}</Typography>
         </Stack>
 
         <Stack

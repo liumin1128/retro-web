@@ -1,0 +1,21 @@
+fragment likeFields on Like {
+  _id
+}
+
+query FindLikes($object: ID!) {
+  findLikes(object: $object) {
+    ...likeFields
+  }
+}
+
+query FindLike($_id: ID!) {
+  findLike(_id: $_id) {
+    ...likeFields
+  }
+}
+
+mutation CreateLike($object: ID!, $objectModel: LikeObjectUnionModel!) {
+  createLike(input: { object: $object, objectModel: $objectModel }) {
+    ...likeFields
+  }
+}
