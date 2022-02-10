@@ -31,10 +31,10 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
           {comment.user?.nickname as string}
         </Typography>
         <Typography variant="body1">回复</Typography>
-        <Avatar
+        {/* <Avatar
           src={comment.replyTo?.user?.avatarUrl as string}
           sx={{ width: 20, height: 20 }}
-        />
+        /> */}
         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
           {comment.replyTo?.user?.nickname as string}
         </Typography>

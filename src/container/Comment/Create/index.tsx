@@ -20,18 +20,16 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
 
   const [createComment, { loading }] = useCreateCommentMutation();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (loading) return;
     if (!inputRef.current) return;
-    createComment({
+    await createComment({
       variables: {
         object,
         objectModel: CommentObjectUnionModel.Dynamic,
         content: inputRef.current.value,
       },
       update(cache, { data }) {
-        console.log('data');
-        console.log(data);
         cache.modify({
           fields: {
             findComments(list = []) {
@@ -45,6 +43,7 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
         });
       },
     });
+    inputRef.current.value = '';
   };
 
   return (

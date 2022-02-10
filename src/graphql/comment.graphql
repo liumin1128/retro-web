@@ -40,7 +40,11 @@ fragment replyFields on Reply {
     username
     avatarUrl
   }
+  commentTo {
+    _id
+  }
   replyTo {
+    _id
     user {
       _id
       nickname

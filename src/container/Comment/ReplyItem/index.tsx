@@ -24,7 +24,14 @@ const CommentItemContainer: React.FunctionComponent<
           setReplyVisible(!replyVisible);
         }}
       />
-      {replyVisible && <CommentReply to={comment} />}
+      {replyVisible && (
+        <CommentReply
+          to={comment}
+          onCompleted={() => {
+            setReplyVisible(false);
+          }}
+        />
+      )}
     </Stack>
   );
 };

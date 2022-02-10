@@ -11,19 +11,21 @@ import {
 
 interface ICommentReplyProps {
   to: Comment | Reply;
+  onCompleted?: () => void;
 }
 
 export default function CommentReplyContainer(props: ICommentReplyProps) {
-  const { to } = props;
+  const { to, onCompleted } = props;
 
   const inputRef = useRef<HTMLTextAreaElement>();
 
   const [replyComment, { loading }] = useReplyCommentMutation();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (loading) return;
     if (!inputRef.current) return;
-    replyComment({
+
+    await replyComment({
       variables: {
         to: to._id,
         content: inputRef.current.value,
@@ -31,7 +33,7 @@ export default function CommentReplyContainer(props: ICommentReplyProps) {
       update(cache, { data }) {
         cache.updateFragment(
           {
-            id: `Comment:${to._id}`,
+            id: `Comment:${data?.replyComment?.commentTo?._id}`,
             fragment: CommentFieldsFragmentDoc,
           },
           (item) => {
@@ -41,6 +43,8 @@ export default function CommentReplyContainer(props: ICommentReplyProps) {
         );
       },
     });
+    inputRef.current.value = '';
+    if (onCompleted) onCompleted();
   };
 
   return (

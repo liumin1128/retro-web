@@ -264,6 +264,7 @@ export type RegisterUserInput = {
 export type Reply = {
   __typename?: 'Reply';
   _id: Scalars['ID'];
+  commentTo?: Maybe<Comment>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   object?: Maybe<Scalars['ID']>;
@@ -454,9 +455,11 @@ export type ReplyFieldsFragment = {
       }
     | null
     | undefined;
+  commentTo?: { __typename?: 'Comment'; _id: string } | null | undefined;
   replyTo?:
     | {
         __typename?: 'Comment';
+        _id: string;
         content?: string | null | undefined;
         user?:
           | {
@@ -703,9 +706,11 @@ export type ReplyCommentMutation = {
             }
           | null
           | undefined;
+        commentTo?: { __typename?: 'Comment'; _id: string } | null | undefined;
         replyTo?:
           | {
               __typename?: 'Comment';
+              _id: string;
               content?: string | null | undefined;
               user?:
                 | {
@@ -1516,7 +1521,11 @@ export const ReplyFieldsFragmentDoc = gql`
       username
       avatarUrl
     }
+    commentTo {
+      _id
+    }
     replyTo {
+      _id
       user {
         _id
         nickname
