@@ -63,7 +63,7 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
           sx={{ alignItems: 'center' }}
         >
           <CommentIcon sx={{ fontSize: 'inherit' }} />
-          <Typography variant="caption">1</Typography>
+          {/* <Typography variant="caption">1</Typography> */}
         </Stack>
       </Stack>
     </Stack>
