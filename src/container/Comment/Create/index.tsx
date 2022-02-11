@@ -15,6 +15,7 @@ import {
 import UserAvatar from '@/container/UserInfo/Avatar';
 import { getStorage } from '@/utils/store';
 import { USER_TOKEN } from '@/configs/base';
+import useKeyPress from '@/hooks/useKeyPress';
 
 interface ICommentCreateProps {
   object: string;
@@ -30,6 +31,7 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
   const handleSubmit = async () => {
     if (loading) return;
     if (!inputRef.current) return;
+    if (!inputRef.current.value) return;
     await createComment({
       variables: {
         object,
@@ -52,6 +54,10 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
     });
     inputRef.current.value = '';
   };
+
+  useKeyPress(['meta 13', 'ctrl 13'], handleSubmit, {
+    target: inputRef.current,
+  });
 
   const handleFocus = () => {
     const token = getStorage(USER_TOKEN);

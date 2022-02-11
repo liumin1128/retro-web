@@ -16,6 +16,7 @@ import {
 } from '@/generated/graphql';
 import { getStorage } from '@/utils/store';
 import { USER_TOKEN } from '@/configs/base';
+import useKeyPress from '@/hooks/useKeyPress';
 
 interface ICommentReplyProps {
   to: CommentFieldsFragment | ReplyFieldsFragment;
@@ -54,6 +55,10 @@ export default function CommentReplyContainer(props: ICommentReplyProps) {
     inputRef.current.value = '';
     if (onCompleted) onCompleted();
   };
+
+  useKeyPress(['meta 13', 'ctrl 13'], handleSubmit, {
+    target: inputRef.current,
+  });
 
   const handleFocus = () => {
     const token = getStorage(USER_TOKEN);
