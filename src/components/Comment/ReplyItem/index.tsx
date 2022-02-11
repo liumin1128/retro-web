@@ -2,11 +2,10 @@ import React from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { ReplyFieldsFragment } from '@/generated/graphql';
 import { getTimeAgo } from '@/utils/format';
+import LikeAnimation from '@/components/LikeAnimation';
 
 interface ICommentItemProps {
   comment: ReplyFieldsFragment;
@@ -57,11 +56,7 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
             spacing={1}
             sx={{ alignItems: 'center', minWidth: 48, cursor: 'pointer' }}
           >
-            {comment.likeStatus ? (
-              <FavoriteSharpIcon sx={{ fontSize: 'inherit' }} />
-            ) : (
-              <FavoriteIcon sx={{ fontSize: 'inherit' }} />
-            )}
+            <LikeAnimation status={comment.likeStatus as boolean} />
             <Typography variant="caption">{comment.likeCount}</Typography>
           </Stack>
 
