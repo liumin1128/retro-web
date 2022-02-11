@@ -1,13 +1,21 @@
+import { history } from 'umi';
 import { useRef } from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+
 import {
   useReplyCommentMutation,
   CommentFieldsFragment,
   ReplyFieldsFragment,
   CommentFieldsFragmentDoc,
 } from '@/generated/graphql';
+import { getStorage } from '@/utils/store';
+import { USER_TOKEN } from '@/configs/base';
 
 interface ICommentReplyProps {
   to: CommentFieldsFragment | ReplyFieldsFragment;
@@ -47,27 +55,45 @@ export default function CommentReplyContainer(props: ICommentReplyProps) {
     if (onCompleted) onCompleted();
   };
 
+  const handleFocus = () => {
+    const token = getStorage(USER_TOKEN);
+    if (!token) {
+      history.push('/login');
+    }
+  };
+
   return (
-    <div>
-      <Stack spacing={1} sx={{ pl: 8 }}>
-        <InputBase
-          autoFocus
-          multiline
-          placeholder={`回复 @${to.user?.nickname}:`}
-          inputRef={inputRef}
-          sx={{
-            p: 2,
-            bgcolor: 'rgba(255,255,255,0.1)',
-            borderRadius: '10px',
-          }}
-        />
-      </Stack>
-      <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-        <Stack />
-        <Button onClick={handleSubmit} disabled={loading}>
-          submit
+    <Stack spacing={1} sx={{ pl: 8 }}>
+      <InputBase
+        autoFocus
+        multiline
+        placeholder={`回复 @${to.user?.nickname}:`}
+        inputRef={inputRef}
+        onFocus={handleFocus}
+        sx={{
+          px: 2,
+          py: 1.5,
+          minHeight: 48,
+          bgcolor: 'rgba(255,255,255,0.1)',
+          borderRadius: '10px',
+          flex: 1,
+        }}
+      />
+      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+        <IconButton disabled>
+          <InsertPhotoIcon />
+        </IconButton>
+        <IconButton disabled>
+          <InsertEmoticonIcon />
+        </IconButton>
+        <Stack sx={{ flex: 1 }} />
+        <Typography variant="caption" sx={{ color: '#999' }}>
+          ⌘ + Enter
+        </Typography>
+        <Button variant="contained" onClick={handleSubmit} disabled={loading}>
+          Send
         </Button>
       </Stack>
-    </div>
+    </Stack>
   );
 }

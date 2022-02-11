@@ -25,7 +25,7 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
         />
       </Stack>
 
-      <Stack spacing={1}>
+      <Stack spacing={2} sx={{ flex: 1 }}>
         <Stack
           direction="row"
           sx={{ alignItems: 'center', flexWrap: 'wrap' }}
