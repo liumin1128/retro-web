@@ -44,7 +44,7 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
                 data: data?.createComment,
                 fragment: CommentFieldsFragmentDoc,
               });
-              return [...list, item];
+              return [item, ...list];
             },
           },
         });

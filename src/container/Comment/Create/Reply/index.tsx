@@ -45,7 +45,7 @@ export default function CommentReplyContainer(props: ICommentReplyProps) {
             fragment: CommentFieldsFragmentDoc,
           },
           (item) => {
-            const newComments = [...(item.comments || []), data?.replyComment];
+            const newComments = [data?.replyComment, ...(item.comments || [])];
             return { ...item, comments: newComments };
           },
         );
