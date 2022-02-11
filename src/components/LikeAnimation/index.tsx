@@ -165,7 +165,11 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
       }}
     >
       {status ? (
-        <FavoriteSharpIcon sx={{ fontSize: 'inherit' }} />
+        <FavoriteSharpIcon
+          sx={{
+            fontSize: 'inherit',
+          }}
+        />
       ) : (
         <FavoriteIcon sx={{ fontSize: 'inherit' }} />
       )}

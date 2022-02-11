@@ -25,7 +25,12 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
         />
       </Stack>
 
-      <Stack spacing={2} sx={{ flex: 1 }}>
+      <Stack
+        spacing={2}
+        sx={{
+          flex: 1,
+        }}
+      >
         <Stack
           direction="row"
           sx={{ alignItems: 'center', flexWrap: 'wrap' }}
@@ -44,7 +49,13 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
 
         <Typography variant="body1">{comment.content as string}</Typography>
 
-        <Stack direction="row" spacing={4} sx={{ alignItems: 'center' }}>
+        <Stack
+          direction="row"
+          spacing={4}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
           <Typography variant="caption" sx={{ minWidth: 64 }}>
             {getTimeAgo(parseInt(comment.createdAt as string, 10))}
           </Typography>
