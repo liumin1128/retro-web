@@ -22,7 +22,14 @@ const CommentList: React.FunctionComponent<ICommentListProps> = (props) => {
   if (!data?.findComments) return <Error />;
 
   return (
-    <Stack spacing={3} divider={<Divider variant="inset" />}>
+    <Stack
+      spacing={3}
+      divider={
+        <Stack>
+          <Divider sx={{ ml: 8 }} variant="inset" />
+        </Stack>
+      }
+    >
       {data?.findComments.map((i) => {
         if (!i) return null;
         return (
