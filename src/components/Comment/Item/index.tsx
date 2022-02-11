@@ -22,7 +22,7 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
         src={comment?.user?.avatarUrl as string}
         sx={{ width: 48, height: 48 }}
       />
-      <Stack spacing={1}>
+      <Stack spacing={2}>
         <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
           {comment.user?.nickname as string}
         </Typography>
@@ -47,10 +47,9 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
             onClick={onReply}
             direction="row"
             spacing={1}
-            sx={{ alignItems: 'center' }}
+            sx={{ alignItems: 'center', cursor: 'pointer' }}
           >
             <ChatBubbleOutlineIcon sx={{ fontSize: 'inherit' }} />
-            {/* <Typography variant="caption">1</Typography> */}
           </Stack>
         </Stack>
       </Stack>

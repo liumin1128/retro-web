@@ -4,13 +4,13 @@ import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import {
   useReplyCommentMutation,
-  Comment,
-  Reply,
+  CommentFieldsFragment,
+  ReplyFieldsFragment,
   CommentFieldsFragmentDoc,
 } from '@/generated/graphql';
 
 interface ICommentReplyProps {
-  to: Comment | Reply;
+  to: CommentFieldsFragment | ReplyFieldsFragment;
   onCompleted?: () => void;
 }
 
@@ -49,7 +49,7 @@ export default function CommentReplyContainer(props: ICommentReplyProps) {
 
   return (
     <div>
-      <Stack spacing={1}>
+      <Stack spacing={1} sx={{ pl: 8 }}>
         <InputBase
           autoFocus
           multiline

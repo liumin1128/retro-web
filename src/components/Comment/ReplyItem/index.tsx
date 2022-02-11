@@ -34,11 +34,9 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
             {comment.user?.nickname as string}
           </Typography>
+
           <Typography variant="body2">回复</Typography>
-          {/* <Avatar
-          src={comment.replyTo?.user?.avatarUrl as string}
-          sx={{ width: 20, height: 20 }}
-        /> */}
+
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
             {comment.replyTo?.user?.nickname as string}
           </Typography>
@@ -50,6 +48,7 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
           <Typography variant="caption" sx={{ minWidth: 64 }}>
             {getTimeAgo(parseInt(comment.createdAt as string, 10))}
           </Typography>
+
           <Stack
             onClick={onZan}
             direction="row"
@@ -64,10 +63,9 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
             onClick={onReply}
             direction="row"
             spacing={1}
-            sx={{ alignItems: 'center' }}
+            sx={{ alignItems: 'center', cursor: 'pointer' }}
           >
             <ChatBubbleOutlineIcon sx={{ fontSize: 'inherit' }} />
-            {/* <Typography variant="caption">1</Typography> */}
           </Stack>
         </Stack>
       </Stack>

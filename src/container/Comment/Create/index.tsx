@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import {
@@ -47,28 +46,22 @@ export default function CommentCreateContainer(props: ICommentCreateProps) {
   };
 
   return (
-    <div>
-      <Paper sx={{ p: 2 }}>
-        <Stack spacing={1}>
-          <InputBase
-            autoFocus
-            multiline
-            placeholder="发一条友善的评论"
-            inputRef={inputRef}
-            sx={{
-              p: 2,
-              bgcolor: 'rgba(255,255,255,0.1)',
-              borderRadius: '10px',
-            }}
-          />
-        </Stack>
-        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-          <Stack />
-          <Button onClick={handleSubmit} disabled={loading}>
-            submit
-          </Button>
-        </Stack>
-      </Paper>
-    </div>
+    <Stack direction="row" spacing={2} sx={{ alignItems: 'flex-start' }}>
+      <InputBase
+        autoFocus
+        multiline
+        placeholder="发一条友善的评论"
+        inputRef={inputRef}
+        sx={{
+          p: 2,
+          bgcolor: 'rgba(255,255,255,0.1)',
+          borderRadius: '10px',
+          flex: 1,
+        }}
+      />
+      <Button onClick={handleSubmit} disabled={loading}>
+        Send
+      </Button>
+    </Stack>
   );
 }

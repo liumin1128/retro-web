@@ -471,7 +471,7 @@ export type CommentFieldsFragment = {
             replyTo?:
               | {
                   __typename?: 'Comment';
-                  content?: string | null | undefined;
+                  _id: string;
                   user?:
                     | {
                         __typename?: 'User';
@@ -515,7 +515,6 @@ export type ReplyFieldsFragment = {
     | {
         __typename?: 'Comment';
         _id: string;
-        content?: string | null | undefined;
         user?:
           | {
               __typename?: 'User';
@@ -582,7 +581,7 @@ export type FindCommentsQuery = {
                       replyTo?:
                         | {
                             __typename?: 'Comment';
-                            content?: string | null | undefined;
+                            _id: string;
                             user?:
                               | {
                                   __typename?: 'User';
@@ -660,7 +659,7 @@ export type FindCommentQuery = {
                   replyTo?:
                     | {
                         __typename?: 'Comment';
-                        content?: string | null | undefined;
+                        _id: string;
                         user?:
                           | {
                               __typename?: 'User';
@@ -737,7 +736,7 @@ export type CreateCommentMutation = {
                   replyTo?:
                     | {
                         __typename?: 'Comment';
-                        content?: string | null | undefined;
+                        _id: string;
                         user?:
                           | {
                               __typename?: 'User';
@@ -792,7 +791,6 @@ export type ReplyCommentMutation = {
           | {
               __typename?: 'Comment';
               _id: string;
-              content?: string | null | undefined;
               user?:
                 | {
                     __typename?: 'User';
@@ -1620,13 +1618,13 @@ export const CommentFieldsFragmentDoc = gql`
         _id
       }
       replyTo {
+        _id
         user {
           _id
           nickname
           username
           avatarUrl
         }
-        content
       }
     }
   }
@@ -1655,7 +1653,6 @@ export const ReplyFieldsFragmentDoc = gql`
         username
         avatarUrl
       }
-      content
     }
   }
 `;

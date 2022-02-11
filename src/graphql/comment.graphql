@@ -26,13 +26,13 @@ fragment commentFields on Comment {
       _id
     }
     replyTo {
+      _id
       user {
         _id
         nickname
         username
         avatarUrl
       }
-      content
     }
   }
 }
@@ -60,7 +60,6 @@ fragment replyFields on Reply {
       username
       avatarUrl
     }
-    content
   }
 }
 
