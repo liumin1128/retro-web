@@ -21,7 +21,7 @@ export default function Home() {
             left
           </Grid>
           <Grid item xs={12} lg={8}>
-            <Stack spacing={2}>
+            <Stack spacing={8}>
               <DynamicDetail id={params.id} />
               <CommentList object={params.id} />
               <CommentCreate object={params.id} />
