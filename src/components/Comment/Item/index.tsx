@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
-import CommentIcon from '@mui/icons-material/CommentOutlined';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { CommentFieldsFragment } from '@/generated/graphql';
 import { getTimeAgo } from '@/utils/format';
 
@@ -24,21 +24,21 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
         sx={{ width: 48, height: 48 }}
       />
       <Stack spacing={1}>
-        <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
           {comment.user?.nickname as string}
         </Typography>
         <Typography variant="body1">{comment.content as string}</Typography>
 
         <Stack direction="row" spacing={4} sx={{ alignItems: 'center' }}>
-          <Typography variant="caption" sx={{ minWidth: 48 }}>
+          <Typography variant="caption" sx={{ minWidth: 64 }}>
             {getTimeAgo(parseInt(comment.createdAt as string, 10))}
           </Typography>
 
           <Stack
             onClick={onZan}
             direction="row"
-            spacing={2}
-            sx={{ alignItems: 'center', minWidth: 48 }}
+            spacing={1}
+            sx={{ alignItems: 'center', minWidth: 48, cursor: 'pointer' }}
           >
             {comment.likeStatus ? (
               <FavoriteSharpIcon sx={{ fontSize: 'inherit' }} />
@@ -54,7 +54,7 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
             spacing={1}
             sx={{ alignItems: 'center' }}
           >
-            <CommentIcon sx={{ fontSize: 'inherit' }} />
+            <ChatBubbleOutlineIcon sx={{ fontSize: 'inherit' }} />
             {/* <Typography variant="caption">1</Typography> */}
           </Stack>
         </Stack>
