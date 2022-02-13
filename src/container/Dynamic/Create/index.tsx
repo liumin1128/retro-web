@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { useCreateDynamicMutation } from '@/generated/graphql';
 import { uploadItem } from '@/service/qiniu';
@@ -57,32 +56,28 @@ export default function DynamicListContainer() {
   }
 
   return (
-    <div>
-      <Paper sx={{ p: 2 }}>
-        <Stack spacing={1}>
-          <Form
-            ref={formRef}
-            items={items}
-            defaultValues={{
-              content: 'xxxx',
-              pictures: [
-                'https://imgs.react.mobi/FiuNn6JvGldeUKBLOi_MfxS7XrVT',
-              ],
-            }}
-          />
-          <Stack direction="row" justifyContent="flex-end">
-            <Button
-              variant="contained"
-              onClick={() => {
-                handleClick();
-              }}
-              disabled={loading}
-            >
-              Submit
-            </Button>
-          </Stack>
-        </Stack>
-      </Paper>
-    </div>
+    <Stack spacing={1}>
+      <Form
+        ref={formRef}
+        items={items}
+        // defaultValues={
+        //   {
+        //     // content: 'xxxx',
+        //     // pictures: ['https://imgs.react.mobi/FiuNn6JvGldeUKBLOi_MfxS7XrVT'],
+        //   }
+        // }
+      />
+      <Stack direction="row" justifyContent="flex-end">
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleClick();
+          }}
+          disabled={loading}
+        >
+          Submit
+        </Button>
+      </Stack>
+    </Stack>
   );
 }

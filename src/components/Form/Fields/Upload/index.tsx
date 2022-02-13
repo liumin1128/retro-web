@@ -18,7 +18,6 @@ const Upload = forwardRef((props: IUploadProps, ref: ForwardedRef<unknown>) => {
   const { form, name } = props;
 
   const { register, setValue, watch } = form;
-  const value = watch(name);
 
   useImperativeHandle(ref, () => ({}));
 
@@ -33,7 +32,11 @@ const Upload = forwardRef((props: IUploadProps, ref: ForwardedRef<unknown>) => {
     [setValue, name],
   );
 
-  const defaultValue = value.map(url2Item);
+  const value = watch(name);
+  let defaultValue;
+  if (value) {
+    defaultValue = value.map(url2Item);
+  }
 
   return (
     <Box>

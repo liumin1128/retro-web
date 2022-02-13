@@ -9,9 +9,5 @@ export default function DynamicListContainer() {
   if (loading) return <Skeleton />;
   if (error) return <Error />;
 
-  return (
-    <div>
-      <DynamicList data={data?.findDynamics as Dynamic[]} />
-    </div>
-  );
+  return <DynamicList data={data?.findDynamics as Dynamic[]} />;
 }

@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import { getTimeAgo } from '@/utils/format';
 
 interface IUserInfoProps {
-  avatarUrl?: string;
+  avatarUrl?: string | null | undefined;
   nickname?: string;
   createdAt?: string;
 }

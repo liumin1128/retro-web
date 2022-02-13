@@ -39,6 +39,7 @@ export default [
     routes: [
       {
         path: '/',
+        wrappers: ['@/layouts/retro'],
         component: '@/pages/retro',
         title: 'Home',
         exact: true,
@@ -63,6 +64,7 @@ export default [
       },
       {
         path: '/retro',
+        component: '@/layouts/retro',
         routes: [
           {
             path: '/retro',

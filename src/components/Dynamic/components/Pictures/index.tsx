@@ -64,6 +64,7 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
             maxWidth: '400px',
             maxHeight: '400px',
             cursor: 'pointer',
+            borderRadius: '4px',
           }}
         />
       </Box>
