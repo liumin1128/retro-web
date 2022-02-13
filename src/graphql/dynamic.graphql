@@ -1,8 +1,12 @@
 fragment dynamicFields on Dynamic {
   _id
+  createdAt
   content
   pictures
-  createdAt
+  likeCount
+  likeStatus
+  commentCount
+  shareCount
   user {
     _id
     nickname

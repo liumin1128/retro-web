@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
+import { SxProps, Theme } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
 
 interface IHeartAnimationProps {
   status: boolean;
+  sx?: SxProps<Theme>;
 }
 
 const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
   status,
+  sx,
 }) => {
   const ref = useRef<HTMLDivElement>();
   const player = useRef(status);
@@ -164,15 +167,7 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
         },
       }}
     >
-      {status ? (
-        <FavoriteSharpIcon
-          sx={{
-            fontSize: 'inherit',
-          }}
-        />
-      ) : (
-        <FavoriteIcon sx={{ fontSize: 'inherit' }} />
-      )}
+      {status ? <FavoriteSharpIcon sx={sx} /> : <FavoriteIcon sx={sx} />}
 
       <div
         style={{

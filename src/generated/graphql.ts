@@ -102,10 +102,14 @@ export type Document = {
 export type Dynamic = Document & {
   __typename?: 'Dynamic';
   _id: Scalars['ID'];
+  commentCount?: Maybe<Scalars['Int']>;
   content?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
+  likeCount?: Maybe<Scalars['Int']>;
+  likeStatus?: Maybe<Scalars['Boolean']>;
   pictures?: Maybe<Array<Scalars['String']>>;
-  updatedAt?: Maybe<Scalars['String']>;
+  shareCount?: Maybe<Scalars['Int']>;
+  updatedAt: Scalars['String'];
   user: User;
 };
 
@@ -812,9 +816,13 @@ export type ReplyCommentMutation = {
 export type DynamicFieldsFragment = {
   __typename?: 'Dynamic';
   _id: string;
+  createdAt: string;
   content?: string | null | undefined;
   pictures?: Array<string> | null | undefined;
-  createdAt?: string | null | undefined;
+  likeCount?: number | null | undefined;
+  likeStatus?: boolean | null | undefined;
+  commentCount?: number | null | undefined;
+  shareCount?: number | null | undefined;
   user: {
     __typename?: 'User';
     _id: string;
@@ -833,9 +841,13 @@ export type FindDynamicsQuery = {
         | {
             __typename?: 'Dynamic';
             _id: string;
+            createdAt: string;
             content?: string | null | undefined;
             pictures?: Array<string> | null | undefined;
-            createdAt?: string | null | undefined;
+            likeCount?: number | null | undefined;
+            likeStatus?: boolean | null | undefined;
+            commentCount?: number | null | undefined;
+            shareCount?: number | null | undefined;
             user: {
               __typename?: 'User';
               _id: string;
@@ -861,9 +873,13 @@ export type FindDynamicQuery = {
     | {
         __typename?: 'Dynamic';
         _id: string;
+        createdAt: string;
         content?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
-        createdAt?: string | null | undefined;
+        likeCount?: number | null | undefined;
+        likeStatus?: boolean | null | undefined;
+        commentCount?: number | null | undefined;
+        shareCount?: number | null | undefined;
         user: {
           __typename?: 'User';
           _id: string;
@@ -887,9 +903,13 @@ export type CreateDynamicMutation = {
     | {
         __typename?: 'Dynamic';
         _id: string;
+        createdAt: string;
         content?: string | null | undefined;
         pictures?: Array<string> | null | undefined;
-        createdAt?: string | null | undefined;
+        likeCount?: number | null | undefined;
+        likeStatus?: boolean | null | undefined;
+        commentCount?: number | null | undefined;
+        shareCount?: number | null | undefined;
         user: {
           __typename?: 'User';
           _id: string;
@@ -1659,9 +1679,13 @@ export const ReplyFieldsFragmentDoc = gql`
 export const DynamicFieldsFragmentDoc = gql`
   fragment dynamicFields on Dynamic {
     _id
+    createdAt
     content
     pictures
-    createdAt
+    likeCount
+    likeStatus
+    commentCount
+    shareCount
     user {
       _id
       nickname

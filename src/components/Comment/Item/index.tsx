@@ -45,7 +45,10 @@ const CommentItem: React.FunctionComponent<ICommentItemProps> = (props) => {
             spacing={1}
             sx={{ alignItems: 'center', minWidth: 48, cursor: 'pointer' }}
           >
-            <LikeAnimation status={comment.likeStatus as boolean} />
+            <LikeAnimation
+              sx={{ fontSize: 'inherit' }}
+              status={comment.likeStatus as boolean}
+            />
             <Typography variant="caption">{comment.likeCount}</Typography>
           </Stack>
 
