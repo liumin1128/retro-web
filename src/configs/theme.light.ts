@@ -39,6 +39,11 @@ const nextTheme = createTheme(theme, {
         elevation: 0,
       },
     },
+    MuiTypography: {
+      defaultProps: {
+        color: 'inherit',
+      },
+    },
     MuiDivider: {
       styleOverrides: {
         root: {

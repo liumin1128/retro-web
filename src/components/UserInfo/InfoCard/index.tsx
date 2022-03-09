@@ -54,12 +54,8 @@ const UserInfo: React.FunctionComponent<IUserInfoProps> = (props) => {
         {list.map((i) => {
           return (
             <Stack key={i.key} sx={{ alignItems: 'center' }}>
-              <Typography component="div" variant="h6">
-                {i.count}
-              </Typography>
-              <Typography component="div" variant="caption">
-                {i.label}
-              </Typography>
+              <Typography variant="body1">{i.count}</Typography>
+              <Typography variant="caption">{i.label}</Typography>
             </Stack>
           );
         })}

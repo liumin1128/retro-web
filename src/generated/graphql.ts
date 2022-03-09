@@ -19,7 +19,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** Date custom scalar type */
   Date: any;
 };
 
@@ -56,6 +55,17 @@ export type CreateCommentInput = {
 export type CreateDynamicInput = {
   content?: InputMaybe<Scalars['String']>;
   pictures?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type CreateFollowInput = {
+  to: Scalars['ID'];
+};
+
+export type CreateInterestInput = {
+  category?: InputMaybe<Scalars['String']>;
+  cover?: InputMaybe<Scalars['String']>;
+  icon?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type CreateLikeInput = {
@@ -113,6 +123,27 @@ export type Dynamic = Document & {
   user: User;
 };
 
+export type Follow = Document & {
+  __typename?: 'Follow';
+  _id: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  from?: Maybe<User>;
+  to?: Maybe<User>;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type Interest = Document & {
+  __typename?: 'Interest';
+  _id: Scalars['ID'];
+  category?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
 export type Like = Document & {
   __typename?: 'Like';
   _id: Scalars['ID'];
@@ -143,6 +174,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createComment?: Maybe<Comment>;
   createDynamic?: Maybe<Dynamic>;
+  createFollow?: Maybe<Follow>;
+  createInterest?: Maybe<Interest>;
   createLike?: Maybe<Like>;
   createNews?: Maybe<News>;
   createOAuth?: Maybe<OAuth>;
@@ -162,6 +195,14 @@ export type MutationCreateCommentArgs = {
 
 export type MutationCreateDynamicArgs = {
   input?: InputMaybe<CreateDynamicInput>;
+};
+
+export type MutationCreateFollowArgs = {
+  input?: InputMaybe<CreateFollowInput>;
+};
+
+export type MutationCreateInterestArgs = {
+  input?: InputMaybe<CreateInterestInput>;
 };
 
 export type MutationCreateLikeArgs = {
@@ -230,6 +271,10 @@ export type Query = {
   findComments?: Maybe<Array<Maybe<Comment>>>;
   findDynamic?: Maybe<Dynamic>;
   findDynamics?: Maybe<Array<Maybe<Dynamic>>>;
+  findFollow?: Maybe<Follow>;
+  findFollows?: Maybe<Array<Maybe<Follow>>>;
+  findInterest?: Maybe<Interest>;
+  findInterests?: Maybe<Array<Maybe<Interest>>>;
   findLike?: Maybe<Like>;
   findLikes?: Maybe<Array<Maybe<Like>>>;
   findRetro?: Maybe<Retro>;
@@ -255,6 +300,14 @@ export type QueryFindCommentsArgs = {
 };
 
 export type QueryFindDynamicArgs = {
+  _id: Scalars['ID'];
+};
+
+export type QueryFindFollowArgs = {
+  _id: Scalars['ID'];
+};
+
+export type QueryFindInterestArgs = {
   _id: Scalars['ID'];
 };
 
@@ -395,6 +448,8 @@ export type Subscription = {
   __typename?: 'Subscription';
   commentCreated?: Maybe<Comment>;
   dynamicCreated?: Maybe<Dynamic>;
+  followCreated?: Maybe<Follow>;
+  interestCreated?: Maybe<Interest>;
   likeCreated?: Maybe<Like>;
   newsCreated?: Maybe<News>;
   retroCreated?: Maybe<Retro>;
@@ -3312,6 +3367,8 @@ const result: PossibleTypesResultData = {
     Document: [
       'Comment',
       'Dynamic',
+      'Follow',
+      'Interest',
       'Like',
       'Retro',
       'RetroListItem',
