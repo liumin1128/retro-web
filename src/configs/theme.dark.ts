@@ -33,21 +33,23 @@ const theme = createTheme({
 const nextTheme = createTheme(theme, {
   components: {
     MuiPaper: {
-      // defaultProps: {
-      //   elevation: 0
-      // },
       variants: [
         {
           props: { variant: 'outlined' },
           style: {
             border: '1px solid #1e4976',
-            // backgroundColor: '#001d3c',
             '&[href]': {
               textDecorationLine: 'none',
             },
           },
         },
       ],
+    },
+
+    MuiTypography: {
+      defaultProps: {
+        color: 'inherit',
+      },
     },
   },
 });

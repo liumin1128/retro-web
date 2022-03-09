@@ -18,10 +18,10 @@ export default function Home() {
     <div>
       <Container fixed sx={{ p: isUpMd ? undefined : 0 }}>
         <Grid container spacing={4}>
-          <Grid item xs={12} lg={1}>
+          <Grid item xs={12} lg={2}>
             left
           </Grid>
-          <Grid item xs={12} lg={8}>
+          <Grid item xs={12} lg={6}>
             <Stack spacing={8}>
               <DynamicDetail id={params.id} />
 
@@ -40,7 +40,7 @@ export default function Home() {
               </Stack>
             </Stack>
           </Grid>
-          <Grid item xs={12} lg={3}>
+          <Grid item xs={12} lg={4}>
             right
           </Grid>
         </Grid>
