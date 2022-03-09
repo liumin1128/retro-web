@@ -32,9 +32,7 @@ export default function Home() {
         <Container fixed sx={{ p: isUpMd ? undefined : 0 }}>
           <Grid container spacing={4}>
             <Grid item xs={12} lg={3}>
-              <Card>
-                <UserInfoCard />
-              </Card>
+              left
             </Grid>
             <Grid item xs={12} lg={6}>
               <Stack spacing={2}>

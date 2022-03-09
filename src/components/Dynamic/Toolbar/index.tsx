@@ -44,7 +44,7 @@ const Toolbar: React.FunctionComponent<IToolbarProps> = (props) => {
           status={likeStatus as boolean}
         />
         <Typography variant="body2">
-          {likeCount === 0 ? '点赞' : likeCount}
+          {!likeCount ? '点赞' : likeCount}
         </Typography>
       </Stack>
 
@@ -56,7 +56,7 @@ const Toolbar: React.FunctionComponent<IToolbarProps> = (props) => {
       >
         <ChatBubbleOutlineIcon sx={{ fontSize: '1.25em' }} />
         <Typography variant="body2">
-          {commentCount === 0 ? '评论' : commentCount}
+          {!commentCount ? '评论' : commentCount}
         </Typography>
       </Stack>
 
@@ -72,7 +72,7 @@ const Toolbar: React.FunctionComponent<IToolbarProps> = (props) => {
       >
         <ShareOutlinedIcon sx={{ fontSize: '1.25em' }} />
         <Typography variant="body2">
-          {shareCount === 0 ? '分享' : shareCount}
+          {!shareCount ? '分享' : shareCount}
         </Typography>
       </Stack>
     </Stack>
