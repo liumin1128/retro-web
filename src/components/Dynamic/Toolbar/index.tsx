@@ -37,14 +37,14 @@ const Toolbar: React.FunctionComponent<IToolbarProps> = (props) => {
         onClick={onLike}
         direction="row"
         spacing={1}
-        sx={{ alignItems: 'center', cursor: 'pointer', minWidth: 48 }}
+        sx={{ alignItems: 'center', cursor: 'pointer', minWidth: 64 }}
       >
         <LikeAnimation
           sx={{ fontSize: '1.25em' }}
           status={likeStatus as boolean}
         />
         <Typography variant="body2">
-          {likeCount === 0 ? null : likeCount}
+          {likeCount === 0 ? '点赞' : likeCount}
         </Typography>
       </Stack>
 
@@ -52,11 +52,11 @@ const Toolbar: React.FunctionComponent<IToolbarProps> = (props) => {
         onClick={onComment}
         direction="row"
         spacing={1}
-        sx={{ alignItems: 'center', cursor: 'pointer', minWidth: 48 }}
+        sx={{ alignItems: 'center', cursor: 'pointer', minWidth: 64 }}
       >
         <ChatBubbleOutlineIcon sx={{ fontSize: '1.25em' }} />
         <Typography variant="body2">
-          {commentCount === 0 ? null : commentCount}
+          {commentCount === 0 ? '评论' : commentCount}
         </Typography>
       </Stack>
 
@@ -67,12 +67,12 @@ const Toolbar: React.FunctionComponent<IToolbarProps> = (props) => {
         sx={{
           alignItems: 'center',
           cursor: 'pointer',
-          minWidth: 48,
+          minWidth: 64,
         }}
       >
         <ShareOutlinedIcon sx={{ fontSize: '1.25em' }} />
         <Typography variant="body2">
-          {shareCount === 0 ? null : shareCount}
+          {shareCount === 0 ? '分享' : shareCount}
         </Typography>
       </Stack>
     </Stack>
