@@ -17,7 +17,7 @@ export default function Home() {
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={4}>
       <AppBar color="default" position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
