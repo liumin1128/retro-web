@@ -26,7 +26,6 @@ const UserInfo: React.FunctionComponent<IUserInfoProps> = (props) => {
       <Stack>
         <Typography
           variant="h6"
-          color="inherit"
           sx={{
             fontSize: 14,
           }}

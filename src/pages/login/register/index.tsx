@@ -23,9 +23,7 @@ export default function Home() {
     <div>
       <Card sx={{ px: 2, py: 4 }}>
         <Stack spacing={2}>
-          <Typography variant="h5" color="inherit">
-            Register
-          </Typography>
+          <Typography variant="h5">Register</Typography>
           <Form ref={formRef} items={items} />
           <Button size="large" variant="contained" onClick={handleClick}>
             Register

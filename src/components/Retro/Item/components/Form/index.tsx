@@ -82,7 +82,6 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           <Stack direction="row" spacing={1}>
             <Button
               size="small"
-              color="inherit"
               onClick={() => {
                 onCancel();
               }}

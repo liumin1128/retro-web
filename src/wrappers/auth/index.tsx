@@ -48,7 +48,7 @@
 //       {children}
 //       {loading && (
 //         <Backdrop sx={{ zIndex: 999999999, color: '#fff' }} open>
-//           <CircularProgress color="inherit" />
+//           <CircularProgress />
 //         </Backdrop>
 //       )}
 //     </>

@@ -116,7 +116,6 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
 
                 {status === 'FOCUSED' && (
                   <Button
-                    color="inherit"
                     onClick={() => {
                       onUpdateStatus({
                         status: 'NORMAL',

@@ -13,12 +13,7 @@ const Retro: React.FunctionComponent = () => {
     <Box>
       <AppBar color="default" position="static">
         <Toolbar>
-          <Typography
-            variant="h6"
-            color="inherit"
-            component="div"
-            sx={{ flexGrow: 1 }}
-          >
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Retro List
           </Typography>
 

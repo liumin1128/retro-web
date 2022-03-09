@@ -26,16 +26,12 @@ export default function Home() {
               <DynamicDetail id={params.id} />
 
               <Stack spacing={4}>
-                <Typography variant="h5" color="inherit">
-                  发表评论
-                </Typography>
+                <Typography variant="h5">发表评论</Typography>
                 <CommentCreate object={params.id} />
               </Stack>
 
               <Stack spacing={4}>
-                <Typography variant="h5" color="inherit">
-                  评论列表
-                </Typography>
+                <Typography variant="h5">评论列表</Typography>
                 <CommentList object={params.id} />
               </Stack>
             </Stack>

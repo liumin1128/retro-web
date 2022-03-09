@@ -40,9 +40,7 @@ export default function Home() {
     <div>
       <Card sx={{ px: 2, py: 4 }}>
         <Stack spacing={2}>
-          <Typography variant="h5" color="inherit">
-            Login
-          </Typography>
+          <Typography variant="h5">Login</Typography>
           <Form ref={formRef} items={items} />
           <Button size="large" variant="contained" onClick={handleClick}>
             Login

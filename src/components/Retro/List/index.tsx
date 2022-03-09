@@ -52,15 +52,13 @@ const App: React.FunctionComponent<IAppProps> = ({ data }) => {
                 />
                 <Stack sx={{ width: '100%' }} spacing={1}>
                   <Stack sx={{ width: '100%', minHeight: '100px' }} spacing={1}>
-                    <Typography color="inherit" sx={{ fontWeight: 'bold' }}>
+                    <Typography sx={{ fontWeight: 'bold' }}>
                       {i?.user?.nickname as string}
                     </Typography>
-                    <Typography variant="h6" color="inherit">
+                    <Typography variant="h6">
                       {i.date} {i.title}
                     </Typography>
-                    <Typography variant="body1" color="inherit">
-                      {i.content}
-                    </Typography>
+                    <Typography variant="body1">{i.content}</Typography>
                   </Stack>
 
                   <Stack
