@@ -44,24 +44,7 @@ export default [
         title: 'Home',
         exact: true,
       },
-      {
-        path: '/dynamic',
 
-        routes: [
-          {
-            path: '/dynamic',
-            component: '@/pages/dynamic',
-            title: 'Dynamic',
-            exact: true,
-          },
-          {
-            path: '/dynamic/:id',
-            component: '@/pages/dynamic/detail',
-            title: 'Dynamic Detail',
-            exact: true,
-          },
-        ],
-      },
       {
         path: '/retro',
         component: '@/layouts/retro',
@@ -76,6 +59,25 @@ export default [
             path: '/retro/:retro',
             component: '@/pages/retro/section',
             title: 'Retro',
+            exact: true,
+          },
+        ],
+      },
+
+      {
+        path: '/dynamic',
+        component: '@/layouts/dynamic',
+        routes: [
+          {
+            path: '/dynamic',
+            component: '@/pages/dynamic',
+            title: 'Dynamic',
+            exact: true,
+          },
+          {
+            path: '/dynamic/:id',
+            component: '@/pages/dynamic/detail',
+            title: 'Dynamic Detail',
             exact: true,
           },
         ],
