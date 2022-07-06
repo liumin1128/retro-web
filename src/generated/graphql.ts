@@ -61,6 +61,13 @@ export type CreateFollowInput = {
   to: Scalars['ID'];
 };
 
+export type CreateHashtagInput = {
+  category?: InputMaybe<Scalars['String']>;
+  cover?: InputMaybe<Scalars['String']>;
+  icon?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type CreateInterestInput = {
   category?: InputMaybe<Scalars['String']>;
   cover?: InputMaybe<Scalars['String']>;
@@ -98,6 +105,13 @@ export type CreateRetroMessageInput = {
   type: RetroMessageType;
 };
 
+export type CreateTopicInput = {
+  category?: InputMaybe<Scalars['String']>;
+  cover?: InputMaybe<Scalars['String']>;
+  icon?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type CreateUserInput = {
   password?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['Int']>;
@@ -130,6 +144,18 @@ export type Follow = Document & {
   from?: Maybe<User>;
   to?: Maybe<User>;
   updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type Hashtag = Document & {
+  __typename?: 'Hashtag';
+  _id: Scalars['ID'];
+  category?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
 };
 
 export type Interest = Document & {
@@ -175,12 +201,14 @@ export type Mutation = {
   createComment?: Maybe<Comment>;
   createDynamic?: Maybe<Dynamic>;
   createFollow?: Maybe<Follow>;
+  createHashtag?: Maybe<Hashtag>;
   createInterest?: Maybe<Interest>;
   createLike?: Maybe<Like>;
   createNews?: Maybe<News>;
   createOAuth?: Maybe<OAuth>;
   createRetro?: Maybe<Retro>;
   createRetroMessage?: Maybe<RetroMessage>;
+  createTopic?: Maybe<Topic>;
   createUser?: Maybe<User>;
   deleteRetroMessage?: Maybe<RetroMessage>;
   likeRetroMessage?: Maybe<RetroMessage>;
@@ -199,6 +227,10 @@ export type MutationCreateDynamicArgs = {
 
 export type MutationCreateFollowArgs = {
   input?: InputMaybe<CreateFollowInput>;
+};
+
+export type MutationCreateHashtagArgs = {
+  input?: InputMaybe<CreateHashtagInput>;
 };
 
 export type MutationCreateInterestArgs = {
@@ -223,6 +255,10 @@ export type MutationCreateRetroArgs = {
 
 export type MutationCreateRetroMessageArgs = {
   input?: InputMaybe<CreateRetroMessageInput>;
+};
+
+export type MutationCreateTopicArgs = {
+  input?: InputMaybe<CreateTopicInput>;
 };
 
 export type MutationCreateUserArgs = {
@@ -273,6 +309,8 @@ export type Query = {
   findDynamics?: Maybe<Array<Maybe<Dynamic>>>;
   findFollow?: Maybe<Follow>;
   findFollows?: Maybe<Array<Maybe<Follow>>>;
+  findHashtag?: Maybe<Hashtag>;
+  findHashtags?: Maybe<Array<Maybe<Hashtag>>>;
   findInterest?: Maybe<Interest>;
   findInterests?: Maybe<Array<Maybe<Interest>>>;
   findLike?: Maybe<Like>;
@@ -281,6 +319,8 @@ export type Query = {
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
   findRetros?: Maybe<Array<Maybe<RetroListItem>>>;
+  findTopic?: Maybe<Topic>;
+  findTopics?: Maybe<Array<Maybe<Topic>>>;
   findUser?: Maybe<User>;
   findUserInfo?: Maybe<User>;
   findUsers?: Maybe<Array<Maybe<User>>>;
@@ -307,6 +347,10 @@ export type QueryFindFollowArgs = {
   _id: Scalars['ID'];
 };
 
+export type QueryFindHashtagArgs = {
+  _id: Scalars['ID'];
+};
+
 export type QueryFindInterestArgs = {
   _id: Scalars['ID'];
 };
@@ -329,6 +373,10 @@ export type QueryFindRetroMessageArgs = {
 
 export type QueryFindRetroMessagesArgs = {
   retro?: InputMaybe<Scalars['ID']>;
+};
+
+export type QueryFindTopicArgs = {
+  _id: Scalars['ID'];
 };
 
 export type QueryFindUserArgs = {
@@ -449,6 +497,7 @@ export type Subscription = {
   commentCreated?: Maybe<Comment>;
   dynamicCreated?: Maybe<Dynamic>;
   followCreated?: Maybe<Follow>;
+  hashtagCreated?: Maybe<Hashtag>;
   interestCreated?: Maybe<Interest>;
   likeCreated?: Maybe<Like>;
   newsCreated?: Maybe<News>;
@@ -457,6 +506,19 @@ export type Subscription = {
   retroMessageDeleted?: Maybe<RetroMessage>;
   retroMessageLiked?: Maybe<RetroMessage>;
   retroMessageUpdated?: Maybe<RetroMessage>;
+  topicCreated?: Maybe<Topic>;
+};
+
+export type Topic = Document & {
+  __typename?: 'Topic';
+  _id: Scalars['ID'];
+  category?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
 };
 
 export type UpdateRetroMessageInput = {
@@ -490,103 +552,72 @@ export type UserWithToken = {
 export type CommentFieldsFragment = {
   __typename?: 'Comment';
   _id: string;
-  content?: string | null | undefined;
-  createdAt?: string | null | undefined;
-  likeCount?: number | null | undefined;
-  likeStatus?: boolean | null | undefined;
-  user?:
-    | {
+  content?: string | null;
+  createdAt?: string | null;
+  likeCount?: number | null;
+  likeStatus?: boolean | null;
+  user?: {
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+  } | null;
+  comments?: Array<{
+    __typename?: 'Reply';
+    _id: string;
+    content?: string | null;
+    createdAt?: string | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+    commentTo?: { __typename?: 'Comment'; _id: string } | null;
+    replyTo?: {
+      __typename?: 'Comment';
+      _id: string;
+      user?: {
         __typename?: 'User';
         _id: string;
-        nickname?: string | null | undefined;
-        username?: string | null | undefined;
-        avatarUrl?: string | null | undefined;
-      }
-    | null
-    | undefined;
-  comments?:
-    | Array<
-        | {
-            __typename?: 'Reply';
-            _id: string;
-            content?: string | null | undefined;
-            createdAt?: string | null | undefined;
-            likeCount?: number | null | undefined;
-            likeStatus?: boolean | null | undefined;
-            user?:
-              | {
-                  __typename?: 'User';
-                  _id: string;
-                  nickname?: string | null | undefined;
-                  username?: string | null | undefined;
-                  avatarUrl?: string | null | undefined;
-                }
-              | null
-              | undefined;
-            commentTo?:
-              | { __typename?: 'Comment'; _id: string }
-              | null
-              | undefined;
-            replyTo?:
-              | {
-                  __typename?: 'Comment';
-                  _id: string;
-                  user?:
-                    | {
-                        __typename?: 'User';
-                        _id: string;
-                        nickname?: string | null | undefined;
-                        username?: string | null | undefined;
-                        avatarUrl?: string | null | undefined;
-                      }
-                    | null
-                    | undefined;
-                }
-              | null
-              | undefined;
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
+        nickname?: string | null;
+        username?: string | null;
+        avatarUrl?: string | null;
+      } | null;
+    } | null;
+  } | null> | null;
 };
 
 export type ReplyFieldsFragment = {
   __typename?: 'Reply';
   _id: string;
-  content?: string | null | undefined;
-  createdAt?: string | null | undefined;
-  likeCount?: number | null | undefined;
-  likeStatus?: boolean | null | undefined;
-  user?:
-    | {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null | undefined;
-        username?: string | null | undefined;
-        avatarUrl?: string | null | undefined;
-      }
-    | null
-    | undefined;
-  commentTo?: { __typename?: 'Comment'; _id: string } | null | undefined;
-  replyTo?:
-    | {
-        __typename?: 'Comment';
-        _id: string;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  content?: string | null;
+  createdAt?: string | null;
+  likeCount?: number | null;
+  likeStatus?: boolean | null;
+  user?: {
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+  } | null;
+  commentTo?: { __typename?: 'Comment'; _id: string } | null;
+  replyTo?: {
+    __typename?: 'Comment';
+    _id: string;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type FindCommentsQueryVariables = Exact<{
@@ -595,77 +626,48 @@ export type FindCommentsQueryVariables = Exact<{
 
 export type FindCommentsQuery = {
   __typename?: 'Query';
-  findComments?:
-    | Array<
-        | {
-            __typename?: 'Comment';
-            _id: string;
-            content?: string | null | undefined;
-            createdAt?: string | null | undefined;
-            likeCount?: number | null | undefined;
-            likeStatus?: boolean | null | undefined;
-            user?:
-              | {
-                  __typename?: 'User';
-                  _id: string;
-                  nickname?: string | null | undefined;
-                  username?: string | null | undefined;
-                  avatarUrl?: string | null | undefined;
-                }
-              | null
-              | undefined;
-            comments?:
-              | Array<
-                  | {
-                      __typename?: 'Reply';
-                      _id: string;
-                      content?: string | null | undefined;
-                      createdAt?: string | null | undefined;
-                      likeCount?: number | null | undefined;
-                      likeStatus?: boolean | null | undefined;
-                      user?:
-                        | {
-                            __typename?: 'User';
-                            _id: string;
-                            nickname?: string | null | undefined;
-                            username?: string | null | undefined;
-                            avatarUrl?: string | null | undefined;
-                          }
-                        | null
-                        | undefined;
-                      commentTo?:
-                        | { __typename?: 'Comment'; _id: string }
-                        | null
-                        | undefined;
-                      replyTo?:
-                        | {
-                            __typename?: 'Comment';
-                            _id: string;
-                            user?:
-                              | {
-                                  __typename?: 'User';
-                                  _id: string;
-                                  nickname?: string | null | undefined;
-                                  username?: string | null | undefined;
-                                  avatarUrl?: string | null | undefined;
-                                }
-                              | null
-                              | undefined;
-                          }
-                        | null
-                        | undefined;
-                    }
-                  | null
-                  | undefined
-                >
-              | null
-              | undefined;
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
+  findComments?: Array<{
+    __typename?: 'Comment';
+    _id: string;
+    content?: string | null;
+    createdAt?: string | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+    comments?: Array<{
+      __typename?: 'Reply';
+      _id: string;
+      content?: string | null;
+      createdAt?: string | null;
+      likeCount?: number | null;
+      likeStatus?: boolean | null;
+      user?: {
+        __typename?: 'User';
+        _id: string;
+        nickname?: string | null;
+        username?: string | null;
+        avatarUrl?: string | null;
+      } | null;
+      commentTo?: { __typename?: 'Comment'; _id: string } | null;
+      replyTo?: {
+        __typename?: 'Comment';
+        _id: string;
+        user?: {
+          __typename?: 'User';
+          _id: string;
+          nickname?: string | null;
+          username?: string | null;
+          avatarUrl?: string | null;
+        } | null;
+      } | null;
+    } | null> | null;
+  } | null> | null;
 };
 
 export type FindCommentQueryVariables = Exact<{
@@ -674,73 +676,48 @@ export type FindCommentQueryVariables = Exact<{
 
 export type FindCommentQuery = {
   __typename?: 'Query';
-  findComment?:
-    | {
+  findComment?: {
+    __typename?: 'Comment';
+    _id: string;
+    content?: string | null;
+    createdAt?: string | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+    comments?: Array<{
+      __typename?: 'Reply';
+      _id: string;
+      content?: string | null;
+      createdAt?: string | null;
+      likeCount?: number | null;
+      likeStatus?: boolean | null;
+      user?: {
+        __typename?: 'User';
+        _id: string;
+        nickname?: string | null;
+        username?: string | null;
+        avatarUrl?: string | null;
+      } | null;
+      commentTo?: { __typename?: 'Comment'; _id: string } | null;
+      replyTo?: {
         __typename?: 'Comment';
         _id: string;
-        content?: string | null | undefined;
-        createdAt?: string | null | undefined;
-        likeCount?: number | null | undefined;
-        likeStatus?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        comments?:
-          | Array<
-              | {
-                  __typename?: 'Reply';
-                  _id: string;
-                  content?: string | null | undefined;
-                  createdAt?: string | null | undefined;
-                  likeCount?: number | null | undefined;
-                  likeStatus?: boolean | null | undefined;
-                  user?:
-                    | {
-                        __typename?: 'User';
-                        _id: string;
-                        nickname?: string | null | undefined;
-                        username?: string | null | undefined;
-                        avatarUrl?: string | null | undefined;
-                      }
-                    | null
-                    | undefined;
-                  commentTo?:
-                    | { __typename?: 'Comment'; _id: string }
-                    | null
-                    | undefined;
-                  replyTo?:
-                    | {
-                        __typename?: 'Comment';
-                        _id: string;
-                        user?:
-                          | {
-                              __typename?: 'User';
-                              _id: string;
-                              nickname?: string | null | undefined;
-                              username?: string | null | undefined;
-                              avatarUrl?: string | null | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined;
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+        user?: {
+          __typename?: 'User';
+          _id: string;
+          nickname?: string | null;
+          username?: string | null;
+          avatarUrl?: string | null;
+        } | null;
+      } | null;
+    } | null> | null;
+  } | null;
 };
 
 export type CreateCommentMutationVariables = Exact<{
@@ -751,73 +728,48 @@ export type CreateCommentMutationVariables = Exact<{
 
 export type CreateCommentMutation = {
   __typename?: 'Mutation';
-  createComment?:
-    | {
+  createComment?: {
+    __typename?: 'Comment';
+    _id: string;
+    content?: string | null;
+    createdAt?: string | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+    comments?: Array<{
+      __typename?: 'Reply';
+      _id: string;
+      content?: string | null;
+      createdAt?: string | null;
+      likeCount?: number | null;
+      likeStatus?: boolean | null;
+      user?: {
+        __typename?: 'User';
+        _id: string;
+        nickname?: string | null;
+        username?: string | null;
+        avatarUrl?: string | null;
+      } | null;
+      commentTo?: { __typename?: 'Comment'; _id: string } | null;
+      replyTo?: {
         __typename?: 'Comment';
         _id: string;
-        content?: string | null | undefined;
-        createdAt?: string | null | undefined;
-        likeCount?: number | null | undefined;
-        likeStatus?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        comments?:
-          | Array<
-              | {
-                  __typename?: 'Reply';
-                  _id: string;
-                  content?: string | null | undefined;
-                  createdAt?: string | null | undefined;
-                  likeCount?: number | null | undefined;
-                  likeStatus?: boolean | null | undefined;
-                  user?:
-                    | {
-                        __typename?: 'User';
-                        _id: string;
-                        nickname?: string | null | undefined;
-                        username?: string | null | undefined;
-                        avatarUrl?: string | null | undefined;
-                      }
-                    | null
-                    | undefined;
-                  commentTo?:
-                    | { __typename?: 'Comment'; _id: string }
-                    | null
-                    | undefined;
-                  replyTo?:
-                    | {
-                        __typename?: 'Comment';
-                        _id: string;
-                        user?:
-                          | {
-                              __typename?: 'User';
-                              _id: string;
-                              nickname?: string | null | undefined;
-                              username?: string | null | undefined;
-                              avatarUrl?: string | null | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined;
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+        user?: {
+          __typename?: 'User';
+          _id: string;
+          nickname?: string | null;
+          username?: string | null;
+          avatarUrl?: string | null;
+        } | null;
+      } | null;
+    } | null> | null;
+  } | null;
 };
 
 export type ReplyCommentMutationVariables = Exact<{
@@ -827,63 +779,51 @@ export type ReplyCommentMutationVariables = Exact<{
 
 export type ReplyCommentMutation = {
   __typename?: 'Mutation';
-  replyComment?:
-    | {
-        __typename?: 'Reply';
+  replyComment?: {
+    __typename?: 'Reply';
+    _id: string;
+    content?: string | null;
+    createdAt?: string | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+    commentTo?: { __typename?: 'Comment'; _id: string } | null;
+    replyTo?: {
+      __typename?: 'Comment';
+      _id: string;
+      user?: {
+        __typename?: 'User';
         _id: string;
-        content?: string | null | undefined;
-        createdAt?: string | null | undefined;
-        likeCount?: number | null | undefined;
-        likeStatus?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        commentTo?: { __typename?: 'Comment'; _id: string } | null | undefined;
-        replyTo?:
-          | {
-              __typename?: 'Comment';
-              _id: string;
-              user?:
-                | {
-                    __typename?: 'User';
-                    _id: string;
-                    nickname?: string | null | undefined;
-                    username?: string | null | undefined;
-                    avatarUrl?: string | null | undefined;
-                  }
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+        nickname?: string | null;
+        username?: string | null;
+        avatarUrl?: string | null;
+      } | null;
+    } | null;
+  } | null;
 };
 
 export type DynamicFieldsFragment = {
   __typename?: 'Dynamic';
   _id: string;
   createdAt: string;
-  content?: string | null | undefined;
-  pictures?: Array<string> | null | undefined;
-  likeCount?: number | null | undefined;
-  likeStatus?: boolean | null | undefined;
-  commentCount?: number | null | undefined;
-  shareCount?: number | null | undefined;
+  content?: string | null;
+  pictures?: Array<string> | null;
+  likeCount?: number | null;
+  likeStatus?: boolean | null;
+  commentCount?: number | null;
+  shareCount?: number | null;
   user: {
     __typename?: 'User';
     _id: string;
-    nickname?: string | null | undefined;
-    username?: string | null | undefined;
-    avatarUrl?: string | null | undefined;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
   };
 };
 
@@ -891,31 +831,24 @@ export type FindDynamicsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindDynamicsQuery = {
   __typename?: 'Query';
-  findDynamics?:
-    | Array<
-        | {
-            __typename?: 'Dynamic';
-            _id: string;
-            createdAt: string;
-            content?: string | null | undefined;
-            pictures?: Array<string> | null | undefined;
-            likeCount?: number | null | undefined;
-            likeStatus?: boolean | null | undefined;
-            commentCount?: number | null | undefined;
-            shareCount?: number | null | undefined;
-            user: {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            };
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
+  findDynamics?: Array<{
+    __typename?: 'Dynamic';
+    _id: string;
+    createdAt: string;
+    content?: string | null;
+    pictures?: Array<string> | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    commentCount?: number | null;
+    shareCount?: number | null;
+    user: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    };
+  } | null> | null;
 };
 
 export type FindDynamicQueryVariables = Exact<{
@@ -924,27 +857,24 @@ export type FindDynamicQueryVariables = Exact<{
 
 export type FindDynamicQuery = {
   __typename?: 'Query';
-  findDynamic?:
-    | {
-        __typename?: 'Dynamic';
-        _id: string;
-        createdAt: string;
-        content?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        likeCount?: number | null | undefined;
-        likeStatus?: boolean | null | undefined;
-        commentCount?: number | null | undefined;
-        shareCount?: number | null | undefined;
-        user: {
-          __typename?: 'User';
-          _id: string;
-          nickname?: string | null | undefined;
-          username?: string | null | undefined;
-          avatarUrl?: string | null | undefined;
-        };
-      }
-    | null
-    | undefined;
+  findDynamic?: {
+    __typename?: 'Dynamic';
+    _id: string;
+    createdAt: string;
+    content?: string | null;
+    pictures?: Array<string> | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    commentCount?: number | null;
+    shareCount?: number | null;
+    user: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    };
+  } | null;
 };
 
 export type CreateDynamicMutationVariables = Exact<{
@@ -954,27 +884,24 @@ export type CreateDynamicMutationVariables = Exact<{
 
 export type CreateDynamicMutation = {
   __typename?: 'Mutation';
-  createDynamic?:
-    | {
-        __typename?: 'Dynamic';
-        _id: string;
-        createdAt: string;
-        content?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        likeCount?: number | null | undefined;
-        likeStatus?: boolean | null | undefined;
-        commentCount?: number | null | undefined;
-        shareCount?: number | null | undefined;
-        user: {
-          __typename?: 'User';
-          _id: string;
-          nickname?: string | null | undefined;
-          username?: string | null | undefined;
-          avatarUrl?: string | null | undefined;
-        };
-      }
-    | null
-    | undefined;
+  createDynamic?: {
+    __typename?: 'Dynamic';
+    _id: string;
+    createdAt: string;
+    content?: string | null;
+    pictures?: Array<string> | null;
+    likeCount?: number | null;
+    likeStatus?: boolean | null;
+    commentCount?: number | null;
+    shareCount?: number | null;
+    user: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    };
+  } | null;
 };
 
 export type LikeFieldsFragment = { __typename?: 'Like'; _id: string };
@@ -985,10 +912,7 @@ export type FindLikesQueryVariables = Exact<{
 
 export type FindLikesQuery = {
   __typename?: 'Query';
-  findLikes?:
-    | Array<{ __typename?: 'Like'; _id: string } | null | undefined>
-    | null
-    | undefined;
+  findLikes?: Array<{ __typename?: 'Like'; _id: string } | null> | null;
 };
 
 export type FindLikeQueryVariables = Exact<{
@@ -997,7 +921,7 @@ export type FindLikeQueryVariables = Exact<{
 
 export type FindLikeQuery = {
   __typename?: 'Query';
-  findLike?: { __typename?: 'Like'; _id: string } | null | undefined;
+  findLike?: { __typename?: 'Like'; _id: string } | null;
 };
 
 export type CreateLikeMutationVariables = Exact<{
@@ -1007,84 +931,68 @@ export type CreateLikeMutationVariables = Exact<{
 
 export type CreateLikeMutation = {
   __typename?: 'Mutation';
-  createLike?: { __typename?: 'Like'; _id: string } | null | undefined;
+  createLike?: { __typename?: 'Like'; _id: string } | null;
 };
 
 export type RetroFieldsFragment = {
   __typename: 'Retro';
   _id: string;
-  title?: string | null | undefined;
-  content?: string | null | undefined;
-  date?: string | null | undefined;
-  anonymous?: boolean | null | undefined;
-  user?:
-    | {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null | undefined;
-        username?: string | null | undefined;
-        avatarUrl?: string | null | undefined;
-      }
-    | null
-    | undefined;
+  title?: string | null;
+  content?: string | null;
+  date?: string | null;
+  anonymous?: boolean | null;
+  user?: {
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+  } | null;
 };
 
 export type RetroListItemFieldsFragment = {
   __typename: 'RetroListItem';
   _id: string;
-  title?: string | null | undefined;
-  content?: string | null | undefined;
-  date?: string | null | undefined;
-  anonymous?: boolean | null | undefined;
-  likeCount?: number | null | undefined;
-  happyCount?: number | null | undefined;
-  unhappyCount?: number | null | undefined;
-  wonderringCount?: number | null | undefined;
-  todoCount?: number | null | undefined;
-  user?:
-    | {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null | undefined;
-        avatarUrl?: string | null | undefined;
-      }
-    | null
-    | undefined;
+  title?: string | null;
+  content?: string | null;
+  date?: string | null;
+  anonymous?: boolean | null;
+  likeCount?: number | null;
+  happyCount?: number | null;
+  unhappyCount?: number | null;
+  wonderringCount?: number | null;
+  todoCount?: number | null;
+  user?: {
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    avatarUrl?: string | null;
+  } | null;
 };
 
 export type FindRetrosQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindRetrosQuery = {
   __typename?: 'Query';
-  findRetros?:
-    | Array<
-        | {
-            __typename: 'RetroListItem';
-            _id: string;
-            title?: string | null | undefined;
-            content?: string | null | undefined;
-            date?: string | null | undefined;
-            anonymous?: boolean | null | undefined;
-            likeCount?: number | null | undefined;
-            happyCount?: number | null | undefined;
-            unhappyCount?: number | null | undefined;
-            wonderringCount?: number | null | undefined;
-            todoCount?: number | null | undefined;
-            user?:
-              | {
-                  __typename?: 'User';
-                  _id: string;
-                  nickname?: string | null | undefined;
-                  avatarUrl?: string | null | undefined;
-                }
-              | null
-              | undefined;
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
+  findRetros?: Array<{
+    __typename: 'RetroListItem';
+    _id: string;
+    title?: string | null;
+    content?: string | null;
+    date?: string | null;
+    anonymous?: boolean | null;
+    likeCount?: number | null;
+    happyCount?: number | null;
+    unhappyCount?: number | null;
+    wonderringCount?: number | null;
+    todoCount?: number | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null> | null;
 };
 
 export type FindRetroQueryVariables = Exact<{
@@ -1093,27 +1001,21 @@ export type FindRetroQueryVariables = Exact<{
 
 export type FindRetroQuery = {
   __typename?: 'Query';
-  findRetro?:
-    | {
-        __typename: 'Retro';
-        _id: string;
-        title?: string | null | undefined;
-        content?: string | null | undefined;
-        date?: string | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  findRetro?: {
+    __typename: 'Retro';
+    _id: string;
+    title?: string | null;
+    content?: string | null;
+    date?: string | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type CreateRetroMutationVariables = Exact<{
@@ -1125,76 +1027,62 @@ export type CreateRetroMutationVariables = Exact<{
 
 export type CreateRetroMutation = {
   __typename?: 'Mutation';
-  createRetro?:
-    | {
-        __typename: 'Retro';
-        _id: string;
-        title?: string | null | undefined;
-        content?: string | null | undefined;
-        date?: string | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  createRetro?: {
+    __typename: 'Retro';
+    _id: string;
+    title?: string | null;
+    content?: string | null;
+    date?: string | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type RetroCreatedSubscriptionVariables = Exact<{ [key: string]: never }>;
 
 export type RetroCreatedSubscription = {
   __typename?: 'Subscription';
-  retroCreated?:
-    | {
-        __typename: 'Retro';
-        _id: string;
-        title?: string | null | undefined;
-        content?: string | null | undefined;
-        date?: string | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroCreated?: {
+    __typename: 'Retro';
+    _id: string;
+    title?: string | null;
+    content?: string | null;
+    date?: string | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type RetroMessageFieldsFragment = {
   __typename?: 'RetroMessage';
   _id: string;
-  content?: string | null | undefined;
-  status?: RetroMessageStatus | null | undefined;
-  type?: RetroMessageType | null | undefined;
-  like?: number | null | undefined;
-  createdAt?: string | null | undefined;
-  pictures?: Array<string> | null | undefined;
-  anonymous?: boolean | null | undefined;
-  user?:
-    | {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null | undefined;
-        username?: string | null | undefined;
-        avatarUrl?: string | null | undefined;
-      }
-    | null
-    | undefined;
+  content?: string | null;
+  status?: RetroMessageStatus | null;
+  type?: RetroMessageType | null;
+  like?: number | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  pictures?: Array<string> | null;
+  anonymous?: boolean | null;
+  user?: {
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+  } | null;
 };
 
 export type FindRetroSectionQueryVariables = Exact<{
@@ -1203,65 +1091,47 @@ export type FindRetroSectionQueryVariables = Exact<{
 
 export type FindRetroSectionQuery = {
   __typename?: 'Query';
-  retroMessages?:
-    | Array<
-        | {
-            __typename?: 'RetroMessage';
-            _id: string;
-            content?: string | null | undefined;
-            status?: RetroMessageStatus | null | undefined;
-            type?: RetroMessageType | null | undefined;
-            like?: number | null | undefined;
-            createdAt?: string | null | undefined;
-            pictures?: Array<string> | null | undefined;
-            anonymous?: boolean | null | undefined;
-            user?:
-              | {
-                  __typename?: 'User';
-                  _id: string;
-                  nickname?: string | null | undefined;
-                  username?: string | null | undefined;
-                  avatarUrl?: string | null | undefined;
-                }
-              | null
-              | undefined;
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
-  retro?:
-    | {
-        __typename: 'Retro';
-        _id: string;
-        title?: string | null | undefined;
-        content?: string | null | undefined;
-        date?: string | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
-  userInfo?:
-    | {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null | undefined;
-        username?: string | null | undefined;
-        avatarUrl?: string | null | undefined;
-      }
-    | null
-    | undefined;
+  retroMessages?: Array<{
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null> | null;
+  retro?: {
+    __typename: 'Retro';
+    _id: string;
+    title?: string | null;
+    content?: string | null;
+    date?: string | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
+  userInfo?: {
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+  } | null;
 };
 
 export type FindRetroMessagesQueryVariables = Exact<{
@@ -1270,34 +1140,25 @@ export type FindRetroMessagesQueryVariables = Exact<{
 
 export type FindRetroMessagesQuery = {
   __typename?: 'Query';
-  retroMessages?:
-    | Array<
-        | {
-            __typename?: 'RetroMessage';
-            _id: string;
-            content?: string | null | undefined;
-            status?: RetroMessageStatus | null | undefined;
-            type?: RetroMessageType | null | undefined;
-            like?: number | null | undefined;
-            createdAt?: string | null | undefined;
-            pictures?: Array<string> | null | undefined;
-            anonymous?: boolean | null | undefined;
-            user?:
-              | {
-                  __typename?: 'User';
-                  _id: string;
-                  nickname?: string | null | undefined;
-                  username?: string | null | undefined;
-                  avatarUrl?: string | null | undefined;
-                }
-              | null
-              | undefined;
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
+  retroMessages?: Array<{
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null> | null;
 };
 
 export type FindRetroMessageQueryVariables = Exact<{
@@ -1306,30 +1167,25 @@ export type FindRetroMessageQueryVariables = Exact<{
 
 export type FindRetroMessageQuery = {
   __typename?: 'Query';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type CreateRetroMessageMutationVariables = Exact<{
@@ -1342,30 +1198,25 @@ export type CreateRetroMessageMutationVariables = Exact<{
 
 export type CreateRetroMessageMutation = {
   __typename?: 'Mutation';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type UpdateRetroMessageMutationVariables = Exact<{
@@ -1379,30 +1230,25 @@ export type UpdateRetroMessageMutationVariables = Exact<{
 
 export type UpdateRetroMessageMutation = {
   __typename?: 'Mutation';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type LikeRetroMessageMutationVariables = Exact<{
@@ -1412,30 +1258,25 @@ export type LikeRetroMessageMutationVariables = Exact<{
 
 export type LikeRetroMessageMutation = {
   __typename?: 'Mutation';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type DeleteRetroMessageMutationVariables = Exact<{
@@ -1444,30 +1285,25 @@ export type DeleteRetroMessageMutationVariables = Exact<{
 
 export type DeleteRetroMessageMutation = {
   __typename?: 'Mutation';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type RetroMessageCreatedSubscriptionVariables = Exact<{
@@ -1476,30 +1312,25 @@ export type RetroMessageCreatedSubscriptionVariables = Exact<{
 
 export type RetroMessageCreatedSubscription = {
   __typename?: 'Subscription';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type RetroMessageUpdatedSubscriptionVariables = Exact<{
@@ -1508,30 +1339,25 @@ export type RetroMessageUpdatedSubscriptionVariables = Exact<{
 
 export type RetroMessageUpdatedSubscription = {
   __typename?: 'Subscription';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type RetroMessageLikedSubscriptionVariables = Exact<{
@@ -1540,30 +1366,25 @@ export type RetroMessageLikedSubscriptionVariables = Exact<{
 
 export type RetroMessageLikedSubscription = {
   __typename?: 'Subscription';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type RetroMessageDeletedSubscriptionVariables = Exact<{
@@ -1572,74 +1393,59 @@ export type RetroMessageDeletedSubscriptionVariables = Exact<{
 
 export type RetroMessageDeletedSubscription = {
   __typename?: 'Subscription';
-  retroMessage?:
-    | {
-        __typename?: 'RetroMessage';
-        _id: string;
-        content?: string | null | undefined;
-        status?: RetroMessageStatus | null | undefined;
-        type?: RetroMessageType | null | undefined;
-        like?: number | null | undefined;
-        createdAt?: string | null | undefined;
-        pictures?: Array<string> | null | undefined;
-        anonymous?: boolean | null | undefined;
-        user?:
-          | {
-              __typename?: 'User';
-              _id: string;
-              nickname?: string | null | undefined;
-              username?: string | null | undefined;
-              avatarUrl?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
+  retroMessage?: {
+    __typename?: 'RetroMessage';
+    _id: string;
+    content?: string | null;
+    status?: RetroMessageStatus | null;
+    type?: RetroMessageType | null;
+    like?: number | null;
+    createdAt?: string | null;
+    updatedAt?: string | null;
+    pictures?: Array<string> | null;
+    anonymous?: boolean | null;
+    user?: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    } | null;
+  } | null;
 };
 
 export type UserFieldsFragment = {
   __typename: 'User';
   _id: string;
-  nickname?: string | null | undefined;
-  username?: string | null | undefined;
-  avatarUrl?: string | null | undefined;
+  nickname?: string | null;
+  username?: string | null;
+  avatarUrl?: string | null;
 };
 
 export type FindUsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindUsersQuery = {
   __typename?: 'Query';
-  findUsers?:
-    | Array<
-        | {
-            __typename?: 'User';
-            _id: string;
-            nickname?: string | null | undefined;
-            username?: string | null | undefined;
-            avatarUrl?: string | null | undefined;
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
+  findUsers?: Array<{
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+  } | null> | null;
 };
 
 export type FindUserInfoQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindUserInfoQuery = {
   __typename?: 'Query';
-  findUserInfo?:
-    | {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null | undefined;
-        username?: string | null | undefined;
-        avatarUrl?: string | null | undefined;
-      }
-    | null
-    | undefined;
+  findUserInfo?: {
+    __typename?: 'User';
+    _id: string;
+    nickname?: string | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+  } | null;
 };
 
 export type LoginQueryVariables = Exact<{
@@ -1648,20 +1454,17 @@ export type LoginQueryVariables = Exact<{
 
 export type LoginQuery = {
   __typename?: 'Query';
-  login?:
-    | {
-        __typename?: 'UserWithToken';
-        token: string;
-        user: {
-          __typename?: 'User';
-          _id: string;
-          nickname?: string | null | undefined;
-          username?: string | null | undefined;
-          avatarUrl?: string | null | undefined;
-        };
-      }
-    | null
-    | undefined;
+  login?: {
+    __typename?: 'UserWithToken';
+    token: string;
+    user: {
+      __typename?: 'User';
+      _id: string;
+      nickname?: string | null;
+      username?: string | null;
+      avatarUrl?: string | null;
+    };
+  } | null;
 };
 
 export const CommentFieldsFragmentDoc = gql`
@@ -1798,6 +1601,7 @@ export const RetroMessageFieldsFragmentDoc = gql`
     type
     like
     createdAt
+    updatedAt
     pictures
     anonymous
     user {
@@ -3368,11 +3172,13 @@ const result: PossibleTypesResultData = {
       'Comment',
       'Dynamic',
       'Follow',
+      'Hashtag',
       'Interest',
       'Like',
       'Retro',
       'RetroListItem',
       'RetroMessage',
+      'Topic',
     ],
     LikeObjectUnion: ['Comment', 'Dynamic', 'News', 'RetroMessage'],
   },

@@ -20,17 +20,17 @@ interface User {
 }
 
 interface IItemProps {
-  blur: boolean;
-  anonymous: boolean;
-  content: string;
+  blur?: boolean;
+  anonymous?: boolean;
+  content?: string;
   pictures?: string[];
-  status: string;
-  user: User;
-  like: number;
-  onDelete: () => void;
-  onLike: (count: number) => void;
-  onUpdateContent: (v: unknown) => void;
-  onUpdateStatus: (v: unknown) => void;
+  status?: string;
+  user?: User;
+  like?: number;
+  onDelete?: () => void;
+  onLike?: (count: number) => void;
+  onUpdateContent?: (v: unknown) => void;
+  onUpdateStatus?: (v: unknown) => void;
 }
 
 const Item: React.FunctionComponent<IItemProps> = (props) => {
@@ -51,7 +51,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
   const [edit, setEdit] = useState<boolean>(false);
 
   return (
-    <Box sx={{ mb: 1 }}>
+    <Box>
       <GradientBackground
         status={status}
         blur={blur}

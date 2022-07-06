@@ -7,5 +7,5 @@ export function sortItem(a, b) {
   const sa = getSortNum(a.status);
   const sb = getSortNum(b.status);
   if (sa !== sb) return sb - sa;
-  return b.createdAt - a.createdAt;
+  return parseInt(b.createdAt, 10) - parseInt(a.createdAt, 10);
 }

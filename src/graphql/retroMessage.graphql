@@ -5,6 +5,7 @@ fragment retroMessageFields on RetroMessage {
   type
   like
   createdAt
+  updatedAt
   pictures
   anonymous
   user {
