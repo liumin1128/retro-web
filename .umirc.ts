@@ -2,6 +2,8 @@ import routes from './src/configs/routes';
 
 export default {
   npmClient: 'pnpm',
+  hash: true,
+  history: { type: 'hash' },
   define: {
     'process.env.API_URL': 'http://localhost:3101',
     'process.env.GRAPHQL_URL': 'http://localhost:3101/graphql',
