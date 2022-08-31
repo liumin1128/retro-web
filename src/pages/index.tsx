@@ -1,9 +1,9 @@
-import Button from '@mui/material/Button';
+import List from '@/container/Dynamic/List';
 
-export default function IndexPage() {
+export default function HomePage() {
   return (
     <div>
-      <Button>test</Button>
+      <List />
     </div>
   );
 }

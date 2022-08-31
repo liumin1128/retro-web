@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, FunctionComponent } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useParams } from 'umi';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import { useTheme } from '@mui/material/styles';
@@ -34,13 +35,16 @@ interface UpdateParams {
   type?: string;
 }
 
-const Section: FunctionComponent = (props) => {
+const Section = () => {
+  const params = useParams();
+
   const modalRef = useRef<ModalRefInstance<unknown>>();
 
   const theme = useTheme();
+
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
-  const retro = get(props, 'match.params.retro');
+  const { retro } = params;
 
   const [currentType, setCurrentType] = useState(TYPES[0]);
 
@@ -52,15 +56,15 @@ const Section: FunctionComponent = (props) => {
     updateRetro,
     deleteRetro,
     likeRetro,
-  } = useRetroMessage({ retro });
+  } = useRetroMessage({ retro: retro as string });
 
   useEffect(() => {
     const obj = data?.retroMessages?.find(
-      (message) => message.status === 'FOCUSED',
+      (message) => message?.status === 'FOCUSED',
     );
 
     if (obj && obj.type !== currentType) {
-      setCurrentType(obj.type);
+      setCurrentType(obj?.type as string);
     }
   }, [currentType, data]);
 
@@ -68,11 +72,11 @@ const Section: FunctionComponent = (props) => {
     deleteRetro({ variables: { _id } });
   };
 
-  const handleUpdate = (_id: string, params: UpdateParams) => {
+  const handleUpdate = (_id: string, variables: UpdateParams) => {
     updateRetro({
       variables: {
         _id,
-        ...params,
+        ...variables,
       },
     });
   };
@@ -159,14 +163,14 @@ const Section: FunctionComponent = (props) => {
         onLike={(count: number) => {
           handleLike(i._id, count);
         }}
-        onUpdateContent={(params: UpdateParams) => {
-          handleUpdate(i._id, params);
+        onUpdateContent={(variables: UpdateParams) => {
+          handleUpdate(i._id, variables);
         }}
-        onUpdateStatus={(params: UpdateParams) => {
+        onUpdateStatus={(variables: UpdateParams) => {
           if (!isCreator) {
             return;
           }
-          handleUpdate(i._id, params);
+          handleUpdate(i._id, variables);
         }}
       >
         {i.content}

@@ -43,6 +43,7 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
 
     return cb;
   }
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (player.current !== status) {
       player.current = status;
@@ -55,7 +56,6 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
         };
       }
     }
-    return false;
   }, [status]);
   return (
     <Box
@@ -185,6 +185,7 @@ const HeartAnimation: React.FunctionComponent<IHeartAnimationProps> = ({
           alignItems: 'center',
           // border: '1px red solid',
         }}
+        // eslint-disable-next-line consistent-return
         ref={ref}
       />
     </Box>

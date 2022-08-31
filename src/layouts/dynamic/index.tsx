@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Outlet } from 'umi';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -11,11 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import UserInfoCard from '@/container/UserInfo/InfoCard';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 
-interface Props {
-  children: ReactNode;
-}
-
-export default function Home({ children }: Props) {
+export default function Home() {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -34,7 +30,7 @@ export default function Home({ children }: Props) {
         <Container fixed sx={{ p: isUpMd ? undefined : 0 }}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={8}>
-              {children}
+              <Outlet />
             </Grid>
             <Grid item xs={12} md={4}>
               <Card>

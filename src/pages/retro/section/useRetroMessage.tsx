@@ -1,8 +1,5 @@
 import { useEffect } from 'react';
-import get from 'lodash/get';
-// import { useSnackbar } from 'notistack';
 import { StoreObject } from '@apollo/client';
-import { source$ } from '@/wrappers/apollo-provider/apollo';
 import {
   RetroMessageCreatedDocument,
   useFindRetroSectionQuery,
@@ -14,10 +11,9 @@ import {
   useRetroMessageUpdatedSubscription,
   useRetroMessageDeletedSubscription,
 } from '@/generated/graphql';
+import { source$ } from '@/wrappers/apollo/client';
 
 export default function useRetroMessage({ retro }: { retro: string }) {
-  // const { enqueueSnackbar } = useSnackbar();
-
   const {
     data = {},
     loading,
@@ -30,19 +26,43 @@ export default function useRetroMessage({ retro }: { retro: string }) {
     },
   });
 
-  // 会自动更新
+  const [createRetro] = useCreateRetroMessageMutation();
+  const [updateRetro] = useUpdateRetroMessageMutation();
+  const [deleteRetro] = useDeleteRetroMessageMutation();
+  const [likeRetro] = useLikeRetroMessageMutation();
+
   useRetroMessageUpdatedSubscription();
   useRetroMessageLikedSubscription();
+
+  // 订阅断线重连
+  useEffect(() => {
+    const subscription = source$.subscribe({
+      next: (type) => {
+        switch (type) {
+          case 'connected': {
+            console.log('断线重连...');
+            refetch();
+            break;
+          }
+          default:
+        }
+      },
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [refetch]);
 
   // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
   useRetroMessageDeletedSubscription({
     onSubscriptionData: ({ client, subscriptionData }) => {
-      const _id = get(subscriptionData, 'data.retroMessage._id');
       client.cache.modify({
         fields: {
           findRetroMessages(refs, { readField }) {
             return refs.filter(
-              (ref: StoreObject) => _id !== readField('_id', ref),
+              (ref: StoreObject) =>
+                subscriptionData.data?.retroMessage?._id !==
+                readField('_id', ref),
             );
           },
         },
@@ -50,74 +70,26 @@ export default function useRetroMessage({ retro }: { retro: string }) {
     },
   });
 
-  const [createRetro] = useCreateRetroMessageMutation();
-  const [updateRetro] = useUpdateRetroMessageMutation();
-  const [deleteRetro] = useDeleteRetroMessageMutation();
-  const [likeRetro] = useLikeRetroMessageMutation();
-
   useEffect(() => {
     subscribeToMore({
       document: RetroMessageCreatedDocument,
       updateQuery: (prev, args) => {
+        // eslint-disable-next-line
+        // @ts-ignore
         const { subscriptionData } = args;
         if (!subscriptionData.data) return prev;
+        // eslint-disable-next-line
+        // @ts-ignore
         const newItem = subscriptionData.data.retroMessage;
         return {
           ...prev,
+          // eslint-disable-next-line
+          // @ts-ignore
           retroMessages: [...prev.retroMessages, newItem],
         };
       },
     });
   }, [subscribeToMore]);
-
-  // 订阅断线重连
-  useEffect(() => {
-    // subscribe函数的返回结果存为变量subscription
-    const subscription = source$.subscribe({
-      complete: () => {
-        console.log('complete:');
-      },
-      next: (s) => {
-        console.log('next:', s);
-        switch (s) {
-          case 'onConnected': {
-            // enqueueSnackbar('Connected', {
-            //   variant: 'success',
-            //   autoHideDuration: 1000,
-            // });
-            break;
-          }
-          case 'onReconnected': {
-            // enqueueSnackbar('Reconnected', {
-            //   variant: 'success',
-            //   autoHideDuration: 1000,
-            // });
-            refetch();
-            break;
-          }
-          case 'onDisconnected': {
-            // enqueueSnackbar('Disconnected', {
-            //   variant: 'error',
-            //   autoHideDuration: 1000,
-            // });
-            break;
-          }
-          case 'onReconnecting': {
-            // enqueueSnackbar('Reconnecting', {
-            //   variant: 'info',
-            //   autoHideDuration: 1000,
-            // });
-            break;
-          }
-          default:
-        }
-      },
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [refetch]);
 
   return {
     data,
