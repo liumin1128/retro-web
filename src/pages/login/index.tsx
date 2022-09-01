@@ -55,7 +55,9 @@ export default function Home() {
               height: 800,
               margin: '-200px',
             }}
-            path="https://imgs.react.mobi/lottie%2Fadventure%2FTeam%2520Work.json"
+            path="https://imgs.react.mobi/lottie%2Fadventure%2FSocial%2520Media.json"
+            // path="https://imgs.react.mobi/lottie%2Fadventure%2FCommunity.json"
+            // path="https://imgs.react.mobi/lottie%2Fadventure%2FTeam%2520Work.json"
           />
         </Stack>
       </Stack>
