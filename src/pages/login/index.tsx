@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import ButtonLink from '@mui/material/Link';
-
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -48,8 +48,16 @@ export default function Home() {
   const renderLeft = () => {
     return (
       <Stack>
-        <Typography variant="h3">Sign in to Retro</Typography>
-        <Lottie path="https://global-uploads.webflow.com/5dd3495558fd7f3d1fcb52bc/600806aad8aad289e234fc1c_Branding.json" />
+        <Stack>
+          <Lottie
+            sx={{
+              width: 800,
+              height: 800,
+              margin: '-200px',
+            }}
+            path="https://imgs.react.mobi/lottie%2Fadventure%2FTeam%2520Work.json"
+          />
+        </Stack>
       </Stack>
     );
   };
@@ -88,7 +96,7 @@ export default function Home() {
             </ButtonLink>
           </Stack>
 
-          <Button size="large" variant="contained" onClick={handleClick}>
+          <Button size="large" variant="contained" onClick={() => {}}>
             Login
           </Button>
 
@@ -122,7 +130,7 @@ export default function Home() {
     <Container>
       <Stack
         direction="row"
-        spacing={4}
+        spacing={8}
         sx={{
           justifyContent: 'center',
           minHeight: '100vh',

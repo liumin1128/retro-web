@@ -1,25 +1,31 @@
 import React, { useRef, useEffect } from 'react';
+import Stack, { StackProps } from '@mui/material/Stack';
 import lottie from 'lottie-web';
 
-interface ILottieProps {
+interface ILottieProps extends StackProps {
   path: string;
+  loop?: boolean;
+  autoplay?: boolean;
 }
 
 const Lottie: React.FunctionComponent<ILottieProps> = (props) => {
-  const { path } = props;
+  const { path, loop = true, autoplay = true, ...other } = props;
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     lottie.loadAnimation({
       container: ref.current as HTMLDivElement, // the dom element that will contain the animation
       renderer: 'svg',
-      loop: true,
-      autoplay: true,
+      loop,
+      autoplay,
       path,
     });
-  }, [path]);
+    return () => {
+      lottie.destroy();
+    };
+  }, [path, loop, autoplay]);
 
-  return <div ref={ref} />;
+  return <Stack ref={ref} {...other} />;
 };
 
 export default Lottie;
