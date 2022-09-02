@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'umi';
 import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -12,7 +13,9 @@ import TextField from '@mui/material/TextField';
 // import { useSnackbar } from 'notistack';
 // import Form, { FormRefInstance } from '@/components/Form';
 import Lottie from '@/components/Lottie';
+import Logo from '@/components/Icon/Logo';
 import Password from '@/components/Form/Fields/Password';
+import logoSVG from '@/assets/images/logo/logo.svg';
 // import { handleLogin } from '@/service/user';
 // import { LoginUserInput, useLoginLazyQuery } from '@/generated/graphql';
 // import items from './items';
@@ -68,9 +71,14 @@ export default function Home() {
   const renderRight = () => {
     return (
       <Stack spacing={4}>
-        <Stack>
-          <Typography variant="h3">Sign in to Retro</Typography>
-          <Typography variant="body2">Enter your details below.</Typography>
+        <Stack
+          direction="row"
+          sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+        >
+          <Stack>
+            <Typography variant="h3">Sign in to Retro</Typography>
+            <Typography variant="body2">Enter your details below.</Typography>
+          </Stack>
         </Stack>
 
         <Stack spacing={2}>
@@ -131,9 +139,15 @@ export default function Home() {
 
   return (
     <Container>
+      <Stack sx={{ position: 'absolute', top: 24 }}>
+        <IconButton sx={{ color: '#999' }}>
+          <Logo sx={{ width: 40, height: 40 }} />
+        </IconButton>
+      </Stack>
+
       <Stack
         direction="row"
-        spacing={8}
+        // spacing={8}
         sx={{
           justifyContent: 'center',
           minHeight: '100vh',
