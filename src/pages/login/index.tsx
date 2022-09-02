@@ -178,10 +178,14 @@ export default function Home() {
               sx={{ alignItems: 'center', justifyContent: 'center' }}
             >
               <Stack>
-                <Link href={`${apiUrl}/oauth/wechat`}>Wechat</Link>
+                <Link component="a" href={`${apiUrl}/oauth/wechat`}>
+                  Wechat
+                </Link>
               </Stack>
               <Stack>
-                <Link href={`${apiUrl}/oauth/github`}>Github</Link>
+                <Link component="a" href={`${apiUrl}/oauth/github`}>
+                  Github
+                </Link>
               </Stack>
             </Stack>
           </Stack>

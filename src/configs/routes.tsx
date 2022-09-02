@@ -1,8 +1,12 @@
 export default [
   {
     path: '/login',
-    component: '@/layouts/login',
-    wrappers: ['@/wrappers/material-ui', '@/wrappers/apollo'],
+    component: '@/layouts/base',
+    wrappers: [
+      '@/wrappers/sentry',
+      '@/wrappers/apollo',
+      '@/wrappers/material-ui',
+    ],
     routes: [
       {
         path: '/login/',
@@ -16,8 +20,20 @@ export default [
         title: 'oauth',
         exact: true,
       },
+    ],
+  },
+
+  {
+    path: '/register',
+    component: '@/layouts/base',
+    wrappers: [
+      '@/wrappers/sentry',
+      '@/wrappers/apollo',
+      '@/wrappers/material-ui',
+    ],
+    routes: [
       {
-        path: '/login/register',
+        path: '/register/',
         component: '@/pages/login/register',
         title: 'register',
         exact: true,
