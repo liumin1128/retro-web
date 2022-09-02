@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material/styles';
+import common from './theme.common';
 
-const nextTheme = createTheme({
+const nextTheme = createTheme(common, {
   palette: {
     mode: 'dark',
     common: {
@@ -124,9 +125,7 @@ const nextTheme = createTheme({
 
     tonalOffset: 0.2,
   },
-  shape: {
-    borderRadius: 10,
-  },
+
   typography: {
     fontFamily: '"SF Pro Text", Roboto, Helvetica, Arial, sans-serif;',
     fontWeightRegular: 400,
@@ -137,13 +136,13 @@ const nextTheme = createTheme({
       lineHeight: 1.25,
       fontSize: '2.5rem',
       letterSpacing: 2,
-      '@media (min-width:600px)': {
+      '@media (minWidth:600px)': {
         fontSize: '3.25rem',
       },
-      '@media (min-width:900px)': {
+      '@media (minWidth:900px)': {
         fontSize: '3.625rem',
       },
-      '@media (min-width:1200px)': {
+      '@media (minWidth:1200px)': {
         fontSize: '4rem',
       },
       fontFamily: '"SF Pro Text", Roboto, Helvetica, Arial, sans-serif;',
@@ -152,13 +151,13 @@ const nextTheme = createTheme({
       fontWeight: 700,
       lineHeight: 1.3333333333333333,
       fontSize: '2rem',
-      '@media (min-width:600px)': {
+      '@media (minWidth:600px)': {
         fontSize: '2.5rem',
       },
-      '@media (min-width:900px)': {
+      '@media (minWidth:900px)': {
         fontSize: '2.75rem',
       },
-      '@media (min-width:1200px)': {
+      '@media (minWidth:1200px)': {
         fontSize: '3rem',
       },
       fontFamily: '"SF Pro Text", Roboto, Helvetica, Arial, sans-serif;',
@@ -167,13 +166,13 @@ const nextTheme = createTheme({
       fontWeight: 700,
       lineHeight: 1.5,
       fontSize: '1.5rem',
-      '@media (min-width:600px)': {
+      '@media (minWidth:600px)': {
         fontSize: '1.625rem',
       },
-      '@media (min-width:900px)': {
+      '@media (minWidth:900px)': {
         fontSize: '1.875rem',
       },
-      '@media (min-width:1200px)': {
+      '@media (minWidth:1200px)': {
         fontSize: '2rem',
       },
       fontFamily: '"SF Pro Text", Roboto, Helvetica, Arial, sans-serif;',
@@ -182,13 +181,13 @@ const nextTheme = createTheme({
       fontWeight: 700,
       lineHeight: 1.5,
       fontSize: '1.25rem',
-      '@media (min-width:600px)': {
+      '@media (minWidth:600px)': {
         fontSize: '1.25rem',
       },
-      '@media (min-width:900px)': {
+      '@media (minWidth:900px)': {
         fontSize: '1.5rem',
       },
-      '@media (min-width:1200px)': {
+      '@media (minWidth:1200px)': {
         fontSize: '1.5rem',
       },
       fontFamily: '"SF Pro Text", Roboto, Helvetica, Arial, sans-serif;',
@@ -197,13 +196,13 @@ const nextTheme = createTheme({
       fontWeight: 700,
       lineHeight: 1.5,
       fontSize: '1.125rem',
-      '@media (min-width:600px)': {
+      '@media (minWidth:600px)': {
         fontSize: '1.1875rem',
       },
-      '@media (min-width:900px)': {
+      '@media (minWidth:900px)': {
         fontSize: '1.25rem',
       },
-      '@media (min-width:1200px)': {
+      '@media (minWidth:1200px)': {
         fontSize: '1.25rem',
       },
       fontFamily: '"SF Pro Text", Roboto, Helvetica, Arial, sans-serif;',
@@ -212,13 +211,13 @@ const nextTheme = createTheme({
       fontWeight: 700,
       lineHeight: 1.5555555555555556,
       fontSize: '1.0625rem',
-      '@media (min-width:600px)': {
+      '@media (minWidth:600px)': {
         fontSize: '1.125rem',
       },
-      '@media (min-width:900px)': {
+      '@media (minWidth:900px)': {
         fontSize: '1.125rem',
       },
-      '@media (min-width:1200px)': {
+      '@media (minWidth:1200px)': {
         fontSize: '1.125rem',
       },
       fontFamily: '"SF Pro Text", Roboto, Helvetica, Arial, sans-serif;',
@@ -270,84 +269,6 @@ const nextTheme = createTheme({
     htmlFontSize: 16,
     fontSize: 14,
     fontWeightLight: 300,
-  },
-  components: {
-    MuiPaper: {
-      variants: [
-        {
-          props: { variant: 'outlined' },
-          style: {
-            border: '1px solid #1e4976',
-            '&[href]': {
-              textDecorationLine: 'none',
-            },
-          },
-        },
-      ],
-    },
-
-    MuiTypography: {
-      defaultProps: {
-        color: 'inherit',
-      },
-    },
-
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          textDecoration: 'none',
-        },
-      },
-    },
-
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          '&:hover': {
-            boxShadow: 'none',
-          },
-        },
-        sizeLarge: {
-          height: 48,
-        },
-        containedInherit: {
-          color: '#212B36',
-          boxShadow: '0 8px 16px 0 rgba(145, 158, 171, 0.16)',
-          '&:hover': {
-            backgroundColor: '#C4CDD5',
-          },
-        },
-        containedPrimary: {
-          boxShadow: '0 8px 16px 0 rgba(0, 171, 85, 0.24)',
-        },
-        containedSecondary: {
-          boxShadow: '0 8px 16px 0 rgba(51, 102, 255, 0.24)',
-        },
-        containedInfo: {
-          boxShadow: '0 8px 16px 0 rgba(24, 144, 255, 0.24)',
-        },
-        containedSuccess: {
-          boxShadow: '0 8px 16px 0 rgba(84, 214, 44, 0.24)',
-        },
-        containedWarning: {
-          boxShadow: '0 8px 16px 0 rgba(255, 193, 7, 0.24)',
-        },
-        containedError: {
-          boxShadow: '0 8px 16px 0 rgba(255, 72, 66, 0.24)',
-        },
-        outlinedInherit: {
-          border: '1px solid rgba(145, 158, 171, 0.32)',
-          '&:hover': {
-            backgroundColor: 'rgba(145, 158, 171, 0.08)',
-          },
-        },
-        textInherit: {
-          '&:hover': {
-            backgroundColor: 'rgba(145, 158, 171, 0.08)',
-          },
-        },
-      },
-    },
   },
 });
 

@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'umi';
 import get from 'lodash/get';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import LoadingButton from '@mui/lab/LoadingButton';
-import ButtonLink from '@mui/material/Link';
+import Link from '@mui/material/Link';
 import { useSnackbar } from 'notistack';
 import { LoginUserInput, useLoginLazyQuery } from '@/generated/graphql';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -124,6 +123,7 @@ export default function Home() {
                     {...register('username')}
                     error={!!get(errors, 'username', '')}
                     helperText={`${get(errors, `${'username'}.message`, '')}`}
+                    autoComplete="username"
                     label="Username"
                   />
 
@@ -131,6 +131,7 @@ export default function Home() {
                     {...register('password')}
                     error={!!get(errors, 'password', '')}
                     helperText={`${get(errors, `${'password'}.message`, '')}`}
+                    autoComplete="current-password"
                     label="Password"
                   />
                 </Stack>
@@ -150,9 +151,8 @@ export default function Home() {
                     }
                     label="Remember me"
                   />
-                  <ButtonLink to="/Forgot password" component={Link}>
-                    Forgot password?
-                  </ButtonLink>
+
+                  <Link href="/Forgot password">Forgot password?</Link>
                 </Stack>
 
                 <LoadingButton
@@ -166,9 +166,7 @@ export default function Home() {
 
                 <Typography variant="body1" align="center">
                   Don’t have an account?
-                  <ButtonLink to="/register" component={Link}>
-                    Get started
-                  </ButtonLink>
+                  <Link href="/register">Get started</Link>
                 </Typography>
               </Stack>
             </form>
@@ -180,10 +178,10 @@ export default function Home() {
               sx={{ alignItems: 'center', justifyContent: 'center' }}
             >
               <Stack>
-                <ButtonLink href={`${apiUrl}/oauth/wechat`}>Wechat</ButtonLink>
+                <Link href={`${apiUrl}/oauth/wechat`}>Wechat</Link>
               </Stack>
               <Stack>
-                <ButtonLink href={`${apiUrl}/oauth/github`}>Github</ButtonLink>
+                <Link href={`${apiUrl}/oauth/github`}>Github</Link>
               </Stack>
             </Stack>
           </Stack>
