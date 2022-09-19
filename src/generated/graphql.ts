@@ -2,15 +2,9 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -43,7 +37,7 @@ export enum CommentObjectUnionModel {
   Comment = 'Comment',
   Dynamic = 'Dynamic',
   News = 'News',
-  RetroMessage = 'RetroMessage',
+  RetroMessage = 'RetroMessage'
 }
 
 export type CreateCommentInput = {
@@ -88,6 +82,12 @@ export type CreateNewsInput = {
 export type CreateOAuthInput = {
   age?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateOrganizationInput = {
+  description?: InputMaybe<Scalars['String']>;
+  logo?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type CreateRetroInput = {
@@ -187,7 +187,7 @@ export enum LikeObjectUnionModel {
   Comment = 'Comment',
   Dynamic = 'Dynamic',
   News = 'News',
-  RetroMessage = 'RetroMessage',
+  RetroMessage = 'RetroMessage'
 }
 
 export type LoginUserInput = {
@@ -206,6 +206,7 @@ export type Mutation = {
   createLike?: Maybe<Like>;
   createNews?: Maybe<News>;
   createOAuth?: Maybe<OAuth>;
+  createOrganization?: Maybe<Organization>;
   createRetro?: Maybe<Retro>;
   createRetroMessage?: Maybe<RetroMessage>;
   createTopic?: Maybe<Topic>;
@@ -217,70 +218,92 @@ export type Mutation = {
   updateRetroMessage?: Maybe<RetroMessage>;
 };
 
+
 export type MutationCreateCommentArgs = {
   input?: InputMaybe<CreateCommentInput>;
 };
+
 
 export type MutationCreateDynamicArgs = {
   input?: InputMaybe<CreateDynamicInput>;
 };
 
+
 export type MutationCreateFollowArgs = {
   input?: InputMaybe<CreateFollowInput>;
 };
+
 
 export type MutationCreateHashtagArgs = {
   input?: InputMaybe<CreateHashtagInput>;
 };
 
+
 export type MutationCreateInterestArgs = {
   input?: InputMaybe<CreateInterestInput>;
 };
+
 
 export type MutationCreateLikeArgs = {
   input?: InputMaybe<CreateLikeInput>;
 };
 
+
 export type MutationCreateNewsArgs = {
   createNewsInput?: InputMaybe<CreateNewsInput>;
 };
+
 
 export type MutationCreateOAuthArgs = {
   createOAuthInput?: InputMaybe<CreateOAuthInput>;
 };
 
+
+export type MutationCreateOrganizationArgs = {
+  input?: InputMaybe<CreateOrganizationInput>;
+};
+
+
 export type MutationCreateRetroArgs = {
   input?: InputMaybe<CreateRetroInput>;
 };
+
 
 export type MutationCreateRetroMessageArgs = {
   input?: InputMaybe<CreateRetroMessageInput>;
 };
 
+
 export type MutationCreateTopicArgs = {
   input?: InputMaybe<CreateTopicInput>;
 };
+
 
 export type MutationCreateUserArgs = {
   createUserInput?: InputMaybe<CreateUserInput>;
 };
 
+
 export type MutationDeleteRetroMessageArgs = {
   _id?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type MutationLikeRetroMessageArgs = {
   _id?: InputMaybe<Scalars['ID']>;
   count?: InputMaybe<Scalars['Int']>;
 };
 
+
 export type MutationRegisterArgs = {
   input?: InputMaybe<RegisterUserInput>;
 };
 
+
 export type MutationReplyCommentArgs = {
   input?: InputMaybe<ReplyCommentInput>;
 };
+
 
 export type MutationUpdateRetroMessageArgs = {
   _id?: InputMaybe<Scalars['ID']>;
@@ -301,6 +324,18 @@ export type OAuth = {
   platform?: Maybe<Scalars['String']>;
 };
 
+export type Organization = Document & {
+  __typename?: 'Organization';
+  _id: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  logo?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  owner: User;
+  updatedAt?: Maybe<Scalars['String']>;
+  users?: Maybe<Array<Maybe<User>>>;
+};
+
 export type Query = {
   __typename?: 'Query';
   findComment?: Maybe<Comment>;
@@ -315,6 +350,8 @@ export type Query = {
   findInterests?: Maybe<Array<Maybe<Interest>>>;
   findLike?: Maybe<Like>;
   findLikes?: Maybe<Array<Maybe<Like>>>;
+  findOrganization?: Maybe<Organization>;
+  findOrganizations?: Maybe<Array<Maybe<Organization>>>;
   findRetro?: Maybe<Retro>;
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
@@ -331,65 +368,86 @@ export type Query = {
   oauths?: Maybe<Array<Maybe<OAuth>>>;
 };
 
+
 export type QueryFindCommentArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type QueryFindCommentsArgs = {
   object: Scalars['ID'];
 };
 
+
 export type QueryFindDynamicArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type QueryFindFollowArgs = {
   _id: Scalars['ID'];
 };
 
+
 export type QueryFindHashtagArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type QueryFindInterestArgs = {
   _id: Scalars['ID'];
 };
 
+
 export type QueryFindLikeArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type QueryFindLikesArgs = {
   object: Scalars['ID'];
 };
 
+
+export type QueryFindOrganizationArgs = {
+  _id: Scalars['ID'];
+};
+
+
 export type QueryFindRetroArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type QueryFindRetroMessageArgs = {
   _id: Scalars['ID'];
 };
 
+
 export type QueryFindRetroMessagesArgs = {
   retro?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type QueryFindTopicArgs = {
   _id: Scalars['ID'];
 };
 
+
 export type QueryFindUserArgs = {
   _id: Scalars['String'];
 };
+
 
 export type QueryLoginArgs = {
   input?: InputMaybe<LoginUserInput>;
 };
 
+
 export type QueryNewsArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type QueryOauthArgs = {
   _id: Scalars['ID'];
@@ -475,21 +533,21 @@ export type RetroMessage = Document & {
 export enum RetroMessageStatus {
   Closed = 'CLOSED',
   Focused = 'FOCUSED',
-  Normal = 'NORMAL',
+  Normal = 'NORMAL'
 }
 
 export enum RetroMessageType {
   Happy = 'HAPPY',
   Todo = 'TODO',
   Unhappy = 'UNHAPPY',
-  Wonderring = 'WONDERRING',
+  Wonderring = 'WONDERRING'
 }
 
 export enum Role {
   Admin = 'ADMIN',
   Reviewer = 'REVIEWER',
   Unknown = 'UNKNOWN',
-  User = 'USER',
+  User = 'USER'
 }
 
 export type Subscription = {
@@ -501,6 +559,7 @@ export type Subscription = {
   interestCreated?: Maybe<Interest>;
   likeCreated?: Maybe<Like>;
   newsCreated?: Maybe<News>;
+  organizationCreated?: Maybe<Organization>;
   retroCreated?: Maybe<Retro>;
   retroMessageCreated?: Maybe<RetroMessage>;
   retroMessageDeleted?: Maybe<RetroMessage>;
@@ -549,176 +608,23 @@ export type UserWithToken = {
   user: User;
 };
 
-export type CommentFieldsFragment = {
-  __typename?: 'Comment';
-  _id: string;
-  content?: string | null;
-  createdAt?: string | null;
-  likeCount?: number | null;
-  likeStatus?: boolean | null;
-  user?: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  } | null;
-  comments?: Array<{
-    __typename?: 'Reply';
-    _id: string;
-    content?: string | null;
-    createdAt?: string | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-    commentTo?: { __typename?: 'Comment'; _id: string } | null;
-    replyTo?: {
-      __typename?: 'Comment';
-      _id: string;
-      user?: {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null;
-        username?: string | null;
-        avatarUrl?: string | null;
-      } | null;
-    } | null;
-  } | null> | null;
-};
+export type CommentFieldsFragment = { __typename?: 'Comment', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, comments?: Array<{ __typename?: 'Reply', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, commentTo?: { __typename?: 'Comment', _id: string } | null, replyTo?: { __typename?: 'Comment', _id: string, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null } | null> | null };
 
-export type ReplyFieldsFragment = {
-  __typename?: 'Reply';
-  _id: string;
-  content?: string | null;
-  createdAt?: string | null;
-  likeCount?: number | null;
-  likeStatus?: boolean | null;
-  user?: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  } | null;
-  commentTo?: { __typename?: 'Comment'; _id: string } | null;
-  replyTo?: {
-    __typename?: 'Comment';
-    _id: string;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+export type ReplyFieldsFragment = { __typename?: 'Reply', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, commentTo?: { __typename?: 'Comment', _id: string } | null, replyTo?: { __typename?: 'Comment', _id: string, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type FindCommentsQueryVariables = Exact<{
   object: Scalars['ID'];
 }>;
 
-export type FindCommentsQuery = {
-  __typename?: 'Query';
-  findComments?: Array<{
-    __typename?: 'Comment';
-    _id: string;
-    content?: string | null;
-    createdAt?: string | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-    comments?: Array<{
-      __typename?: 'Reply';
-      _id: string;
-      content?: string | null;
-      createdAt?: string | null;
-      likeCount?: number | null;
-      likeStatus?: boolean | null;
-      user?: {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null;
-        username?: string | null;
-        avatarUrl?: string | null;
-      } | null;
-      commentTo?: { __typename?: 'Comment'; _id: string } | null;
-      replyTo?: {
-        __typename?: 'Comment';
-        _id: string;
-        user?: {
-          __typename?: 'User';
-          _id: string;
-          nickname?: string | null;
-          username?: string | null;
-          avatarUrl?: string | null;
-        } | null;
-      } | null;
-    } | null> | null;
-  } | null> | null;
-};
+
+export type FindCommentsQuery = { __typename?: 'Query', findComments?: Array<{ __typename?: 'Comment', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, comments?: Array<{ __typename?: 'Reply', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, commentTo?: { __typename?: 'Comment', _id: string } | null, replyTo?: { __typename?: 'Comment', _id: string, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null } | null> | null } | null> | null };
 
 export type FindCommentQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type FindCommentQuery = {
-  __typename?: 'Query';
-  findComment?: {
-    __typename?: 'Comment';
-    _id: string;
-    content?: string | null;
-    createdAt?: string | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-    comments?: Array<{
-      __typename?: 'Reply';
-      _id: string;
-      content?: string | null;
-      createdAt?: string | null;
-      likeCount?: number | null;
-      likeStatus?: boolean | null;
-      user?: {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null;
-        username?: string | null;
-        avatarUrl?: string | null;
-      } | null;
-      commentTo?: { __typename?: 'Comment'; _id: string } | null;
-      replyTo?: {
-        __typename?: 'Comment';
-        _id: string;
-        user?: {
-          __typename?: 'User';
-          _id: string;
-          nickname?: string | null;
-          username?: string | null;
-          avatarUrl?: string | null;
-        } | null;
-      } | null;
-    } | null> | null;
-  } | null;
-};
+
+export type FindCommentQuery = { __typename?: 'Query', findComment?: { __typename?: 'Comment', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, comments?: Array<{ __typename?: 'Reply', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, commentTo?: { __typename?: 'Comment', _id: string } | null, replyTo?: { __typename?: 'Comment', _id: string, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null } | null> | null } | null };
 
 export type CreateCommentMutationVariables = Exact<{
   object: Scalars['ID'];
@@ -726,297 +632,101 @@ export type CreateCommentMutationVariables = Exact<{
   content: Scalars['String'];
 }>;
 
-export type CreateCommentMutation = {
-  __typename?: 'Mutation';
-  createComment?: {
-    __typename?: 'Comment';
-    _id: string;
-    content?: string | null;
-    createdAt?: string | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-    comments?: Array<{
-      __typename?: 'Reply';
-      _id: string;
-      content?: string | null;
-      createdAt?: string | null;
-      likeCount?: number | null;
-      likeStatus?: boolean | null;
-      user?: {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null;
-        username?: string | null;
-        avatarUrl?: string | null;
-      } | null;
-      commentTo?: { __typename?: 'Comment'; _id: string } | null;
-      replyTo?: {
-        __typename?: 'Comment';
-        _id: string;
-        user?: {
-          __typename?: 'User';
-          _id: string;
-          nickname?: string | null;
-          username?: string | null;
-          avatarUrl?: string | null;
-        } | null;
-      } | null;
-    } | null> | null;
-  } | null;
-};
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment?: { __typename?: 'Comment', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, comments?: Array<{ __typename?: 'Reply', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, commentTo?: { __typename?: 'Comment', _id: string } | null, replyTo?: { __typename?: 'Comment', _id: string, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null } | null> | null } | null };
 
 export type ReplyCommentMutationVariables = Exact<{
   to: Scalars['ID'];
   content: Scalars['String'];
 }>;
 
-export type ReplyCommentMutation = {
-  __typename?: 'Mutation';
-  replyComment?: {
-    __typename?: 'Reply';
-    _id: string;
-    content?: string | null;
-    createdAt?: string | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-    commentTo?: { __typename?: 'Comment'; _id: string } | null;
-    replyTo?: {
-      __typename?: 'Comment';
-      _id: string;
-      user?: {
-        __typename?: 'User';
-        _id: string;
-        nickname?: string | null;
-        username?: string | null;
-        avatarUrl?: string | null;
-      } | null;
-    } | null;
-  } | null;
-};
 
-export type DynamicFieldsFragment = {
-  __typename?: 'Dynamic';
-  _id: string;
-  createdAt: string;
-  content?: string | null;
-  pictures?: Array<string> | null;
-  likeCount?: number | null;
-  likeStatus?: boolean | null;
-  commentCount?: number | null;
-  shareCount?: number | null;
-  user: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  };
-};
+export type ReplyCommentMutation = { __typename?: 'Mutation', replyComment?: { __typename?: 'Reply', _id: string, content?: string | null, createdAt?: string | null, likeCount?: number | null, likeStatus?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null, commentTo?: { __typename?: 'Comment', _id: string } | null, replyTo?: { __typename?: 'Comment', _id: string, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null } | null };
 
-export type FindDynamicsQueryVariables = Exact<{ [key: string]: never }>;
+export type DynamicFieldsFragment = { __typename?: 'Dynamic', _id: string, createdAt: string, content?: string | null, pictures?: Array<string> | null, likeCount?: number | null, likeStatus?: boolean | null, commentCount?: number | null, shareCount?: number | null, user: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } };
 
-export type FindDynamicsQuery = {
-  __typename?: 'Query';
-  findDynamics?: Array<{
-    __typename?: 'Dynamic';
-    _id: string;
-    createdAt: string;
-    content?: string | null;
-    pictures?: Array<string> | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    commentCount?: number | null;
-    shareCount?: number | null;
-    user: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    };
-  } | null> | null;
-};
+export type FindDynamicsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindDynamicsQuery = { __typename?: 'Query', findDynamics?: Array<{ __typename?: 'Dynamic', _id: string, createdAt: string, content?: string | null, pictures?: Array<string> | null, likeCount?: number | null, likeStatus?: boolean | null, commentCount?: number | null, shareCount?: number | null, user: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } } | null> | null };
 
 export type FindDynamicQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type FindDynamicQuery = {
-  __typename?: 'Query';
-  findDynamic?: {
-    __typename?: 'Dynamic';
-    _id: string;
-    createdAt: string;
-    content?: string | null;
-    pictures?: Array<string> | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    commentCount?: number | null;
-    shareCount?: number | null;
-    user: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    };
-  } | null;
-};
+
+export type FindDynamicQuery = { __typename?: 'Query', findDynamic?: { __typename?: 'Dynamic', _id: string, createdAt: string, content?: string | null, pictures?: Array<string> | null, likeCount?: number | null, likeStatus?: boolean | null, commentCount?: number | null, shareCount?: number | null, user: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } } | null };
 
 export type CreateDynamicMutationVariables = Exact<{
   content: Scalars['String'];
   pictures?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
-export type CreateDynamicMutation = {
-  __typename?: 'Mutation';
-  createDynamic?: {
-    __typename?: 'Dynamic';
-    _id: string;
-    createdAt: string;
-    content?: string | null;
-    pictures?: Array<string> | null;
-    likeCount?: number | null;
-    likeStatus?: boolean | null;
-    commentCount?: number | null;
-    shareCount?: number | null;
-    user: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    };
-  } | null;
-};
 
-export type LikeFieldsFragment = { __typename?: 'Like'; _id: string };
+export type CreateDynamicMutation = { __typename?: 'Mutation', createDynamic?: { __typename?: 'Dynamic', _id: string, createdAt: string, content?: string | null, pictures?: Array<string> | null, likeCount?: number | null, likeStatus?: boolean | null, commentCount?: number | null, shareCount?: number | null, user: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } } | null };
+
+export type LikeFieldsFragment = { __typename?: 'Like', _id: string };
 
 export type FindLikesQueryVariables = Exact<{
   object: Scalars['ID'];
 }>;
 
-export type FindLikesQuery = {
-  __typename?: 'Query';
-  findLikes?: Array<{ __typename?: 'Like'; _id: string } | null> | null;
-};
+
+export type FindLikesQuery = { __typename?: 'Query', findLikes?: Array<{ __typename?: 'Like', _id: string } | null> | null };
 
 export type FindLikeQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type FindLikeQuery = {
-  __typename?: 'Query';
-  findLike?: { __typename?: 'Like'; _id: string } | null;
-};
+
+export type FindLikeQuery = { __typename?: 'Query', findLike?: { __typename?: 'Like', _id: string } | null };
 
 export type CreateLikeMutationVariables = Exact<{
   object: Scalars['ID'];
   objectModel: LikeObjectUnionModel;
 }>;
 
-export type CreateLikeMutation = {
-  __typename?: 'Mutation';
-  createLike?: { __typename?: 'Like'; _id: string } | null;
-};
 
-export type RetroFieldsFragment = {
-  __typename: 'Retro';
-  _id: string;
-  title?: string | null;
-  content?: string | null;
-  date?: string | null;
-  anonymous?: boolean | null;
-  user?: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  } | null;
-};
+export type CreateLikeMutation = { __typename?: 'Mutation', createLike?: { __typename?: 'Like', _id: string } | null };
 
-export type RetroListItemFieldsFragment = {
-  __typename: 'RetroListItem';
-  _id: string;
-  title?: string | null;
-  content?: string | null;
-  date?: string | null;
-  anonymous?: boolean | null;
-  likeCount?: number | null;
-  happyCount?: number | null;
-  unhappyCount?: number | null;
-  wonderringCount?: number | null;
-  todoCount?: number | null;
-  user?: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    avatarUrl?: string | null;
-  } | null;
-};
+export type OrganizationFieldsFragment = { __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null };
 
-export type FindRetrosQueryVariables = Exact<{ [key: string]: never }>;
+export type FindOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type FindRetrosQuery = {
-  __typename?: 'Query';
-  findRetros?: Array<{
-    __typename: 'RetroListItem';
-    _id: string;
-    title?: string | null;
-    content?: string | null;
-    date?: string | null;
-    anonymous?: boolean | null;
-    likeCount?: number | null;
-    happyCount?: number | null;
-    unhappyCount?: number | null;
-    wonderringCount?: number | null;
-    todoCount?: number | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null> | null;
-};
+
+export type FindOrganizationsQuery = { __typename?: 'Query', items?: Array<{ __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null> | null };
+
+export type FindOrganizationQueryVariables = Exact<{
+  _id: Scalars['ID'];
+}>;
+
+
+export type FindOrganizationQuery = { __typename?: 'Query', item?: { __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null };
+
+export type CreateOrganizationMutationVariables = Exact<{
+  name: Scalars['String'];
+  description: Scalars['String'];
+  logo: Scalars['String'];
+}>;
+
+
+export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization?: { __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null };
+
+export type RetroFieldsFragment = { __typename: 'Retro', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
+
+export type RetroListItemFieldsFragment = { __typename: 'RetroListItem', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, likeCount?: number | null, happyCount?: number | null, unhappyCount?: number | null, wonderringCount?: number | null, todoCount?: number | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, avatarUrl?: string | null } | null };
+
+export type FindRetrosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindRetrosQuery = { __typename?: 'Query', findRetros?: Array<{ __typename: 'RetroListItem', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, likeCount?: number | null, happyCount?: number | null, unhappyCount?: number | null, wonderringCount?: number | null, todoCount?: number | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, avatarUrl?: string | null } | null } | null> | null };
 
 export type FindRetroQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type FindRetroQuery = {
-  __typename?: 'Query';
-  findRetro?: {
-    __typename: 'Retro';
-    _id: string;
-    title?: string | null;
-    content?: string | null;
-    date?: string | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+
+export type FindRetroQuery = { __typename?: 'Query', findRetro?: { __typename: 'Retro', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type CreateRetroMutationVariables = Exact<{
   title?: InputMaybe<Scalars['String']>;
@@ -1025,168 +735,36 @@ export type CreateRetroMutationVariables = Exact<{
   anonymous?: InputMaybe<Scalars['Boolean']>;
 }>;
 
-export type CreateRetroMutation = {
-  __typename?: 'Mutation';
-  createRetro?: {
-    __typename: 'Retro';
-    _id: string;
-    title?: string | null;
-    content?: string | null;
-    date?: string | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
 
-export type RetroCreatedSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type CreateRetroMutation = { __typename?: 'Mutation', createRetro?: { __typename: 'Retro', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroCreatedSubscription = {
-  __typename?: 'Subscription';
-  retroCreated?: {
-    __typename: 'Retro';
-    _id: string;
-    title?: string | null;
-    content?: string | null;
-    date?: string | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+export type RetroCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type RetroMessageFieldsFragment = {
-  __typename?: 'RetroMessage';
-  _id: string;
-  content?: string | null;
-  status?: RetroMessageStatus | null;
-  type?: RetroMessageType | null;
-  like?: number | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
-  pictures?: Array<string> | null;
-  anonymous?: boolean | null;
-  user?: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  } | null;
-};
+
+export type RetroCreatedSubscription = { __typename?: 'Subscription', retroCreated?: { __typename: 'Retro', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+
+export type RetroMessageFieldsFragment = { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
 
 export type FindRetroSectionQueryVariables = Exact<{
   retro: Scalars['ID'];
 }>;
 
-export type FindRetroSectionQuery = {
-  __typename?: 'Query';
-  retroMessages?: Array<{
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null> | null;
-  retro?: {
-    __typename: 'Retro';
-    _id: string;
-    title?: string | null;
-    content?: string | null;
-    date?: string | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-  userInfo?: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  } | null;
-};
+
+export type FindRetroSectionQuery = { __typename?: 'Query', retroMessages?: Array<{ __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null> | null, retro?: { __typename: 'Retro', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null, userInfo?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
 
 export type FindRetroMessagesQueryVariables = Exact<{
   retro: Scalars['ID'];
 }>;
 
-export type FindRetroMessagesQuery = {
-  __typename?: 'Query';
-  retroMessages?: Array<{
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null> | null;
-};
+
+export type FindRetroMessagesQuery = { __typename?: 'Query', retroMessages?: Array<{ __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null> | null };
 
 export type FindRetroMessageQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type FindRetroMessageQuery = {
-  __typename?: 'Query';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+
+export type FindRetroMessageQuery = { __typename?: 'Query', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type CreateRetroMessageMutationVariables = Exact<{
   retro: Scalars['ID'];
@@ -1196,28 +774,8 @@ export type CreateRetroMessageMutationVariables = Exact<{
   anonymous?: InputMaybe<Scalars['Boolean']>;
 }>;
 
-export type CreateRetroMessageMutation = {
-  __typename?: 'Mutation';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+
+export type CreateRetroMessageMutation = { __typename?: 'Mutation', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type UpdateRetroMessageMutationVariables = Exact<{
   _id: Scalars['ID'];
@@ -1228,287 +786,77 @@ export type UpdateRetroMessageMutationVariables = Exact<{
   anonymous?: InputMaybe<Scalars['Boolean']>;
 }>;
 
-export type UpdateRetroMessageMutation = {
-  __typename?: 'Mutation';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+
+export type UpdateRetroMessageMutation = { __typename?: 'Mutation', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type LikeRetroMessageMutationVariables = Exact<{
   _id: Scalars['ID'];
   count?: InputMaybe<Scalars['Int']>;
 }>;
 
-export type LikeRetroMessageMutation = {
-  __typename?: 'Mutation';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+
+export type LikeRetroMessageMutation = { __typename?: 'Mutation', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type DeleteRetroMessageMutationVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type DeleteRetroMessageMutation = {
-  __typename?: 'Mutation';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
 
-export type RetroMessageCreatedSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type DeleteRetroMessageMutation = { __typename?: 'Mutation', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroMessageCreatedSubscription = {
-  __typename?: 'Subscription';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+export type RetroMessageCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type RetroMessageUpdatedSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
 
-export type RetroMessageUpdatedSubscription = {
-  __typename?: 'Subscription';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+export type RetroMessageCreatedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroMessageLikedSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type RetroMessageUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type RetroMessageLikedSubscription = {
-  __typename?: 'Subscription';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
 
-export type RetroMessageDeletedSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type RetroMessageUpdatedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroMessageDeletedSubscription = {
-  __typename?: 'Subscription';
-  retroMessage?: {
-    __typename?: 'RetroMessage';
-    _id: string;
-    content?: string | null;
-    status?: RetroMessageStatus | null;
-    type?: RetroMessageType | null;
-    like?: number | null;
-    createdAt?: string | null;
-    updatedAt?: string | null;
-    pictures?: Array<string> | null;
-    anonymous?: boolean | null;
-    user?: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    } | null;
-  } | null;
-};
+export type RetroMessageLikedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type UserFieldsFragment = {
-  __typename: 'User';
-  _id: string;
-  nickname?: string | null;
-  username?: string | null;
-  avatarUrl?: string | null;
-};
 
-export type FindUsersQueryVariables = Exact<{ [key: string]: never }>;
+export type RetroMessageLikedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type FindUsersQuery = {
-  __typename?: 'Query';
-  findUsers?: Array<{
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  } | null> | null;
-};
+export type RetroMessageDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type FindUserInfoQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FindUserInfoQuery = {
-  __typename?: 'Query';
-  findUserInfo?: {
-    __typename?: 'User';
-    _id: string;
-    nickname?: string | null;
-    username?: string | null;
-    avatarUrl?: string | null;
-  } | null;
-};
+export type RetroMessageDeletedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+
+export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null };
+
+export type FindUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindUsersQuery = { __typename?: 'Query', findUsers?: Array<{ __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null> | null };
+
+export type FindUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindUserInfoQuery = { __typename?: 'Query', findUserInfo?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
 
 export type LoginQueryVariables = Exact<{
   input?: InputMaybe<LoginUserInput>;
 }>;
 
-export type LoginQuery = {
-  __typename?: 'Query';
-  login?: {
-    __typename?: 'UserWithToken';
-    token: string;
-    user: {
-      __typename?: 'User';
-      _id: string;
-      nickname?: string | null;
-      username?: string | null;
-      avatarUrl?: string | null;
-    };
-  } | null;
-};
+
+export type LoginQuery = { __typename?: 'Query', login?: { __typename?: 'UserWithToken', token: string, user: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } } | null };
 
 export const CommentFieldsFragmentDoc = gql`
-  fragment commentFields on Comment {
+    fragment commentFields on Comment {
+  _id
+  content
+  createdAt
+  likeCount
+  likeStatus
+  user {
     _id
-    content
-    createdAt
-    likeCount
-    likeStatus
-    user {
-      _id
-      nickname
-      username
-      avatarUrl
-    }
-    comments {
-      _id
-      content
-      createdAt
-      likeCount
-      likeStatus
-      user {
-        _id
-        nickname
-        username
-        avatarUrl
-      }
-      commentTo {
-        _id
-      }
-      replyTo {
-        _id
-        user {
-          _id
-          nickname
-          username
-          avatarUrl
-        }
-      }
-    }
+    nickname
+    username
+    avatarUrl
   }
-`;
-export const ReplyFieldsFragmentDoc = gql`
-  fragment replyFields on Reply {
+  comments {
     _id
     content
     createdAt
@@ -1533,102 +881,137 @@ export const ReplyFieldsFragmentDoc = gql`
       }
     }
   }
-`;
-export const DynamicFieldsFragmentDoc = gql`
-  fragment dynamicFields on Dynamic {
-    _id
-    createdAt
-    content
-    pictures
-    likeCount
-    likeStatus
-    commentCount
-    shareCount
-    user {
-      _id
-      nickname
-      username
-      avatarUrl
-    }
-  }
-`;
-export const LikeFieldsFragmentDoc = gql`
-  fragment likeFields on Like {
-    _id
-  }
-`;
-export const RetroFieldsFragmentDoc = gql`
-  fragment retroFields on Retro {
-    __typename
-    _id
-    title
-    content
-    date
-    anonymous
-    user {
-      _id
-      nickname
-      username
-      avatarUrl
-    }
-  }
-`;
-export const RetroListItemFieldsFragmentDoc = gql`
-  fragment retroListItemFields on RetroListItem {
-    __typename
-    _id
-    title
-    content
-    date
-    anonymous
-    likeCount
-    happyCount
-    unhappyCount
-    wonderringCount
-    todoCount
-    user {
-      _id
-      nickname
-      avatarUrl
-    }
-  }
-`;
-export const RetroMessageFieldsFragmentDoc = gql`
-  fragment retroMessageFields on RetroMessage {
-    _id
-    content
-    status
-    type
-    like
-    createdAt
-    updatedAt
-    pictures
-    anonymous
-    user {
-      _id
-      nickname
-      username
-      avatarUrl
-    }
-  }
-`;
-export const UserFieldsFragmentDoc = gql`
-  fragment userFields on User {
-    __typename
+}
+    `;
+export const ReplyFieldsFragmentDoc = gql`
+    fragment replyFields on Reply {
+  _id
+  content
+  createdAt
+  likeCount
+  likeStatus
+  user {
     _id
     nickname
     username
     avatarUrl
   }
-`;
-export const FindCommentsDocument = gql`
-  query FindComments($object: ID!) {
-    findComments(object: $object) {
-      ...commentFields
+  commentTo {
+    _id
+  }
+  replyTo {
+    _id
+    user {
+      _id
+      nickname
+      username
+      avatarUrl
     }
   }
-  ${CommentFieldsFragmentDoc}
-`;
+}
+    `;
+export const DynamicFieldsFragmentDoc = gql`
+    fragment dynamicFields on Dynamic {
+  _id
+  createdAt
+  content
+  pictures
+  likeCount
+  likeStatus
+  commentCount
+  shareCount
+  user {
+    _id
+    nickname
+    username
+    avatarUrl
+  }
+}
+    `;
+export const LikeFieldsFragmentDoc = gql`
+    fragment likeFields on Like {
+  _id
+}
+    `;
+export const OrganizationFieldsFragmentDoc = gql`
+    fragment organizationFields on Organization {
+  _id
+  name
+  description
+  logo
+}
+    `;
+export const RetroFieldsFragmentDoc = gql`
+    fragment retroFields on Retro {
+  __typename
+  _id
+  title
+  content
+  date
+  anonymous
+  user {
+    _id
+    nickname
+    username
+    avatarUrl
+  }
+}
+    `;
+export const RetroListItemFieldsFragmentDoc = gql`
+    fragment retroListItemFields on RetroListItem {
+  __typename
+  _id
+  title
+  content
+  date
+  anonymous
+  likeCount
+  happyCount
+  unhappyCount
+  wonderringCount
+  todoCount
+  user {
+    _id
+    nickname
+    avatarUrl
+  }
+}
+    `;
+export const RetroMessageFieldsFragmentDoc = gql`
+    fragment retroMessageFields on RetroMessage {
+  _id
+  content
+  status
+  type
+  like
+  createdAt
+  updatedAt
+  pictures
+  anonymous
+  user {
+    _id
+    nickname
+    username
+    avatarUrl
+  }
+}
+    `;
+export const UserFieldsFragmentDoc = gql`
+    fragment userFields on User {
+  __typename
+  _id
+  nickname
+  username
+  avatarUrl
+}
+    `;
+export const FindCommentsDocument = gql`
+    query FindComments($object: ID!) {
+  findComments(object: $object) {
+    ...commentFields
+  }
+}
+    ${CommentFieldsFragmentDoc}`;
 
 /**
  * __useFindCommentsQuery__
@@ -1646,48 +1029,24 @@ export const FindCommentsDocument = gql`
  *   },
  * });
  */
-export function useFindCommentsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindCommentsQuery,
-    FindCommentsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindCommentsQuery, FindCommentsQueryVariables>(
-    FindCommentsDocument,
-    options,
-  );
-}
-export function useFindCommentsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindCommentsQuery,
-    FindCommentsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindCommentsQuery, FindCommentsQueryVariables>(
-    FindCommentsDocument,
-    options,
-  );
-}
-export type FindCommentsQueryHookResult = ReturnType<
-  typeof useFindCommentsQuery
->;
-export type FindCommentsLazyQueryHookResult = ReturnType<
-  typeof useFindCommentsLazyQuery
->;
-export type FindCommentsQueryResult = Apollo.QueryResult<
-  FindCommentsQuery,
-  FindCommentsQueryVariables
->;
+export function useFindCommentsQuery(baseOptions: Apollo.QueryHookOptions<FindCommentsQuery, FindCommentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindCommentsQuery, FindCommentsQueryVariables>(FindCommentsDocument, options);
+      }
+export function useFindCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindCommentsQuery, FindCommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindCommentsQuery, FindCommentsQueryVariables>(FindCommentsDocument, options);
+        }
+export type FindCommentsQueryHookResult = ReturnType<typeof useFindCommentsQuery>;
+export type FindCommentsLazyQueryHookResult = ReturnType<typeof useFindCommentsLazyQuery>;
+export type FindCommentsQueryResult = Apollo.QueryResult<FindCommentsQuery, FindCommentsQueryVariables>;
 export const FindCommentDocument = gql`
-  query FindComment($_id: ID!) {
-    findComment(_id: $_id) {
-      ...commentFields
-    }
+    query FindComment($_id: ID!) {
+  findComment(_id: $_id) {
+    ...commentFields
   }
-  ${CommentFieldsFragmentDoc}
-`;
+}
+    ${CommentFieldsFragmentDoc}`;
 
 /**
  * __useFindCommentQuery__
@@ -1705,56 +1064,27 @@ export const FindCommentDocument = gql`
  *   },
  * });
  */
-export function useFindCommentQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindCommentQuery,
-    FindCommentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindCommentQuery, FindCommentQueryVariables>(
-    FindCommentDocument,
-    options,
-  );
-}
-export function useFindCommentLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindCommentQuery,
-    FindCommentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindCommentQuery, FindCommentQueryVariables>(
-    FindCommentDocument,
-    options,
-  );
-}
+export function useFindCommentQuery(baseOptions: Apollo.QueryHookOptions<FindCommentQuery, FindCommentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindCommentQuery, FindCommentQueryVariables>(FindCommentDocument, options);
+      }
+export function useFindCommentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindCommentQuery, FindCommentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindCommentQuery, FindCommentQueryVariables>(FindCommentDocument, options);
+        }
 export type FindCommentQueryHookResult = ReturnType<typeof useFindCommentQuery>;
-export type FindCommentLazyQueryHookResult = ReturnType<
-  typeof useFindCommentLazyQuery
->;
-export type FindCommentQueryResult = Apollo.QueryResult<
-  FindCommentQuery,
-  FindCommentQueryVariables
->;
+export type FindCommentLazyQueryHookResult = ReturnType<typeof useFindCommentLazyQuery>;
+export type FindCommentQueryResult = Apollo.QueryResult<FindCommentQuery, FindCommentQueryVariables>;
 export const CreateCommentDocument = gql`
-  mutation CreateComment(
-    $object: ID!
-    $objectModel: CommentObjectUnionModel!
-    $content: String!
+    mutation CreateComment($object: ID!, $objectModel: CommentObjectUnionModel!, $content: String!) {
+  createComment(
+    input: {object: $object, objectModel: $objectModel, content: $content}
   ) {
-    createComment(
-      input: { object: $object, objectModel: $objectModel, content: $content }
-    ) {
-      ...commentFields
-    }
+    ...commentFields
   }
-  ${CommentFieldsFragmentDoc}
-`;
-export type CreateCommentMutationFn = Apollo.MutationFunction<
-  CreateCommentMutation,
-  CreateCommentMutationVariables
->;
+}
+    ${CommentFieldsFragmentDoc}`;
+export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
 
 /**
  * __useCreateCommentMutation__
@@ -1775,39 +1105,21 @@ export type CreateCommentMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateCommentMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateCommentMutation,
-    CreateCommentMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateCommentMutation,
-    CreateCommentMutationVariables
-  >(CreateCommentDocument, options);
-}
-export type CreateCommentMutationHookResult = ReturnType<
-  typeof useCreateCommentMutation
->;
-export type CreateCommentMutationResult =
-  Apollo.MutationResult<CreateCommentMutation>;
-export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
-  CreateCommentMutation,
-  CreateCommentMutationVariables
->;
+export function useCreateCommentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommentMutation, CreateCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument, options);
+      }
+export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
+export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
 export const ReplyCommentDocument = gql`
-  mutation ReplyComment($to: ID!, $content: String!) {
-    replyComment(input: { to: $to, content: $content }) {
-      ...replyFields
-    }
+    mutation ReplyComment($to: ID!, $content: String!) {
+  replyComment(input: {to: $to, content: $content}) {
+    ...replyFields
   }
-  ${ReplyFieldsFragmentDoc}
-`;
-export type ReplyCommentMutationFn = Apollo.MutationFunction<
-  ReplyCommentMutation,
-  ReplyCommentMutationVariables
->;
+}
+    ${ReplyFieldsFragmentDoc}`;
+export type ReplyCommentMutationFn = Apollo.MutationFunction<ReplyCommentMutation, ReplyCommentMutationVariables>;
 
 /**
  * __useReplyCommentMutation__
@@ -1827,35 +1139,20 @@ export type ReplyCommentMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useReplyCommentMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ReplyCommentMutation,
-    ReplyCommentMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    ReplyCommentMutation,
-    ReplyCommentMutationVariables
-  >(ReplyCommentDocument, options);
-}
-export type ReplyCommentMutationHookResult = ReturnType<
-  typeof useReplyCommentMutation
->;
-export type ReplyCommentMutationResult =
-  Apollo.MutationResult<ReplyCommentMutation>;
-export type ReplyCommentMutationOptions = Apollo.BaseMutationOptions<
-  ReplyCommentMutation,
-  ReplyCommentMutationVariables
->;
+export function useReplyCommentMutation(baseOptions?: Apollo.MutationHookOptions<ReplyCommentMutation, ReplyCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ReplyCommentMutation, ReplyCommentMutationVariables>(ReplyCommentDocument, options);
+      }
+export type ReplyCommentMutationHookResult = ReturnType<typeof useReplyCommentMutation>;
+export type ReplyCommentMutationResult = Apollo.MutationResult<ReplyCommentMutation>;
+export type ReplyCommentMutationOptions = Apollo.BaseMutationOptions<ReplyCommentMutation, ReplyCommentMutationVariables>;
 export const FindDynamicsDocument = gql`
-  query FindDynamics {
-    findDynamics {
-      ...dynamicFields
-    }
+    query FindDynamics {
+  findDynamics {
+    ...dynamicFields
   }
-  ${DynamicFieldsFragmentDoc}
-`;
+}
+    ${DynamicFieldsFragmentDoc}`;
 
 /**
  * __useFindDynamicsQuery__
@@ -1872,48 +1169,24 @@ export const FindDynamicsDocument = gql`
  *   },
  * });
  */
-export function useFindDynamicsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    FindDynamicsQuery,
-    FindDynamicsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindDynamicsQuery, FindDynamicsQueryVariables>(
-    FindDynamicsDocument,
-    options,
-  );
-}
-export function useFindDynamicsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindDynamicsQuery,
-    FindDynamicsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindDynamicsQuery, FindDynamicsQueryVariables>(
-    FindDynamicsDocument,
-    options,
-  );
-}
-export type FindDynamicsQueryHookResult = ReturnType<
-  typeof useFindDynamicsQuery
->;
-export type FindDynamicsLazyQueryHookResult = ReturnType<
-  typeof useFindDynamicsLazyQuery
->;
-export type FindDynamicsQueryResult = Apollo.QueryResult<
-  FindDynamicsQuery,
-  FindDynamicsQueryVariables
->;
+export function useFindDynamicsQuery(baseOptions?: Apollo.QueryHookOptions<FindDynamicsQuery, FindDynamicsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDynamicsQuery, FindDynamicsQueryVariables>(FindDynamicsDocument, options);
+      }
+export function useFindDynamicsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDynamicsQuery, FindDynamicsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDynamicsQuery, FindDynamicsQueryVariables>(FindDynamicsDocument, options);
+        }
+export type FindDynamicsQueryHookResult = ReturnType<typeof useFindDynamicsQuery>;
+export type FindDynamicsLazyQueryHookResult = ReturnType<typeof useFindDynamicsLazyQuery>;
+export type FindDynamicsQueryResult = Apollo.QueryResult<FindDynamicsQuery, FindDynamicsQueryVariables>;
 export const FindDynamicDocument = gql`
-  query FindDynamic($_id: ID!) {
-    findDynamic(_id: $_id) {
-      ...dynamicFields
-    }
+    query FindDynamic($_id: ID!) {
+  findDynamic(_id: $_id) {
+    ...dynamicFields
   }
-  ${DynamicFieldsFragmentDoc}
-`;
+}
+    ${DynamicFieldsFragmentDoc}`;
 
 /**
  * __useFindDynamicQuery__
@@ -1931,50 +1204,25 @@ export const FindDynamicDocument = gql`
  *   },
  * });
  */
-export function useFindDynamicQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindDynamicQuery,
-    FindDynamicQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindDynamicQuery, FindDynamicQueryVariables>(
-    FindDynamicDocument,
-    options,
-  );
-}
-export function useFindDynamicLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindDynamicQuery,
-    FindDynamicQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindDynamicQuery, FindDynamicQueryVariables>(
-    FindDynamicDocument,
-    options,
-  );
-}
+export function useFindDynamicQuery(baseOptions: Apollo.QueryHookOptions<FindDynamicQuery, FindDynamicQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDynamicQuery, FindDynamicQueryVariables>(FindDynamicDocument, options);
+      }
+export function useFindDynamicLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDynamicQuery, FindDynamicQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDynamicQuery, FindDynamicQueryVariables>(FindDynamicDocument, options);
+        }
 export type FindDynamicQueryHookResult = ReturnType<typeof useFindDynamicQuery>;
-export type FindDynamicLazyQueryHookResult = ReturnType<
-  typeof useFindDynamicLazyQuery
->;
-export type FindDynamicQueryResult = Apollo.QueryResult<
-  FindDynamicQuery,
-  FindDynamicQueryVariables
->;
+export type FindDynamicLazyQueryHookResult = ReturnType<typeof useFindDynamicLazyQuery>;
+export type FindDynamicQueryResult = Apollo.QueryResult<FindDynamicQuery, FindDynamicQueryVariables>;
 export const CreateDynamicDocument = gql`
-  mutation CreateDynamic($content: String!, $pictures: [String!]) {
-    createDynamic(input: { content: $content, pictures: $pictures }) {
-      ...dynamicFields
-    }
+    mutation CreateDynamic($content: String!, $pictures: [String!]) {
+  createDynamic(input: {content: $content, pictures: $pictures}) {
+    ...dynamicFields
   }
-  ${DynamicFieldsFragmentDoc}
-`;
-export type CreateDynamicMutationFn = Apollo.MutationFunction<
-  CreateDynamicMutation,
-  CreateDynamicMutationVariables
->;
+}
+    ${DynamicFieldsFragmentDoc}`;
+export type CreateDynamicMutationFn = Apollo.MutationFunction<CreateDynamicMutation, CreateDynamicMutationVariables>;
 
 /**
  * __useCreateDynamicMutation__
@@ -1994,35 +1242,20 @@ export type CreateDynamicMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateDynamicMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateDynamicMutation,
-    CreateDynamicMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateDynamicMutation,
-    CreateDynamicMutationVariables
-  >(CreateDynamicDocument, options);
-}
-export type CreateDynamicMutationHookResult = ReturnType<
-  typeof useCreateDynamicMutation
->;
-export type CreateDynamicMutationResult =
-  Apollo.MutationResult<CreateDynamicMutation>;
-export type CreateDynamicMutationOptions = Apollo.BaseMutationOptions<
-  CreateDynamicMutation,
-  CreateDynamicMutationVariables
->;
+export function useCreateDynamicMutation(baseOptions?: Apollo.MutationHookOptions<CreateDynamicMutation, CreateDynamicMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDynamicMutation, CreateDynamicMutationVariables>(CreateDynamicDocument, options);
+      }
+export type CreateDynamicMutationHookResult = ReturnType<typeof useCreateDynamicMutation>;
+export type CreateDynamicMutationResult = Apollo.MutationResult<CreateDynamicMutation>;
+export type CreateDynamicMutationOptions = Apollo.BaseMutationOptions<CreateDynamicMutation, CreateDynamicMutationVariables>;
 export const FindLikesDocument = gql`
-  query FindLikes($object: ID!) {
-    findLikes(object: $object) {
-      ...likeFields
-    }
+    query FindLikes($object: ID!) {
+  findLikes(object: $object) {
+    ...likeFields
   }
-  ${LikeFieldsFragmentDoc}
-`;
+}
+    ${LikeFieldsFragmentDoc}`;
 
 /**
  * __useFindLikesQuery__
@@ -2040,43 +1273,24 @@ export const FindLikesDocument = gql`
  *   },
  * });
  */
-export function useFindLikesQuery(
-  baseOptions: Apollo.QueryHookOptions<FindLikesQuery, FindLikesQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindLikesQuery, FindLikesQueryVariables>(
-    FindLikesDocument,
-    options,
-  );
-}
-export function useFindLikesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindLikesQuery,
-    FindLikesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindLikesQuery, FindLikesQueryVariables>(
-    FindLikesDocument,
-    options,
-  );
-}
+export function useFindLikesQuery(baseOptions: Apollo.QueryHookOptions<FindLikesQuery, FindLikesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindLikesQuery, FindLikesQueryVariables>(FindLikesDocument, options);
+      }
+export function useFindLikesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindLikesQuery, FindLikesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindLikesQuery, FindLikesQueryVariables>(FindLikesDocument, options);
+        }
 export type FindLikesQueryHookResult = ReturnType<typeof useFindLikesQuery>;
-export type FindLikesLazyQueryHookResult = ReturnType<
-  typeof useFindLikesLazyQuery
->;
-export type FindLikesQueryResult = Apollo.QueryResult<
-  FindLikesQuery,
-  FindLikesQueryVariables
->;
+export type FindLikesLazyQueryHookResult = ReturnType<typeof useFindLikesLazyQuery>;
+export type FindLikesQueryResult = Apollo.QueryResult<FindLikesQuery, FindLikesQueryVariables>;
 export const FindLikeDocument = gql`
-  query FindLike($_id: ID!) {
-    findLike(_id: $_id) {
-      ...likeFields
-    }
+    query FindLike($_id: ID!) {
+  findLike(_id: $_id) {
+    ...likeFields
   }
-  ${LikeFieldsFragmentDoc}
-`;
+}
+    ${LikeFieldsFragmentDoc}`;
 
 /**
  * __useFindLikeQuery__
@@ -2094,47 +1308,25 @@ export const FindLikeDocument = gql`
  *   },
  * });
  */
-export function useFindLikeQuery(
-  baseOptions: Apollo.QueryHookOptions<FindLikeQuery, FindLikeQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindLikeQuery, FindLikeQueryVariables>(
-    FindLikeDocument,
-    options,
-  );
-}
-export function useFindLikeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindLikeQuery,
-    FindLikeQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindLikeQuery, FindLikeQueryVariables>(
-    FindLikeDocument,
-    options,
-  );
-}
+export function useFindLikeQuery(baseOptions: Apollo.QueryHookOptions<FindLikeQuery, FindLikeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindLikeQuery, FindLikeQueryVariables>(FindLikeDocument, options);
+      }
+export function useFindLikeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindLikeQuery, FindLikeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindLikeQuery, FindLikeQueryVariables>(FindLikeDocument, options);
+        }
 export type FindLikeQueryHookResult = ReturnType<typeof useFindLikeQuery>;
-export type FindLikeLazyQueryHookResult = ReturnType<
-  typeof useFindLikeLazyQuery
->;
-export type FindLikeQueryResult = Apollo.QueryResult<
-  FindLikeQuery,
-  FindLikeQueryVariables
->;
+export type FindLikeLazyQueryHookResult = ReturnType<typeof useFindLikeLazyQuery>;
+export type FindLikeQueryResult = Apollo.QueryResult<FindLikeQuery, FindLikeQueryVariables>;
 export const CreateLikeDocument = gql`
-  mutation CreateLike($object: ID!, $objectModel: LikeObjectUnionModel!) {
-    createLike(input: { object: $object, objectModel: $objectModel }) {
-      ...likeFields
-    }
+    mutation CreateLike($object: ID!, $objectModel: LikeObjectUnionModel!) {
+  createLike(input: {object: $object, objectModel: $objectModel}) {
+    ...likeFields
   }
-  ${LikeFieldsFragmentDoc}
-`;
-export type CreateLikeMutationFn = Apollo.MutationFunction<
-  CreateLikeMutation,
-  CreateLikeMutationVariables
->;
+}
+    ${LikeFieldsFragmentDoc}`;
+export type CreateLikeMutationFn = Apollo.MutationFunction<CreateLikeMutation, CreateLikeMutationVariables>;
 
 /**
  * __useCreateLikeMutation__
@@ -2154,35 +1346,124 @@ export type CreateLikeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateLikeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateLikeMutation,
-    CreateLikeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(
-    CreateLikeDocument,
-    options,
-  );
-}
-export type CreateLikeMutationHookResult = ReturnType<
-  typeof useCreateLikeMutation
->;
-export type CreateLikeMutationResult =
-  Apollo.MutationResult<CreateLikeMutation>;
-export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<
-  CreateLikeMutation,
-  CreateLikeMutationVariables
->;
-export const FindRetrosDocument = gql`
-  query FindRetros {
-    findRetros {
-      ...retroListItemFields
-    }
+export function useCreateLikeMutation(baseOptions?: Apollo.MutationHookOptions<CreateLikeMutation, CreateLikeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(CreateLikeDocument, options);
+      }
+export type CreateLikeMutationHookResult = ReturnType<typeof useCreateLikeMutation>;
+export type CreateLikeMutationResult = Apollo.MutationResult<CreateLikeMutation>;
+export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<CreateLikeMutation, CreateLikeMutationVariables>;
+export const FindOrganizationsDocument = gql`
+    query FindOrganizations {
+  items: findOrganizations {
+    ...organizationFields
   }
-  ${RetroListItemFieldsFragmentDoc}
-`;
+}
+    ${OrganizationFieldsFragmentDoc}`;
+
+/**
+ * __useFindOrganizationsQuery__
+ *
+ * To run a query within a React component, call `useFindOrganizationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindOrganizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindOrganizationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindOrganizationsQuery(baseOptions?: Apollo.QueryHookOptions<FindOrganizationsQuery, FindOrganizationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindOrganizationsQuery, FindOrganizationsQueryVariables>(FindOrganizationsDocument, options);
+      }
+export function useFindOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindOrganizationsQuery, FindOrganizationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindOrganizationsQuery, FindOrganizationsQueryVariables>(FindOrganizationsDocument, options);
+        }
+export type FindOrganizationsQueryHookResult = ReturnType<typeof useFindOrganizationsQuery>;
+export type FindOrganizationsLazyQueryHookResult = ReturnType<typeof useFindOrganizationsLazyQuery>;
+export type FindOrganizationsQueryResult = Apollo.QueryResult<FindOrganizationsQuery, FindOrganizationsQueryVariables>;
+export const FindOrganizationDocument = gql`
+    query FindOrganization($_id: ID!) {
+  item: findOrganization(_id: $_id) {
+    ...organizationFields
+  }
+}
+    ${OrganizationFieldsFragmentDoc}`;
+
+/**
+ * __useFindOrganizationQuery__
+ *
+ * To run a query within a React component, call `useFindOrganizationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindOrganizationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindOrganizationQuery({
+ *   variables: {
+ *      _id: // value for '_id'
+ *   },
+ * });
+ */
+export function useFindOrganizationQuery(baseOptions: Apollo.QueryHookOptions<FindOrganizationQuery, FindOrganizationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindOrganizationQuery, FindOrganizationQueryVariables>(FindOrganizationDocument, options);
+      }
+export function useFindOrganizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindOrganizationQuery, FindOrganizationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindOrganizationQuery, FindOrganizationQueryVariables>(FindOrganizationDocument, options);
+        }
+export type FindOrganizationQueryHookResult = ReturnType<typeof useFindOrganizationQuery>;
+export type FindOrganizationLazyQueryHookResult = ReturnType<typeof useFindOrganizationLazyQuery>;
+export type FindOrganizationQueryResult = Apollo.QueryResult<FindOrganizationQuery, FindOrganizationQueryVariables>;
+export const CreateOrganizationDocument = gql`
+    mutation CreateOrganization($name: String!, $description: String!, $logo: String!) {
+  createOrganization(input: {description: $description, logo: $logo, name: $name}) {
+    ...organizationFields
+  }
+}
+    ${OrganizationFieldsFragmentDoc}`;
+export type CreateOrganizationMutationFn = Apollo.MutationFunction<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
+
+/**
+ * __useCreateOrganizationMutation__
+ *
+ * To run a mutation, you first call `useCreateOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrganizationMutation, { data, loading, error }] = useCreateOrganizationMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      description: // value for 'description'
+ *      logo: // value for 'logo'
+ *   },
+ * });
+ */
+export function useCreateOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateOrganizationMutation, CreateOrganizationMutationVariables>(CreateOrganizationDocument, options);
+      }
+export type CreateOrganizationMutationHookResult = ReturnType<typeof useCreateOrganizationMutation>;
+export type CreateOrganizationMutationResult = Apollo.MutationResult<CreateOrganizationMutation>;
+export type CreateOrganizationMutationOptions = Apollo.BaseMutationOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
+export const FindRetrosDocument = gql`
+    query FindRetros {
+  findRetros {
+    ...retroListItemFields
+  }
+}
+    ${RetroListItemFieldsFragmentDoc}`;
 
 /**
  * __useFindRetrosQuery__
@@ -2199,46 +1480,24 @@ export const FindRetrosDocument = gql`
  *   },
  * });
  */
-export function useFindRetrosQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    FindRetrosQuery,
-    FindRetrosQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindRetrosQuery, FindRetrosQueryVariables>(
-    FindRetrosDocument,
-    options,
-  );
-}
-export function useFindRetrosLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindRetrosQuery,
-    FindRetrosQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindRetrosQuery, FindRetrosQueryVariables>(
-    FindRetrosDocument,
-    options,
-  );
-}
+export function useFindRetrosQuery(baseOptions?: Apollo.QueryHookOptions<FindRetrosQuery, FindRetrosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRetrosQuery, FindRetrosQueryVariables>(FindRetrosDocument, options);
+      }
+export function useFindRetrosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRetrosQuery, FindRetrosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRetrosQuery, FindRetrosQueryVariables>(FindRetrosDocument, options);
+        }
 export type FindRetrosQueryHookResult = ReturnType<typeof useFindRetrosQuery>;
-export type FindRetrosLazyQueryHookResult = ReturnType<
-  typeof useFindRetrosLazyQuery
->;
-export type FindRetrosQueryResult = Apollo.QueryResult<
-  FindRetrosQuery,
-  FindRetrosQueryVariables
->;
+export type FindRetrosLazyQueryHookResult = ReturnType<typeof useFindRetrosLazyQuery>;
+export type FindRetrosQueryResult = Apollo.QueryResult<FindRetrosQuery, FindRetrosQueryVariables>;
 export const FindRetroDocument = gql`
-  query FindRetro($_id: ID!) {
-    findRetro(_id: $_id) {
-      ...retroFields
-    }
+    query FindRetro($_id: ID!) {
+  findRetro(_id: $_id) {
+    ...retroFields
   }
-  ${RetroFieldsFragmentDoc}
-`;
+}
+    ${RetroFieldsFragmentDoc}`;
 
 /**
  * __useFindRetroQuery__
@@ -2256,59 +1515,27 @@ export const FindRetroDocument = gql`
  *   },
  * });
  */
-export function useFindRetroQuery(
-  baseOptions: Apollo.QueryHookOptions<FindRetroQuery, FindRetroQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindRetroQuery, FindRetroQueryVariables>(
-    FindRetroDocument,
-    options,
-  );
-}
-export function useFindRetroLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindRetroQuery,
-    FindRetroQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindRetroQuery, FindRetroQueryVariables>(
-    FindRetroDocument,
-    options,
-  );
-}
-export type FindRetroQueryHookResult = ReturnType<typeof useFindRetroQuery>;
-export type FindRetroLazyQueryHookResult = ReturnType<
-  typeof useFindRetroLazyQuery
->;
-export type FindRetroQueryResult = Apollo.QueryResult<
-  FindRetroQuery,
-  FindRetroQueryVariables
->;
-export const CreateRetroDocument = gql`
-  mutation CreateRetro(
-    $title: String
-    $content: String
-    $date: String!
-    $anonymous: Boolean
-  ) {
-    createRetro(
-      input: {
-        title: $title
-        content: $content
-        date: $date
-        anonymous: $anonymous
+export function useFindRetroQuery(baseOptions: Apollo.QueryHookOptions<FindRetroQuery, FindRetroQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRetroQuery, FindRetroQueryVariables>(FindRetroDocument, options);
       }
-    ) {
-      ...retroFields
-    }
+export function useFindRetroLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRetroQuery, FindRetroQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRetroQuery, FindRetroQueryVariables>(FindRetroDocument, options);
+        }
+export type FindRetroQueryHookResult = ReturnType<typeof useFindRetroQuery>;
+export type FindRetroLazyQueryHookResult = ReturnType<typeof useFindRetroLazyQuery>;
+export type FindRetroQueryResult = Apollo.QueryResult<FindRetroQuery, FindRetroQueryVariables>;
+export const CreateRetroDocument = gql`
+    mutation CreateRetro($title: String, $content: String, $date: String!, $anonymous: Boolean) {
+  createRetro(
+    input: {title: $title, content: $content, date: $date, anonymous: $anonymous}
+  ) {
+    ...retroFields
   }
-  ${RetroFieldsFragmentDoc}
-`;
-export type CreateRetroMutationFn = Apollo.MutationFunction<
-  CreateRetroMutation,
-  CreateRetroMutationVariables
->;
+}
+    ${RetroFieldsFragmentDoc}`;
+export type CreateRetroMutationFn = Apollo.MutationFunction<CreateRetroMutation, CreateRetroMutationVariables>;
 
 /**
  * __useCreateRetroMutation__
@@ -2330,35 +1557,20 @@ export type CreateRetroMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateRetroMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateRetroMutation,
-    CreateRetroMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateRetroMutation, CreateRetroMutationVariables>(
-    CreateRetroDocument,
-    options,
-  );
-}
-export type CreateRetroMutationHookResult = ReturnType<
-  typeof useCreateRetroMutation
->;
-export type CreateRetroMutationResult =
-  Apollo.MutationResult<CreateRetroMutation>;
-export type CreateRetroMutationOptions = Apollo.BaseMutationOptions<
-  CreateRetroMutation,
-  CreateRetroMutationVariables
->;
+export function useCreateRetroMutation(baseOptions?: Apollo.MutationHookOptions<CreateRetroMutation, CreateRetroMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRetroMutation, CreateRetroMutationVariables>(CreateRetroDocument, options);
+      }
+export type CreateRetroMutationHookResult = ReturnType<typeof useCreateRetroMutation>;
+export type CreateRetroMutationResult = Apollo.MutationResult<CreateRetroMutation>;
+export type CreateRetroMutationOptions = Apollo.BaseMutationOptions<CreateRetroMutation, CreateRetroMutationVariables>;
 export const RetroCreatedDocument = gql`
-  subscription RetroCreated {
-    retroCreated {
-      ...retroFields
-    }
+    subscription RetroCreated {
+  retroCreated {
+    ...retroFields
   }
-  ${RetroFieldsFragmentDoc}
-`;
+}
+    ${RetroFieldsFragmentDoc}`;
 
 /**
  * __useRetroCreatedSubscription__
@@ -2375,41 +1587,29 @@ export const RetroCreatedDocument = gql`
  *   },
  * });
  */
-export function useRetroCreatedSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    RetroCreatedSubscription,
-    RetroCreatedSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    RetroCreatedSubscription,
-    RetroCreatedSubscriptionVariables
-  >(RetroCreatedDocument, options);
-}
-export type RetroCreatedSubscriptionHookResult = ReturnType<
-  typeof useRetroCreatedSubscription
->;
-export type RetroCreatedSubscriptionResult =
-  Apollo.SubscriptionResult<RetroCreatedSubscription>;
+export function useRetroCreatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroCreatedSubscription, RetroCreatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<RetroCreatedSubscription, RetroCreatedSubscriptionVariables>(RetroCreatedDocument, options);
+      }
+export type RetroCreatedSubscriptionHookResult = ReturnType<typeof useRetroCreatedSubscription>;
+export type RetroCreatedSubscriptionResult = Apollo.SubscriptionResult<RetroCreatedSubscription>;
 export const FindRetroSectionDocument = gql`
-  query FindRetroSection($retro: ID!) {
-    retroMessages: findRetroMessages(retro: $retro) {
-      ...retroMessageFields
-    }
-    retro: findRetro(_id: $retro) {
-      ...retroFields
-    }
-    userInfo: findUserInfo {
-      _id
-      nickname
-      username
-      avatarUrl
-    }
+    query FindRetroSection($retro: ID!) {
+  retroMessages: findRetroMessages(retro: $retro) {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-  ${RetroFieldsFragmentDoc}
-`;
+  retro: findRetro(_id: $retro) {
+    ...retroFields
+  }
+  userInfo: findUserInfo {
+    _id
+    nickname
+    username
+    avatarUrl
+  }
+}
+    ${RetroMessageFieldsFragmentDoc}
+${RetroFieldsFragmentDoc}`;
 
 /**
  * __useFindRetroSectionQuery__
@@ -2427,48 +1627,24 @@ export const FindRetroSectionDocument = gql`
  *   },
  * });
  */
-export function useFindRetroSectionQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindRetroSectionQuery,
-    FindRetroSectionQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindRetroSectionQuery, FindRetroSectionQueryVariables>(
-    FindRetroSectionDocument,
-    options,
-  );
-}
-export function useFindRetroSectionLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindRetroSectionQuery,
-    FindRetroSectionQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    FindRetroSectionQuery,
-    FindRetroSectionQueryVariables
-  >(FindRetroSectionDocument, options);
-}
-export type FindRetroSectionQueryHookResult = ReturnType<
-  typeof useFindRetroSectionQuery
->;
-export type FindRetroSectionLazyQueryHookResult = ReturnType<
-  typeof useFindRetroSectionLazyQuery
->;
-export type FindRetroSectionQueryResult = Apollo.QueryResult<
-  FindRetroSectionQuery,
-  FindRetroSectionQueryVariables
->;
+export function useFindRetroSectionQuery(baseOptions: Apollo.QueryHookOptions<FindRetroSectionQuery, FindRetroSectionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRetroSectionQuery, FindRetroSectionQueryVariables>(FindRetroSectionDocument, options);
+      }
+export function useFindRetroSectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRetroSectionQuery, FindRetroSectionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRetroSectionQuery, FindRetroSectionQueryVariables>(FindRetroSectionDocument, options);
+        }
+export type FindRetroSectionQueryHookResult = ReturnType<typeof useFindRetroSectionQuery>;
+export type FindRetroSectionLazyQueryHookResult = ReturnType<typeof useFindRetroSectionLazyQuery>;
+export type FindRetroSectionQueryResult = Apollo.QueryResult<FindRetroSectionQuery, FindRetroSectionQueryVariables>;
 export const FindRetroMessagesDocument = gql`
-  query FindRetroMessages($retro: ID!) {
-    retroMessages: findRetroMessages(retro: $retro) {
-      ...retroMessageFields
-    }
+    query FindRetroMessages($retro: ID!) {
+  retroMessages: findRetroMessages(retro: $retro) {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
 
 /**
  * __useFindRetroMessagesQuery__
@@ -2486,48 +1662,24 @@ export const FindRetroMessagesDocument = gql`
  *   },
  * });
  */
-export function useFindRetroMessagesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindRetroMessagesQuery,
-    FindRetroMessagesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    FindRetroMessagesQuery,
-    FindRetroMessagesQueryVariables
-  >(FindRetroMessagesDocument, options);
-}
-export function useFindRetroMessagesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindRetroMessagesQuery,
-    FindRetroMessagesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    FindRetroMessagesQuery,
-    FindRetroMessagesQueryVariables
-  >(FindRetroMessagesDocument, options);
-}
-export type FindRetroMessagesQueryHookResult = ReturnType<
-  typeof useFindRetroMessagesQuery
->;
-export type FindRetroMessagesLazyQueryHookResult = ReturnType<
-  typeof useFindRetroMessagesLazyQuery
->;
-export type FindRetroMessagesQueryResult = Apollo.QueryResult<
-  FindRetroMessagesQuery,
-  FindRetroMessagesQueryVariables
->;
+export function useFindRetroMessagesQuery(baseOptions: Apollo.QueryHookOptions<FindRetroMessagesQuery, FindRetroMessagesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRetroMessagesQuery, FindRetroMessagesQueryVariables>(FindRetroMessagesDocument, options);
+      }
+export function useFindRetroMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRetroMessagesQuery, FindRetroMessagesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRetroMessagesQuery, FindRetroMessagesQueryVariables>(FindRetroMessagesDocument, options);
+        }
+export type FindRetroMessagesQueryHookResult = ReturnType<typeof useFindRetroMessagesQuery>;
+export type FindRetroMessagesLazyQueryHookResult = ReturnType<typeof useFindRetroMessagesLazyQuery>;
+export type FindRetroMessagesQueryResult = Apollo.QueryResult<FindRetroMessagesQuery, FindRetroMessagesQueryVariables>;
 export const FindRetroMessageDocument = gql`
-  query FindRetroMessage($_id: ID!) {
-    retroMessage: findRetroMessage(_id: $_id) {
-      ...retroMessageFields
-    }
+    query FindRetroMessage($_id: ID!) {
+  retroMessage: findRetroMessage(_id: $_id) {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
 
 /**
  * __useFindRetroMessageQuery__
@@ -2545,66 +1697,27 @@ export const FindRetroMessageDocument = gql`
  *   },
  * });
  */
-export function useFindRetroMessageQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindRetroMessageQuery,
-    FindRetroMessageQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindRetroMessageQuery, FindRetroMessageQueryVariables>(
-    FindRetroMessageDocument,
-    options,
-  );
-}
-export function useFindRetroMessageLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindRetroMessageQuery,
-    FindRetroMessageQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    FindRetroMessageQuery,
-    FindRetroMessageQueryVariables
-  >(FindRetroMessageDocument, options);
-}
-export type FindRetroMessageQueryHookResult = ReturnType<
-  typeof useFindRetroMessageQuery
->;
-export type FindRetroMessageLazyQueryHookResult = ReturnType<
-  typeof useFindRetroMessageLazyQuery
->;
-export type FindRetroMessageQueryResult = Apollo.QueryResult<
-  FindRetroMessageQuery,
-  FindRetroMessageQueryVariables
->;
-export const CreateRetroMessageDocument = gql`
-  mutation CreateRetroMessage(
-    $retro: ID!
-    $content: String!
-    $type: RetroMessageType!
-    $pictures: [String!]
-    $anonymous: Boolean
-  ) {
-    retroMessage: createRetroMessage(
-      input: {
-        retro: $retro
-        content: $content
-        type: $type
-        pictures: $pictures
-        anonymous: $anonymous
+export function useFindRetroMessageQuery(baseOptions: Apollo.QueryHookOptions<FindRetroMessageQuery, FindRetroMessageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRetroMessageQuery, FindRetroMessageQueryVariables>(FindRetroMessageDocument, options);
       }
-    ) {
-      ...retroMessageFields
-    }
+export function useFindRetroMessageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRetroMessageQuery, FindRetroMessageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRetroMessageQuery, FindRetroMessageQueryVariables>(FindRetroMessageDocument, options);
+        }
+export type FindRetroMessageQueryHookResult = ReturnType<typeof useFindRetroMessageQuery>;
+export type FindRetroMessageLazyQueryHookResult = ReturnType<typeof useFindRetroMessageLazyQuery>;
+export type FindRetroMessageQueryResult = Apollo.QueryResult<FindRetroMessageQuery, FindRetroMessageQueryVariables>;
+export const CreateRetroMessageDocument = gql`
+    mutation CreateRetroMessage($retro: ID!, $content: String!, $type: RetroMessageType!, $pictures: [String!], $anonymous: Boolean) {
+  retroMessage: createRetroMessage(
+    input: {retro: $retro, content: $content, type: $type, pictures: $pictures, anonymous: $anonymous}
+  ) {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
-export type CreateRetroMessageMutationFn = Apollo.MutationFunction<
-  CreateRetroMessageMutation,
-  CreateRetroMessageMutationVariables
->;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
+export type CreateRetroMessageMutationFn = Apollo.MutationFunction<CreateRetroMessageMutation, CreateRetroMessageMutationVariables>;
 
 /**
  * __useCreateRetroMessageMutation__
@@ -2627,55 +1740,24 @@ export type CreateRetroMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateRetroMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateRetroMessageMutation,
-    CreateRetroMessageMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateRetroMessageMutation,
-    CreateRetroMessageMutationVariables
-  >(CreateRetroMessageDocument, options);
-}
-export type CreateRetroMessageMutationHookResult = ReturnType<
-  typeof useCreateRetroMessageMutation
->;
-export type CreateRetroMessageMutationResult =
-  Apollo.MutationResult<CreateRetroMessageMutation>;
-export type CreateRetroMessageMutationOptions = Apollo.BaseMutationOptions<
-  CreateRetroMessageMutation,
-  CreateRetroMessageMutationVariables
->;
-export const UpdateRetroMessageDocument = gql`
-  mutation UpdateRetroMessage(
-    $_id: ID!
-    $content: String
-    $type: RetroMessageType
-    $status: RetroMessageStatus
-    $pictures: [String!]
-    $anonymous: Boolean
-  ) {
-    retroMessage: updateRetroMessage(
-      _id: $_id
-      input: {
-        content: $content
-        type: $type
-        status: $status
-        pictures: $pictures
-        anonymous: $anonymous
+export function useCreateRetroMessageMutation(baseOptions?: Apollo.MutationHookOptions<CreateRetroMessageMutation, CreateRetroMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRetroMessageMutation, CreateRetroMessageMutationVariables>(CreateRetroMessageDocument, options);
       }
-    ) {
-      ...retroMessageFields
-    }
+export type CreateRetroMessageMutationHookResult = ReturnType<typeof useCreateRetroMessageMutation>;
+export type CreateRetroMessageMutationResult = Apollo.MutationResult<CreateRetroMessageMutation>;
+export type CreateRetroMessageMutationOptions = Apollo.BaseMutationOptions<CreateRetroMessageMutation, CreateRetroMessageMutationVariables>;
+export const UpdateRetroMessageDocument = gql`
+    mutation UpdateRetroMessage($_id: ID!, $content: String, $type: RetroMessageType, $status: RetroMessageStatus, $pictures: [String!], $anonymous: Boolean) {
+  retroMessage: updateRetroMessage(
+    _id: $_id
+    input: {content: $content, type: $type, status: $status, pictures: $pictures, anonymous: $anonymous}
+  ) {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
-export type UpdateRetroMessageMutationFn = Apollo.MutationFunction<
-  UpdateRetroMessageMutation,
-  UpdateRetroMessageMutationVariables
->;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
+export type UpdateRetroMessageMutationFn = Apollo.MutationFunction<UpdateRetroMessageMutation, UpdateRetroMessageMutationVariables>;
 
 /**
  * __useUpdateRetroMessageMutation__
@@ -2699,39 +1781,21 @@ export type UpdateRetroMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateRetroMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateRetroMessageMutation,
-    UpdateRetroMessageMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateRetroMessageMutation,
-    UpdateRetroMessageMutationVariables
-  >(UpdateRetroMessageDocument, options);
-}
-export type UpdateRetroMessageMutationHookResult = ReturnType<
-  typeof useUpdateRetroMessageMutation
->;
-export type UpdateRetroMessageMutationResult =
-  Apollo.MutationResult<UpdateRetroMessageMutation>;
-export type UpdateRetroMessageMutationOptions = Apollo.BaseMutationOptions<
-  UpdateRetroMessageMutation,
-  UpdateRetroMessageMutationVariables
->;
+export function useUpdateRetroMessageMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRetroMessageMutation, UpdateRetroMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRetroMessageMutation, UpdateRetroMessageMutationVariables>(UpdateRetroMessageDocument, options);
+      }
+export type UpdateRetroMessageMutationHookResult = ReturnType<typeof useUpdateRetroMessageMutation>;
+export type UpdateRetroMessageMutationResult = Apollo.MutationResult<UpdateRetroMessageMutation>;
+export type UpdateRetroMessageMutationOptions = Apollo.BaseMutationOptions<UpdateRetroMessageMutation, UpdateRetroMessageMutationVariables>;
 export const LikeRetroMessageDocument = gql`
-  mutation LikeRetroMessage($_id: ID!, $count: Int) {
-    retroMessage: likeRetroMessage(_id: $_id, count: $count) {
-      ...retroMessageFields
-    }
+    mutation LikeRetroMessage($_id: ID!, $count: Int) {
+  retroMessage: likeRetroMessage(_id: $_id, count: $count) {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
-export type LikeRetroMessageMutationFn = Apollo.MutationFunction<
-  LikeRetroMessageMutation,
-  LikeRetroMessageMutationVariables
->;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
+export type LikeRetroMessageMutationFn = Apollo.MutationFunction<LikeRetroMessageMutation, LikeRetroMessageMutationVariables>;
 
 /**
  * __useLikeRetroMessageMutation__
@@ -2751,39 +1815,21 @@ export type LikeRetroMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLikeRetroMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LikeRetroMessageMutation,
-    LikeRetroMessageMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    LikeRetroMessageMutation,
-    LikeRetroMessageMutationVariables
-  >(LikeRetroMessageDocument, options);
-}
-export type LikeRetroMessageMutationHookResult = ReturnType<
-  typeof useLikeRetroMessageMutation
->;
-export type LikeRetroMessageMutationResult =
-  Apollo.MutationResult<LikeRetroMessageMutation>;
-export type LikeRetroMessageMutationOptions = Apollo.BaseMutationOptions<
-  LikeRetroMessageMutation,
-  LikeRetroMessageMutationVariables
->;
+export function useLikeRetroMessageMutation(baseOptions?: Apollo.MutationHookOptions<LikeRetroMessageMutation, LikeRetroMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikeRetroMessageMutation, LikeRetroMessageMutationVariables>(LikeRetroMessageDocument, options);
+      }
+export type LikeRetroMessageMutationHookResult = ReturnType<typeof useLikeRetroMessageMutation>;
+export type LikeRetroMessageMutationResult = Apollo.MutationResult<LikeRetroMessageMutation>;
+export type LikeRetroMessageMutationOptions = Apollo.BaseMutationOptions<LikeRetroMessageMutation, LikeRetroMessageMutationVariables>;
 export const DeleteRetroMessageDocument = gql`
-  mutation DeleteRetroMessage($_id: ID!) {
-    retroMessage: deleteRetroMessage(_id: $_id) {
-      ...retroMessageFields
-    }
+    mutation DeleteRetroMessage($_id: ID!) {
+  retroMessage: deleteRetroMessage(_id: $_id) {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
-export type DeleteRetroMessageMutationFn = Apollo.MutationFunction<
-  DeleteRetroMessageMutation,
-  DeleteRetroMessageMutationVariables
->;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
+export type DeleteRetroMessageMutationFn = Apollo.MutationFunction<DeleteRetroMessageMutation, DeleteRetroMessageMutationVariables>;
 
 /**
  * __useDeleteRetroMessageMutation__
@@ -2802,35 +1848,20 @@ export type DeleteRetroMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteRetroMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteRetroMessageMutation,
-    DeleteRetroMessageMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteRetroMessageMutation,
-    DeleteRetroMessageMutationVariables
-  >(DeleteRetroMessageDocument, options);
-}
-export type DeleteRetroMessageMutationHookResult = ReturnType<
-  typeof useDeleteRetroMessageMutation
->;
-export type DeleteRetroMessageMutationResult =
-  Apollo.MutationResult<DeleteRetroMessageMutation>;
-export type DeleteRetroMessageMutationOptions = Apollo.BaseMutationOptions<
-  DeleteRetroMessageMutation,
-  DeleteRetroMessageMutationVariables
->;
+export function useDeleteRetroMessageMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRetroMessageMutation, DeleteRetroMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRetroMessageMutation, DeleteRetroMessageMutationVariables>(DeleteRetroMessageDocument, options);
+      }
+export type DeleteRetroMessageMutationHookResult = ReturnType<typeof useDeleteRetroMessageMutation>;
+export type DeleteRetroMessageMutationResult = Apollo.MutationResult<DeleteRetroMessageMutation>;
+export type DeleteRetroMessageMutationOptions = Apollo.BaseMutationOptions<DeleteRetroMessageMutation, DeleteRetroMessageMutationVariables>;
 export const RetroMessageCreatedDocument = gql`
-  subscription RetroMessageCreated {
-    retroMessage: retroMessageCreated {
-      ...retroMessageFields
-    }
+    subscription RetroMessageCreated {
+  retroMessage: retroMessageCreated {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
 
 /**
  * __useRetroMessageCreatedSubscription__
@@ -2847,31 +1878,19 @@ export const RetroMessageCreatedDocument = gql`
  *   },
  * });
  */
-export function useRetroMessageCreatedSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    RetroMessageCreatedSubscription,
-    RetroMessageCreatedSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    RetroMessageCreatedSubscription,
-    RetroMessageCreatedSubscriptionVariables
-  >(RetroMessageCreatedDocument, options);
-}
-export type RetroMessageCreatedSubscriptionHookResult = ReturnType<
-  typeof useRetroMessageCreatedSubscription
->;
-export type RetroMessageCreatedSubscriptionResult =
-  Apollo.SubscriptionResult<RetroMessageCreatedSubscription>;
+export function useRetroMessageCreatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageCreatedSubscription, RetroMessageCreatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<RetroMessageCreatedSubscription, RetroMessageCreatedSubscriptionVariables>(RetroMessageCreatedDocument, options);
+      }
+export type RetroMessageCreatedSubscriptionHookResult = ReturnType<typeof useRetroMessageCreatedSubscription>;
+export type RetroMessageCreatedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageCreatedSubscription>;
 export const RetroMessageUpdatedDocument = gql`
-  subscription RetroMessageUpdated {
-    retroMessage: retroMessageUpdated {
-      ...retroMessageFields
-    }
+    subscription RetroMessageUpdated {
+  retroMessage: retroMessageUpdated {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
 
 /**
  * __useRetroMessageUpdatedSubscription__
@@ -2888,31 +1907,19 @@ export const RetroMessageUpdatedDocument = gql`
  *   },
  * });
  */
-export function useRetroMessageUpdatedSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    RetroMessageUpdatedSubscription,
-    RetroMessageUpdatedSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    RetroMessageUpdatedSubscription,
-    RetroMessageUpdatedSubscriptionVariables
-  >(RetroMessageUpdatedDocument, options);
-}
-export type RetroMessageUpdatedSubscriptionHookResult = ReturnType<
-  typeof useRetroMessageUpdatedSubscription
->;
-export type RetroMessageUpdatedSubscriptionResult =
-  Apollo.SubscriptionResult<RetroMessageUpdatedSubscription>;
+export function useRetroMessageUpdatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageUpdatedSubscription, RetroMessageUpdatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<RetroMessageUpdatedSubscription, RetroMessageUpdatedSubscriptionVariables>(RetroMessageUpdatedDocument, options);
+      }
+export type RetroMessageUpdatedSubscriptionHookResult = ReturnType<typeof useRetroMessageUpdatedSubscription>;
+export type RetroMessageUpdatedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageUpdatedSubscription>;
 export const RetroMessageLikedDocument = gql`
-  subscription RetroMessageLiked {
-    retroMessage: retroMessageLiked {
-      ...retroMessageFields
-    }
+    subscription RetroMessageLiked {
+  retroMessage: retroMessageLiked {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
 
 /**
  * __useRetroMessageLikedSubscription__
@@ -2929,31 +1936,19 @@ export const RetroMessageLikedDocument = gql`
  *   },
  * });
  */
-export function useRetroMessageLikedSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    RetroMessageLikedSubscription,
-    RetroMessageLikedSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    RetroMessageLikedSubscription,
-    RetroMessageLikedSubscriptionVariables
-  >(RetroMessageLikedDocument, options);
-}
-export type RetroMessageLikedSubscriptionHookResult = ReturnType<
-  typeof useRetroMessageLikedSubscription
->;
-export type RetroMessageLikedSubscriptionResult =
-  Apollo.SubscriptionResult<RetroMessageLikedSubscription>;
+export function useRetroMessageLikedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageLikedSubscription, RetroMessageLikedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<RetroMessageLikedSubscription, RetroMessageLikedSubscriptionVariables>(RetroMessageLikedDocument, options);
+      }
+export type RetroMessageLikedSubscriptionHookResult = ReturnType<typeof useRetroMessageLikedSubscription>;
+export type RetroMessageLikedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageLikedSubscription>;
 export const RetroMessageDeletedDocument = gql`
-  subscription RetroMessageDeleted {
-    retroMessage: retroMessageDeleted {
-      ...retroMessageFields
-    }
+    subscription RetroMessageDeleted {
+  retroMessage: retroMessageDeleted {
+    ...retroMessageFields
   }
-  ${RetroMessageFieldsFragmentDoc}
-`;
+}
+    ${RetroMessageFieldsFragmentDoc}`;
 
 /**
  * __useRetroMessageDeletedSubscription__
@@ -2970,33 +1965,22 @@ export const RetroMessageDeletedDocument = gql`
  *   },
  * });
  */
-export function useRetroMessageDeletedSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    RetroMessageDeletedSubscription,
-    RetroMessageDeletedSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    RetroMessageDeletedSubscription,
-    RetroMessageDeletedSubscriptionVariables
-  >(RetroMessageDeletedDocument, options);
-}
-export type RetroMessageDeletedSubscriptionHookResult = ReturnType<
-  typeof useRetroMessageDeletedSubscription
->;
-export type RetroMessageDeletedSubscriptionResult =
-  Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
+export function useRetroMessageDeletedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageDeletedSubscription, RetroMessageDeletedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<RetroMessageDeletedSubscription, RetroMessageDeletedSubscriptionVariables>(RetroMessageDeletedDocument, options);
+      }
+export type RetroMessageDeletedSubscriptionHookResult = ReturnType<typeof useRetroMessageDeletedSubscription>;
+export type RetroMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
 export const FindUsersDocument = gql`
-  query FindUsers {
-    findUsers {
-      _id
-      nickname
-      username
-      avatarUrl
-    }
+    query FindUsers {
+  findUsers {
+    _id
+    nickname
+    username
+    avatarUrl
   }
-`;
+}
+    `;
 
 /**
  * __useFindUsersQuery__
@@ -3013,48 +1997,27 @@ export const FindUsersDocument = gql`
  *   },
  * });
  */
-export function useFindUsersQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    FindUsersQuery,
-    FindUsersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindUsersQuery, FindUsersQueryVariables>(
-    FindUsersDocument,
-    options,
-  );
-}
-export function useFindUsersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindUsersQuery,
-    FindUsersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindUsersQuery, FindUsersQueryVariables>(
-    FindUsersDocument,
-    options,
-  );
-}
+export function useFindUsersQuery(baseOptions?: Apollo.QueryHookOptions<FindUsersQuery, FindUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUsersQuery, FindUsersQueryVariables>(FindUsersDocument, options);
+      }
+export function useFindUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUsersQuery, FindUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUsersQuery, FindUsersQueryVariables>(FindUsersDocument, options);
+        }
 export type FindUsersQueryHookResult = ReturnType<typeof useFindUsersQuery>;
-export type FindUsersLazyQueryHookResult = ReturnType<
-  typeof useFindUsersLazyQuery
->;
-export type FindUsersQueryResult = Apollo.QueryResult<
-  FindUsersQuery,
-  FindUsersQueryVariables
->;
+export type FindUsersLazyQueryHookResult = ReturnType<typeof useFindUsersLazyQuery>;
+export type FindUsersQueryResult = Apollo.QueryResult<FindUsersQuery, FindUsersQueryVariables>;
 export const FindUserInfoDocument = gql`
-  query FindUserInfo {
-    findUserInfo {
-      _id
-      nickname
-      username
-      avatarUrl
-    }
+    query FindUserInfo {
+  findUserInfo {
+    _id
+    nickname
+    username
+    avatarUrl
   }
-`;
+}
+    `;
 
 /**
  * __useFindUserInfoQuery__
@@ -3071,53 +2034,30 @@ export const FindUserInfoDocument = gql`
  *   },
  * });
  */
-export function useFindUserInfoQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    FindUserInfoQuery,
-    FindUserInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindUserInfoQuery, FindUserInfoQueryVariables>(
-    FindUserInfoDocument,
-    options,
-  );
-}
-export function useFindUserInfoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindUserInfoQuery,
-    FindUserInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindUserInfoQuery, FindUserInfoQueryVariables>(
-    FindUserInfoDocument,
-    options,
-  );
-}
-export type FindUserInfoQueryHookResult = ReturnType<
-  typeof useFindUserInfoQuery
->;
-export type FindUserInfoLazyQueryHookResult = ReturnType<
-  typeof useFindUserInfoLazyQuery
->;
-export type FindUserInfoQueryResult = Apollo.QueryResult<
-  FindUserInfoQuery,
-  FindUserInfoQueryVariables
->;
-export const LoginDocument = gql`
-  query Login($input: LoginUserInput) {
-    login(input: $input) {
-      user {
-        _id
-        nickname
-        username
-        avatarUrl
+export function useFindUserInfoQuery(baseOptions?: Apollo.QueryHookOptions<FindUserInfoQuery, FindUserInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUserInfoQuery, FindUserInfoQueryVariables>(FindUserInfoDocument, options);
       }
-      token
+export function useFindUserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserInfoQuery, FindUserInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUserInfoQuery, FindUserInfoQueryVariables>(FindUserInfoDocument, options);
+        }
+export type FindUserInfoQueryHookResult = ReturnType<typeof useFindUserInfoQuery>;
+export type FindUserInfoLazyQueryHookResult = ReturnType<typeof useFindUserInfoLazyQuery>;
+export type FindUserInfoQueryResult = Apollo.QueryResult<FindUserInfoQuery, FindUserInfoQueryVariables>;
+export const LoginDocument = gql`
+    query Login($input: LoginUserInput) {
+  login(input: $input) {
+    user {
+      _id
+      nickname
+      username
+      avatarUrl
     }
+    token
   }
-`;
+}
+    `;
 
 /**
  * __useLoginQuery__
@@ -3135,52 +2075,50 @@ export const LoginDocument = gql`
  *   },
  * });
  */
-export function useLoginQuery(
-  baseOptions?: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<LoginQuery, LoginQueryVariables>(
-    LoginDocument,
-    options,
-  );
-}
-export function useLoginLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(
-    LoginDocument,
-    options,
-  );
-}
+export function useLoginQuery(baseOptions?: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+      }
+export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        }
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
-export type LoginQueryResult = Apollo.QueryResult<
-  LoginQuery,
-  LoginQueryVariables
->;
+export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
 
-export interface PossibleTypesResultData {
-  possibleTypes: {
-    [key: string]: string[];
-  };
-}
-const result: PossibleTypesResultData = {
-  possibleTypes: {
-    CommentObjectUnion: ['Comment', 'News', 'RetroMessage'],
-    Document: [
-      'Comment',
-      'Dynamic',
-      'Follow',
-      'Hashtag',
-      'Interest',
-      'Like',
-      'Retro',
-      'RetroListItem',
-      'RetroMessage',
-      'Topic',
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
+      }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {
+    "CommentObjectUnion": [
+      "Comment",
+      "News",
+      "RetroMessage"
     ],
-    LikeObjectUnion: ['Comment', 'Dynamic', 'News', 'RetroMessage'],
-  },
+    "Document": [
+      "Comment",
+      "Dynamic",
+      "Follow",
+      "Hashtag",
+      "Interest",
+      "Like",
+      "Organization",
+      "Retro",
+      "RetroListItem",
+      "RetroMessage",
+      "Topic"
+    ],
+    "LikeObjectUnion": [
+      "Comment",
+      "Dynamic",
+      "News",
+      "RetroMessage"
+    ]
+  }
 };
-export default result;
+      export default result;
+    

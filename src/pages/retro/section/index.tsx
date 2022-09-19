@@ -1,3 +1,7 @@
+// tslint:disable
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'umi';
 import get from 'lodash/get';

@@ -69,6 +69,18 @@ export default [
             exact: true,
           },
           {
+            path: '/retro/organization',
+            component: '@/pages/retro/organization',
+            title: 'Organization List',
+            exact: true,
+          },
+          {
+            path: '/retro/organization/create',
+            component: '@/pages/retro/organization/create',
+            title: 'Organization Create',
+            exact: true,
+          },
+          {
             path: '/retro/:retro',
             component: '@/pages/retro/section',
             title: 'Retro',
@@ -77,24 +89,24 @@ export default [
         ],
       },
 
-      {
-        path: '/dynamic',
-        component: '@/layouts/dynamic',
-        routes: [
-          {
-            path: '/dynamic',
-            component: '@/pages/dynamic',
-            title: 'Dynamic',
-            exact: true,
-          },
-          {
-            path: '/dynamic/:id',
-            component: '@/pages/dynamic/detail',
-            title: 'Dynamic Detail',
-            exact: true,
-          },
-        ],
-      },
+      // {
+      //   path: '/dynamic',
+      //   component: '@/layouts/dynamic',
+      //   routes: [
+      //     {
+      //       path: '/dynamic',
+      //       component: '@/pages/dynamic',
+      //       title: 'Dynamic',
+      //       exact: true,
+      //     },
+      //     {
+      //       path: '/dynamic/:id',
+      //       component: '@/pages/dynamic/detail',
+      //       title: 'Dynamic Detail',
+      //       exact: true,
+      //     },
+      //   ],
+      // },
     ],
   },
 ];

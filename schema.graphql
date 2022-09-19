@@ -1,0 +1,409 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+directive @upper on FIELD_DEFINITION
+
+directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION
+
+interface Document {
+  _id: ID!
+  createdAt: String
+  updatedAt: String
+}
+
+union CommentObjectUnion = Comment | News | RetroMessage
+
+union LikeObjectUnion = Comment | Dynamic | News | RetroMessage
+
+type Comment implements Document {
+  _id: ID!
+  comments: [Reply]
+  content: String
+  createdAt: String
+  likeCount: Int
+  likeStatus: Boolean
+  object: ID
+  objectModel: CommentObjectUnionModel
+  objectUnion: CommentObjectUnion
+  updatedAt: String
+  user: User
+}
+
+type Dynamic implements Document {
+  _id: ID!
+  commentCount: Int
+  content: String
+  createdAt: String!
+  likeCount: Int
+  likeStatus: Boolean
+  pictures: [String!]
+  shareCount: Int
+  updatedAt: String!
+  user: User!
+}
+
+type Follow implements Document {
+  _id: ID!
+  createdAt: String
+  from: User
+  to: User
+  updatedAt: String
+}
+
+type Hashtag implements Document {
+  _id: ID!
+  category: String
+  cover: String
+  createdAt: String
+  icon: String
+  name: String
+  updatedAt: String
+  user: User
+}
+
+type Interest implements Document {
+  _id: ID!
+  category: String
+  cover: String
+  createdAt: String
+  icon: String
+  name: String
+  updatedAt: String
+  user: User
+}
+
+type Like implements Document {
+  _id: ID!
+  createdAt: String
+  object: ID
+  objectModel: LikeObjectUnionModel
+  objectUnion: LikeObjectUnion
+  updatedAt: String
+  user: User
+}
+
+type Mutation {
+  createComment(input: CreateCommentInput): Comment
+  createDynamic(input: CreateDynamicInput): Dynamic
+  createFollow(input: CreateFollowInput): Follow
+  createHashtag(input: CreateHashtagInput): Hashtag
+  createInterest(input: CreateInterestInput): Interest
+  createLike(input: CreateLikeInput): Like
+  createNews(createNewsInput: CreateNewsInput): News
+  createOAuth(createOAuthInput: CreateOAuthInput): OAuth
+  createOrganization(input: CreateOrganizationInput): Organization
+  createRetro(input: CreateRetroInput): Retro
+  createRetroMessage(input: CreateRetroMessageInput): RetroMessage
+  createTopic(input: CreateTopicInput): Topic
+  createUser(createUserInput: CreateUserInput): User
+  deleteRetroMessage(_id: ID): RetroMessage
+  likeRetroMessage(_id: ID, count: Int): RetroMessage
+  register(input: RegisterUserInput): User
+  replyComment(input: ReplyCommentInput): Reply
+  updateRetroMessage(_id: ID, input: UpdateRetroMessageInput): RetroMessage
+}
+
+type News {
+  _id: ID!
+  cover: String
+  html: String
+  title: String
+}
+
+type OAuth {
+  _id: ID!
+  platform: String
+}
+
+type Organization implements Document {
+  _id: ID!
+  createdAt: String
+  description: String
+  logo: String
+  name: String
+  owner: User!
+  updatedAt: String
+  users: [User]
+}
+
+type Query {
+  findComment(_id: ID!): Comment
+  findComments(object: ID!): [Comment]
+  findDynamic(_id: ID!): Dynamic
+  findDynamics: [Dynamic]
+  findFollow(_id: ID!): Follow
+  findFollows: [Follow]
+  findHashtag(_id: ID!): Hashtag
+  findHashtags: [Hashtag]
+  findInterest(_id: ID!): Interest
+  findInterests: [Interest]
+  findLike(_id: ID!): Like
+  findLikes(object: ID!): [Like]
+  findOrganization(_id: ID!): Organization
+  findOrganizations: [Organization]
+  findRetro(_id: ID!): Retro
+  findRetroMessage(_id: ID!): RetroMessage
+  findRetroMessages(retro: ID): [RetroMessage]
+  findRetros: [RetroListItem]
+  findTopic(_id: ID!): Topic
+  findTopics: [Topic]
+  findUser(_id: String!): User
+  findUserInfo: User
+  findUsers: [User]
+  login(input: LoginUserInput): UserWithToken
+  news(_id: ID!): News
+  newsList: [News]
+  oauth(_id: ID!): OAuth
+  oauths: [OAuth]
+}
+
+type Reply {
+  _id: ID!
+  commentTo: Comment
+  content: String
+  createdAt: String
+  likeCount: Int
+  likeStatus: Boolean
+  object: ID
+  objectModel: CommentObjectUnionModel
+  objectUnion: CommentObjectUnion
+  replyTo: Comment
+  updatedAt: String
+  user: User
+}
+
+type Retro implements Document {
+  _id: ID!
+  anonymous: Boolean
+  content: String
+  createdAt: String
+  date: String
+  title: String
+  updatedAt: String
+  user: User
+}
+
+type RetroListItem implements Document {
+  _id: ID!
+  anonymous: Boolean
+  content: String
+  createdAt: String
+  date: String
+  happyCount: Int
+  likeCount: Int
+  title: String
+  todoCount: Int
+  unhappyCount: Int
+  updatedAt: String
+  user: User
+  wonderringCount: Int
+}
+
+type RetroMessage implements Document {
+  _id: ID!
+  anonymous: Boolean
+  content: String
+  createdAt: String
+  like: Int
+  pictures: [String!]
+  status: RetroMessageStatus
+  type: RetroMessageType
+  updatedAt: String
+  user: User
+}
+
+type Subscription {
+  commentCreated: Comment
+  dynamicCreated: Dynamic
+  followCreated: Follow
+  hashtagCreated: Hashtag
+  interestCreated: Interest
+  likeCreated: Like
+  newsCreated: News
+  organizationCreated: Organization
+  retroCreated: Retro
+  retroMessageCreated: RetroMessage
+  retroMessageDeleted: RetroMessage
+  retroMessageLiked: RetroMessage
+  retroMessageUpdated: RetroMessage
+  topicCreated: Topic
+}
+
+type Topic implements Document {
+  _id: ID!
+  category: String
+  cover: String
+  createdAt: String
+  icon: String
+  name: String
+  updatedAt: String
+  user: User
+}
+
+type User {
+  _id: ID!
+  avatarUrl: String
+  birthday: String
+  company: String
+  nickname: String
+  phoneNumber: String
+  position: String
+  sex: Int
+  sign: String
+  username: String
+}
+
+type UserWithToken {
+  token: String!
+  user: User!
+}
+
+enum CommentObjectUnionModel {
+  Comment
+  Dynamic
+  News
+  RetroMessage
+}
+
+enum LikeObjectUnionModel {
+  Comment
+  Dynamic
+  News
+  RetroMessage
+}
+
+enum RetroMessageStatus {
+  CLOSED
+  FOCUSED
+  NORMAL
+}
+
+enum RetroMessageType {
+  HAPPY
+  TODO
+  UNHAPPY
+  WONDERRING
+}
+
+enum Role {
+  ADMIN
+  REVIEWER
+  UNKNOWN
+  USER
+}
+
+scalar Date
+
+input CreateCommentInput {
+  content: String
+  object: ID!
+  objectModel: CommentObjectUnionModel!
+}
+
+input CreateDynamicInput {
+  content: String
+  pictures: [String!]
+}
+
+input CreateFollowInput {
+  to: ID!
+}
+
+input CreateHashtagInput {
+  category: String
+  cover: String
+  icon: String
+  name: String!
+}
+
+input CreateInterestInput {
+  category: String
+  cover: String
+  icon: String
+  name: String!
+}
+
+input CreateLikeInput {
+  object: ID!
+  objectModel: LikeObjectUnionModel!
+}
+
+input CreateNewsInput {
+  age: Int
+  name: String
+}
+
+input CreateOAuthInput {
+  age: Int
+  name: String
+}
+
+input CreateOrganizationInput {
+  description: String
+  logo: String
+  name: String!
+}
+
+input CreateRetroInput {
+  anonymous: Boolean
+  content: String
+  date: String
+  title: String
+}
+
+input CreateRetroMessageInput {
+  anonymous: Boolean
+  content: String!
+  pictures: [String!]
+  retro: ID!
+  type: RetroMessageType!
+}
+
+input CreateTopicInput {
+  category: String
+  cover: String
+  icon: String
+  name: String!
+}
+
+input CreateUserInput {
+  password: String
+  phoneNumber: Int
+}
+
+input LoginUserInput {
+  password: String
+  phoneNumber: String
+  username: String
+}
+
+input RegisterUserInput {
+  avatarUrl: String
+  birthday: String
+  company: String
+  nickname: String
+  password: String!
+  phoneNumber: String
+  position: String
+  sex: Int
+  sign: String
+  username: String!
+}
+
+input ReplyCommentInput {
+  content: String
+  to: ID!
+}
+
+input UpdateRetroMessageInput {
+  anonymous: Boolean
+  content: String
+  pictures: [String!]
+  status: RetroMessageStatus
+  type: RetroMessageType
+}
