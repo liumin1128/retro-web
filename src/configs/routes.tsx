@@ -43,7 +43,7 @@ export default [
 
   {
     path: '/',
-    component: '@/layouts/base',
+    component: '@/layouts/dashboard',
     wrappers: [
       '@/wrappers/sentry',
       '@/wrappers/apollo',
@@ -52,8 +52,8 @@ export default [
     routes: [
       {
         path: '/',
-        wrappers: ['@/layouts/retro'],
-        component: '@/pages/retro',
+        wrappers: ['@/layouts/dashboard'],
+        component: '@/pages/home',
         title: 'Home',
         exact: true,
       },
