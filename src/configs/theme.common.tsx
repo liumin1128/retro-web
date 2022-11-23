@@ -38,6 +38,7 @@ import { Link as RouterLink } from 'umi';
 const LinkBehavior = forwardRef((props, ref) => {
   // eslint-disable-next-line
   // @ts-ignore
+  // eslint-disable-next-line react/prop-types
   const { href, ...other } = props;
   return <RouterLink to={href} {...other} />;
 });
@@ -90,44 +91,44 @@ const theme = createTheme({
           },
         },
         sizeLarge: {
-          height: 48,
+          // height: 48,
         },
         containedInherit: {
           color: '#212B36',
-          boxShadow: '0 8px 16px 0 rgba(145, 158, 171, 0.16)',
+          // boxShadow: '0 8px 16px 0 rgba(145, 158, 171, 0.16)',
           '&:hover': {
             backgroundColor: '#C4CDD5',
           },
         },
-        containedPrimary: {
-          boxShadow: '0 8px 16px 0 rgba(0, 171, 85, 0.24)',
-        },
-        containedSecondary: {
-          boxShadow: '0 8px 16px 0 rgba(51, 102, 255, 0.24)',
-        },
-        containedInfo: {
-          boxShadow: '0 8px 16px 0 rgba(24, 144, 255, 0.24)',
-        },
-        containedSuccess: {
-          boxShadow: '0 8px 16px 0 rgba(84, 214, 44, 0.24)',
-        },
-        containedWarning: {
-          boxShadow: '0 8px 16px 0 rgba(255, 193, 7, 0.24)',
-        },
-        containedError: {
-          boxShadow: '0 8px 16px 0 rgba(255, 72, 66, 0.24)',
-        },
-        outlinedInherit: {
-          border: '1px solid rgba(145, 158, 171, 0.32)',
-          '&:hover': {
-            backgroundColor: 'rgba(145, 158, 171, 0.08)',
-          },
-        },
-        textInherit: {
-          '&:hover': {
-            backgroundColor: 'rgba(145, 158, 171, 0.08)',
-          },
-        },
+        // containedPrimary: {
+        //   boxShadow: '0 8px 16px 0 rgba(0, 171, 85, 0.24)',
+        // },
+        // containedSecondary: {
+        //   boxShadow: '0 8px 16px 0 rgba(51, 102, 255, 0.24)',
+        // },
+        // containedInfo: {
+        //   boxShadow: '0 8px 16px 0 rgba(24, 144, 255, 0.24)',
+        // },
+        // containedSuccess: {
+        //   boxShadow: '0 8px 16px 0 rgba(84, 214, 44, 0.24)',
+        // },
+        // containedWarning: {
+        //   boxShadow: '0 8px 16px 0 rgba(255, 193, 7, 0.24)',
+        // },
+        // containedError: {
+        //   boxShadow: '0 8px 16px 0 rgba(255, 72, 66, 0.24)',
+        // },
+        // outlinedInherit: {
+        //   border: '1px solid rgba(145, 158, 171, 0.32)',
+        //   '&:hover': {
+        //     backgroundColor: 'rgba(145, 158, 171, 0.08)',
+        //   },
+        // },
+        // textInherit: {
+        //   '&:hover': {
+        //     backgroundColor: 'rgba(145, 158, 171, 0.08)',
+        //   },
+        // },
       },
     },
   },

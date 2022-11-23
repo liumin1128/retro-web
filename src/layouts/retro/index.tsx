@@ -7,7 +7,7 @@ const BaseLayout = () => {
     <Stack
       spacing={2}
       sx={{
-        backgroundImage: (theme) => theme.palette.background.gradient,
+        backgroundImage: (theme) => theme.palette.gradients.primary,
         width: '100vw',
         height: '100vh',
       }}

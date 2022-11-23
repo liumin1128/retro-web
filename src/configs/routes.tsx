@@ -89,6 +89,11 @@ export default [
         ],
       },
 
+      {
+        path: '/',
+        redirect: '/retro',
+      },
+
       // {
       //   path: '/dynamic',
       //   component: '@/layouts/dynamic',
