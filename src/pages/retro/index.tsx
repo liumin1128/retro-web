@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import CreateRetro from '@/container/Retro/Create';
 import ListRetro from '@/container/Retro/List';
+import APlayer from '@/components/APlayer';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 
 const Retro: React.FunctionComponent = () => {
@@ -19,6 +20,7 @@ const Retro: React.FunctionComponent = () => {
 
           <CreateRetro />
           <MaterialUISwitch />
+          <APlayer />
         </Toolbar>
       </AppBar>
       <Container sx={{ mt: 3 }}>

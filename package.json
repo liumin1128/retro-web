@@ -36,6 +36,7 @@
     "@sentry/tracing": "^7.11.1",
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
+    "dynamic-file": "^0.2.1",
     "graphql": "^16.6.0",
     "graphql-ws": "^5.10.1",
     "lodash": "^4.17.21",
