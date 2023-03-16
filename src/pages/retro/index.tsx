@@ -6,8 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import CreateRetro from '@/container/Retro/Create';
 import ListRetro from '@/container/Retro/List';
-import APlayer from '@/components/APlayer';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
+import Grid from '@mui/material/Grid';
 
 const Retro: React.FunctionComponent = () => {
   return (
@@ -20,11 +20,15 @@ const Retro: React.FunctionComponent = () => {
 
           <CreateRetro />
           <MaterialUISwitch />
-          <APlayer />
         </Toolbar>
       </AppBar>
       <Container sx={{ mt: 3 }}>
-        <ListRetro />
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <ListRetro />
+          </Grid>
+          <Grid item xs={4} />
+        </Grid>
       </Container>
     </Box>
   );

@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="feat: 更新部分基础页面">
+    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="feat: 音乐播放器">
+      <change afterPath="$PROJECT_DIR$/src/container/Organization/Info/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/container/Organization/Manage/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphql.schema.json" beforeDir="false" afterPath="$PROJECT_DIR$/graphql.schema.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/APlayer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/APlayer/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Retro/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Retro/List/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/container/Organization/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Organization/List/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generated/graphql.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/graphql.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphql/organization.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/organization.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/retro/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/retro/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/retro/organization/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/retro/organization/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,13 +48,15 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/liumin/Desktop/test/liumin/retro/src/pages/retro/organization/create&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/liumin/Desktop/test/liumin/retro/src/container/Organization&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
     &quot;node.js.selected.package.stylelint&quot;: &quot;/Users/liumin/Desktop/test/retro/node_modules/stylelint&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/liumin/Desktop/test/retro/node_modules/prettier&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
@@ -51,8 +66,9 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/pages/retro/organization/create" />
       <recent name="$PROJECT_DIR$/src/container/Organization" />
+      <recent name="$PROJECT_DIR$/src/graphql" />
+      <recent name="$PROJECT_DIR$/src/pages/retro/organization/create" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/pages/retro" />
@@ -108,7 +124,15 @@
       <workItem from="1669030587670" duration="141000" />
       <workItem from="1669030736728" duration="8287000" />
       <workItem from="1669171772219" duration="4291000" />
-      <workItem from="1669222234512" duration="8543000" />
+      <workItem from="1669222234512" duration="28253000" />
+      <workItem from="1670488037168" duration="1369000" />
+      <workItem from="1672112429084" duration="4764000" />
+      <workItem from="1678879530852" duration="47000" />
+      <workItem from="1678879598674" duration="978000" />
+      <workItem from="1678888615931" duration="1708000" />
+      <workItem from="1678929502503" duration="156000" />
+      <workItem from="1678947511475" duration="1419000" />
+      <workItem from="1678951031908" duration="1859000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 初步新增页面">
       <created>1669172220157</created>
@@ -131,7 +155,28 @@
       <option name="project" value="LOCAL" />
       <updated>1669238760267</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: 音乐播放器">
+      <created>1669244914948</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669244914948</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: 音乐播放器">
+      <created>1669244932463</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669244932463</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: 音乐播放器">
+      <created>1669248957556</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669248957556</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,6 +197,7 @@
     <MESSAGE value="Changes" />
     <MESSAGE value="feat: 初步新增页面" />
     <MESSAGE value="feat: 更新部分基础页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 更新部分基础页面" />
+    <MESSAGE value="feat: 音乐播放器" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 音乐播放器" />
   </component>
 </project>

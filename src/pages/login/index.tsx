@@ -63,8 +63,8 @@ export default function Home() {
   return (
     <Container>
       <Stack sx={{ position: 'absolute', top: 24 }}>
-        <IconButton sx={{ color: '#999' }}>
-          <Logo sx={{ width: 40, height: 40 }} />
+        <IconButton>
+          <Logo sx={{ width: 48, height: 48, color: '#f2d26e' }} />
         </IconButton>
       </Stack>
 
@@ -85,9 +85,9 @@ export default function Home() {
           <Stack>
             <Lottie
               sx={{
-                width: 800,
-                height: 800,
-                margin: '-200px',
+                width: 648,
+                height: 648,
+                margin: '-128px',
               }}
               path="/lottie/adventure/Community.json"
               // path="https://imgs.react.mobi/lottie%2Fadventure%2FSocial%2520Media.json"

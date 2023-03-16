@@ -213,6 +213,8 @@ export type Mutation = {
   createUser?: Maybe<User>;
   deleteRetroMessage?: Maybe<RetroMessage>;
   likeRetroMessage?: Maybe<RetroMessage>;
+  organizationInviteUser?: Maybe<UserToOrganization>;
+  organizationRemoveUser?: Maybe<UserToOrganization>;
   register?: Maybe<User>;
   replyComment?: Maybe<Reply>;
   updateRetroMessage?: Maybe<RetroMessage>;
@@ -295,6 +297,16 @@ export type MutationLikeRetroMessageArgs = {
 };
 
 
+export type MutationOrganizationInviteUserArgs = {
+  input?: InputMaybe<OrganizationInviteUserInput>;
+};
+
+
+export type MutationOrganizationRemoveUserArgs = {
+  input?: InputMaybe<OrganizationRemoveUserInput>;
+};
+
+
 export type MutationRegisterArgs = {
   input?: InputMaybe<RegisterUserInput>;
 };
@@ -333,11 +345,22 @@ export type Organization = Document & {
   name?: Maybe<Scalars['String']>;
   owner: User;
   updatedAt?: Maybe<Scalars['String']>;
-  users?: Maybe<Array<Maybe<User>>>;
+};
+
+export type OrganizationInviteUserInput = {
+  organization: Scalars['ID'];
+  user: Scalars['ID'];
+};
+
+export type OrganizationRemoveUserInput = {
+  organization: Scalars['ID'];
+  user: Scalars['ID'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  currentOrganization?: Maybe<Organization>;
+  currentOrganizationUsers?: Maybe<Array<Maybe<User>>>;
   findComment?: Maybe<Comment>;
   findComments?: Maybe<Array<Maybe<Comment>>>;
   findDynamic?: Maybe<Dynamic>;
@@ -362,10 +385,13 @@ export type Query = {
   findUserInfo?: Maybe<User>;
   findUsers?: Maybe<Array<Maybe<User>>>;
   login?: Maybe<UserWithToken>;
+  myOrganizations?: Maybe<Array<Maybe<Organization>>>;
   news?: Maybe<News>;
   newsList?: Maybe<Array<Maybe<News>>>;
   oauth?: Maybe<OAuth>;
   oauths?: Maybe<Array<Maybe<OAuth>>>;
+  userToOrganization?: Maybe<UserToOrganization>;
+  userToOrganizations?: Maybe<Array<Maybe<UserToOrganization>>>;
 };
 
 
@@ -451,6 +477,17 @@ export type QueryNewsArgs = {
 
 export type QueryOauthArgs = {
   _id: Scalars['ID'];
+};
+
+
+export type QueryUserToOrganizationArgs = {
+  _id: Scalars['ID'];
+};
+
+
+export type QueryUserToOrganizationsArgs = {
+  organization?: InputMaybe<Scalars['ID']>;
+  user?: InputMaybe<Scalars['ID']>;
 };
 
 export type RegisterUserInput = {
@@ -566,6 +603,7 @@ export type Subscription = {
   retroMessageLiked?: Maybe<RetroMessage>;
   retroMessageUpdated?: Maybe<RetroMessage>;
   topicCreated?: Maybe<Topic>;
+  userToOrganizationCreated?: Maybe<UserToOrganization>;
 };
 
 export type Topic = Document & {
@@ -600,6 +638,16 @@ export type User = {
   sex?: Maybe<Scalars['Int']>;
   sign?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+};
+
+export type UserToOrganization = Document & {
+  __typename?: 'UserToOrganization';
+  _id: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  isCurrent?: Maybe<Scalars['Boolean']>;
+  organization: Organization;
+  updatedAt?: Maybe<Scalars['String']>;
+  user: User;
 };
 
 export type UserWithToken = {
@@ -694,7 +742,7 @@ export type OrganizationFieldsFragment = { __typename?: 'Organization', _id: str
 export type FindOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindOrganizationsQuery = { __typename?: 'Query', items?: Array<{ __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null> | null };
+export type FindOrganizationsQuery = { __typename?: 'Query', currentOrganization?: { __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null, myOrganizations?: Array<{ __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null> | null, currentOrganizationUsers?: Array<{ __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null> | null };
 
 export type FindOrganizationQueryVariables = Exact<{
   _id: Scalars['ID'];
@@ -1355,11 +1403,18 @@ export type CreateLikeMutationResult = Apollo.MutationResult<CreateLikeMutation>
 export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<CreateLikeMutation, CreateLikeMutationVariables>;
 export const FindOrganizationsDocument = gql`
     query FindOrganizations {
-  items: findOrganizations {
+  currentOrganization {
     ...organizationFields
   }
+  myOrganizations {
+    ...organizationFields
+  }
+  currentOrganizationUsers {
+    ...userFields
+  }
 }
-    ${OrganizationFieldsFragmentDoc}`;
+    ${OrganizationFieldsFragmentDoc}
+${UserFieldsFragmentDoc}`;
 
 /**
  * __useFindOrganizationsQuery__
@@ -2110,7 +2165,8 @@ export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariable
       "Retro",
       "RetroListItem",
       "RetroMessage",
-      "Topic"
+      "Topic",
+      "UserToOrganization"
     ],
     "LikeObjectUnion": [
       "Comment",
@@ -2121,4 +2177,3 @@ export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariable
   }
 };
       export default result;
-    

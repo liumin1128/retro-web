@@ -9,6 +9,8 @@ import dynamicFile from 'dynamic-file';
 
 const APlayerRoot = () => {
   useEffect(() => {
+    if (window.MetingJSElement) return;
+
     dynamicFile([
       'https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css',
       'https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js',
@@ -28,13 +30,13 @@ const APlayerRoot = () => {
       window.document.body.appendChild(ms);
     });
 
-    return () => {
-      // window.aplayer.destroy时会报错
-      // if (window.aplayer && typeof window.aplayer.destroy === 'function') {
-      //   console.log(window.aplayer.destroy)
-      //   window.aplayer.destroy()
-      // }
-    };
+    // return () => {
+    // window.aplayer.destroy时会报错
+    // if (window.aplayer && typeof window.aplayer.destroy === 'function') {
+    //   console.log(window.aplayer.destroy)
+    //   window.aplayer.destroy()
+    // }
+    // };
   }, []);
   // 分享周杰伦的BB机的歌单《Jay 周杰伦【完美歌单】》https://y.music.163.com/m/playlist?app_version=8.8.70&id=7070399884&userid=430083095&dlt=0846&creatorId=415063370 (@网易云音乐)
   // 分享Zacharyeah的歌单《周杰伦最全歌曲集》https://y.music.163.com/m/playlist?app_version=8.8.70&id=11860849&userid=430083095&dlt=0846&creatorId=3647122 (@网易云音乐)

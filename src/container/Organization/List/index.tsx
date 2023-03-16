@@ -12,11 +12,20 @@ export default function DynamicListContainer() {
 
   return (
     <Stack spacing={1}>
-      {data?.items?.map((i) => {
+      {data?.myOrganizations?.map((i) => {
         if (!i) return null;
         return (
           <Stack key={i?._id} spacing={1}>
             <Typography>{i.name}</Typography>
+          </Stack>
+        );
+      })}
+
+      {data?.currentOrganizationUsers?.map((i) => {
+        if (!i) return null;
+        return (
+          <Stack key={i?._id} spacing={1}>
+            <Typography>{i.nickname}</Typography>
           </Stack>
         );
       })}

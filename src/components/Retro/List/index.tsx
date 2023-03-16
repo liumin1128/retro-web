@@ -55,10 +55,28 @@ const App: React.FunctionComponent<IAppProps> = ({ data }) => {
                     <Typography sx={{ fontWeight: 'bold' }}>
                       {i?.user?.nickname as string}
                     </Typography>
-                    <Typography variant="h6">
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
                       {i.date} {i.title}
                     </Typography>
-                    <Typography variant="body1">{i.content}</Typography>
+                    {i.content && (
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {i.content}
+                      </Typography>
+                    )}
                   </Stack>
 
                   <Stack
@@ -67,7 +85,7 @@ const App: React.FunctionComponent<IAppProps> = ({ data }) => {
                     sx={{
                       width: '100%',
                       alignItems: 'center',
-                      justifyContent: 'space-between',
+                      // justifyContent: 'space-between',
                     }}
                   >
                     {CountList.map((c) => {
