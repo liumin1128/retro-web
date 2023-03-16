@@ -103,6 +103,8 @@ type Mutation {
   createUser(createUserInput: CreateUserInput): User
   deleteRetroMessage(_id: ID): RetroMessage
   likeRetroMessage(_id: ID, count: Int): RetroMessage
+  organizationInviteUser(input: OrganizationInviteUserInput): UserToOrganization
+  organizationRemoveUser(input: OrganizationRemoveUserInput): UserToOrganization
   register(input: RegisterUserInput): User
   replyComment(input: ReplyCommentInput): Reply
   updateRetroMessage(_id: ID, input: UpdateRetroMessageInput): RetroMessage
@@ -128,10 +130,11 @@ type Organization implements Document {
   name: String
   owner: User!
   updatedAt: String
-  users: [User]
 }
 
 type Query {
+  currentOrganization: Organization
+  currentOrganizationUsers: [User]
   findComment(_id: ID!): Comment
   findComments(object: ID!): [Comment]
   findDynamic(_id: ID!): Dynamic
@@ -149,17 +152,20 @@ type Query {
   findRetro(_id: ID!): Retro
   findRetroMessage(_id: ID!): RetroMessage
   findRetroMessages(retro: ID): [RetroMessage]
-  findRetros: [RetroListItem]
+  findRetros(page: Int, pageSize: Int): [RetroListItem]
   findTopic(_id: ID!): Topic
   findTopics: [Topic]
   findUser(_id: String!): User
   findUserInfo: User
   findUsers: [User]
   login(input: LoginUserInput): UserWithToken
+  myOrganizations: [Organization]
   news(_id: ID!): News
   newsList: [News]
   oauth(_id: ID!): OAuth
   oauths: [OAuth]
+  userToOrganization(_id: ID!): UserToOrganization
+  userToOrganizations(organization: ID, user: ID): [UserToOrganization]
 }
 
 type Reply {
@@ -232,6 +238,7 @@ type Subscription {
   retroMessageLiked: RetroMessage
   retroMessageUpdated: RetroMessage
   topicCreated: Topic
+  userToOrganizationCreated: UserToOrganization
 }
 
 type Topic implements Document {
@@ -256,6 +263,15 @@ type User {
   sex: Int
   sign: String
   username: String
+}
+
+type UserToOrganization implements Document {
+  _id: ID!
+  createdAt: String
+  isCurrent: Boolean
+  organization: Organization!
+  updatedAt: String
+  user: User!
 }
 
 type UserWithToken {
@@ -380,6 +396,16 @@ input LoginUserInput {
   password: String
   phoneNumber: String
   username: String
+}
+
+input OrganizationInviteUserInput {
+  organization: ID!
+  user: ID!
+}
+
+input OrganizationRemoveUserInput {
+  organization: ID!
+  user: ID!
 }
 
 input RegisterUserInput {

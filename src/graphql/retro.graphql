@@ -32,8 +32,8 @@ fragment retroListItemFields on RetroListItem {
   }
 }
 
-query FindRetros {
-  findRetros {
+query FindRetros($page: Int, $pageSize: Int) {
+  findRetros(page: $page, pageSize: $pageSize) {
     ...retroListItemFields
   }
 }

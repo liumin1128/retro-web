@@ -2,30 +2,30 @@ import { useRef } from 'react';
 import { FieldValues } from 'react-hook-form';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { useCreateOrganizationMutation } from '@/generated/graphql';
-import { uploadItem } from '@/service/qiniu';
+// import { useCreateOrganizationMutation } from '@/generated/graphql';
+// import { uploadItem } from '@/service/qiniu';
 import Form, { FormRefInstance } from '@/components/Form';
 import items from './items';
 
 export default function DynamicListContainer() {
   const formRef = useRef<FormRefInstance>();
-  const [createDynamic, { loading }] = useCreateOrganizationMutation();
+  // const [createDynamic, { loading }] = useCreateOrganizationMutation();
 
   const handleSubmit = async (values: FieldValues) => {
-    let logo = '';
+    // let logo = '';
 
     try {
       if (values.logo) {
-        [logo] = await uploadItem(values.logo);
+        // [logo] = await uploadItem(values.logo);
       }
 
-      await createDynamic({
-        variables: {
-          name: values.name,
-          description: values.description,
-          logo,
-        },
-      });
+      // await createDynamic({
+      //   variables: {
+      //     name: values.name,
+      //     description: values.description,
+      //     logo,
+      //   },
+      // });
     } catch (err) {
       console.log(err);
     }
@@ -46,7 +46,7 @@ export default function DynamicListContainer() {
           onClick={() => {
             handleClick();
           }}
-          disabled={loading}
+          // disabled={loading}
         >
           Submit
         </Button>

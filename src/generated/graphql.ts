@@ -455,6 +455,12 @@ export type QueryFindRetroMessagesArgs = {
 };
 
 
+export type QueryFindRetrosArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+};
+
+
 export type QueryFindTopicArgs = {
   _id: Scalars['ID'];
 };
@@ -764,7 +770,10 @@ export type RetroFieldsFragment = { __typename: 'Retro', _id: string, title?: st
 
 export type RetroListItemFieldsFragment = { __typename: 'RetroListItem', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, likeCount?: number | null, happyCount?: number | null, unhappyCount?: number | null, wonderringCount?: number | null, todoCount?: number | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, avatarUrl?: string | null } | null };
 
-export type FindRetrosQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindRetrosQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+}>;
 
 
 export type FindRetrosQuery = { __typename?: 'Query', findRetros?: Array<{ __typename: 'RetroListItem', _id: string, title?: string | null, content?: string | null, date?: string | null, anonymous?: boolean | null, likeCount?: number | null, happyCount?: number | null, unhappyCount?: number | null, wonderringCount?: number | null, todoCount?: number | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, avatarUrl?: string | null } | null } | null> | null };
@@ -1513,8 +1522,8 @@ export type CreateOrganizationMutationHookResult = ReturnType<typeof useCreateOr
 export type CreateOrganizationMutationResult = Apollo.MutationResult<CreateOrganizationMutation>;
 export type CreateOrganizationMutationOptions = Apollo.BaseMutationOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
 export const FindRetrosDocument = gql`
-    query FindRetros {
-  findRetros {
+    query FindRetros($page: Int, $pageSize: Int) {
+  findRetros(page: $page, pageSize: $pageSize) {
     ...retroListItemFields
   }
 }
@@ -1532,6 +1541,8 @@ export const FindRetrosDocument = gql`
  * @example
  * const { data, loading, error } = useFindRetrosQuery({
  *   variables: {
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
  *   },
  * });
  */
@@ -2177,3 +2188,4 @@ export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariable
   }
 };
       export default result;
+    

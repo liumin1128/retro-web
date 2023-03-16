@@ -4,21 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="feat: 音乐播放器">
-      <change afterPath="$PROJECT_DIR$/src/container/Organization/Info/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/container/Organization/Manage/index.tsx" afterDir="false" />
+    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="update: 整理代码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graphql.schema.json" beforeDir="false" afterPath="$PROJECT_DIR$/graphql.schema.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/APlayer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/APlayer/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Retro/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Retro/List/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/container/Organization/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Organization/List/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schema.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/container/Organization/Create/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Organization/Create/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/generated/graphql.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/graphql.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/graphql/organization.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/organization.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphql/retro.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/retro.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/retro/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/retro/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/retro/organization/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/retro/organization/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +127,8 @@
       <workItem from="1678888615931" duration="1708000" />
       <workItem from="1678929502503" duration="156000" />
       <workItem from="1678947511475" duration="1419000" />
-      <workItem from="1678951031908" duration="1859000" />
+      <workItem from="1678951031908" duration="4027000" />
+      <workItem from="1678955154769" duration="321000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 初步新增页面">
       <created>1669172220157</created>
@@ -176,7 +172,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669248957556</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="update: 整理代码">
+      <created>1678953340744</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1678953340744</updated>
+    </task>
+    <task id="LOCAL-00008" summary="update: 整理代码">
+      <created>1678953349263</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1678953349263</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +208,7 @@
     <MESSAGE value="feat: 初步新增页面" />
     <MESSAGE value="feat: 更新部分基础页面" />
     <MESSAGE value="feat: 音乐播放器" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 音乐播放器" />
+    <MESSAGE value="update: 整理代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: 整理代码" />
   </component>
 </project>

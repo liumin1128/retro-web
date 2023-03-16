@@ -1,44 +1,44 @@
-#fragment organizationFields on Organization {
-#  _id
-#  name
-#  description
-#  logo
-#}
-#
-#query FindOrganizations {
-#  currentOrganization {
-#    ...organizationFields
-#  }
-#  myOrganizations {
-#    ...organizationFields
-#  }
-#  currentOrganizationUsers {
-#    ...userFields
-#  }
-#}
-#
-#query FindOrganization($_id: ID!) {
-#  item: findOrganization(_id: $_id) {
-#    ...organizationFields
-#  }
-#}
-#
-#mutation CreateOrganization($name: String!, $description: String!, $logo: String!) {
-#  createOrganization(input: {
-#    description: $description,
-#    logo: $logo,
-#    name: $name
-#  }) {
-#    ...organizationFields
-#  }
-#}
-#
-#mutation CreateOrganization($name: String!, $description: String!, $logo: String!) {
-#  createOrganization(input: {
-#    description: $description,
-#    logo: $logo,
-#    name: $name
-#  }) {
-#    ...organizationFields
-#  }
-#}
+fragment organizationFields on Organization {
+  _id
+  name
+  description
+  logo
+}
+
+query FindOrganizations {
+  currentOrganization {
+    ...organizationFields
+  }
+  myOrganizations {
+    ...organizationFields
+  }
+  currentOrganizationUsers {
+    ...userFields
+  }
+}
+
+query FindOrganization($_id: ID!) {
+  item: findOrganization(_id: $_id) {
+    ...organizationFields
+  }
+}
+
+mutation CreateOrganization($name: String!, $description: String!, $logo: String!) {
+  createOrganization(input: {
+    description: $description,
+    logo: $logo,
+    name: $name
+  }) {
+    ...organizationFields
+  }
+}
+
+mutation CreateOrganization($name: String!, $description: String!, $logo: String!) {
+  createOrganization(input: {
+    description: $description,
+    logo: $logo,
+    name: $name
+  }) {
+    ...organizationFields
+  }
+}

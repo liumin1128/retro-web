@@ -24,10 +24,9 @@ const Retro: React.FunctionComponent = () => {
       </AppBar>
       <Container sx={{ mt: 3 }}>
         <Grid container spacing={2}>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <ListRetro />
           </Grid>
-          <Grid item xs={4} />
         </Grid>
       </Container>
     </Box>
