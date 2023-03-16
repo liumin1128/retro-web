@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Link } from 'umi';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 const Home: React.FunctionComponent = () => {
