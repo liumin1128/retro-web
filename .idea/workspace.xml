@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="update: 整理代码">
+    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="update: 整理代码, retro支持pageSize">
+      <change afterPath="$PROJECT_DIR$/src/pages/seatselection/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql.schema.json" beforeDir="false" afterPath="$PROJECT_DIR$/graphql.schema.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schema.graphql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/container/Organization/Create/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Organization/Create/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generated/graphql.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/graphql.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/organization.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/organization.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/retro.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/retro.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/retro/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/retro/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/configs/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/configs/routes.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +122,7 @@
       <workItem from="1678929502503" duration="156000" />
       <workItem from="1678947511475" duration="1419000" />
       <workItem from="1678951031908" duration="4027000" />
-      <workItem from="1678955154769" duration="321000" />
+      <workItem from="1678955154769" duration="2299000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 初步新增页面">
       <created>1669172220157</created>
@@ -186,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678953349263</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update: 整理代码, retro支持pageSize">
+      <created>1678955658401</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1678955658401</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,6 +210,7 @@
     <MESSAGE value="feat: 更新部分基础页面" />
     <MESSAGE value="feat: 音乐播放器" />
     <MESSAGE value="update: 整理代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="update: 整理代码" />
+    <MESSAGE value="update: 整理代码, retro支持pageSize" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: 整理代码, retro支持pageSize" />
   </component>
 </project>

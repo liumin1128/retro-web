@@ -90,6 +90,19 @@ export default [
       },
 
       {
+        path: '/seatselection',
+        // component: '@/layouts/retro',
+        routes: [
+          {
+            path: '/seatselection',
+            component: '@/pages/seatselection',
+            title: 'Retro List',
+            exact: true,
+          },
+        ],
+      },
+
+      {
         path: '/',
         redirect: '/retro',
       },
