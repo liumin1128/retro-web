@@ -48,6 +48,7 @@ export default [
       '@/wrappers/sentry',
       '@/wrappers/apollo',
       '@/wrappers/material-ui',
+      // '@/wrappers/auth',
     ],
     routes: [
       {
@@ -103,28 +104,35 @@ export default [
       },
 
       {
+        path: '/home',
+        component: '@/pages/home',
+        title: 'Home',
+        exact: true,
+      },
+
+      {
+        path: '/dynamic',
+        component: '@/layouts/dynamic',
+        routes: [
+          {
+            path: '/dynamic',
+            component: '@/pages/dynamic',
+            title: 'Dynamic',
+            exact: true,
+          },
+          {
+            path: '/dynamic/:id',
+            component: '@/pages/dynamic/detail',
+            title: 'Dynamic Detail',
+            exact: true,
+          },
+        ],
+      },
+
+      {
         path: '/',
         redirect: '/retro',
       },
-
-      // {
-      //   path: '/dynamic',
-      //   component: '@/layouts/dynamic',
-      //   routes: [
-      //     {
-      //       path: '/dynamic',
-      //       component: '@/pages/dynamic',
-      //       title: 'Dynamic',
-      //       exact: true,
-      //     },
-      //     {
-      //       path: '/dynamic/:id',
-      //       component: '@/pages/dynamic/detail',
-      //       title: 'Dynamic Detail',
-      //       exact: true,
-      //     },
-      //   ],
-      // },
     ],
   },
 ];

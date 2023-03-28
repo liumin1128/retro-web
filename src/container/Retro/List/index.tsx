@@ -1,5 +1,5 @@
-import RetroList from '@/components/Retro/List';
 import { useFindRetrosQuery } from '@/generated/graphql';
+import RetroList from '@/components/Retro/List';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 
@@ -13,7 +13,10 @@ export default function RetroListContainer() {
 
   return (
     <div>
-      <RetroList data={data?.findRetros || []} />
+      <RetroList
+        // @ts-ignore
+        data={data?.findRetros || []}
+      />
     </div>
   );
 }

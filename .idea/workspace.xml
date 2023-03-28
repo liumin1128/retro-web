@@ -4,10 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="update: 整理代码, retro支持pageSize">
-      <change afterPath="$PROJECT_DIR$/src/pages/seatselection/index.tsx" afterDir="false" />
+    <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="update: 整理代码">
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/1ed9b56a9ce36b9c991f275805eab011.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/1ed9b56a9ce36b9c991f275805eab011.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/1ed9b56a9ce36b9c991f275805eab011.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/1ed9b56a9ce36b9c991f275805eab011.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/1ed9b56a9ce36b9c991f275805eab011.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/Demo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/Tequila.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Tequila/stylesheet.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/graphql/userToSeat.graphql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/seatselection/components/DatePicker/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/Seat.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/seatData.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/type.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/configs/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/configs/routes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graphql.schema.json" beforeDir="false" afterPath="$PROJECT_DIR$/graphql.schema.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/Retro/List/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generated/graphql.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/graphql.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/global.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/seatselection/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/seatselection/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +56,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/liumin/Desktop/test/liumin/retro/src/container/Organization&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/liumin/Desktop/test/liumin/retro/src/graphql&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
@@ -55,11 +74,15 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/container/Organization" />
       <recent name="$PROJECT_DIR$/src/graphql" />
+      <recent name="$PROJECT_DIR$/public/font/Tequila" />
+      <recent name="$PROJECT_DIR$/src/container/Organization" />
       <recent name="$PROJECT_DIR$/src/pages/retro/organization/create" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets/fonts" />
+      <recent name="$PROJECT_DIR$/public/font/Tequila" />
+      <recent name="$PROJECT_DIR$/public/font" />
       <recent name="$PROJECT_DIR$/src/pages/retro" />
     </key>
   </component>
@@ -122,7 +145,10 @@
       <workItem from="1678929502503" duration="156000" />
       <workItem from="1678947511475" duration="1419000" />
       <workItem from="1678951031908" duration="4027000" />
-      <workItem from="1678955154769" duration="2299000" />
+      <workItem from="1678955154769" duration="14570000" />
+      <workItem from="1679276264043" duration="11670000" />
+      <workItem from="1679552560380" duration="598000" />
+      <workItem from="1679970188663" duration="598000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 初步新增页面">
       <created>1669172220157</created>
@@ -187,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678955658401</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update: 整理代码">
+      <created>1678965351667</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1678965351667</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,8 +242,8 @@
     <MESSAGE value="feat: 初步新增页面" />
     <MESSAGE value="feat: 更新部分基础页面" />
     <MESSAGE value="feat: 音乐播放器" />
-    <MESSAGE value="update: 整理代码" />
     <MESSAGE value="update: 整理代码, retro支持pageSize" />
-    <option name="LAST_COMMIT_MESSAGE" value="update: 整理代码, retro支持pageSize" />
+    <MESSAGE value="update: 整理代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: 整理代码" />
   </component>
 </project>

@@ -105,6 +105,14 @@ export type CreateRetroMessageInput = {
   type: RetroMessageType;
 };
 
+export type CreateSeatInput = {
+  cover?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  icon?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateTopicInput = {
   category?: InputMaybe<Scalars['String']>;
   cover?: InputMaybe<Scalars['String']>;
@@ -115,6 +123,16 @@ export type CreateTopicInput = {
 export type CreateUserInput = {
   password?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['Int']>;
+};
+
+export type CreateUserToSeatInput = {
+  date?: InputMaybe<Scalars['String']>;
+  seat?: InputMaybe<Scalars['ID']>;
+};
+
+export type DeleteUserToSeatInput = {
+  date?: InputMaybe<Scalars['String']>;
+  seat?: InputMaybe<Scalars['ID']>;
 };
 
 export type Document = {
@@ -209,9 +227,12 @@ export type Mutation = {
   createOrganization?: Maybe<Organization>;
   createRetro?: Maybe<Retro>;
   createRetroMessage?: Maybe<RetroMessage>;
+  createSeat?: Maybe<Seat>;
   createTopic?: Maybe<Topic>;
   createUser?: Maybe<User>;
+  createUserToSeat?: Maybe<UserToSeat>;
   deleteRetroMessage?: Maybe<RetroMessage>;
+  deleteUserToSeat?: Maybe<UserToSeat>;
   likeRetroMessage?: Maybe<RetroMessage>;
   organizationInviteUser?: Maybe<UserToOrganization>;
   organizationRemoveUser?: Maybe<UserToOrganization>;
@@ -276,6 +297,11 @@ export type MutationCreateRetroMessageArgs = {
 };
 
 
+export type MutationCreateSeatArgs = {
+  input?: InputMaybe<CreateSeatInput>;
+};
+
+
 export type MutationCreateTopicArgs = {
   input?: InputMaybe<CreateTopicInput>;
 };
@@ -286,8 +312,18 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationCreateUserToSeatArgs = {
+  input?: InputMaybe<CreateUserToSeatInput>;
+};
+
+
 export type MutationDeleteRetroMessageArgs = {
   _id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type MutationDeleteUserToSeatArgs = {
+  input?: InputMaybe<DeleteUserToSeatInput>;
 };
 
 
@@ -379,10 +415,14 @@ export type Query = {
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
   findRetros?: Maybe<Array<Maybe<RetroListItem>>>;
+  findSeat?: Maybe<Seat>;
+  findSeats?: Maybe<Array<Maybe<Seat>>>;
   findTopic?: Maybe<Topic>;
   findTopics?: Maybe<Array<Maybe<Topic>>>;
   findUser?: Maybe<User>;
   findUserInfo?: Maybe<User>;
+  findUserToSeat?: Maybe<UserToSeat>;
+  findUserToSeats?: Maybe<Array<Maybe<UserToSeat>>>;
   findUsers?: Maybe<Array<Maybe<User>>>;
   login?: Maybe<UserWithToken>;
   myOrganizations?: Maybe<Array<Maybe<Organization>>>;
@@ -461,6 +501,11 @@ export type QueryFindRetrosArgs = {
 };
 
 
+export type QueryFindSeatArgs = {
+  _id: Scalars['ID'];
+};
+
+
 export type QueryFindTopicArgs = {
   _id: Scalars['ID'];
 };
@@ -468,6 +513,18 @@ export type QueryFindTopicArgs = {
 
 export type QueryFindUserArgs = {
   _id: Scalars['String'];
+};
+
+
+export type QueryFindUserToSeatArgs = {
+  _id: Scalars['ID'];
+};
+
+
+export type QueryFindUserToSeatsArgs = {
+  date?: InputMaybe<Scalars['String']>;
+  seat?: InputMaybe<Scalars['ID']>;
+  user?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -593,6 +650,18 @@ export enum Role {
   User = 'USER'
 }
 
+export type Seat = Document & {
+  __typename?: 'Seat';
+  _id: Scalars['ID'];
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   commentCreated?: Maybe<Comment>;
@@ -608,8 +677,10 @@ export type Subscription = {
   retroMessageDeleted?: Maybe<RetroMessage>;
   retroMessageLiked?: Maybe<RetroMessage>;
   retroMessageUpdated?: Maybe<RetroMessage>;
+  seatCreated?: Maybe<Seat>;
   topicCreated?: Maybe<Topic>;
   userToOrganizationCreated?: Maybe<UserToOrganization>;
+  userToSeatCreated?: Maybe<UserToSeat>;
 };
 
 export type Topic = Document & {
@@ -654,6 +725,17 @@ export type UserToOrganization = Document & {
   organization: Organization;
   updatedAt?: Maybe<Scalars['String']>;
   user: User;
+};
+
+export type UserToSeat = Document & {
+  __typename?: 'UserToSeat';
+  _id: Scalars['ID'];
+  cancel?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+  seat?: Maybe<Seat>;
+  updatedAt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
 };
 
 export type UserWithToken = {
@@ -900,6 +982,40 @@ export type LoginQueryVariables = Exact<{
 
 export type LoginQuery = { __typename?: 'Query', login?: { __typename?: 'UserWithToken', token: string, user: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } } | null };
 
+export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
+
+export type FindUserToSeatsQueryVariables = Exact<{
+  seat?: InputMaybe<Scalars['ID']>;
+  user?: InputMaybe<Scalars['ID']>;
+  date?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type FindUserToSeatsQuery = { __typename?: 'Query', list?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null> | null };
+
+export type FindUserToSeatQueryVariables = Exact<{
+  _id: Scalars['ID'];
+}>;
+
+
+export type FindUserToSeatQuery = { __typename?: 'Query', findUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+
+export type CreateUserToSeatMutationVariables = Exact<{
+  seat: Scalars['ID'];
+  date: Scalars['String'];
+}>;
+
+
+export type CreateUserToSeatMutation = { __typename?: 'Mutation', createUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+
+export type DeleteUserToSeatMutationVariables = Exact<{
+  seat: Scalars['ID'];
+  date: Scalars['String'];
+}>;
+
+
+export type DeleteUserToSeatMutation = { __typename?: 'Mutation', deleteUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+
 export const CommentFieldsFragmentDoc = gql`
     fragment commentFields on Comment {
   _id
@@ -1060,6 +1176,21 @@ export const UserFieldsFragmentDoc = gql`
   nickname
   username
   avatarUrl
+}
+    `;
+export const UserToSeatFieldsFragmentDoc = gql`
+    fragment userToSeatFields on UserToSeat {
+  _id
+  createdAt
+  seat {
+    _id
+  }
+  user {
+    _id
+    nickname
+    username
+    avatarUrl
+  }
 }
     `;
 export const FindCommentsDocument = gql`
@@ -2152,6 +2283,146 @@ export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Logi
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
 export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
+export const FindUserToSeatsDocument = gql`
+    query FindUserToSeats($seat: ID, $user: ID, $date: String) {
+  list: findUserToSeats(seat: $seat, user: $user, date: $date) {
+    ...userToSeatFields
+  }
+}
+    ${UserToSeatFieldsFragmentDoc}`;
+
+/**
+ * __useFindUserToSeatsQuery__
+ *
+ * To run a query within a React component, call `useFindUserToSeatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserToSeatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserToSeatsQuery({
+ *   variables: {
+ *      seat: // value for 'seat'
+ *      user: // value for 'user'
+ *      date: // value for 'date'
+ *   },
+ * });
+ */
+export function useFindUserToSeatsQuery(baseOptions?: Apollo.QueryHookOptions<FindUserToSeatsQuery, FindUserToSeatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUserToSeatsQuery, FindUserToSeatsQueryVariables>(FindUserToSeatsDocument, options);
+      }
+export function useFindUserToSeatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserToSeatsQuery, FindUserToSeatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUserToSeatsQuery, FindUserToSeatsQueryVariables>(FindUserToSeatsDocument, options);
+        }
+export type FindUserToSeatsQueryHookResult = ReturnType<typeof useFindUserToSeatsQuery>;
+export type FindUserToSeatsLazyQueryHookResult = ReturnType<typeof useFindUserToSeatsLazyQuery>;
+export type FindUserToSeatsQueryResult = Apollo.QueryResult<FindUserToSeatsQuery, FindUserToSeatsQueryVariables>;
+export const FindUserToSeatDocument = gql`
+    query FindUserToSeat($_id: ID!) {
+  findUserToSeat(_id: $_id) {
+    ...userToSeatFields
+  }
+}
+    ${UserToSeatFieldsFragmentDoc}`;
+
+/**
+ * __useFindUserToSeatQuery__
+ *
+ * To run a query within a React component, call `useFindUserToSeatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserToSeatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserToSeatQuery({
+ *   variables: {
+ *      _id: // value for '_id'
+ *   },
+ * });
+ */
+export function useFindUserToSeatQuery(baseOptions: Apollo.QueryHookOptions<FindUserToSeatQuery, FindUserToSeatQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUserToSeatQuery, FindUserToSeatQueryVariables>(FindUserToSeatDocument, options);
+      }
+export function useFindUserToSeatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserToSeatQuery, FindUserToSeatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUserToSeatQuery, FindUserToSeatQueryVariables>(FindUserToSeatDocument, options);
+        }
+export type FindUserToSeatQueryHookResult = ReturnType<typeof useFindUserToSeatQuery>;
+export type FindUserToSeatLazyQueryHookResult = ReturnType<typeof useFindUserToSeatLazyQuery>;
+export type FindUserToSeatQueryResult = Apollo.QueryResult<FindUserToSeatQuery, FindUserToSeatQueryVariables>;
+export const CreateUserToSeatDocument = gql`
+    mutation CreateUserToSeat($seat: ID!, $date: String!) {
+  createUserToSeat(input: {seat: $seat, date: $date}) {
+    ...userToSeatFields
+  }
+}
+    ${UserToSeatFieldsFragmentDoc}`;
+export type CreateUserToSeatMutationFn = Apollo.MutationFunction<CreateUserToSeatMutation, CreateUserToSeatMutationVariables>;
+
+/**
+ * __useCreateUserToSeatMutation__
+ *
+ * To run a mutation, you first call `useCreateUserToSeatMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserToSeatMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserToSeatMutation, { data, loading, error }] = useCreateUserToSeatMutation({
+ *   variables: {
+ *      seat: // value for 'seat'
+ *      date: // value for 'date'
+ *   },
+ * });
+ */
+export function useCreateUserToSeatMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserToSeatMutation, CreateUserToSeatMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserToSeatMutation, CreateUserToSeatMutationVariables>(CreateUserToSeatDocument, options);
+      }
+export type CreateUserToSeatMutationHookResult = ReturnType<typeof useCreateUserToSeatMutation>;
+export type CreateUserToSeatMutationResult = Apollo.MutationResult<CreateUserToSeatMutation>;
+export type CreateUserToSeatMutationOptions = Apollo.BaseMutationOptions<CreateUserToSeatMutation, CreateUserToSeatMutationVariables>;
+export const DeleteUserToSeatDocument = gql`
+    mutation DeleteUserToSeat($seat: ID!, $date: String!) {
+  deleteUserToSeat(input: {seat: $seat, date: $date}) {
+    ...userToSeatFields
+  }
+}
+    ${UserToSeatFieldsFragmentDoc}`;
+export type DeleteUserToSeatMutationFn = Apollo.MutationFunction<DeleteUserToSeatMutation, DeleteUserToSeatMutationVariables>;
+
+/**
+ * __useDeleteUserToSeatMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserToSeatMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserToSeatMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserToSeatMutation, { data, loading, error }] = useDeleteUserToSeatMutation({
+ *   variables: {
+ *      seat: // value for 'seat'
+ *      date: // value for 'date'
+ *   },
+ * });
+ */
+export function useDeleteUserToSeatMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserToSeatMutation, DeleteUserToSeatMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserToSeatMutation, DeleteUserToSeatMutationVariables>(DeleteUserToSeatDocument, options);
+      }
+export type DeleteUserToSeatMutationHookResult = ReturnType<typeof useDeleteUserToSeatMutation>;
+export type DeleteUserToSeatMutationResult = Apollo.MutationResult<DeleteUserToSeatMutation>;
+export type DeleteUserToSeatMutationOptions = Apollo.BaseMutationOptions<DeleteUserToSeatMutation, DeleteUserToSeatMutationVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {
@@ -2176,8 +2447,10 @@ export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariable
       "Retro",
       "RetroListItem",
       "RetroMessage",
+      "Seat",
       "Topic",
-      "UserToOrganization"
+      "UserToOrganization",
+      "UserToSeat"
     ],
     "LikeObjectUnion": [
       "Comment",
