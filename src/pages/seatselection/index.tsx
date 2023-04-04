@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -12,6 +13,10 @@ import DatePicker from './components/DatePicker';
 import SeatList from './components/SeatList';
 
 const Retro: React.FunctionComponent = () => {
+  const [date, setDate] = useState<Dayjs>(dayjs());
+  const handleDateChange = (time: Dayjs | null) => {
+    if (time) setDate(time);
+  };
   return (
     <Box>
       <AppBar color="default" position="static">
@@ -26,13 +31,13 @@ const Retro: React.FunctionComponent = () => {
         <Grid container spacing={8}>
           <Grid item>
             <Stack spacing={2}>
-              <Typography>Current Date: </Typography>
+              <Typography>Current Date: {date.format('YYYY-MM-DD')}</Typography>
               <Divider />
-              <DatePicker />
+              <DatePicker value={date} onChange={handleDateChange} />
             </Stack>
           </Grid>
           <Grid item xs={8}>
-            <SeatList />
+            <SeatList date={date.format('YYYY-MM-DD')} />
           </Grid>
         </Grid>
       </Container>

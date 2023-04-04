@@ -1,54 +1,46 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useRef } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
   useCreateUserToSeatMutation,
   useDeleteUserToSeatMutation,
   useFindUserToSeatsQuery,
+  useUserToSeatDeletedSubscription,
+  useUserToSeatCreatedSubscription,
 } from '@/generated/graphql';
 import { useSnackbar } from 'notistack';
 import { useUserInfo } from '@/hooks/useUserInfo';
-import ModalRef, { ModalRefInstance } from '@/components/ModalRef/Dialog';
+import Box from '@mui/material/Box';
+import { Dayjs } from 'dayjs';
 import SeatCom from './Seat';
 import list from './seatData';
-import Box from "@mui/material/Box";
 
-const users = [
-  {
-    _id: 1,
-    seatID: 7,
-    avatarUrl: 'https://imgs.react.mobi/FidGoJe2MQp0ulEA6Pnsi1_g3TdE',
-  },
-  {
-    _id: 2,
-    seatID: 1,
-    avatarUrl: 'https://imgs.react.mobi/FtGI5pr-EDVQPLHjzzqCbq1Az_XY',
-  },
-  {
-    _id: 3,
-    seatID: 10,
-    avatarUrl: 'https://imgs.react.mobi/FgyFkFuZsl2lFdoOypa8fPuNXura',
-  },
+interface Props {
+  date: string;
+}
 
-  {
-    _id: 4,
-    seatID: 6,
-    avatarUrl: 'https://imgs.react.mobi/FlyfG7wjOu9qzDbwaIdkjhadtt8j',
-  },
-];
-
-export default function SeatList() {
-  const modalRef = useRef<ModalRefInstance<unknown>>();
-
+export default function SeatList({ date }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const { loading: userInfoLoading, data: userInfoData } = useUserInfo();
 
+  const { loading, data, refetch } = useFindUserToSeatsQuery({
+    variables: { date },
+  });
+
   const [createUserToSeat] = useCreateUserToSeatMutation();
   const [deleteUserToSeat] = useDeleteUserToSeatMutation();
 
-  const { loading, data } = useFindUserToSeatsQuery({
-    variables: { date: '2023-03-22' },
+  useUserToSeatDeletedSubscription({
+    onSubscriptionData: () => {
+      refetch();
+    },
+  });
+
+  useUserToSeatCreatedSubscription({
+    onSubscriptionData: () => {
+      refetch();
+    },
   });
 
   const userInfo = userInfoData?.findUserInfo;
@@ -60,7 +52,7 @@ export default function SeatList() {
     console.log(_id);
     try {
       const res = await createUserToSeat({
-        variables: { seat: _id, date: '2023-03-22' },
+        variables: { seat: _id, date },
       });
       console.log('res');
       console.log(res);
@@ -75,23 +67,23 @@ export default function SeatList() {
   };
 
   const handleCancel = async (_id: string) => {
-    modalRef.current?.open()
-    console.log('_id');
-    console.log(_id);
-    // try {
-    //   const res = await deleteUserToSeat({
-    //     variables: { seat: _id, date: '2023-03-22' },
-    //   });
-    //   console.log('res');
-    //   console.log(res);
-    // } catch (err) {
-    //   console.log('err');
-    //   console.log(err);
-    //   enqueueSnackbar(err.message, {
-    //     variant: 'error',
-    //     autoHideDuration: 3000,
-    //   });
-    // }
+    // modalRef.current?.open();
+    // console.log('_id');
+    // console.log(_id);
+    try {
+      const res = await deleteUserToSeat({
+        variables: { seat: _id, date },
+      });
+      console.log('res');
+      console.log(res);
+    } catch (err) {
+      console.log('err');
+      console.log(err);
+      enqueueSnackbar(err.message, {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
+    }
   };
 
   console.log('data');
@@ -137,19 +129,6 @@ export default function SeatList() {
           );
         })}
       </Stack>
-
-      <ModalRef
-        title="Create"
-        ref={modalRef}
-        fullWidth
-        render={() => {
-          return <Box>11111</Box>;
-        }}
-
-        onOk={() => {
-          console.log("xxxxx")
-        }}
-      />
     </div>
   );
 }

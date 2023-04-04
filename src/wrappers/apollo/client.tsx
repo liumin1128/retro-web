@@ -92,6 +92,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   typeDefs: gql(`${typeDefs}`),
   queryDeduplication: false,
+  connectToDevTools: true,
 });
 
 export default client;

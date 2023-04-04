@@ -681,6 +681,7 @@ export type Subscription = {
   topicCreated?: Maybe<Topic>;
   userToOrganizationCreated?: Maybe<UserToOrganization>;
   userToSeatCreated?: Maybe<UserToSeat>;
+  userToSeatDeleted?: Maybe<UserToSeat>;
 };
 
 export type Topic = Document & {
@@ -968,21 +969,21 @@ export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: s
 export type FindUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindUsersQuery = { __typename?: 'Query', findUsers?: Array<{ __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null> | null };
+export type FindUsersQuery = { __typename?: 'Query', findUsers?: Array<{ __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null> | null };
 
 export type FindUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindUserInfoQuery = { __typename?: 'Query', findUserInfo?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
+export type FindUserInfoQuery = { __typename?: 'Query', findUserInfo?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
 
 export type LoginQueryVariables = Exact<{
   input?: InputMaybe<LoginUserInput>;
 }>;
 
 
-export type LoginQuery = { __typename?: 'Query', login?: { __typename?: 'UserWithToken', token: string, user: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } } | null };
+export type LoginQuery = { __typename?: 'Query', login?: { __typename?: 'UserWithToken', token: string, user: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } } | null };
 
-export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
+export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null };
 
 export type FindUserToSeatsQueryVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
@@ -991,14 +992,14 @@ export type FindUserToSeatsQueryVariables = Exact<{
 }>;
 
 
-export type FindUserToSeatsQuery = { __typename?: 'Query', list?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null> | null };
+export type FindUserToSeatsQuery = { __typename?: 'Query', list?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null> | null };
 
 export type FindUserToSeatQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
 
-export type FindUserToSeatQuery = { __typename?: 'Query', findUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+export type FindUserToSeatQuery = { __typename?: 'Query', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type CreateUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1006,7 +1007,7 @@ export type CreateUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserToSeatMutation = { __typename?: 'Mutation', createUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+export type CreateUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export type DeleteUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1014,7 +1015,17 @@ export type DeleteUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUserToSeatMutation = { __typename?: 'Mutation', deleteUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+export type DeleteUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+
+export type UserToSeatCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
+
+export type UserToSeatDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserToSeatDeletedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
 export const CommentFieldsFragmentDoc = gql`
     fragment commentFields on Comment {
@@ -1186,13 +1197,10 @@ export const UserToSeatFieldsFragmentDoc = gql`
     _id
   }
   user {
-    _id
-    nickname
-    username
-    avatarUrl
+    ...userFields
   }
 }
-    `;
+    ${UserFieldsFragmentDoc}`;
 export const FindCommentsDocument = gql`
     query FindComments($object: ID!) {
   findComments(object: $object) {
@@ -2171,13 +2179,10 @@ export type RetroMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<Re
 export const FindUsersDocument = gql`
     query FindUsers {
   findUsers {
-    _id
-    nickname
-    username
-    avatarUrl
+    ...userFields
   }
 }
-    `;
+    ${UserFieldsFragmentDoc}`;
 
 /**
  * __useFindUsersQuery__
@@ -2208,13 +2213,10 @@ export type FindUsersQueryResult = Apollo.QueryResult<FindUsersQuery, FindUsersQ
 export const FindUserInfoDocument = gql`
     query FindUserInfo {
   findUserInfo {
-    _id
-    nickname
-    username
-    avatarUrl
+    ...userFields
   }
 }
-    `;
+    ${UserFieldsFragmentDoc}`;
 
 /**
  * __useFindUserInfoQuery__
@@ -2246,15 +2248,12 @@ export const LoginDocument = gql`
     query Login($input: LoginUserInput) {
   login(input: $input) {
     user {
-      _id
-      nickname
-      username
-      avatarUrl
+      ...userFields
     }
     token
   }
 }
-    `;
+    ${UserFieldsFragmentDoc}`;
 
 /**
  * __useLoginQuery__
@@ -2322,7 +2321,7 @@ export type FindUserToSeatsLazyQueryHookResult = ReturnType<typeof useFindUserTo
 export type FindUserToSeatsQueryResult = Apollo.QueryResult<FindUserToSeatsQuery, FindUserToSeatsQueryVariables>;
 export const FindUserToSeatDocument = gql`
     query FindUserToSeat($_id: ID!) {
-  findUserToSeat(_id: $_id) {
+  userToSeat: findUserToSeat(_id: $_id) {
     ...userToSeatFields
   }
 }
@@ -2357,7 +2356,7 @@ export type FindUserToSeatLazyQueryHookResult = ReturnType<typeof useFindUserToS
 export type FindUserToSeatQueryResult = Apollo.QueryResult<FindUserToSeatQuery, FindUserToSeatQueryVariables>;
 export const CreateUserToSeatDocument = gql`
     mutation CreateUserToSeat($seat: ID!, $date: String!) {
-  createUserToSeat(input: {seat: $seat, date: $date}) {
+  userToSeat: createUserToSeat(input: {seat: $seat, date: $date}) {
     ...userToSeatFields
   }
 }
@@ -2391,7 +2390,7 @@ export type CreateUserToSeatMutationResult = Apollo.MutationResult<CreateUserToS
 export type CreateUserToSeatMutationOptions = Apollo.BaseMutationOptions<CreateUserToSeatMutation, CreateUserToSeatMutationVariables>;
 export const DeleteUserToSeatDocument = gql`
     mutation DeleteUserToSeat($seat: ID!, $date: String!) {
-  deleteUserToSeat(input: {seat: $seat, date: $date}) {
+  userToSeat: deleteUserToSeat(input: {seat: $seat, date: $date}) {
     ...userToSeatFields
   }
 }
@@ -2423,6 +2422,64 @@ export function useDeleteUserToSeatMutation(baseOptions?: Apollo.MutationHookOpt
 export type DeleteUserToSeatMutationHookResult = ReturnType<typeof useDeleteUserToSeatMutation>;
 export type DeleteUserToSeatMutationResult = Apollo.MutationResult<DeleteUserToSeatMutation>;
 export type DeleteUserToSeatMutationOptions = Apollo.BaseMutationOptions<DeleteUserToSeatMutation, DeleteUserToSeatMutationVariables>;
+export const UserToSeatCreatedDocument = gql`
+    subscription UserToSeatCreated {
+  userToSeat: userToSeatCreated {
+    ...userToSeatFields
+  }
+}
+    ${UserToSeatFieldsFragmentDoc}`;
+
+/**
+ * __useUserToSeatCreatedSubscription__
+ *
+ * To run a query within a React component, call `useUserToSeatCreatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserToSeatCreatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserToSeatCreatedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserToSeatCreatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UserToSeatCreatedSubscription, UserToSeatCreatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UserToSeatCreatedSubscription, UserToSeatCreatedSubscriptionVariables>(UserToSeatCreatedDocument, options);
+      }
+export type UserToSeatCreatedSubscriptionHookResult = ReturnType<typeof useUserToSeatCreatedSubscription>;
+export type UserToSeatCreatedSubscriptionResult = Apollo.SubscriptionResult<UserToSeatCreatedSubscription>;
+export const UserToSeatDeletedDocument = gql`
+    subscription UserToSeatDeleted {
+  userToSeat: userToSeatDeleted {
+    ...userToSeatFields
+  }
+}
+    ${UserToSeatFieldsFragmentDoc}`;
+
+/**
+ * __useUserToSeatDeletedSubscription__
+ *
+ * To run a query within a React component, call `useUserToSeatDeletedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserToSeatDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserToSeatDeletedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserToSeatDeletedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UserToSeatDeletedSubscription, UserToSeatDeletedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UserToSeatDeletedSubscription, UserToSeatDeletedSubscriptionVariables>(UserToSeatDeletedDocument, options);
+      }
+export type UserToSeatDeletedSubscriptionHookResult = ReturnType<typeof useUserToSeatDeletedSubscription>;
+export type UserToSeatDeletedSubscriptionResult = Apollo.SubscriptionResult<UserToSeatDeletedSubscription>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {
