@@ -43,7 +43,6 @@ export default [
 
   {
     path: '/',
-    component: '@/layouts/dashboard',
     wrappers: [
       '@/wrappers/sentry',
       '@/wrappers/apollo',
@@ -53,7 +52,6 @@ export default [
     routes: [
       {
         path: '/',
-        wrappers: ['@/layouts/dashboard'],
         component: '@/pages/home',
         title: 'Home',
         exact: true,
@@ -92,7 +90,6 @@ export default [
 
       {
         path: '/seatselection',
-        // component: '@/layouts/retro',
         routes: [
           {
             path: '/seatselection',
