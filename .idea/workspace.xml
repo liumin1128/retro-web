@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6d11af6e-0656-4fcc-9e2c-933b82c1186d" name="Changes" comment="update: 整理代码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/Seat.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/Seat.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/seatselection/components/SeatList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/oauth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/oauth.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
