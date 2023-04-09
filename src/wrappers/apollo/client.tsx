@@ -81,7 +81,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach((i) => {
       if (i.extensions.code === 'UNAUTHENTICATED') {
-        setStorage(PATH_BEFORELOGIN, window.location.href);
+        setStorage(PATH_BEFORELOGIN, history.location.pathname);
         history.push('/login');
       }
     });
