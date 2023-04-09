@@ -18,11 +18,12 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
-import CreateRetro from '@/container/Retro/Create';
+import Avatar from '@mui/material/Avatar';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
+import QRCodeIconButton from '@/components/QRCodeIconButton';
 import ModalRef, { ModalRefInstance } from '@/components/ModalRef/Dialog';
 import { RetroMessageType } from '@/generated/graphql';
 import {
@@ -298,11 +299,11 @@ const Section = () => {
       <AppBar color="default" position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Retro List
+            {data?.retro?.title}
           </Typography>
-
-          <CreateRetro />
+          <QRCodeIconButton content={window.location.href} />
           <MaterialUISwitch />
+          <Avatar src={data?.userInfo?.avatarUrl} />
         </Toolbar>
       </AppBar>
 
