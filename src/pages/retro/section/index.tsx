@@ -251,9 +251,21 @@ const Section = () => {
         </Fab>
 
         <ModalRef
-          title="Create"
           ref={modalRef}
           fullWidth
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+            },
+          }}
+          PaperProps={{
+            sx: {
+              width: '100%',
+              borderRadius: 0,
+              m: 0,
+            },
+          }}
           render={() => {
             return <Box>{renderForm(currentType, true)}</Box>;
           }}
