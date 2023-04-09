@@ -253,10 +253,10 @@ const Section = () => {
         <ModalRef
           ref={modalRef}
           fullWidth
+          title="Create Retro Message"
           sx={{
             '& .MuiDialog-container': {
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
+              alignItems: 'flex-start',
             },
           }}
           PaperProps={{
