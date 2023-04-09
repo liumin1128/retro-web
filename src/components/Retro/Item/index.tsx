@@ -27,6 +27,8 @@ interface IItemProps {
   status?: string;
   user?: User;
   like?: number;
+  hasAuth?: boolean;
+  isCreator?: boolean;
   onDelete?: () => void;
   onLike?: (count: number) => void;
   onUpdateContent?: (v: unknown) => void;
@@ -46,6 +48,8 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
     onDelete,
     onUpdateContent,
     onUpdateStatus,
+    hasAuth,
+    isCreator,
   } = props;
 
   const [edit, setEdit] = useState<boolean>(false);
@@ -59,6 +63,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
       >
         <Box
           onClick={() => {
+            if (!isCreator) return;
             onUpdateStatus({
               status: status === 'FOCUSED' ? 'NORMAL' : 'FOCUSED',
             });
@@ -114,7 +119,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                   />
                 )}
 
-                {status === 'FOCUSED' && (
+                {hasAuth && status === 'FOCUSED' && (
                   <Button
                     onClick={() => {
                       onUpdateStatus({
@@ -151,7 +156,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                       }}
                     />
 
-                    {status !== 'FOCUSED' && (
+                    {hasAuth && status !== 'FOCUSED' && (
                       <IconButton
                         size="large"
                         onClick={(e) => {
@@ -163,7 +168,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                       </IconButton>
                     )}
 
-                    {status === 'FOCUSED' && (
+                    {hasAuth && status === 'FOCUSED' && (
                       <Button
                         variant="contained"
                         color="success"
