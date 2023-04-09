@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useParams } from 'umi';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
@@ -15,6 +15,11 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import AppBar from '@mui/material/AppBar';
+import CreateRetro from '@/container/Retro/Create';
+import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
@@ -41,15 +46,11 @@ interface UpdateParams {
 
 const Section = () => {
   const params = useParams();
-
-  const modalRef = useRef<ModalRefInstance<unknown>>();
-
-  const theme = useTheme();
-
-  const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
-
   const { retro } = params;
 
+  const modalRef = useRef<ModalRefInstance<unknown>>();
+  const theme = useTheme();
+  const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const [currentType, setCurrentType] = useState(TYPES[0]);
 
   const {
@@ -61,16 +62,6 @@ const Section = () => {
     deleteRetro,
     likeRetro,
   } = useRetroMessage({ retro: retro as string });
-
-  useEffect(() => {
-    const obj = data?.retroMessages?.find(
-      (message) => message?.status === 'FOCUSED',
-    );
-
-    if (obj && obj.type !== currentType) {
-      setCurrentType(obj?.type as string);
-    }
-  }, [currentType, data]);
 
   const handleDelete = (_id: string) => {
     deleteRetro({ variables: { _id } });
@@ -112,15 +103,6 @@ const Section = () => {
   const hasFocus =
     data.retroMessages.findIndex((message) => message.status === 'FOCUSED') !==
     -1;
-
-  if (hasFocus) {
-    const obj = data.retroMessages.find(
-      (message) => message.status === 'FOCUSED',
-    );
-    if (obj.type !== currentType) {
-      setCurrentType(obj.type);
-    }
-  }
 
   function renderForm(type, autoFocus = false) {
     const color = colors[type];
@@ -292,6 +274,17 @@ const Section = () => {
         top: 0,
       }}
     >
+      <AppBar color="default" position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Retro List
+          </Typography>
+
+          <CreateRetro />
+          <MaterialUISwitch />
+        </Toolbar>
+      </AppBar>
+
       <Container sx={{ height: '100%' }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Grid
