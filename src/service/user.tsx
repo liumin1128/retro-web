@@ -1,4 +1,3 @@
-import { history } from 'umi';
 import { setStorage, removeStorage, getStorage } from '@/utils/store';
 import { PATH_BEFORELOGIN, USER_TOKEN } from '@/configs/base';
 
@@ -9,6 +8,7 @@ export async function handleLogin(token: string) {
   } else {
     path = '/';
   }
+  console.log('登录成功，跳转到', path);
   await setStorage(USER_TOKEN, token);
-  history.push(path);
+  window.location.href = path;
 }

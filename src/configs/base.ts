@@ -6,6 +6,7 @@ export const NAV_TABS = [
 export const ENV = process.env.NODE_ENV !== 'production';
 export const STORE_USER_KEY = 'react.mobi.user';
 export const STORE_THEME_KEY = 'react.mobi.theme.key';
+export const CURRENT_PATCH = 'react.mobi.theme.key';
 export const USER_TOKEN = 'react.mobi.user.token';
 export const USER_INFO_KEY = 'react.mobi.user.info';
 export const USER_SETTING_THEME = 'react.mobi.user.setting.theme';

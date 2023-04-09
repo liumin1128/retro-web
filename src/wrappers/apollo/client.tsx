@@ -7,8 +7,8 @@ import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { RetryLink } from '@apollo/client/link/retry';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
-import { getStorage } from '@/utils/store';
-import { USER_TOKEN } from '@/configs/base';
+import { getStorage, setStorage } from '@/utils/store';
+import { USER_TOKEN, PATH_BEFORELOGIN } from '@/configs/base';
 import { onError } from '@apollo/client/link/error';
 import typeDefs from './typeDefs';
 
@@ -81,6 +81,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach((i) => {
       if (i.extensions.code === 'UNAUTHENTICATED') {
+        setStorage(PATH_BEFORELOGIN, window.location.href);
         history.push('/login');
       }
     });
