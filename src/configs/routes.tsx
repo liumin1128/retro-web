@@ -51,13 +51,6 @@ export default [
     ],
     routes: [
       {
-        path: '/',
-        component: '@/pages/home',
-        title: 'Home',
-        exact: true,
-      },
-
-      {
         path: '/retro',
         component: '@/layouts/retro',
         routes: [
