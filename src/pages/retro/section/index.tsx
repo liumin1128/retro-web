@@ -148,18 +148,12 @@ const Section = () => {
         type={i.type}
         like={i.like}
         onDelete={() => {
-          if (!isCreator) {
-            return;
-          }
           handleDelete(i._id);
         }}
         onLike={(count: number) => {
           handleLike(i._id, count);
         }}
         onUpdateContent={(variables: UpdateParams) => {
-          if (!isCreator) {
-            return;
-          }
           handleUpdate(i._id, variables);
         }}
         onUpdateStatus={(variables: UpdateParams) => {
