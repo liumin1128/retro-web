@@ -19,8 +19,7 @@ import { useForm } from 'react-hook-form';
 import Lottie from '@/components/Lottie';
 import Logo from '@/components/Icon/Logo';
 import Password from '@/components/Form/Fields/Password';
-
-const apiUrl = process.env.API_URL || '';
+import { GITHUB_OAUTH_URL, WECHAT_OAUTH_URL } from '@/configs/base';
 
 const schema = yup
   .object({
@@ -178,12 +177,12 @@ export default function Home() {
               sx={{ alignItems: 'center', justifyContent: 'center' }}
             >
               <Stack>
-                <Link component="a" href={`${apiUrl}/oauth/wechat`}>
+                <Link component="a" href={WECHAT_OAUTH_URL}>
                   Wechat
                 </Link>
               </Stack>
               <Stack>
-                <Link component="a" href={`${apiUrl}/oauth/github`}>
+                <Link component="a" href={GITHUB_OAUTH_URL}>
                   Github
                 </Link>
               </Stack>
