@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
+import { isVideo } from '@/utils/common';
 import RotatableImage from './RotatableImage';
 import NavBottom from './NavBottom';
 
@@ -55,6 +56,13 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
   }
 
   if (pictures.length === 1) {
+    if (isVideo(pictures[0])) {
+      return (
+        <video id="playChatVideo" width="100%" controls>
+          <source src={pictures[0]} type="video/mp4"></source>
+        </video>
+      );
+    }
     return (
       <Box sx={{ maxWidth: 400 }}>
         <CardMedia

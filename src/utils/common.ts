@@ -8,3 +8,9 @@ export const getCurrentPath = () => {
 export const isWechat = () => {
   return /(micromessenger)/i.test(navigator.userAgent);
 };
+
+// 根据文件名，判断是否是视频类型的文件
+export const isVideo = (fileName: string) => {
+  const ext = fileName.split('.').pop() || '';
+  return ['mp4', 'mov', 'avi', 'rmvb', 'rm', 'flv', 'mkv'].includes(ext);
+};
