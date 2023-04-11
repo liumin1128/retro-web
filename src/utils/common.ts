@@ -9,8 +9,9 @@ export const isWechat = () => {
   return /(micromessenger)/i.test(navigator.userAgent);
 };
 
-// 根据文件名，判断是否是视频类型的文件
+// 根据文件名，判断是否是视频类型的文件, 不区分大小写
 export const isVideo = (fileName: string) => {
-  const ext = fileName.split('.').pop() || '';
-  return ['mp4', 'mov', 'avi', 'rmvb', 'rm', 'flv', 'mkv'].includes(ext);
+  const videoType = ['mp4', 'avi', 'rmvb', 'rm', 'flv', '3gp', 'mkv', 'mov'];
+  const suffix = fileName.split('.').pop() || '';
+  return videoType.includes(suffix.toLowerCase());
 };
