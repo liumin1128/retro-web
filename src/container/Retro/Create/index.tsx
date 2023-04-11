@@ -1,8 +1,10 @@
+// 修复这个文件的类型错误
+
 import * as React from 'react';
 import Create from '@/components/Retro/CreateRetro';
 import {
   useCreateRetroMutation,
-  RetroFieldsFragmentDoc,
+  FindRetrosDocument,
 } from '@/generated/graphql';
 
 const Retro: React.FunctionComponent = () => {
@@ -11,22 +13,9 @@ const Retro: React.FunctionComponent = () => {
   const handleClick = (values) => {
     // eslint-disable-next-line
     values.anonymous = values.anonymous === 'true';
-
     createRetro({
       variables: values,
-      update(cache, { data }) {
-        cache.modify({
-          fields: {
-            findRetros(existingItems = []) {
-              const newTodoRef = cache.writeFragment({
-                data: data.createRetro,
-                fragment: RetroFieldsFragmentDoc,
-              });
-              return [newTodoRef, ...existingItems];
-            },
-          },
-        });
-      },
+      refetchQueries: [FindRetrosDocument],
     });
   };
 
