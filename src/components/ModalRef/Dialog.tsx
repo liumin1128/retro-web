@@ -120,6 +120,7 @@ const ModalRef = forwardRef(
           <DialogActions>
             <Button
               autoFocus
+              size="large"
               onClick={() => {
                 if (onOk) onOk();
               }}

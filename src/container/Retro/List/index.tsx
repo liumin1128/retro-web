@@ -14,6 +14,7 @@ export default function RetroListContainer() {
   return (
     <div>
       <RetroList
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         data={data?.findRetros || []}
       />

@@ -22,7 +22,7 @@ const Retro: React.FunctionComponent = () => {
                 data: data.createRetro,
                 fragment: RetroFieldsFragmentDoc,
               });
-              return [...existingItems, newTodoRef];
+              return [newTodoRef, ...existingItems];
             },
           },
         });
