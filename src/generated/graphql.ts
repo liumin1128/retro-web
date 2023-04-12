@@ -126,12 +126,12 @@ export type CreateUserInput = {
 };
 
 export type CreateUserToSeatInput = {
-  date?: InputMaybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['Float']>;
   seat?: InputMaybe<Scalars['ID']>;
 };
 
 export type DeleteUserToSeatInput = {
-  date?: InputMaybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['Float']>;
   seat?: InputMaybe<Scalars['ID']>;
 };
 
@@ -522,8 +522,9 @@ export type QueryFindUserToSeatArgs = {
 
 
 export type QueryFindUserToSeatsArgs = {
-  date?: InputMaybe<Scalars['String']>;
+  endDate?: InputMaybe<Scalars['Float']>;
   seat?: InputMaybe<Scalars['ID']>;
+  startDate?: InputMaybe<Scalars['Float']>;
   user?: InputMaybe<Scalars['ID']>;
 };
 
@@ -733,7 +734,7 @@ export type UserToSeat = Document & {
   _id: Scalars['ID'];
   cancel?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['Float']>;
   seat?: Maybe<Seat>;
   updatedAt?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
@@ -988,7 +989,8 @@ export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string,
 export type FindUserToSeatsQueryVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
   user?: InputMaybe<Scalars['ID']>;
-  date?: InputMaybe<Scalars['String']>;
+  startDate?: InputMaybe<Scalars['Float']>;
+  endDate?: InputMaybe<Scalars['Float']>;
 }>;
 
 
@@ -1003,7 +1005,7 @@ export type FindUserToSeatQuery = { __typename?: 'Query', userToSeat?: { __typen
 
 export type CreateUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
-  date: Scalars['String'];
+  date: Scalars['Float'];
 }>;
 
 
@@ -1011,7 +1013,7 @@ export type CreateUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: {
 
 export type DeleteUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
-  date: Scalars['String'];
+  date: Scalars['Float'];
 }>;
 
 
@@ -2283,8 +2285,13 @@ export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
 export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
 export const FindUserToSeatsDocument = gql`
-    query FindUserToSeats($seat: ID, $user: ID, $date: String) {
-  list: findUserToSeats(seat: $seat, user: $user, date: $date) {
+    query FindUserToSeats($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
+  list: findUserToSeats(
+    seat: $seat
+    user: $user
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...userToSeatFields
   }
 }
@@ -2304,7 +2311,8 @@ export const FindUserToSeatsDocument = gql`
  *   variables: {
  *      seat: // value for 'seat'
  *      user: // value for 'user'
- *      date: // value for 'date'
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
  *   },
  * });
  */
@@ -2355,7 +2363,7 @@ export type FindUserToSeatQueryHookResult = ReturnType<typeof useFindUserToSeatQ
 export type FindUserToSeatLazyQueryHookResult = ReturnType<typeof useFindUserToSeatLazyQuery>;
 export type FindUserToSeatQueryResult = Apollo.QueryResult<FindUserToSeatQuery, FindUserToSeatQueryVariables>;
 export const CreateUserToSeatDocument = gql`
-    mutation CreateUserToSeat($seat: ID!, $date: String!) {
+    mutation CreateUserToSeat($seat: ID!, $date: Float!) {
   userToSeat: createUserToSeat(input: {seat: $seat, date: $date}) {
     ...userToSeatFields
   }
@@ -2389,7 +2397,7 @@ export type CreateUserToSeatMutationHookResult = ReturnType<typeof useCreateUser
 export type CreateUserToSeatMutationResult = Apollo.MutationResult<CreateUserToSeatMutation>;
 export type CreateUserToSeatMutationOptions = Apollo.BaseMutationOptions<CreateUserToSeatMutation, CreateUserToSeatMutationVariables>;
 export const DeleteUserToSeatDocument = gql`
-    mutation DeleteUserToSeat($seat: ID!, $date: String!) {
+    mutation DeleteUserToSeat($seat: ID!, $date: Float!) {
   userToSeat: deleteUserToSeat(input: {seat: $seat, date: $date}) {
     ...userToSeatFields
   }

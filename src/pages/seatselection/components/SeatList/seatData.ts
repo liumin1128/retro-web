@@ -5,7 +5,7 @@ export default [
       {
         key: 's1',
         seats: [
-          { id: 1, _id: '6435140fdff6c16fcb5b0406', direction: 2, status: 1 },
+          { id: 1, _id: '641aaf86a5528ba9c07345a9', direction: 2, status: 1 },
           { id: 2, _id: '64351415dff6c16fcb5b0408', direction: 2, status: 1 },
         ],
       },

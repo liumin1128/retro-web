@@ -16,7 +16,7 @@ import SeatCom from './Seat';
 import list from './seatData';
 
 interface Props {
-  date: string;
+  date: number;
 }
 
 export default function SeatList({ date }: Props) {
@@ -25,7 +25,7 @@ export default function SeatList({ date }: Props) {
   const { loading: userInfoLoading, data: userInfoData } = useUserInfo();
 
   const { loading, data, refetch } = useFindUserToSeatsQuery({
-    variables: { date },
+    variables: { startDate: date },
   });
 
   const [createUserToSeat] = useCreateUserToSeatMutation();

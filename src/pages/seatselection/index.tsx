@@ -13,7 +13,7 @@ import DatePicker from './components/DatePicker';
 import SeatList from './components/SeatList';
 
 const Retro: React.FunctionComponent = () => {
-  const [date, setDate] = useState<Dayjs>(dayjs());
+  const [date, setDate] = useState<Dayjs>(dayjs().startOf('day'));
   const handleDateChange = (time: Dayjs | null) => {
     if (time) setDate(time);
   };
@@ -37,7 +37,7 @@ const Retro: React.FunctionComponent = () => {
             </Stack>
           </Grid>
           <Grid item xs={8}>
-            <SeatList date={date.format('YYYY-MM-DD')} />
+            <SeatList date={date.valueOf()} />
           </Grid>
         </Grid>
       </Container>

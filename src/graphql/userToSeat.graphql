@@ -9,8 +9,18 @@ fragment userToSeatFields on UserToSeat {
   }
 }
 
-query FindUserToSeats($seat: ID, $user: ID, $date: String) {
-  list: findUserToSeats(seat: $seat, user: $user, date: $date) {
+query FindUserToSeats(
+  $seat: ID
+  $user: ID
+  $startDate: Float
+  $endDate: Float
+) {
+  list: findUserToSeats(
+    seat: $seat
+    user: $user
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...userToSeatFields
   }
 }
@@ -21,13 +31,13 @@ query FindUserToSeat($_id: ID!) {
   }
 }
 
-mutation CreateUserToSeat($seat: ID!, $date: String!) {
+mutation CreateUserToSeat($seat: ID!, $date: Float!) {
   userToSeat: createUserToSeat(input: { seat: $seat, date: $date }) {
     ...userToSeatFields
   }
 }
 
-mutation DeleteUserToSeat($seat: ID!, $date: String!) {
+mutation DeleteUserToSeat($seat: ID!, $date: Float!) {
   userToSeat: deleteUserToSeat(input: { seat: $seat, date: $date }) {
     ...userToSeatFields
   }
