@@ -90,6 +90,13 @@ export default [
             title: 'Retro List',
             exact: true,
           },
+
+          {
+            path: '/seatselection/table',
+            component: '@/pages/seatselection/table',
+            title: 'Retro Table',
+            exact: true,
+          },
         ],
       },
 

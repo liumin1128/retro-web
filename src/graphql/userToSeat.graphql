@@ -1,6 +1,7 @@
 fragment userToSeatFields on UserToSeat {
   _id
   createdAt
+  date
   seat {
     _id
   }

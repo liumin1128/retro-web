@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 // react获取当前页面的路径，带/#/
 export const getCurrentPath = () => {
   const path = window.location.hash;
@@ -14,4 +16,16 @@ export const isVideo = (fileName: string) => {
   const videoType = ['mp4', 'avi', 'rmvb', 'rm', 'flv', '3gp', 'mkv', 'mov'];
   const suffix = fileName.split('.').pop() || '';
   return videoType.includes(suffix.toLowerCase());
+};
+
+// 使用dayjs获取当前月份包含哪些日期，并输出一个由日期构成的数组
+export const getMonthDays = (date: string) => {
+  const days = [];
+  const month = dayjs(date).month();
+  const year = dayjs(date).year();
+  const daysInMonth = dayjs(date).daysInMonth();
+  for (let i = 1; i <= daysInMonth; i += 1) {
+    days.push(dayjs(`${year}-${month + 1}-${i}`));
+  }
+  return days;
 };
