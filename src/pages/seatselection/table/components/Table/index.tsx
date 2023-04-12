@@ -49,8 +49,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const days = getMonthDays('2023-04');
-
 interface Props {
   startDate: number;
   endDate: number;
@@ -74,6 +72,8 @@ const UserAvatar = ({ user }: { user: UserFieldsFragment }) => {
 };
 
 export default function CustomizedTables({ startDate, endDate }: Props) {
+  const days = getMonthDays(dayjs(startDate).format('YYYY-MM'));
+
   const { data, selectSeat, cancelSelectSeat, userInfo } = useSeats({
     startDate,
     endDate,
