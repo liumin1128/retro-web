@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
 import DatePicker from './components/DatePicker';
 import SeatList from './components/SeatList';
 
@@ -31,9 +32,18 @@ const Retro: React.FunctionComponent = () => {
         <Grid container spacing={8}>
           <Grid item>
             <Stack spacing={2}>
-              <Typography>Current Date: {date.format('YYYY-MM-DD')}</Typography>
+              <Typography variant="h2">Seat Map</Typography>
+              <Typography variant="h3">{date.format('MMM-DD')}</Typography>
               <Divider />
               <DatePicker value={date} onChange={handleDateChange} />
+              <Divider />
+              <Link
+                underline="always"
+                href="/seatselection/table"
+                color="inherit"
+              >
+                goto seat table
+              </Link>
             </Stack>
           </Grid>
           <Grid item xs={8}>

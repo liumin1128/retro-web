@@ -8,6 +8,9 @@ import AppBar from '@mui/material/AppBar';
 import Stack from '@mui/material/Stack';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Link from '@mui/material/Link';
+import Tooltip from '@mui/material/Tooltip';
+
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -34,26 +37,54 @@ const Retro: React.FunctionComponent = () => {
         </Toolbar>
       </AppBar>
       <Container sx={{ mt: 3 }}>
-        <Stack direction="row" sx={{ mb: 2 }}>
-          <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-            Seat Selection {date.format('MMMM YYYY')}
+        <Stack direction="row" sx={{ mb: 2 }} alignItems="center">
+          <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
+            Seat Table
           </Typography>
 
-          <ButtonGroup
-            aria-label="Disabled elevation buttons"
-            color="inherit"
-            variant="contained"
-          >
-            <Button onClick={handleDateChange(-1)}>
-              <ArrowBackIosIcon sx={{ fontSize: 16 }} />
-            </Button>
-            <Button onClick={handleDateChange(1)}>
-              <ArrowForwardIosIcon sx={{ fontSize: 16 }} />
-            </Button>
-          </ButtonGroup>
+          <Stack spacing={1} alignItems="flex-end">
+            <Typography variant="body1" component="div">
+              {date.format('MMMM YYYY')}
+            </Typography>
+            <ButtonGroup
+              aria-label="Disabled elevation buttons"
+              color="inherit"
+              variant="contained"
+            >
+              <Tooltip
+                title="Previous Month"
+                disableFocusListener
+                disableTouchListener
+                placement="top"
+                arrow
+              >
+                <Button onClick={handleDateChange(-1)}>
+                  <ArrowBackIosIcon sx={{ fontSize: 16 }} />
+                </Button>
+              </Tooltip>
+
+              <Tooltip
+                title="Next Month"
+                disableFocusListener
+                disableTouchListener
+                placement="top"
+                arrow
+              >
+                <Button onClick={handleDateChange(1)}>
+                  <ArrowForwardIosIcon sx={{ fontSize: 16 }} />
+                </Button>
+              </Tooltip>
+            </ButtonGroup>
+          </Stack>
         </Stack>
 
         <Table startDate={startDate} endDate={endDate} />
+
+        <br />
+
+        <Link underline="always" href="/seatselection" color="inherit">
+          goto seat map
+        </Link>
       </Container>
     </Box>
   );
