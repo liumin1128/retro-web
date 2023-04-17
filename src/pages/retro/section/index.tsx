@@ -1,9 +1,8 @@
 // tslint:disable
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-
 import { useState, useRef } from 'react';
-import { useParams } from 'umi';
+import { useParams, history } from 'umi';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import { useTheme } from '@mui/material/styles';
@@ -18,12 +17,12 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
 import QRCodeIconButton from '@/components/QRCodeIconButton';
+import IconButton from '@mui/material/IconButton';
 import ModalRef, { ModalRefInstance } from '@/components/ModalRef/Dialog';
 import { RetroMessageType } from '@/generated/graphql';
 import {
@@ -35,9 +34,12 @@ import {
   DraggableProvided,
   DropResult,
 } from 'react-beautiful-dnd';
-import useRetroMessage from './useRetroMessage';
+import UserAvatar from '@/container/UserInfo/Avatar';
+import Logo from '@/components/Icon/Logo';
+
 import { user, placeholders, colors, TYPES, TabLabels } from './constants';
 import { sortItem } from './utils';
+import useRetroMessage from './useRetroMessage';
 
 interface UpdateParams {
   content?: string;
@@ -292,12 +294,19 @@ const Section = () => {
     >
       <AppBar color="default" position="static">
         <Toolbar>
+          <IconButton
+            onClick={() => {
+              history.push('/');
+            }}
+          >
+            <Logo sx={{ width: 40, height: 40, color: '#000' }} />
+          </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {data?.retro?.title}
           </Typography>
           <QRCodeIconButton content={window.location.href} />
           <MaterialUISwitch />
-          <Avatar src={data?.userInfo?.avatarUrl} />
+          <UserAvatar />
         </Toolbar>
       </AppBar>
 

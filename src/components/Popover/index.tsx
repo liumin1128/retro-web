@@ -1,9 +1,14 @@
 import * as React from 'react';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
+import Popover, { PopoverProps } from '@mui/material/Popover';
 import ButtonBase from '@mui/material/ButtonBase';
 
-export default function BasicPopover({ children, render }) {
+interface Props extends PopoverProps {
+  render?: () => React.ReactNode;
+  children: React.ReactNode;
+  open?: boolean;
+}
+
+export default function BasicPopover({ children, render, ...other }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
@@ -28,13 +33,14 @@ export default function BasicPopover({ children, render }) {
       </ButtonBase>
       <Popover
         id={id}
-        open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
         }}
+        {...other}
+        open={open}
       >
         {render && render()}
       </Popover>
