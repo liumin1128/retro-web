@@ -9,8 +9,11 @@ export async function handleLogin(token: string) {
   } else {
     path = '/';
   }
-  console.log('path');
-  console.log(path);
   await setStorage(USER_TOKEN, token);
   history.push(path);
+}
+
+export async function handleLogout() {
+  await removeStorage(USER_TOKEN);
+  window.location.href = '/#/login';
 }
