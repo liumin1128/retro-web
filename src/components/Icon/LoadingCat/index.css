@@ -1,0 +1,91 @@
+.cat {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* filter: invert(100%) grayscale(100%); */
+}
+
+.cat::before {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+
+.cat:hover > * {
+  animation-play-state: paused;
+}
+
+.cat:active > * {
+  animation-play-state: running;
+}
+
+.cat__body, .cat__tail, .cat__head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  animation: rotating 3s cubic-bezier(0.65, 0.54, 0.12, 0.93) infinite;
+
+}
+
+.cat__body::before, .cat__tail::before, .cat__head::before {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  background-size: 200%;
+  background-repeat: no-repeat;
+  background-image: url(./cat.png);
+}
+
+
+.cat__head::before {
+  top: 0;
+  right: 0;
+  background-position: 100% 0%;
+  transform-origin: 0% 100%;
+  transform: rotate(90deg);
+}
+
+.cat__tail {
+  animation-delay: .2s;
+}
+
+.cat__tail::before {
+  left: 0;
+  bottom: 0;
+  background-position: 0% 100%;
+  transform-origin: 100% 0%;
+  transform: rotate(-30deg);
+
+}
+
+
+.cat__body {
+  animation-delay: .1s;
+}
+
+.cat__body:nth-of-type(2) {
+  animation-delay: .2s;
+}
+
+
+
+.cat__body::before {
+  right: 0;
+  bottom: 0;
+  background-position: 100% 100%;
+  transform-origin: 0% 0%;
+  transform: rotate(10deg);
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(720deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
