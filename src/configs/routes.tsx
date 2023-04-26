@@ -87,15 +87,48 @@ export default [
           {
             path: '/seatselection',
             component: '@/pages/seatselection',
-            title: 'Retro List',
+            title: 'Seat List',
             exact: true,
           },
 
           {
             path: '/seatselection/table',
             component: '@/pages/seatselection/table',
-            title: 'Retro Table',
+            title: 'Seat Table',
             exact: true,
+          },
+
+          {
+            path: '/seatselection/setting',
+            component: '@/pages/seatselection/setting',
+            title: 'Seat Setting',
+            routes: [
+              {
+                path: '/seatselection/setting/date',
+                component: '@/pages/seatselection/setting/date',
+                title: 'Seat List Date',
+                exact: true,
+              },
+
+              {
+                path: '/seatselection/setting/seat',
+                component: '@/pages/seatselection/setting/seat',
+                title: 'Seat List Seat',
+                exact: true,
+              },
+
+              {
+                path: '/seatselection/setting/user',
+                component: '@/pages/seatselection/setting/user',
+                title: 'Seat Setting User',
+                exact: true,
+              },
+
+              {
+                path: '/seatselection/setting',
+                redirect: '/seatselection/setting/date',
+              },
+            ],
           },
         ],
       },

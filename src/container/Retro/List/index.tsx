@@ -8,7 +8,7 @@ export default function RetroListContainer() {
     variables: { page: 1, pageSize: 10 },
   });
 
-  return <Loading />;
+  // return <Loading />;
 
   if (loading) return <Loading />;
   if (error) return <Error />;
