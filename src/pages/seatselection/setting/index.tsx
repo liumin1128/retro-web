@@ -10,9 +10,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 const TABS = [
-  { title: 'Date', pathname: '/seatselection/setting/date' },
-  { title: 'Seat', pathname: '/seatselection/setting/seat' },
-  { title: 'User', pathname: '/seatselection/setting/user' },
+  { title: 'Optional Date', pathname: '/seatselection/setting/date' },
+  { title: 'Seat permissions', pathname: '/seatselection/setting/seat' },
+  { title: 'User permissions', pathname: '/seatselection/setting/user' },
 ];
 
 function a11yProps(index: number) {
@@ -41,7 +41,8 @@ const Retro: React.FunctionComponent = () => {
             flexGrow: 1,
             // bgcolor: 'background.paper',
             display: 'flex',
-            height: 500,
+            height: '100%',
+            minHeight: 500,
           }}
         >
           <Tabs
@@ -59,6 +60,13 @@ const Retro: React.FunctionComponent = () => {
                 <Tab
                   key={item.pathname}
                   label={item.title}
+                  sx={{
+                    textAlign: 'right',
+                    alignItems: 'flex-end',
+                    fontSize: 16,
+                    mb: 2,
+                    px: 4,
+                  }}
                   {...a11yProps(index)}
                 />
               );
