@@ -3,15 +3,15 @@ import Avatar from '@/components/Form/Fields/Avatar';
 // import AvatarEdit from '@/components/Form/Fields/AvatarEdit';
 
 const items = [
-  {
-    key: 'avatarUrl',
-    label: 'Avatar',
-    component: Avatar,
-    registerOptions: {
-      required: true,
-    },
-    errorMessage: 'Please upload avatar',
-  },
+  // {
+  //   key: 'avatarUrl',
+  //   label: 'Avatar',
+  //   component: Avatar,
+  //   registerOptions: {
+  //     required: true,
+  //   },
+  //   errorMessage: 'Please upload avatar',
+  // },
   {
     key: 'nickname',
     label: 'nickname',
@@ -24,6 +24,8 @@ const items = [
     key: 'bio',
     label: 'bio',
     placeholder: 'bio',
+    multiline: true,
+    rows: 4,
   },
 ];
 

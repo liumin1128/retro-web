@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import Box from '@mui/material/Box';
-import ButtonBase from '@mui/material/ButtonBase';
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import ReactAvatarEdit from 'react-avatar-edit';
@@ -19,22 +19,28 @@ export default forwardRef((props: Props, ref) => {
 
   const handleClose = () => {
     setPreview('');
-    if (typeof onChange === 'function') {
-      onChange('');
-    }
+    // if (typeof onChange === 'function') {
+    //   onChange('');
+    // }
   };
 
   const handleCrop = (base64: string) => {
     setPreview(base64);
-    if (typeof onChange === 'function') {
-      onChange(base64);
-    }
+    // if (typeof onChange === 'function') {
+    //   onChange(base64);
+    // }
   };
 
   const handleBeforeFileLoad = (elem) => {
     if (elem.target.files[0].size > 10000000) {
       alert('File is too big!');
       elem.target.value = '';
+    }
+  };
+
+  const handleClickSubmit = () => {
+    if (typeof onChange === 'function') {
+      onChange(preview);
     }
   };
 
@@ -62,8 +68,23 @@ export default forwardRef((props: Props, ref) => {
         />
       </Box>
 
-      {preview && <Avatar src={preview} sx={{ width: 128, height: 128 }} />}
-      {preview && <Avatar src={preview} sx={{ width: 64, height: 64 }} />}
+      {preview && (
+        <Stack spacing={3} sx={{ justifyContent: 'space-between' }}>
+          <Stack direction="row" spacing={3}>
+            <Avatar src={preview} sx={{ width: 128, height: 128 }} />
+            <Avatar src={preview} sx={{ width: 64, height: 64 }} />
+          </Stack>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleClickSubmit}
+            >
+              UPDATE
+            </Button>
+          </Box>
+        </Stack>
+      )}
     </Stack>
   );
 });
