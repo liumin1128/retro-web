@@ -73,7 +73,7 @@ const Retro: React.FunctionComponent = () => {
                     sx={{
                       textAlign: 'right',
                       alignItems: 'flex-end',
-                      fontSize: 16,
+                      // fontSize: 16,
                       mb: 2,
                       px: 4,
                     }}
