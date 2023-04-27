@@ -80,7 +80,7 @@ export default forwardRef((props: Props, ref) => {
               size="large"
               onClick={handleClickSubmit}
             >
-              UPDATE
+              UPDATE AVATAR
             </Button>
           </Box>
         </Stack>

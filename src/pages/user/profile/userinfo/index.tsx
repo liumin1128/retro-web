@@ -60,7 +60,7 @@ const Retro: React.FunctionComponent = () => {
       <br />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button variant="contained" size="large" onClick={handleClickSubmit}>
-          submit
+          UPDATE DETAILS
         </Button>
       </Box>
     </Box>
