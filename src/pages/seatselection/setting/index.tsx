@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import { Outlet, useLocation, history } from 'umi';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -35,16 +36,8 @@ const Retro: React.FunctionComponent = () => {
           <MaterialUISwitch />
         </Toolbar>
       </AppBar>
-      <Container sx={{ mt: 3 }}>
-        <Box
-          sx={{
-            flexGrow: 1,
-            // bgcolor: 'background.paper',
-            display: 'flex',
-            height: '100%',
-            minHeight: 500,
-          }}
-        >
+      <Container sx={{ mt: 8 }}>
+        <Stack direction="row" spacing={4}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -53,7 +46,7 @@ const Retro: React.FunctionComponent = () => {
               history.push(TABS[idx].pathname);
             }}
             aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider' }}
+            sx={{ borderRight: 1, borderColor: 'divider', minWidth: 240 }}
           >
             {TABS.map((item, index) => {
               return (
@@ -73,7 +66,7 @@ const Retro: React.FunctionComponent = () => {
             })}
           </Tabs>
           <Outlet />
-        </Box>
+        </Stack>
       </Container>
     </Box>
   );
