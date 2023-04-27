@@ -1,4 +1,7 @@
 import dayjs from 'dayjs';
+import weekday from 'dayjs/plugin/weekday';
+
+dayjs.extend(weekday);
 
 // react获取当前页面的路径，带/#/
 export const getCurrentPath = () => {
@@ -26,6 +29,21 @@ export const getMonthDays = (date: string) => {
   const daysInMonth = dayjs(date).daysInMonth();
   for (let i = 1; i <= daysInMonth; i += 1) {
     days.push(dayjs(`${year}-${month + 1}-${i}`));
+  }
+  return days;
+};
+
+// 使用dayjs获取当前月份包含哪些日期，并输出一个由日期构成的数组
+export const getMonthWorkDays = (date: string) => {
+  const days = [];
+  const month = dayjs(date).month();
+  const year = dayjs(date).year();
+  const daysInMonth = dayjs(date).daysInMonth();
+  for (let i = 1; i <= daysInMonth; i += 1) {
+    const day = dayjs(`${year}-${month + 1}-${i}`);
+    if (day.weekday() < 6 && day.weekday() > 0) {
+      days.push(day);
+    }
   }
   return days;
 };
