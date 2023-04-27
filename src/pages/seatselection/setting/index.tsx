@@ -1,6 +1,9 @@
 import React from 'react';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 import { Outlet, useLocation, history } from 'umi';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -25,7 +28,9 @@ function a11yProps(index: number) {
 
 const Retro: React.FunctionComponent = () => {
   const location = useLocation();
-  console.log(location);
+  const theme = useTheme();
+  const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <Box>
       <AppBar color="default" position="static">
@@ -36,37 +41,53 @@ const Retro: React.FunctionComponent = () => {
           <MaterialUISwitch />
         </Toolbar>
       </AppBar>
+
       <Container sx={{ mt: 8 }}>
-        <Stack direction="row" spacing={4}>
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={TABS.findIndex((i) => i.pathname === location.pathname)}
-            onChange={(_, idx) => {
-              history.push(TABS[idx].pathname);
-            }}
-            aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider', minWidth: 240 }}
-          >
-            {TABS.map((item, index) => {
-              return (
-                <Tab
-                  key={item.pathname}
-                  label={item.title}
-                  sx={{
-                    textAlign: 'right',
-                    alignItems: 'flex-end',
-                    fontSize: 16,
-                    mb: 2,
-                    px: 4,
-                  }}
-                  {...a11yProps(index)}
-                />
-              );
-            })}
-          </Tabs>
-          <Outlet />
-        </Stack>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md="auto">
+            <Tabs
+              orientation="vertical"
+              // orientation={isUpMd ? 'vertical' : 'horizontal'}
+              variant="scrollable"
+              value={TABS.findIndex((i) => i.pathname === location.pathname)}
+              onChange={(_, idx) => {
+                history.push(TABS[idx].pathname);
+              }}
+              aria-label="Vertical tabs example"
+              sx={
+                isUpMd
+                  ? {
+                      borderRight: 1,
+                      borderColor: 'divider',
+                      minWidth: 240,
+                      height: '100%',
+                    }
+                  : {}
+              }
+            >
+              {TABS.map((item, index) => {
+                return (
+                  <Tab
+                    key={item.pathname}
+                    label={item.title}
+                    sx={{
+                      textAlign: 'right',
+                      alignItems: 'flex-end',
+                      fontSize: 16,
+                      mb: 2,
+                      px: 4,
+                    }}
+                    {...a11yProps(index)}
+                  />
+                );
+              })}
+            </Tabs>
+          </Grid>
+
+          <Grid item xs={12} md>
+            <Outlet />
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   );

@@ -41,7 +41,7 @@ const Retro: React.FunctionComponent = () => {
         <br />
 
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs md="auto">
             <Stack spacing={2}>
               <Typography variant="h6">This month</Typography>
               <Card>
@@ -54,7 +54,7 @@ const Retro: React.FunctionComponent = () => {
               </Card>
             </Stack>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs md="auto">
             <Stack spacing={2}>
               <Typography variant="h6">Next month</Typography>
 
