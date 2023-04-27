@@ -88,7 +88,7 @@ const MessageForm = forwardRef(
             flexDirection: 'column',
             justifyContent: 'space-around',
           }}
-          spacing={2}
+          spacing={4}
         >
           {items.map((item) => {
             const {
