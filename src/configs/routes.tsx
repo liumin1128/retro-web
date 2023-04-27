@@ -160,6 +160,38 @@ export default [
       },
 
       {
+        path: '/user/profile',
+        component: '@/pages/user/profile',
+        routes: [
+          {
+            path: '/user/profile/userinfo',
+            component: '@/pages/user/profile/userinfo',
+            title: 'UserInfo',
+            exact: true,
+          },
+
+          {
+            path: '/user/profile/password',
+            component: '@/pages/user/profile/password',
+            title: 'Password',
+            exact: true,
+          },
+
+          {
+            path: '/user/profile/oauth',
+            component: '@/pages/user/profile/oauth',
+            title: 'Oauth',
+            exact: true,
+          },
+
+          {
+            path: '/user/profile',
+            redirect: '/user/profile/userinfo',
+          },
+        ],
+      },
+
+      {
         path: '/',
         redirect: '/retro',
       },

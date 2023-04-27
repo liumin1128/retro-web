@@ -4,7 +4,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-import UserAvatar from '@/container/UserInfo/Avatar';
 import { Outlet, useLocation, history } from 'umi';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -13,11 +12,12 @@ import AppBar from '@mui/material/AppBar';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import UserAvatar from '@/container/UserInfo/Avatar';
 
 const TABS = [
-  { title: 'Optional Date', pathname: '/seatselection/setting/date' },
-  { title: 'Seat permissions', pathname: '/seatselection/setting/seat' },
-  { title: 'User permissions', pathname: '/seatselection/setting/user' },
+  { title: 'UserInfo', pathname: '/user/profile/userinfo' },
+  { title: 'Password', pathname: '/user/profile/password' },
+  { title: 'Oauth', pathname: '/user/profile/oauth' },
 ];
 
 function a11yProps(index: number) {
