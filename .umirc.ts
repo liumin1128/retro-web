@@ -7,4 +7,5 @@ export default {
   npmClient: 'pnpm',
   history: { type: 'hash' },
   favicons: ['/favicon/4.svg', '/favicon/4.ico'],
+  esbuildMinifyIIFE: true,
 };
