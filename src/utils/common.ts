@@ -1,5 +1,8 @@
 import dayjs from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
+import pickBy from 'lodash/pickBy';
+import isNil from 'lodash/isNil';
+import isEmpty from 'lodash/isEmpty';
 
 dayjs.extend(weekday);
 
@@ -47,3 +50,6 @@ export const getMonthWorkDays = (date: string) => {
   }
   return days;
 };
+
+export const pickObject = (values: Record<string, unknown>) =>
+  pickBy(values, (value) => !(isNil(value) && isEmpty(value)));

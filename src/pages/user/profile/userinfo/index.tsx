@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import pickBy from 'lodash/pickBy';
-import isEmpty from 'lodash/isEmpty';
+import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import { useSnackbar } from 'notistack';
 import {
@@ -12,23 +11,32 @@ import {
 } from '@/generated/graphql';
 import Form, { FormRefInstance } from '@/components/Form';
 import AvatarEdit from '@/components/AvatarEdit';
-import items from './items';
 import { uploadBase64 } from '@/service/qiniu';
+import { pickObject } from '@/utils/common';
+import items from './items';
 
 const Retro: React.FunctionComponent = () => {
   const { data, loading, error } = useFindUserInfoQuery();
   const [updateUser] = useUpdateUserInfoMutation();
   const { enqueueSnackbar } = useSnackbar();
 
+  // console.log('data');
+  // console.log(data);
+
   const formRef = useRef<FormRefInstance>();
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>error</div>;
 
-  const handleSubmit = async (values: unknown) => {
+  const handleSubmit = async (values: Record<string, unknown>) => {
+    // console.log('values', values);
+    if (values.sex) {
+      values.sex = Number(values.sex);
+    }
+
     try {
       await updateUser({
-        variables: { input: pickBy(values, (value) => !isEmpty(value)) },
+        variables: { input: pickObject(values) },
       });
       enqueueSnackbar('Update UserInfo Success', {
         variant: 'success',
@@ -60,6 +68,8 @@ const Retro: React.FunctionComponent = () => {
 
   return (
     <Box sx={{ maxWidth: 500, margin: 'auto' }}>
+      {data?.findUserInfo?.birthday}
+      {dayjs(Number(data?.findUserInfo?.birthday)).format('YYYY-MM-DD')}
       <Stack spacing={2}>
         <Typography variant="h5">Avatar</Typography>
         <AvatarEdit
@@ -79,6 +89,10 @@ const Retro: React.FunctionComponent = () => {
           defaultValues={{
             nickname: data?.findUserInfo?.nickname as string,
             sign: data?.findUserInfo?.sign as string,
+            birthday: data?.findUserInfo?.birthday
+              ? dayjs(Number(data?.findUserInfo?.birthday)).format('YYYY-MM-DD')
+              : '',
+            sex: data?.findUserInfo?.sex,
           }}
         />
       </Stack>

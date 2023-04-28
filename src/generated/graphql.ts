@@ -728,11 +728,13 @@ export type User = {
   avatarUrl?: Maybe<Scalars['String']>;
   birthday?: Maybe<Scalars['String']>;
   company?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   position?: Maybe<Scalars['String']>;
   sex?: Maybe<Scalars['Int']>;
   sign?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
 };
 

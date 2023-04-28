@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
-import Avatar from '@/components/Form/Fields/Avatar';
-// import AvatarEdit from '@/components/Form/Fields/AvatarEdit';
+import Radio from '@/components/Form/Fields/Radio';
 
 const items = [
   // {
@@ -14,26 +13,41 @@ const items = [
   // },
   {
     key: 'nickname',
-    label: 'nickname',
-    placeholder: 'nickname',
+    label: 'Nickname',
+    placeholder: 'Nickname',
     registerOptions: {
       required: true,
     },
   },
+
   {
     key: 'birthday',
-    label: 'birthday',
-    placeholder: 'birthday',
+    label: 'Birthday',
+    placeholder: 'Birthday',
+    type: 'date',
+    // format: 'YYYY-MM-DD',
+    // defaultValue: dayjs().format('YYYY-MM-DD'),
+    InputLabelProps: {
+      shrink: true,
+    },
   },
   {
     key: 'sex',
+    name: 'sex',
     label: 'sex',
     placeholder: 'sex',
+    component: Radio,
+    row: true,
+    options: [
+      { label: '男', value: 1 },
+      { label: '女', value: 2 },
+      { label: '保密', value: 0 },
+    ],
   },
   {
     key: 'sign',
-    label: 'sign',
-    placeholder: 'sign',
+    label: 'Sign',
+    placeholder: 'Sign',
     multiline: true,
     rows: 4,
   },
