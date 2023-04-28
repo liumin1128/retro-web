@@ -34,6 +34,8 @@ const Retro: React.FunctionComponent = () => {
       values.sex = Number(values.sex);
     }
 
+    delete values.username;
+
     try {
       await updateUser({
         variables: { input: pickObject(values) },
@@ -67,9 +69,7 @@ const Retro: React.FunctionComponent = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, margin: 'auto' }}>
-      {data?.findUserInfo?.birthday}
-      {dayjs(Number(data?.findUserInfo?.birthday)).format('YYYY-MM-DD')}
+    <Box sx={{ maxWidth: 500, margin: 'auto', mb: 8 }}>
       <Stack spacing={2}>
         <Typography variant="h5">Avatar</Typography>
         <AvatarEdit
@@ -93,6 +93,9 @@ const Retro: React.FunctionComponent = () => {
               ? dayjs(Number(data?.findUserInfo?.birthday)).format('YYYY-MM-DD')
               : '',
             sex: data?.findUserInfo?.sex,
+            company: data?.findUserInfo?.company,
+            position: data?.findUserInfo?.position,
+            username: data?.findUserInfo?.username,
           }}
         />
       </Stack>

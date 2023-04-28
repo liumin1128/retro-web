@@ -12,11 +12,39 @@ const items = [
   //   errorMessage: 'Please upload avatar',
   // },
   {
+    key: 'username',
+    label: 'Username',
+    placeholder: 'Username',
+    registerOptions: {
+      required: true,
+      disabled: true,
+    },
+  },
+
+  {
     key: 'nickname',
     label: 'Nickname',
     placeholder: 'Nickname',
     registerOptions: {
       required: true,
+    },
+  },
+
+  {
+    key: 'company',
+    label: 'Company',
+    placeholder: 'Company',
+    gridProps: {
+      xs: 6,
+    },
+  },
+
+  {
+    key: 'position',
+    label: 'Position',
+    placeholder: 'Position',
+    gridProps: {
+      xs: 6,
     },
   },
 
@@ -31,6 +59,7 @@ const items = [
       shrink: true,
     },
   },
+
   {
     key: 'sex',
     name: 'sex',

@@ -15,6 +15,7 @@ import {
 } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 // import { yupResolver } from '@hookform/resolvers/yup';
 
 export interface FormRefInstance {
@@ -81,15 +82,7 @@ const MessageForm = forwardRef(
           reset();
         }}
       >
-        <Stack
-          sx={{
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-around',
-          }}
-          spacing={4}
-        >
+        <Grid container spacing={4}>
           {items.map((item) => {
             const {
               component,
@@ -97,6 +90,7 @@ const MessageForm = forwardRef(
               key,
               registerOptions,
               registerFunction,
+              gridProps,
               ...options
             } = item;
 
@@ -118,13 +112,19 @@ const MessageForm = forwardRef(
               ...register(key, newRegisterOptions),
             };
 
-            if (render) {
-              return render({ ...componentProps });
-            }
-
-            return <Component {...componentProps} />;
+            return (
+              <Grid key={key} item xs={12} {...gridProps}>
+                <Stack>
+                  {render ? (
+                    render({ ...componentProps })
+                  ) : (
+                    <Component {...componentProps} />
+                  )}
+                </Stack>
+              </Grid>
+            );
           })}
-        </Stack>
+        </Grid>
       </form>
     );
   },
