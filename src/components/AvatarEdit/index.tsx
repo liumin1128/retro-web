@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import ReactAvatarEdit from 'react-avatar-edit';
-
+// https://github.com/impargo/react-avatar?spm=a2c6h.24755359.0.0.3f383bfd8xwr2A
 interface Props {
   defaultValue?: string;
   onChange?: (arg: any) => void;
@@ -57,14 +57,16 @@ export default forwardRef((props: Props, ref) => {
         }}
       >
         <ReactAvatarEdit
-          width={248}
-          height={248}
+          imageWidth={248}
+          imageHeight={248}
           onCrop={handleCrop}
           onClose={handleClose}
           onBeforeFileLoad={handleBeforeFileLoad}
           src={src}
           borderStyle={{}}
           labelStyle={{}}
+          cropRadius={100}
+          exportAsSquare
         />
       </Box>
 
