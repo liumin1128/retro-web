@@ -4,6 +4,11 @@ fragment userFields on User {
   nickname
   username
   avatarUrl
+  sign
+  birthday
+  sex
+  position
+  company
 }
 
 query FindUsers {
@@ -24,5 +29,11 @@ query Login($input: LoginUserInput) {
       ...userFields
     }
     token
+  }
+}
+
+mutation UpdateUserInfo($input: UpdateUserInfoInput) {
+  updateUserInfo(input: $input) {
+    ...userFields
   }
 }

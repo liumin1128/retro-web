@@ -75,7 +75,7 @@ export const uploadItem = async (
 
 export async function uploadBase64(base64String: string) {
   const token = await getToken();
-  const response = await axios.post(
+  const res = await axios.post(
     'https://up-z1.qiniup.com/putb64/-1',
     base64String.replace('data:image/png;base64,', ''),
     {
@@ -86,5 +86,5 @@ export async function uploadBase64(base64String: string) {
     },
   );
 
-  return response.data;
+  return `${QINIUURL}/${res.data.key}`;
 }

@@ -2,8 +2,14 @@ import React, { useRef } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import pickBy from 'lodash/pickBy';
+import isEmpty from 'lodash/isEmpty';
 import Button from '@mui/material/Button';
-import { useFindUserInfoQuery } from '@/generated/graphql';
+import { useSnackbar } from 'notistack';
+import {
+  useFindUserInfoQuery,
+  useUpdateUserInfoMutation,
+} from '@/generated/graphql';
 import Form, { FormRefInstance } from '@/components/Form';
 import AvatarEdit from '@/components/AvatarEdit';
 import items from './items';
@@ -11,26 +17,45 @@ import { uploadBase64 } from '@/service/qiniu';
 
 const Retro: React.FunctionComponent = () => {
   const { data, loading, error } = useFindUserInfoQuery();
+  const [updateUser] = useUpdateUserInfoMutation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const formRef = useRef<FormRefInstance>();
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>error</div>;
 
-  console.log('data');
-  console.log(data);
-
   const handleSubmit = async (values: unknown) => {
-    console.log('values');
-    console.log(values);
+    try {
+      await updateUser({
+        variables: { input: pickBy(values, (value) => !isEmpty(value)) },
+      });
+      enqueueSnackbar('Update UserInfo Success', {
+        variant: 'success',
+        autoHideDuration: 3000,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleClickSubmit = () => {
     formRef.current?.form.handleSubmit(handleSubmit)();
   };
 
-  const updateAvatar = async (base64: string) => {
-    const ss = await uploadBase64(base64);
-    console.log('ss', ss);
+  const handleUpdateAvatar = async (base64: string) => {
+    try {
+      const key = await uploadBase64(base64);
+      await updateUser({
+        variables: { input: { avatarUrl: key } },
+      });
+      enqueueSnackbar('Update Avatar Success', {
+        variant: 'success',
+        autoHideDuration: 3000,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -39,7 +64,7 @@ const Retro: React.FunctionComponent = () => {
         <Typography variant="h5">Avatar</Typography>
         <AvatarEdit
           defaultValue={data?.findUserInfo?.avatarUrl as string}
-          onChange={updateAvatar}
+          onChange={handleUpdateAvatar}
         />
       </Stack>
 
@@ -53,6 +78,7 @@ const Retro: React.FunctionComponent = () => {
           ref={formRef}
           defaultValues={{
             nickname: data?.findUserInfo?.nickname as string,
+            sign: data?.findUserInfo?.sign as string,
           }}
         />
       </Stack>

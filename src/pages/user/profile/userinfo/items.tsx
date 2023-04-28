@@ -21,9 +21,19 @@ const items = [
     },
   },
   {
-    key: 'bio',
-    label: 'bio',
-    placeholder: 'bio',
+    key: 'birthday',
+    label: 'birthday',
+    placeholder: 'birthday',
+  },
+  {
+    key: 'sex',
+    label: 'sex',
+    placeholder: 'sex',
+  },
+  {
+    key: 'sign',
+    label: 'sign',
+    placeholder: 'sign',
     multiline: true,
     rows: 4,
   },
