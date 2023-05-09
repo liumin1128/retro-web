@@ -285,11 +285,8 @@ const Section = () => {
   return (
     <Box
       sx={{
-        height: '100%',
-        width: '100%',
-        position: 'fixed',
-        left: 0,
-        top: 0,
+        height: '100vh',
+        width: '100vw',
       }}
     >
       <AppBar color="default" position="static">
@@ -310,7 +307,7 @@ const Section = () => {
         </Toolbar>
       </AppBar>
 
-      <Container sx={{ height: '100%' }}>
+      <Container sx={{ height: 'calc(100vh - 56px)' }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Grid
             container
