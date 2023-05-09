@@ -28,7 +28,7 @@ export interface IAction {
 }
 
 const defaultValue: IPayload = {
-  paletteMode: 'light',
+  paletteMode: 'dark',
 };
 
 const GlobalSettingsContext = createContext<IPayload>(defaultValue);
