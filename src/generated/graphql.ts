@@ -105,6 +105,12 @@ export type CreateRetroMessageInput = {
   type: RetroMessageType;
 };
 
+export type CreateRoleInput = {
+  description?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  scope: Scalars['String'];
+};
+
 export type CreateSeatInput = {
   cover?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
@@ -123,6 +129,12 @@ export type CreateTopicInput = {
 export type CreateUserInput = {
   password?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['Int']>;
+};
+
+export type CreateUserToRoleInput = {
+  role: Scalars['ID'];
+  scope: Scalars['String'];
+  user: Scalars['ID'];
 };
 
 export type CreateUserToSeatInput = {
@@ -227,9 +239,11 @@ export type Mutation = {
   createOrganization?: Maybe<Organization>;
   createRetro?: Maybe<Retro>;
   createRetroMessage?: Maybe<RetroMessage>;
+  createRole?: Maybe<UserRole>;
   createSeat?: Maybe<Seat>;
   createTopic?: Maybe<Topic>;
   createUser?: Maybe<User>;
+  createUserToRole?: Maybe<UserToRole>;
   createUserToSeat?: Maybe<UserToSeat>;
   deleteRetroMessage?: Maybe<RetroMessage>;
   deleteUserToSeat?: Maybe<UserToSeat>;
@@ -298,6 +312,11 @@ export type MutationCreateRetroMessageArgs = {
 };
 
 
+export type MutationCreateRoleArgs = {
+  input?: InputMaybe<CreateRoleInput>;
+};
+
+
 export type MutationCreateSeatArgs = {
   input?: InputMaybe<CreateSeatInput>;
 };
@@ -310,6 +329,11 @@ export type MutationCreateTopicArgs = {
 
 export type MutationCreateUserArgs = {
   createUserInput?: InputMaybe<CreateUserInput>;
+};
+
+
+export type MutationCreateUserToRoleArgs = {
+  input?: InputMaybe<CreateUserToRoleInput>;
 };
 
 
@@ -421,12 +445,17 @@ export type Query = {
   findRetroMessage?: Maybe<RetroMessage>;
   findRetroMessages?: Maybe<Array<Maybe<RetroMessage>>>;
   findRetros?: Maybe<Array<Maybe<RetroListItem>>>;
+  findRole?: Maybe<UserRole>;
+  findRoles?: Maybe<Array<Maybe<UserRole>>>;
   findSeat?: Maybe<Seat>;
+  findSeatSelectionUsers?: Maybe<Array<Maybe<UserWithRole>>>;
   findSeats?: Maybe<Array<Maybe<Seat>>>;
   findTopic?: Maybe<Topic>;
   findTopics?: Maybe<Array<Maybe<Topic>>>;
   findUser?: Maybe<User>;
   findUserInfo?: Maybe<User>;
+  findUserToRole?: Maybe<UserToRole>;
+  findUserToRoles?: Maybe<Array<Maybe<UserToRole>>>;
   findUserToSeat?: Maybe<UserToSeat>;
   findUserToSeats?: Maybe<Array<Maybe<UserToSeat>>>;
   findUsers?: Maybe<Array<Maybe<User>>>;
@@ -507,8 +536,21 @@ export type QueryFindRetrosArgs = {
 };
 
 
+export type QueryFindRoleArgs = {
+  _id: Scalars['ID'];
+};
+
+
 export type QueryFindSeatArgs = {
   _id: Scalars['ID'];
+};
+
+
+export type QueryFindSeatSelectionUsersArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<Scalars['ID']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  user?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -519,6 +561,11 @@ export type QueryFindTopicArgs = {
 
 export type QueryFindUserArgs = {
   _id: Scalars['String'];
+};
+
+
+export type QueryFindUserToRoleArgs = {
+  _id: Scalars['ID'];
 };
 
 
@@ -684,9 +731,11 @@ export type Subscription = {
   retroMessageDeleted?: Maybe<RetroMessage>;
   retroMessageLiked?: Maybe<RetroMessage>;
   retroMessageUpdated?: Maybe<RetroMessage>;
+  roleCreated?: Maybe<UserRole>;
   seatCreated?: Maybe<Seat>;
   topicCreated?: Maybe<Topic>;
   userToOrganizationCreated?: Maybe<UserToOrganization>;
+  userToRoleCreated?: Maybe<UserToRole>;
   userToSeatCreated?: Maybe<UserToSeat>;
   userToSeatDeleted?: Maybe<UserToSeat>;
 };
@@ -738,12 +787,32 @@ export type User = {
   username?: Maybe<Scalars['String']>;
 };
 
+export type UserRole = Document & {
+  __typename?: 'UserRole';
+  _id: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  scope: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
 export type UserToOrganization = Document & {
   __typename?: 'UserToOrganization';
   _id: Scalars['ID'];
   createdAt?: Maybe<Scalars['String']>;
   isCurrent?: Maybe<Scalars['Boolean']>;
   organization: Organization;
+  updatedAt?: Maybe<Scalars['String']>;
+  user: User;
+};
+
+export type UserToRole = Document & {
+  __typename?: 'UserToRole';
+  _id: Scalars['ID'];
+  createdAt?: Maybe<Scalars['String']>;
+  role: UserRole;
+  scope: Scalars['String'];
   updatedAt?: Maybe<Scalars['String']>;
   user: User;
 };
@@ -757,6 +826,15 @@ export type UserToSeat = Document & {
   seat?: Maybe<Seat>;
   updatedAt?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
+};
+
+export type UserWithRole = {
+  __typename?: 'UserWithRole';
+  _id: Scalars['ID'];
+  avatarUrl?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  roles?: Maybe<Array<Maybe<UserRole>>>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type UserWithToken = {
@@ -984,6 +1062,22 @@ export type RetroMessageDeletedSubscriptionVariables = Exact<{ [key: string]: ne
 
 export type RetroMessageDeletedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
+export type UserRoleFieldsFragment = { __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null };
+
+export type UserToRoleFieldsFragment = { __typename?: 'UserToRole', _id: string, createdAt?: string | null, role: { __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null }, user: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null } };
+
+export type UserWithRoleFieldsFragment = { __typename?: 'UserWithRole', _id: string, username?: string | null, nickname?: string | null, avatarUrl?: string | null, roles?: Array<{ __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null } | null> | null };
+
+export type FindSeatSelectionUsersQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  role?: InputMaybe<Scalars['ID']>;
+  user?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type FindSeatSelectionUsersQuery = { __typename?: 'Query', list?: Array<{ __typename?: 'UserWithRole', _id: string, username?: string | null, nickname?: string | null, avatarUrl?: string | null, roles?: Array<{ __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null } | null> | null } | null> | null };
+
 export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null };
 
 export type FindUsersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1208,6 +1302,14 @@ export const RetroMessageFieldsFragmentDoc = gql`
   }
 }
     `;
+export const UserRoleFieldsFragmentDoc = gql`
+    fragment userRoleFields on UserRole {
+  _id
+  name
+  scope
+  description
+}
+    `;
 export const UserFieldsFragmentDoc = gql`
     fragment userFields on User {
   __typename
@@ -1222,6 +1324,30 @@ export const UserFieldsFragmentDoc = gql`
   company
 }
     `;
+export const UserToRoleFieldsFragmentDoc = gql`
+    fragment userToRoleFields on UserToRole {
+  _id
+  createdAt
+  role {
+    ...userRoleFields
+  }
+  user {
+    ...userFields
+  }
+}
+    ${UserRoleFieldsFragmentDoc}
+${UserFieldsFragmentDoc}`;
+export const UserWithRoleFieldsFragmentDoc = gql`
+    fragment userWithRoleFields on UserWithRole {
+  _id
+  username
+  nickname
+  avatarUrl
+  roles {
+    ...userRoleFields
+  }
+}
+    ${UserRoleFieldsFragmentDoc}`;
 export const UserToSeatFieldsFragmentDoc = gql`
     fragment userToSeatFields on UserToSeat {
   _id
@@ -2210,6 +2336,49 @@ export function useRetroMessageDeletedSubscription(baseOptions?: Apollo.Subscrip
       }
 export type RetroMessageDeletedSubscriptionHookResult = ReturnType<typeof useRetroMessageDeletedSubscription>;
 export type RetroMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
+export const FindSeatSelectionUsersDocument = gql`
+    query FindSeatSelectionUsers($limit: Int, $skip: Int, $role: ID, $user: ID) {
+  list: findSeatSelectionUsers(
+    limit: $limit
+    skip: $skip
+    role: $role
+    user: $user
+  ) {
+    ...userWithRoleFields
+  }
+}
+    ${UserWithRoleFieldsFragmentDoc}`;
+
+/**
+ * __useFindSeatSelectionUsersQuery__
+ *
+ * To run a query within a React component, call `useFindSeatSelectionUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindSeatSelectionUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindSeatSelectionUsersQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
+ *      role: // value for 'role'
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useFindSeatSelectionUsersQuery(baseOptions?: Apollo.QueryHookOptions<FindSeatSelectionUsersQuery, FindSeatSelectionUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindSeatSelectionUsersQuery, FindSeatSelectionUsersQueryVariables>(FindSeatSelectionUsersDocument, options);
+      }
+export function useFindSeatSelectionUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindSeatSelectionUsersQuery, FindSeatSelectionUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindSeatSelectionUsersQuery, FindSeatSelectionUsersQueryVariables>(FindSeatSelectionUsersDocument, options);
+        }
+export type FindSeatSelectionUsersQueryHookResult = ReturnType<typeof useFindSeatSelectionUsersQuery>;
+export type FindSeatSelectionUsersLazyQueryHookResult = ReturnType<typeof useFindSeatSelectionUsersLazyQuery>;
+export type FindSeatSelectionUsersQueryResult = Apollo.QueryResult<FindSeatSelectionUsersQuery, FindSeatSelectionUsersQueryVariables>;
 export const FindUsersDocument = gql`
     query FindUsers {
   findUsers {
@@ -2579,7 +2748,9 @@ export type UserToSeatDeletedSubscriptionResult = Apollo.SubscriptionResult<User
       "RetroMessage",
       "Seat",
       "Topic",
+      "UserRole",
       "UserToOrganization",
+      "UserToRole",
       "UserToSeat"
     ],
     "LikeObjectUnion": [
