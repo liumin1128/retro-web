@@ -36,7 +36,7 @@ const Retro: React.FunctionComponent = () => {
   const { data } = useFindUserInfoQuery();
 
   const hasAuth =
-    data?.findUserInfo?.tags?.findIndex((i) => i === 'SeatSelectionAdmin1') !==
+    data?.findUserInfo?.tags?.findIndex((i) => i === 'SeatSelectionAdmin') !==
     -1;
 
   if (!hasAuth) {

@@ -19,7 +19,7 @@ export default ({ onDeleteTag }) => [
     dataIndex: 'tags',
     render: (tags: string[], row) => {
       return (
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" flexWrap="wrap">
           {tags.map((tag: string) => {
             return (
               <Chip
@@ -28,6 +28,7 @@ export default ({ onDeleteTag }) => [
                 onDelete={() => {
                   onDeleteTag(row, tag);
                 }}
+                sx={{ mr: 1, mb: 1 }}
               />
             );
           })}

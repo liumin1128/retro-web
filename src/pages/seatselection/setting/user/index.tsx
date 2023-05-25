@@ -85,7 +85,9 @@ const Retro: React.FunctionComponent = () => {
               Add User
             </Button>
           </Stack>
-          <Table columns={columns} data={data?.findUsers || []} />
+          <Stack sx={{ maxWidth: 800 }}>
+            <Table columns={columns} data={data?.findUsers || []} />
+          </Stack>
         </Stack>
       </Container>
       <Modal ref={modalRef} fullWidth />
