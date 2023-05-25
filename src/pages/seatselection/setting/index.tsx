@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import UserAvatar from '@/container/UserInfo/Avatar';
-import { Outlet, useLocation, history } from 'umi';
+import { Outlet, useLocation, history, Navigate } from 'umi';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,6 +13,7 @@ import AppBar from '@mui/material/AppBar';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { useFindUserInfoQuery } from '@/generated/graphql';
 
 const TABS = [
   { title: 'Optional Date', pathname: '/seatselection/setting/date' },
@@ -31,6 +32,16 @@ const Retro: React.FunctionComponent = () => {
   const location = useLocation();
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
+
+  const { data } = useFindUserInfoQuery();
+
+  const hasAuth =
+    data?.findUserInfo?.tags?.findIndex((i) => i === 'SeatSelectionAdmin1') !==
+    -1;
+
+  if (!hasAuth) {
+    return <Navigate to="/403" />;
+  }
 
   return (
     <Box>

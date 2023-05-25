@@ -84,6 +84,7 @@ export default [
 
       {
         path: '/seatselection',
+        component: '@/wrappers/auth/SeatSelection',
         routes: [
           {
             path: '/seatselection',
@@ -190,6 +191,11 @@ export default [
             redirect: '/user/profile/userinfo',
           },
         ],
+      },
+
+      {
+        path: '/403',
+        component: '@/pages/403',
       },
 
       {
