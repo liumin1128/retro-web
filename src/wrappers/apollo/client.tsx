@@ -84,6 +84,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         setStorage(PATH_BEFORELOGIN, history.location.pathname);
         history.push('/login');
       }
+      if (i.extensions.code === 'INTERNAL_SERVER_ERROR') {
+        window?.snackbar?.enqueueSnackbar(i.message, {
+          variant: 'error',
+        });
+      }
     });
   }
 });

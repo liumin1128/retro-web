@@ -47,6 +47,7 @@ export default [
       '@/wrappers/sentry',
       '@/wrappers/apollo',
       '@/wrappers/material-ui',
+      '@/wrappers/snackbar',
       // '@/wrappers/auth',
     ],
     routes: [

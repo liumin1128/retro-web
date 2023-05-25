@@ -42,3 +42,9 @@ query FindSeatSelectionUsers($limit: Int, $skip: Int, $role: ID, $user: ID) {
     ...userWithRoleFields
   }
 }
+
+mutation CreateUserToRole($user: ID!, $role: ID!, $scope: String!) {
+  createUserToRole(input: { user: $user, role: $role, scope: $scope }) {
+    _id
+  }
+}

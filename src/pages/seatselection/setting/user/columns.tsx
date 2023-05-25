@@ -11,20 +11,20 @@ export default [
       return <Avatar src={i as string} />;
     },
   },
-  { key: 'username', title: 'Username', dataIndex: 'username' },
   { key: 'nickname', title: 'Nickname', dataIndex: 'nickname' },
+  { key: 'username', title: 'Username', dataIndex: 'username' },
   {
-    key: 'roles',
-    title: 'Roles',
-    dataIndex: 'roles',
-    render: (i: string[]) => {
+    key: 'tags',
+    title: 'Tags',
+    dataIndex: 'tags',
+    render: (tags: string[]) => {
       return (
         <Stack direction="row" spacing={1}>
-          {i.map((j: unknown) => {
+          {tags.map((tag: string) => {
             return (
               <Chip
-                key={j.name}
-                label={j.name}
+                key={tag}
+                label={tag}
                 onDelete={() => {
                   alert('comming soon');
                 }}

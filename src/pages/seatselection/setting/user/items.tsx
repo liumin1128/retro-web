@@ -1,9 +1,9 @@
 import get from 'lodash/get';
 import UserSelect from '../../components/UserSelect';
 import RoleSelect from '../../components/RoleSelect';
+import TagsSelect from '../../components/TagsSelect';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-
 import FormHelperText from '@mui/material/FormHelperText';
 
 export default [
@@ -20,7 +20,7 @@ export default [
   // },
 
   {
-    key: 'user',
+    key: 'users',
     label: 'User',
     placeholder: 'User',
     registerOptions: {
@@ -41,21 +41,27 @@ export default [
               onChange(v);
             }}
           />
-          {error && <FormHelperText error>{helperText}</FormHelperText>}
+          {error ? (
+            <FormHelperText error>{helperText}</FormHelperText>
+          ) : (
+            <FormHelperText>
+              You can select multiple users at once
+            </FormHelperText>
+          )}
         </FormControl>
       );
     },
   },
 
   {
-    key: 'roles',
-    label: 'Roles',
-    placeholder: 'Roles',
+    key: 'tags',
+    label: 'Tags',
+    placeholder: 'Tags',
     registerOptions: {
-      required: { value: true, message: 'Role is required' },
+      required: { value: true, message: 'Tags is required' },
     },
     render: (props) => {
-      return <RoleSelect {...props} />;
+      return <TagsSelect {...props} />;
     },
   },
 ];

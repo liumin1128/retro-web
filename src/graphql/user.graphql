@@ -9,10 +9,11 @@ fragment userFields on User {
   sex
   position
   company
+  tags
 }
 
-query FindUsers($search: String, $limit: Int, $skip: Int) {
-  findUsers(search: $search, limit: $limit, skip: $skip) {
+query FindUsers($search: String, $tags: [String], $limit: Int, $skip: Int) {
+  findUsers(search: $search, tags: $tags, limit: $limit, skip: $skip) {
     ...userFields
   }
 }
@@ -35,5 +36,11 @@ query Login($input: LoginUserInput) {
 mutation UpdateUserInfo($input: UpdateUserInfoInput) {
   updateUserInfo(input: $input) {
     ...userFields
+  }
+}
+
+mutation AdminPushUsersTags($users: [ID], $tags: [String]) {
+  adminPushUsersTags(users: $users, tags: $tags) {
+    success
   }
 }
