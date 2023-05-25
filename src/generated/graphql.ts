@@ -228,6 +228,7 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  adminPullUsersTags?: Maybe<Result>;
   adminPushUsersTags?: Maybe<Result>;
   createComment?: Maybe<Comment>;
   createDynamic?: Maybe<Dynamic>;
@@ -255,6 +256,12 @@ export type Mutation = {
   replyComment?: Maybe<Reply>;
   updateRetroMessage?: Maybe<RetroMessage>;
   updateUserInfo?: Maybe<User>;
+};
+
+
+export type MutationAdminPullUsersTagsArgs = {
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 
@@ -1152,6 +1159,14 @@ export type AdminPushUsersTagsMutationVariables = Exact<{
 
 
 export type AdminPushUsersTagsMutation = { __typename?: 'Mutation', adminPushUsersTags?: { __typename?: 'Result', success?: boolean | null } | null };
+
+export type AdminPullUsersTagsMutationVariables = Exact<{
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+}>;
+
+
+export type AdminPullUsersTagsMutation = { __typename?: 'Mutation', adminPullUsersTags?: { __typename?: 'Result', success?: boolean | null } | null };
 
 export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
 
@@ -2675,6 +2690,40 @@ export function useAdminPushUsersTagsMutation(baseOptions?: Apollo.MutationHookO
 export type AdminPushUsersTagsMutationHookResult = ReturnType<typeof useAdminPushUsersTagsMutation>;
 export type AdminPushUsersTagsMutationResult = Apollo.MutationResult<AdminPushUsersTagsMutation>;
 export type AdminPushUsersTagsMutationOptions = Apollo.BaseMutationOptions<AdminPushUsersTagsMutation, AdminPushUsersTagsMutationVariables>;
+export const AdminPullUsersTagsDocument = gql`
+    mutation AdminPullUsersTags($users: [ID], $tags: [String]) {
+  adminPullUsersTags(users: $users, tags: $tags) {
+    success
+  }
+}
+    `;
+export type AdminPullUsersTagsMutationFn = Apollo.MutationFunction<AdminPullUsersTagsMutation, AdminPullUsersTagsMutationVariables>;
+
+/**
+ * __useAdminPullUsersTagsMutation__
+ *
+ * To run a mutation, you first call `useAdminPullUsersTagsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAdminPullUsersTagsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [adminPullUsersTagsMutation, { data, loading, error }] = useAdminPullUsersTagsMutation({
+ *   variables: {
+ *      users: // value for 'users'
+ *      tags: // value for 'tags'
+ *   },
+ * });
+ */
+export function useAdminPullUsersTagsMutation(baseOptions?: Apollo.MutationHookOptions<AdminPullUsersTagsMutation, AdminPullUsersTagsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AdminPullUsersTagsMutation, AdminPullUsersTagsMutationVariables>(AdminPullUsersTagsDocument, options);
+      }
+export type AdminPullUsersTagsMutationHookResult = ReturnType<typeof useAdminPullUsersTagsMutation>;
+export type AdminPullUsersTagsMutationResult = Apollo.MutationResult<AdminPullUsersTagsMutation>;
+export type AdminPullUsersTagsMutationOptions = Apollo.BaseMutationOptions<AdminPullUsersTagsMutation, AdminPullUsersTagsMutationVariables>;
 export const FindUserToSeatsDocument = gql`
     query FindUserToSeats($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
   list: findUserToSeats(

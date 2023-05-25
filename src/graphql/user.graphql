@@ -44,3 +44,9 @@ mutation AdminPushUsersTags($users: [ID], $tags: [String]) {
     success
   }
 }
+
+mutation AdminPullUsersTags($users: [ID], $tags: [String]) {
+  adminPullUsersTags(users: $users, tags: $tags) {
+    success
+  }
+}

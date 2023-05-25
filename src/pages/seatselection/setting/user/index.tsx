@@ -1,5 +1,4 @@
 import React from 'react';
-import isEmpty from 'lodash/isEmpty';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -8,11 +7,12 @@ import Container from '@mui/material/Container';
 import {
   useFindUsersQuery,
   useAdminPushUsersTagsMutation,
+  useAdminPullUsersTagsMutation,
 } from '@/generated/graphql';
 import Table from '@/components/Table';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
 import Form, { FormRefInstance } from '@/components/Form/v2';
-import columns from './columns';
+import getColumns from './columns';
 import items from './items';
 
 const Retro: React.FunctionComponent = () => {
@@ -21,27 +21,20 @@ const Retro: React.FunctionComponent = () => {
       tags: ['ComTech'],
     },
   });
-  const [update] = useAdminPushUsersTagsMutation();
+  const [pushTag] = useAdminPushUsersTagsMutation();
+  const [pullTag] = useAdminPullUsersTagsMutation();
 
   const modalRef = React.useRef<ModalMethods>(null);
   const formRef = React.useRef<FormRefInstance>(null);
 
   const handleSubmit = async (values: Record<string, unknown>) => {
-    console.log('values', values);
-
-    // console.log('list', list);
-    await update({
+    await pushTag({
       variables: {
         users: values.users.map((i) => i._id),
         tags: values.tags,
       },
     });
     await refetch();
-    // await Promise.all(
-    //   list.map(async (i) => {
-    //     await createUserToRole({ variables: i });
-    //   }),
-    // );
   };
 
   const handelAddUser = () => {
@@ -58,8 +51,24 @@ const Retro: React.FunctionComponent = () => {
     });
   };
 
+  const handleDeleteTag = async (_id, tag) => {
+    await pullTag({
+      variables: {
+        users: [_id],
+        tags: [tag],
+      },
+    });
+    await refetch();
+  };
+
   if (loading) return <div>loading...</div>;
   if (error) return <div>error</div>;
+
+  const columns = getColumns({
+    onDeleteTag: (row, tag) => {
+      handleDeleteTag(row._id, tag);
+    },
+  });
 
   return (
     <Box>

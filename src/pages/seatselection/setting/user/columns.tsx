@@ -2,7 +2,7 @@ import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
-export default [
+export default ({ onDeleteTag }) => [
   {
     key: 'avatarUrl',
     title: 'AvatarUrl',
@@ -17,7 +17,7 @@ export default [
     key: 'tags',
     title: 'Tags',
     dataIndex: 'tags',
-    render: (tags: string[]) => {
+    render: (tags: string[], row) => {
       return (
         <Stack direction="row" spacing={1}>
           {tags.map((tag: string) => {
@@ -26,7 +26,7 @@ export default [
                 key={tag}
                 label={tag}
                 onDelete={() => {
-                  alert('comming soon');
+                  onDeleteTag(row, tag);
                 }}
               />
             );
