@@ -5,6 +5,7 @@ import {
   ComponentType,
   ReactElement,
 } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 import * as yup from 'yup';
 import {
@@ -20,6 +21,7 @@ import Grid from '@mui/material/Grid';
 
 export interface FormRefInstance {
   form: UseFormReturn;
+  submit: () => void;
 }
 
 interface Values {
@@ -29,9 +31,11 @@ interface Values {
 interface Item {
   key: string;
   label?: string;
-  grid: Record<string, unknown>;
+  grid?: Record<string, unknown>;
   component?: ComponentType;
-  render?: (args: any) => ReactElement;
+  render?: (...args: any) => ReactElement;
+  registerOptions?: RegisterOptions;
+  componentProps?: Record<string, unknown>;
 }
 
 interface IFormProps {
@@ -48,10 +52,6 @@ const MessageForm = forwardRef(
       defaultValues,
     });
 
-    useImperativeHandle(ref, () => ({
-      form,
-    }));
-
     const {
       control,
       register,
@@ -59,6 +59,18 @@ const MessageForm = forwardRef(
       formState: { errors },
       reset,
     } = form;
+
+    useImperativeHandle(ref, () => ({
+      form,
+      submit: async () => {
+        if (onSubmit) {
+          await form.handleSubmit(onSubmit)();
+        }
+        if (!isEmpty(form.formState.errors)) {
+          throw new Error('error');
+        }
+      },
+    }));
 
     return (
       <form
@@ -69,7 +81,14 @@ const MessageForm = forwardRef(
       >
         <Grid container spacing={4}>
           {items.map((item) => {
-            const { component, render, key, grid } = item;
+            const {
+              component,
+              render,
+              key,
+              grid,
+              registerOptions,
+              componentProps,
+            } = item;
 
             const Component = component || TextField;
 
@@ -79,9 +98,19 @@ const MessageForm = forwardRef(
             return (
               <Grid key={key} item xs={12} {...grid}>
                 {render ? (
-                  <Controller name={key} control={control} render={render} />
+                  <Controller
+                    name={key}
+                    control={control}
+                    rules={registerOptions}
+                    render={render}
+                  />
                 ) : (
-                  <Component {...register(key)} />
+                  <Component
+                    error={error}
+                    helperText={helperText as string}
+                    {...componentProps}
+                    {...register(key, registerOptions)}
+                  />
                 )}
               </Grid>
             );

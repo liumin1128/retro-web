@@ -103,13 +103,17 @@ const MessageForm = forwardRef(
               ? registerFunction(form)
               : registerOptions;
 
+            const registerProps = register(key, newRegisterOptions);
+            console.log('registerProps');
+            console.log(registerProps);
+
             const componentProps = {
               form,
               key,
               error,
               helperText,
               ...options,
-              ...register(key, newRegisterOptions),
+              ...registerProps,
             };
 
             return (

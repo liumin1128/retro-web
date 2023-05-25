@@ -1,4 +1,5 @@
 import React from 'react';
+import isEmpty from 'lodash/isEmpty';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -8,7 +9,6 @@ import { useFindSeatSelectionUsersQuery } from '@/generated/graphql';
 import Table from '@/components/Table';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
 import Form, { FormRefInstance } from '@/components/Form/v2';
-
 import columns from './columns';
 import items from './items';
 
@@ -20,23 +20,17 @@ const Retro: React.FunctionComponent = () => {
 
   const handleSubmit = async (values: Record<string, unknown>) => {
     console.log('values', values);
-
-    // try {
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
   const handelAddUser = () => {
     modalRef?.current?.open({
       title: 'Add User',
       onConfirm: async () => {
-        const values = await formRef.current?.form.getValues();
-        console.log('values', values);
+        await formRef.current?.submit();
       },
       render: () => (
         <Stack spacing={1} sx={{ py: 2 }}>
-          <Form items={items} ref={formRef} defaultValues={{}} />
+          <Form items={items} ref={formRef} onSubmit={handleSubmit} />
         </Stack>
       ),
     });
@@ -44,8 +38,6 @@ const Retro: React.FunctionComponent = () => {
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>error</div>;
-
-  console.log('getValues:', formRef.current?.form.getValues());
 
   return (
     <Box>
@@ -62,7 +54,7 @@ const Retro: React.FunctionComponent = () => {
               Add User
             </Button>
           </Stack>
-          <Table columns={columns} data={data?.list} />
+          <Table columns={columns} data={data?.list || []} />
         </Stack>
       </Container>
       <Modal ref={modalRef} fullWidth />

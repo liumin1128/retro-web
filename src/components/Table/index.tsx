@@ -40,7 +40,7 @@ interface Column extends TableCellProps {
   title?: string;
   dataIndex?: string;
   render?: (
-    args?: unknown,
+    args?: any,
     row?: Record<string, unknown>,
     index?: number,
   ) => React.ReactNode;
@@ -48,7 +48,7 @@ interface Column extends TableCellProps {
 
 interface Props {
   columns: Column[];
-  data: Record<string, unknown>[];
+  data: any[];
   rowKey?: string;
 }
 
