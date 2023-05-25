@@ -26,6 +26,12 @@ fragment userWithRoleFields on UserWithRole {
   }
 }
 
+query FindRoles {
+  findRoles {
+    ...userRoleFields
+  }
+}
+
 query FindSeatSelectionUsers($limit: Int, $skip: Int, $role: ID, $user: ID) {
   list: findSeatSelectionUsers(
     limit: $limit

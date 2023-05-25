@@ -1075,6 +1075,11 @@ export type UserToRoleFieldsFragment = { __typename?: 'UserToRole', _id: string,
 
 export type UserWithRoleFieldsFragment = { __typename?: 'UserWithRole', _id: string, username?: string | null, nickname?: string | null, avatarUrl?: string | null, roles?: Array<{ __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null } | null> | null };
 
+export type FindRolesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindRolesQuery = { __typename?: 'Query', findRoles?: Array<{ __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null } | null> | null };
+
 export type FindSeatSelectionUsersQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -2347,6 +2352,40 @@ export function useRetroMessageDeletedSubscription(baseOptions?: Apollo.Subscrip
       }
 export type RetroMessageDeletedSubscriptionHookResult = ReturnType<typeof useRetroMessageDeletedSubscription>;
 export type RetroMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageDeletedSubscription>;
+export const FindRolesDocument = gql`
+    query FindRoles {
+  findRoles {
+    ...userRoleFields
+  }
+}
+    ${UserRoleFieldsFragmentDoc}`;
+
+/**
+ * __useFindRolesQuery__
+ *
+ * To run a query within a React component, call `useFindRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindRolesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindRolesQuery(baseOptions?: Apollo.QueryHookOptions<FindRolesQuery, FindRolesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRolesQuery, FindRolesQueryVariables>(FindRolesDocument, options);
+      }
+export function useFindRolesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRolesQuery, FindRolesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRolesQuery, FindRolesQueryVariables>(FindRolesDocument, options);
+        }
+export type FindRolesQueryHookResult = ReturnType<typeof useFindRolesQuery>;
+export type FindRolesLazyQueryHookResult = ReturnType<typeof useFindRolesLazyQuery>;
+export type FindRolesQueryResult = Apollo.QueryResult<FindRolesQuery, FindRolesQueryVariables>;
 export const FindSeatSelectionUsersDocument = gql`
     query FindSeatSelectionUsers($limit: Int, $skip: Int, $role: ID, $user: ID) {
   list: findSeatSelectionUsers(
