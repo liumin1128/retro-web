@@ -582,6 +582,13 @@ export type QueryFindUserToSeatsArgs = {
 };
 
 
+export type QueryFindUsersArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<Scalars['String']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
 export type QueryLoginArgs = {
   input?: InputMaybe<LoginUserInput>;
 };
@@ -1080,7 +1087,11 @@ export type FindSeatSelectionUsersQuery = { __typename?: 'Query', list?: Array<{
 
 export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null };
 
-export type FindUsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindUsersQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+}>;
 
 
 export type FindUsersQuery = { __typename?: 'Query', findUsers?: Array<{ __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null } | null> | null };
@@ -2380,8 +2391,8 @@ export type FindSeatSelectionUsersQueryHookResult = ReturnType<typeof useFindSea
 export type FindSeatSelectionUsersLazyQueryHookResult = ReturnType<typeof useFindSeatSelectionUsersLazyQuery>;
 export type FindSeatSelectionUsersQueryResult = Apollo.QueryResult<FindSeatSelectionUsersQuery, FindSeatSelectionUsersQueryVariables>;
 export const FindUsersDocument = gql`
-    query FindUsers {
-  findUsers {
+    query FindUsers($search: String, $limit: Int, $skip: Int) {
+  findUsers(search: $search, limit: $limit, skip: $skip) {
     ...userFields
   }
 }
@@ -2399,6 +2410,9 @@ export const FindUsersDocument = gql`
  * @example
  * const { data, loading, error } = useFindUsersQuery({
  *   variables: {
+ *      search: // value for 'search'
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
  *   },
  * });
  */

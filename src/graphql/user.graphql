@@ -11,8 +11,8 @@ fragment userFields on User {
   company
 }
 
-query FindUsers {
-  findUsers {
+query FindUsers($search: String, $limit: Int, $skip: Int) {
+  findUsers(search: $search, limit: $limit, skip: $skip) {
     ...userFields
   }
 }
