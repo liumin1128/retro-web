@@ -1,0 +1,47 @@
+fragment scheduleFields on Schedule {
+  _id
+  createdAt
+  date
+  status
+  user {
+    ...userFields
+  }
+}
+
+query FindSchedules($user: ID, $startDate: Float, $endDate: Float) {
+  findSchedules(user: $user, startDate: $startDate, endDate: $endDate) {
+    ...scheduleFields
+  }
+}
+
+mutation CreateSchedule($status: String!, $date: Float!, $user: ID) {
+  schedule: createSchedule(
+    input: { status: $status, date: $date, user: $user }
+  ) {
+    ...scheduleFields
+  }
+}
+
+subscription scheduleCreated {
+  schedule: scheduleCreated {
+    ...scheduleFields
+  }
+}
+
+# mutation DeleteSchedule($seat: ID!, $date: Float!) {
+#   schedule: deleteSchedule(input: { seat: $seat, date: $date }) {
+#     ...scheduleFields
+#   }
+# }
+
+# subscription ScheduleCreated {
+#   schedule: scheduleCreated {
+#     ...scheduleFields
+#   }
+# }
+
+# subscription ScheduleDeleted {
+#   schedule: scheduleDeleted {
+#     ...scheduleFields
+#   }
+# }

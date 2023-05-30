@@ -80,11 +80,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   console.log('errorLink graphQLErrors:', graphQLErrors);
   if (graphQLErrors) {
     graphQLErrors.forEach((i) => {
-      if (i.extensions.code === 'UNAUTHENTICATED') {
+      if (i?.extensions?.code === 'UNAUTHENTICATED') {
         setStorage(PATH_BEFORELOGIN, history.location.pathname);
         history.push('/login');
       }
-      if (i.extensions.code === 'INTERNAL_SERVER_ERROR') {
+      if (i?.extensions?.code === 'INTERNAL_SERVER_ERROR') {
         window?.snackbar?.enqueueSnackbar(i.message, {
           variant: 'error',
         });

@@ -101,6 +101,13 @@ export default [
           },
 
           {
+            path: '/seatselection/schedule',
+            component: '@/pages/seatselection/schedule',
+            title: 'Seat Schedule',
+            exact: true,
+          },
+
+          {
             path: '/seatselection/setting',
             component: '@/pages/seatselection/setting',
             title: 'Seat Setting',

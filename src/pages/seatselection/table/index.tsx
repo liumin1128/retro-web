@@ -10,7 +10,6 @@ import MaterialUISwitch from '@/components/MaterialUISwitch';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
-
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -62,7 +61,6 @@ const Retro: React.FunctionComponent = () => {
                   <ArrowBackIosIcon sx={{ fontSize: 16 }} />
                 </Button>
               </Tooltip>
-
               <Tooltip
                 title="Next Month"
                 disableFocusListener

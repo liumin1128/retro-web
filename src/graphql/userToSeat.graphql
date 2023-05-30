@@ -4,6 +4,7 @@ fragment userToSeatFields on UserToSeat {
   date
   seat {
     _id
+    id
   }
   user {
     ...userFields
@@ -40,6 +41,14 @@ mutation CreateUserToSeat($seat: ID!, $date: Float!) {
 
 mutation DeleteUserToSeat($seat: ID!, $date: Float!) {
   userToSeat: deleteUserToSeat(input: { seat: $seat, date: $date }) {
+    ...userToSeatFields
+  }
+}
+
+mutation ToggleUserToSeat($seat: ID!, $date: Float!, $user: ID!) {
+  userToSeat: toggleUserToSeat(
+    input: { seat: $seat, date: $date, user: $user }
+  ) {
     ...userToSeatFields
   }
 }
