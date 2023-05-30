@@ -1,10 +1,14 @@
+fragment seatFields on Seat {
+  _id
+  id
+}
+
 fragment userToSeatFields on UserToSeat {
   _id
   createdAt
   date
   seat {
-    _id
-    id
+    ...seatFields
   }
   user {
     ...userFields

@@ -1242,6 +1242,8 @@ export type AdminPullUsersTagsMutationVariables = Exact<{
 
 export type AdminPullUsersTagsMutation = { __typename?: 'Mutation', adminPullUsersTags?: { __typename?: 'Result', success?: boolean | null } | null };
 
+export type SeatFieldsFragment = { __typename?: 'Seat', _id: string, id: string };
+
 export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
 
 export type FindUserToSeatsQueryVariables = Exact<{
@@ -1507,20 +1509,26 @@ export const ScheduleFieldsFragmentDoc = gql`
   }
 }
     ${UserFieldsFragmentDoc}`;
+export const SeatFieldsFragmentDoc = gql`
+    fragment seatFields on Seat {
+  _id
+  id
+}
+    `;
 export const UserToSeatFieldsFragmentDoc = gql`
     fragment userToSeatFields on UserToSeat {
   _id
   createdAt
   date
   seat {
-    _id
-    id
+    ...seatFields
   }
   user {
     ...userFields
   }
 }
-    ${UserFieldsFragmentDoc}`;
+    ${SeatFieldsFragmentDoc}
+${UserFieldsFragmentDoc}`;
 export const FindCommentsDocument = gql`
     query FindComments($object: ID!) {
   findComments(object: $object) {
