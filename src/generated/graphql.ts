@@ -259,10 +259,14 @@ export type Mutation = {
   likeRetroMessage?: Maybe<RetroMessage>;
   organizationInviteUser?: Maybe<UserToOrganization>;
   organizationRemoveUser?: Maybe<UserToOrganization>;
+  pullSeatsTags?: Maybe<Result>;
+  pushSeatsTags?: Maybe<Result>;
   register?: Maybe<User>;
   replyComment?: Maybe<Reply>;
+  setSeatsTags?: Maybe<Result>;
   toggleUserToSeat?: Maybe<UserToSeat>;
   updateRetroMessage?: Maybe<RetroMessage>;
+  updateSeat?: Maybe<Result>;
   updateUserInfo?: Maybe<User>;
 };
 
@@ -395,6 +399,18 @@ export type MutationOrganizationRemoveUserArgs = {
 };
 
 
+export type MutationPullSeatsTagsArgs = {
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type MutationPushSeatsTagsArgs = {
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
 export type MutationRegisterArgs = {
   input?: InputMaybe<RegisterUserInput>;
 };
@@ -402,6 +418,12 @@ export type MutationRegisterArgs = {
 
 export type MutationReplyCommentArgs = {
   input?: InputMaybe<ReplyCommentInput>;
+};
+
+
+export type MutationSetSeatsTagsArgs = {
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
@@ -413,6 +435,12 @@ export type MutationToggleUserToSeatArgs = {
 export type MutationUpdateRetroMessageArgs = {
   _id?: InputMaybe<Scalars['ID']>;
   input?: InputMaybe<UpdateRetroMessageInput>;
+};
+
+
+export type MutationUpdateSeatArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+  input?: InputMaybe<UpdateSeatInput>;
 };
 
 
@@ -780,9 +808,12 @@ export type Seat = Document & {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  disabled?: Maybe<Scalars['Boolean']>;
   icon?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
@@ -835,6 +866,16 @@ export type UpdateRetroMessageInput = {
   pictures?: InputMaybe<Array<Scalars['String']>>;
   status?: InputMaybe<RetroMessageStatus>;
   type?: InputMaybe<RetroMessageType>;
+};
+
+export type UpdateSeatInput = {
+  cover?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  disabled?: InputMaybe<Scalars['Boolean']>;
+  icon?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type UpdateUserInfoInput = {
@@ -1242,9 +1283,47 @@ export type AdminPullUsersTagsMutationVariables = Exact<{
 
 export type AdminPullUsersTagsMutation = { __typename?: 'Mutation', adminPullUsersTags?: { __typename?: 'Result', success?: boolean | null } | null };
 
-export type SeatFieldsFragment = { __typename?: 'Seat', _id: string, id: string };
+export type SeatFieldsFragment = { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null };
 
-export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
+export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
+
+export type FindSeatsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindSeatsQuery = { __typename?: 'Query', findSeats?: Array<{ __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null> | null };
+
+export type UpdateSeatMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  disabled?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type UpdateSeatMutation = { __typename?: 'Mutation', updateSeat?: { __typename?: 'Result', success?: boolean | null } | null };
+
+export type SetSeatsTagsMutationVariables = Exact<{
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+}>;
+
+
+export type SetSeatsTagsMutation = { __typename?: 'Mutation', setSeatsTags?: { __typename?: 'Result', success?: boolean | null } | null };
+
+export type PushSeatsTagsMutationVariables = Exact<{
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+}>;
+
+
+export type PushSeatsTagsMutation = { __typename?: 'Mutation', pushSeatsTags?: { __typename?: 'Result', success?: boolean | null } | null };
+
+export type PullSeatsTagsMutationVariables = Exact<{
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+}>;
+
+
+export type PullSeatsTagsMutation = { __typename?: 'Mutation', pullSeatsTags?: { __typename?: 'Result', success?: boolean | null } | null };
 
 export type FindUserToSeatsQueryVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
@@ -1254,14 +1333,14 @@ export type FindUserToSeatsQueryVariables = Exact<{
 }>;
 
 
-export type FindUserToSeatsQuery = { __typename?: 'Query', list?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null> | null };
+export type FindUserToSeatsQuery = { __typename?: 'Query', list?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null> | null };
 
 export type FindUserToSeatQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
 
-export type FindUserToSeatQuery = { __typename?: 'Query', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type FindUserToSeatQuery = { __typename?: 'Query', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type CreateUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1269,7 +1348,7 @@ export type CreateUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type CreateUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type DeleteUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1277,7 +1356,7 @@ export type DeleteUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type DeleteUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type ToggleUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1286,17 +1365,17 @@ export type ToggleUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type ToggleUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type ToggleUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type UserToSeatCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type UserToSeatDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserToSeatDeletedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type UserToSeatDeletedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export const CommentFieldsFragmentDoc = gql`
     fragment commentFields on Comment {
@@ -1513,6 +1592,8 @@ export const SeatFieldsFragmentDoc = gql`
     fragment seatFields on Seat {
   _id
   id
+  tags
+  disabled
 }
     `;
 export const UserToSeatFieldsFragmentDoc = gql`
@@ -2928,6 +3009,177 @@ export function useAdminPullUsersTagsMutation(baseOptions?: Apollo.MutationHookO
 export type AdminPullUsersTagsMutationHookResult = ReturnType<typeof useAdminPullUsersTagsMutation>;
 export type AdminPullUsersTagsMutationResult = Apollo.MutationResult<AdminPullUsersTagsMutation>;
 export type AdminPullUsersTagsMutationOptions = Apollo.BaseMutationOptions<AdminPullUsersTagsMutation, AdminPullUsersTagsMutationVariables>;
+export const FindSeatsDocument = gql`
+    query FindSeats {
+  findSeats {
+    ...seatFields
+  }
+}
+    ${SeatFieldsFragmentDoc}`;
+
+/**
+ * __useFindSeatsQuery__
+ *
+ * To run a query within a React component, call `useFindSeatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindSeatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindSeatsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindSeatsQuery(baseOptions?: Apollo.QueryHookOptions<FindSeatsQuery, FindSeatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindSeatsQuery, FindSeatsQueryVariables>(FindSeatsDocument, options);
+      }
+export function useFindSeatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindSeatsQuery, FindSeatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindSeatsQuery, FindSeatsQueryVariables>(FindSeatsDocument, options);
+        }
+export type FindSeatsQueryHookResult = ReturnType<typeof useFindSeatsQuery>;
+export type FindSeatsLazyQueryHookResult = ReturnType<typeof useFindSeatsLazyQuery>;
+export type FindSeatsQueryResult = Apollo.QueryResult<FindSeatsQuery, FindSeatsQueryVariables>;
+export const UpdateSeatDocument = gql`
+    mutation updateSeat($id: ID, $tags: [String], $disabled: Boolean) {
+  updateSeat(id: $id, input: {tags: $tags, disabled: $disabled}) {
+    success
+  }
+}
+    `;
+export type UpdateSeatMutationFn = Apollo.MutationFunction<UpdateSeatMutation, UpdateSeatMutationVariables>;
+
+/**
+ * __useUpdateSeatMutation__
+ *
+ * To run a mutation, you first call `useUpdateSeatMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSeatMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSeatMutation, { data, loading, error }] = useUpdateSeatMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      tags: // value for 'tags'
+ *      disabled: // value for 'disabled'
+ *   },
+ * });
+ */
+export function useUpdateSeatMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSeatMutation, UpdateSeatMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSeatMutation, UpdateSeatMutationVariables>(UpdateSeatDocument, options);
+      }
+export type UpdateSeatMutationHookResult = ReturnType<typeof useUpdateSeatMutation>;
+export type UpdateSeatMutationResult = Apollo.MutationResult<UpdateSeatMutation>;
+export type UpdateSeatMutationOptions = Apollo.BaseMutationOptions<UpdateSeatMutation, UpdateSeatMutationVariables>;
+export const SetSeatsTagsDocument = gql`
+    mutation setSeatsTags($ids: [ID], $tags: [String]) {
+  setSeatsTags(ids: $ids, tags: $tags) {
+    success
+  }
+}
+    `;
+export type SetSeatsTagsMutationFn = Apollo.MutationFunction<SetSeatsTagsMutation, SetSeatsTagsMutationVariables>;
+
+/**
+ * __useSetSeatsTagsMutation__
+ *
+ * To run a mutation, you first call `useSetSeatsTagsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetSeatsTagsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setSeatsTagsMutation, { data, loading, error }] = useSetSeatsTagsMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *      tags: // value for 'tags'
+ *   },
+ * });
+ */
+export function useSetSeatsTagsMutation(baseOptions?: Apollo.MutationHookOptions<SetSeatsTagsMutation, SetSeatsTagsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetSeatsTagsMutation, SetSeatsTagsMutationVariables>(SetSeatsTagsDocument, options);
+      }
+export type SetSeatsTagsMutationHookResult = ReturnType<typeof useSetSeatsTagsMutation>;
+export type SetSeatsTagsMutationResult = Apollo.MutationResult<SetSeatsTagsMutation>;
+export type SetSeatsTagsMutationOptions = Apollo.BaseMutationOptions<SetSeatsTagsMutation, SetSeatsTagsMutationVariables>;
+export const PushSeatsTagsDocument = gql`
+    mutation pushSeatsTags($ids: [ID], $tags: [String]) {
+  pushSeatsTags(ids: $ids, tags: $tags) {
+    success
+  }
+}
+    `;
+export type PushSeatsTagsMutationFn = Apollo.MutationFunction<PushSeatsTagsMutation, PushSeatsTagsMutationVariables>;
+
+/**
+ * __usePushSeatsTagsMutation__
+ *
+ * To run a mutation, you first call `usePushSeatsTagsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePushSeatsTagsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [pushSeatsTagsMutation, { data, loading, error }] = usePushSeatsTagsMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *      tags: // value for 'tags'
+ *   },
+ * });
+ */
+export function usePushSeatsTagsMutation(baseOptions?: Apollo.MutationHookOptions<PushSeatsTagsMutation, PushSeatsTagsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PushSeatsTagsMutation, PushSeatsTagsMutationVariables>(PushSeatsTagsDocument, options);
+      }
+export type PushSeatsTagsMutationHookResult = ReturnType<typeof usePushSeatsTagsMutation>;
+export type PushSeatsTagsMutationResult = Apollo.MutationResult<PushSeatsTagsMutation>;
+export type PushSeatsTagsMutationOptions = Apollo.BaseMutationOptions<PushSeatsTagsMutation, PushSeatsTagsMutationVariables>;
+export const PullSeatsTagsDocument = gql`
+    mutation pullSeatsTags($ids: [ID], $tags: [String]) {
+  pullSeatsTags(ids: $ids, tags: $tags) {
+    success
+  }
+}
+    `;
+export type PullSeatsTagsMutationFn = Apollo.MutationFunction<PullSeatsTagsMutation, PullSeatsTagsMutationVariables>;
+
+/**
+ * __usePullSeatsTagsMutation__
+ *
+ * To run a mutation, you first call `usePullSeatsTagsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePullSeatsTagsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [pullSeatsTagsMutation, { data, loading, error }] = usePullSeatsTagsMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *      tags: // value for 'tags'
+ *   },
+ * });
+ */
+export function usePullSeatsTagsMutation(baseOptions?: Apollo.MutationHookOptions<PullSeatsTagsMutation, PullSeatsTagsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PullSeatsTagsMutation, PullSeatsTagsMutationVariables>(PullSeatsTagsDocument, options);
+      }
+export type PullSeatsTagsMutationHookResult = ReturnType<typeof usePullSeatsTagsMutation>;
+export type PullSeatsTagsMutationResult = Apollo.MutationResult<PullSeatsTagsMutation>;
+export type PullSeatsTagsMutationOptions = Apollo.BaseMutationOptions<PullSeatsTagsMutation, PullSeatsTagsMutationVariables>;
 export const FindUserToSeatsDocument = gql`
     query FindUserToSeats($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
   list: findUserToSeats(

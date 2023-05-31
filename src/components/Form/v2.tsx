@@ -25,7 +25,7 @@ export interface FormRefInstance {
 }
 
 interface Values {
-  [key: string]: string;
+  [key: string]: unknown;
 }
 
 interface Item {

@@ -1,6 +1,8 @@
 fragment seatFields on Seat {
   _id
   id
+  tags
+  disabled
 }
 
 fragment userToSeatFields on UserToSeat {
@@ -12,6 +14,36 @@ fragment userToSeatFields on UserToSeat {
   }
   user {
     ...userFields
+  }
+}
+
+query FindSeats {
+  findSeats {
+    ...seatFields
+  }
+}
+
+mutation updateSeat($id: ID, $tags: [String], $disabled: Boolean) {
+  updateSeat(id: $id, input: { tags: $tags, disabled: $disabled }) {
+    success
+  }
+}
+
+mutation setSeatsTags($ids: [ID], $tags: [String]) {
+  setSeatsTags(ids: $ids, tags: $tags) {
+    success
+  }
+}
+
+mutation pushSeatsTags($ids: [ID], $tags: [String]) {
+  pushSeatsTags(ids: $ids, tags: $tags) {
+    success
+  }
+}
+
+mutation pullSeatsTags($ids: [ID], $tags: [String]) {
+  pullSeatsTags(ids: $ids, tags: $tags) {
+    success
   }
 }
 

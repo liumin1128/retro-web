@@ -16,9 +16,9 @@ import Tab from '@mui/material/Tab';
 import { useFindUserInfoQuery } from '@/generated/graphql';
 
 const TABS = [
-  { title: 'Optional Date', pathname: '/seatselection/setting/date' },
-  { title: 'Seat permissions', pathname: '/seatselection/setting/seat' },
   { title: 'User permissions', pathname: '/seatselection/setting/user' },
+  { title: 'Seat permissions', pathname: '/seatselection/setting/seat' },
+  { title: 'Optional Date', pathname: '/seatselection/setting/date' },
 ];
 
 function a11yProps(index: number) {
