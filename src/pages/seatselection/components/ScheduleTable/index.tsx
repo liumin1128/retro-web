@@ -6,7 +6,6 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -17,26 +16,10 @@ import {
   useFindUserInfoQuery,
   SeatFieldsFragment,
 } from '@/generated/graphql';
-import { statusColorMap, workDayColorMap } from './statusList';
 import SeatList from './components/SeatList';
 import StatusList from './components/StatusList';
+import StyledTableCell from './components/StyledTableCell';
 import useSchedule from './hooks/useSchedule';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    height: 64,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    fontweight: 'bold',
-    borderRight: '1px #f5f5f5 solid',
-  },
-  minWidth: 64,
-  padding: '4px 8px',
-  cursor: 'pointer',
-}));
 
 const StyledTableRow = styled(TableRow)(() => ({}));
 
@@ -207,22 +190,10 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                     let text = info.seat?.id || info.status;
                     if (text === 'Office') text = '';
 
-                    let style = {
-                      backgroundColor: workDayColorMap[day.day()],
-                      color: '#333',
-                    };
-
-                    if (info?.status && info?.status !== 'Office') {
-                      style = {
-                        backgroundColor: statusColorMap[info.status as string],
-                        color: 'white',
-                      };
-                    }
-
-                    if (info?.seat?.id) {
-                      style = {
-                        backgroundColor: 'green',
-                        color: 'white',
+                    let onClick;
+                    if (isAdmin || isMe) {
+                      onClick = () => {
+                        handleClickCell(day, row);
                       };
                     }
 
@@ -230,14 +201,10 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                       <StyledTableCell
                         key={day.format('D')}
                         align="center"
-                        onClick={
-                          isAdmin || isMe
-                            ? () => {
-                                handleClickCell(day, row);
-                              }
-                            : undefined
-                        }
-                        sx={style}
+                        onClick={onClick}
+                        status={info?.status}
+                        workingDay={day.day() !== 0 && day.day() !== 6}
+                        hasSeat={!!info?.seat?.id}
                       >
                         {text}
                       </StyledTableCell>
@@ -249,7 +216,6 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
           </TableBody>
         </Table>
       </TableContainer>
-
       <Modal ref={modalRef} showCancel={false} showConfirm={false} />
     </>
   );

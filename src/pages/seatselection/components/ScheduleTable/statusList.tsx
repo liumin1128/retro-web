@@ -12,13 +12,13 @@ export const statusColorMap = {
 } as Record<string, string>;
 
 export const workDayColorMap = {
-  0: '#f9f9f9',
-  1: '#ffffff',
-  2: '#ffffff',
-  3: '#ffffff',
-  4: '#ffffff',
-  5: '#ffffff',
-  6: '#f9f9f9',
+  0: 'rgba(0,0,0,0.2)',
+  // 1: '#ffffff',
+  // 2: '#ffffff',
+  // 3: '#ffffff',
+  // 4: '#ffffff',
+  // 5: '#ffffff',
+  6: 'rgba(0,0,0,0.2)',
 } as Record<string, string>;
 
 export default [
