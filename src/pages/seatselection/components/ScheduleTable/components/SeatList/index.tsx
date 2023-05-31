@@ -11,6 +11,16 @@ import {
   useUserToSeatCreatedSubscription,
   useFindSeatsQuery,
 } from '@/generated/graphql';
+import dayjs from 'dayjs';
+
+function isArrayContained(a = [], b = []) {
+  for (let i = 0; i < b.length; i += 1) {
+    if (a.indexOf(b[i]) === -1) {
+      return false;
+    }
+  }
+  return true;
+}
 
 interface Props {
   date: number;
@@ -55,7 +65,7 @@ export default function SeatList(props: Props) {
                   <Stack key={seats.key}>
                     <ButtonGroup size="small">
                       {seats.seats.map((seat) => {
-                        const curSeat = seatsRes.data?.findSeats?.find(
+                        const currentSeat = seatsRes.data?.findSeats?.find(
                           (i) => i._id === seat._id,
                         );
 
@@ -73,7 +83,23 @@ export default function SeatList(props: Props) {
                           title = itemUser?.nickname as string;
                         }
 
-                        if (curSeat?.disabled) {
+                        const tagsMatched = isArrayContained(
+                          currentUser?.tags as string[],
+                          currentSeat?.tags as string[],
+                        );
+
+                        const timeOk = dayjs().isAfter(
+                          dayjs(date)
+                            .startOf('months')
+                            .subtract(tagsMatched ? 10 : 5, 'day'),
+                        );
+
+                        if (!timeOk) {
+                          disabled = true;
+                          title = 'out of time range';
+                        }
+
+                        if (currentSeat?.disabled) {
                           disabled = true;
                           title = 'disabled';
                         }
