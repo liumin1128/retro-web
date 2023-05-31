@@ -2,13 +2,14 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import list from '@/pages/seatselection/components/SeatList/seatData';
 import {
   useFindUserToSeatsQuery,
   UserFieldsFragment,
-  // useToggleUserToSeatMutation,
   useUserToSeatDeletedSubscription,
   useUserToSeatCreatedSubscription,
+  useFindSeatsQuery,
 } from '@/generated/graphql';
 
 interface Props {
@@ -25,7 +26,7 @@ export default function SeatList(props: Props) {
     variables: { startDate: date },
   });
 
-  // const [toggleUserToSeat] = useToggleUserToSeatMutation();
+  const seatsRes = useFindSeatsQuery();
 
   useUserToSeatDeletedSubscription({
     onSubscriptionData: () => {
@@ -54,6 +55,10 @@ export default function SeatList(props: Props) {
                   <Stack key={seats.key}>
                     <ButtonGroup size="small">
                       {seats.seats.map((seat) => {
+                        const curSeat = seatsRes.data?.findSeats?.find(
+                          (i) => i._id === seat._id,
+                        );
+
                         const itemUser = data?.list?.find(
                           (k) => k?.seat?._id === seat._id,
                         )?.user;
@@ -61,37 +66,47 @@ export default function SeatList(props: Props) {
                         const currentSelect =
                           itemUser?._id === currentUser?._id;
 
-                        const hasAuth = currentSelect || isAdmin;
-
+                        let title = '';
                         let disabled = false;
-                        if (itemUser) {
+                        if (itemUser && itemUser?._id !== currentUser?._id) {
                           disabled = true;
-                          if (currentUser && hasAuth) {
-                            disabled = false;
-                          }
+                          title = itemUser?.nickname as string;
+                        }
+
+                        if (curSeat?.disabled) {
+                          disabled = true;
+                          title = 'disabled';
                         }
 
                         const variant = currentSelect ? 'contained' : undefined;
 
                         return (
-                          <Button
+                          <Tooltip
+                            placement="top"
+                            title={title}
+                            arrow
                             key={seat._id}
-                            variant={variant}
-                            disabled={disabled}
-                            onClick={() => {
-                              handleClick(currentUser?._id, seat._id);
-                            }}
-                            sx={{ width: '60px', borderRadius: '0px' }}
                           >
-                            {itemUser ? (
-                              <Avatar
-                                src={itemUser.avatarUrl as string}
-                                sx={{ height: 22, width: 22 }}
-                              />
-                            ) : (
-                              seat.id
-                            )}
-                          </Button>
+                            <div>
+                              <Button
+                                variant={variant}
+                                disabled={disabled}
+                                onClick={() => {
+                                  handleClick(currentUser?._id, seat._id);
+                                }}
+                                sx={{ width: '60px', borderRadius: '0px' }}
+                              >
+                                {itemUser ? (
+                                  <Avatar
+                                    src={itemUser.avatarUrl as string}
+                                    sx={{ height: 22, width: 22 }}
+                                  />
+                                ) : (
+                                  seat.id
+                                )}
+                              </Button>
+                            </div>
+                          </Tooltip>
                         );
                       })}
                     </ButtonGroup>
