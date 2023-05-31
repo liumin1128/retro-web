@@ -89,7 +89,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table
           stickyHeader
           sx={{ minWidth: 700 }}
