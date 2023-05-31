@@ -101,7 +101,7 @@ export default ({ startDate, endDate }: Props) => {
     (userRes.data?.findUsers?.map((i) => {
       // eslint-disable-next-line
       // @ts-ignore
-      const obj: RowItem = i;
+      const obj: RowItem = { ...i };
       // eslint-disable-next-line array-callback-return
       days.map((day) => {
         const temp: Info = {};
