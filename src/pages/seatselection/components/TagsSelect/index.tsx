@@ -1,16 +1,15 @@
 import React from 'react';
-import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
 import get from 'lodash/get';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import FormHelperText from '@mui/material/FormHelperText';
+import { MuiChipsInput } from 'mui-chips-input';
+import Button from '@mui/material/Button';
 
 const list = [
   { label: 'ComTech', value: 'ComTech' },
   { label: 'SeatSelectionAdmin', value: 'SeatSelectionAdmin' },
-  { label: 'Room1', value: 'Room1' },
-  { label: 'Room2', value: 'Room2' },
 ];
 
 export default React.forwardRef((props, ref) => {
@@ -21,38 +20,38 @@ export default React.forwardRef((props, ref) => {
   const error = !!get(errors, name, '');
   const helperText = get(errors, `${name}.message`, '');
 
+  const [chips, setChips] = React.useState<string[]>([]);
+
+  const handleChange = (newChips: string[]) => {
+    setChips(newChips);
+    onChange(newChips);
+  };
+
+  const addChips = (str: string) => () => {
+    setChips([...chips, str]);
+    onChange([...chips, str]);
+  };
+
   return (
     <FormControl fullWidth>
-      <InputLabel id={name}>Select Tags</InputLabel>
-      <Select
-        id={name}
-        placeholder="Select Tags"
-        multiple
-        fullWidth
-        ref={ref}
-        name={name}
-        value={value || []}
-        onChange={(e, v) => {
-          onChange(e);
-        }}
-        error={error}
-      >
-        {list?.map((i) => {
-          return (
-            <MenuItem key={i?.value} value={i?.value}>
-              {i?.label}
-            </MenuItem>
-          );
-        })}
-      </Select>
-      {error ? (
-        <FormHelperText error>{helperText}</FormHelperText>
-      ) : (
-        <FormHelperText>
-          At least "ComTech" tag is required to appear in the seat selection
-          list
-        </FormHelperText>
-      )}
+      <Stack spacing={1}>
+        <MuiChipsInput
+          placeholder="Tags: Type and press enter"
+          value={chips}
+          onChange={handleChange}
+          error={error}
+          helperText={helperText}
+        />
+        <Stack direction="row" spacing={2}>
+          {list.map((i) => {
+            return (
+              <Button key={i.value} size="small" onClick={addChips(i.value)}>
+                {i.label}
+              </Button>
+            );
+          })}
+        </Stack>
+      </Stack>
     </FormControl>
   );
 });

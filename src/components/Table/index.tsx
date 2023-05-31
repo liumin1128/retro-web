@@ -15,8 +15,7 @@ import Paper from '@mui/material/Paper';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.grey[200],
-
+    // backgroundColor: theme.palette.grey[200],
     // backgroundColor: theme.palette.common.black,
     // color: theme.palette.common.white,
   },
@@ -61,12 +60,9 @@ export default function CustomizedTables(props: Props) {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            {columns.map((column, index) => {
+            {columns.map((column) => {
               return (
-                <StyledTableCell
-                  // align={index !== 0 ? 'right' : undefined}
-                  {...omit(column, ['dataIndex', 'render'])}
-                >
+                <StyledTableCell {...omit(column, ['dataIndex', 'render'])}>
                   {column.title || column.key}
                 </StyledTableCell>
               );
@@ -79,10 +75,7 @@ export default function CustomizedTables(props: Props) {
               {columns.map((column, index) => {
                 const dataIndex = column.dataIndex || column.key;
                 return (
-                  <StyledTableCell
-                    // align={index !== 0 ? 'right' : undefined}
-                    {...omit(column, ['dataIndex', 'render'])}
-                  >
+                  <StyledTableCell {...omit(column, ['dataIndex', 'render'])}>
                     {column.render
                       ? column.render(get(row, dataIndex, ''), row, index)
                       : (get(row, dataIndex, '') as string)}

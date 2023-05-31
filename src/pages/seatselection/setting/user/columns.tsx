@@ -1,5 +1,6 @@
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 
 export default ({ onDeleteTag }) => [
@@ -11,8 +12,19 @@ export default ({ onDeleteTag }) => [
       return <Avatar src={i as string} />;
     },
   },
-  { key: 'nickname', title: 'Nickname', dataIndex: 'nickname' },
-  { key: 'username', title: 'Username', dataIndex: 'username' },
+  {
+    key: 'nickname',
+    title: 'Nickname',
+    dataIndex: 'nickname',
+    render: (_, row) => {
+      return (
+        <Stack>
+          <Typography>{row?.nickname}</Typography>
+          <Typography variant="caption">{row?.username}</Typography>
+        </Stack>
+      );
+    },
+  },
   {
     key: 'tags',
     title: 'Tags',
