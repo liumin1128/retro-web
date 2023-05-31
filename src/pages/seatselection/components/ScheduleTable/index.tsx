@@ -21,8 +21,6 @@ import StatusList from './components/StatusList';
 import StyledTableCell from './components/StyledTableCell';
 import useSchedule from './hooks/useSchedule';
 
-const StyledTableRow = styled(TableRow)(() => ({}));
-
 interface Props {
   startDate: number;
   endDate: number;
@@ -161,14 +159,16 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
               const officeDays = days.length - wfhDays - alDays;
 
               return (
-                <StyledTableRow key={row?._id as string}>
+                <TableRow key={row?._id as string}>
                   <StyledTableCell align="left" component="th" scope="row">
                     <Stack direction="row" spacing={1}>
                       <Avatar
                         sx={{ width: 20, height: 20 }}
                         src={row?.avatarUrl as string}
                       />
-                      <Typography>{row?.nickname}</Typography>
+                      <Typography sx={{ whiteSpace: 'nowrap' }}>
+                        {row?.nickname}
+                      </Typography>
                     </Stack>
                   </StyledTableCell>
 
@@ -210,7 +210,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                       </StyledTableCell>
                     );
                   })}
-                </StyledTableRow>
+                </TableRow>
               );
             })}
           </TableBody>
