@@ -40,6 +40,12 @@ const Retro: React.FunctionComponent = () => {
     data?.findUserInfo?.tags?.findIndex((i) => i === 'SeatSelectionAdmin') !==
     -1;
 
+  let navValue = TABS.findIndex((i) => i.pathname === location.pathname);
+
+  if (navValue === -1) {
+    navValue = 0;
+  }
+
   if (!hasAuth) {
     return <Navigate to="/403" />;
   }
@@ -63,7 +69,7 @@ const Retro: React.FunctionComponent = () => {
               orientation="vertical"
               // orientation={isUpMd ? 'vertical' : 'horizontal'}
               variant="scrollable"
-              value={TABS.findIndex((i) => i.pathname === location.pathname)}
+              value={navValue}
               onChange={(_, idx) => {
                 history.push(TABS[idx].pathname);
               }}

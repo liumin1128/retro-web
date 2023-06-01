@@ -6,7 +6,7 @@ import { useFindUserInfoQuery } from '@/generated/graphql';
 
 const TABS = [
   { title: 'Schedule', pathname: '/seatselection/schedule' },
-  { title: 'Seat Table', pathname: '/seatselection/table' },
+  // { title: 'Seat Table', pathname: '/seatselection/table' },
   // { title: 'Setting', pathname: '/seatselection/setting' },
 ];
 
@@ -24,7 +24,7 @@ export default function ScrollableTabsButtonAuto() {
   if (hasAuth) {
     list = [
       { title: 'Schedule', pathname: '/seatselection/schedule' },
-      { title: 'Seat Table', pathname: '/seatselection/table' },
+      // { title: 'Seat Table', pathname: '/seatselection/table' },
       { title: 'Setting', pathname: '/seatselection/setting' },
     ];
   }
