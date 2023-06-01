@@ -14,6 +14,7 @@ import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useFindUserInfoQuery } from '@/generated/graphql';
+import NavTabs from '../components/NavTabs';
 
 const TABS = [
   { title: 'User permissions', pathname: '/seatselection/setting/user' },
@@ -47,9 +48,9 @@ const Retro: React.FunctionComponent = () => {
     <Box>
       <AppBar color="default" position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {/* Seat Selection */}
-          </Typography>
+          <Stack sx={{ flexGrow: 1 }}>
+            <NavTabs />
+          </Stack>
           <MaterialUISwitch />
           <UserAvatar />
         </Toolbar>

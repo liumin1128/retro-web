@@ -13,6 +13,9 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import NavTabs from '../components/NavTabs';
+import UserAvatar from '@/container/UserInfo/Avatar';
+
 import Table from './components/Table';
 
 const Retro: React.FunctionComponent = () => {
@@ -29,10 +32,11 @@ const Retro: React.FunctionComponent = () => {
     <Box>
       <AppBar color="default" position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Seat Selection
-          </Typography>
+          <Stack sx={{ flexGrow: 1 }}>
+            <NavTabs />
+          </Stack>
           <MaterialUISwitch />
+          <UserAvatar />
         </Toolbar>
       </AppBar>
       <Container sx={{ mt: 3 }}>

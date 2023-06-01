@@ -8,9 +8,9 @@ import AppBar from '@mui/material/AppBar';
 import Stack from '@mui/material/Stack';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
 import UserAvatar from '@/container/UserInfo/Avatar';
-
 import Table from '../components/ScheduleTable';
 import MonthSelect from '../components/MonthSelect';
+import NavTabs from '../components/NavTabs';
 
 const Retro: React.FunctionComponent = () => {
   const [date, setDate] = useState<Dayjs>(dayjs().startOf('day'));
@@ -26,9 +26,9 @@ const Retro: React.FunctionComponent = () => {
     <Box>
       <AppBar color="default" position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Seat Selection
-          </Typography>
+          <Stack sx={{ flexGrow: 1 }}>
+            <NavTabs />
+          </Stack>
           <MaterialUISwitch />
           <UserAvatar />
         </Toolbar>

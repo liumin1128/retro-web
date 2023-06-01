@@ -135,7 +135,7 @@ export default [
 
               {
                 path: '/seatselection/setting',
-                redirect: '/seatselection/setting/date',
+                redirect: '/seatselection/setting/user',
               },
             ],
           },
