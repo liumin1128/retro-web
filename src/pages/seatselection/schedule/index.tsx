@@ -7,6 +7,8 @@ import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import Stack from '@mui/material/Stack';
 import MaterialUISwitch from '@/components/MaterialUISwitch';
+import UserAvatar from '@/container/UserInfo/Avatar';
+
 import Table from '../components/ScheduleTable';
 import MonthSelect from '../components/MonthSelect';
 
@@ -28,6 +30,7 @@ const Retro: React.FunctionComponent = () => {
             Seat Selection
           </Typography>
           <MaterialUISwitch />
+          <UserAvatar />
         </Toolbar>
       </AppBar>
       <Container sx={{ mt: 3 }}>

@@ -78,10 +78,6 @@ export default function SeatList(props: Props) {
 
                         let title = '';
                         let disabled = false;
-                        if (itemUser && itemUser?._id !== currentUser?._id) {
-                          disabled = true;
-                          title = itemUser?.nickname as string;
-                        }
 
                         const tagsMatched = isArrayContained(
                           currentUser?.tags as string[],
@@ -97,6 +93,11 @@ export default function SeatList(props: Props) {
                         if (!timeOk) {
                           disabled = true;
                           title = 'out of time range';
+                        }
+
+                        if (itemUser && itemUser?._id !== currentUser?._id) {
+                          disabled = true;
+                          title = itemUser?.nickname as string;
                         }
 
                         if (currentSeat?.disabled) {
