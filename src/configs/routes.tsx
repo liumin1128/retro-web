@@ -86,12 +86,12 @@ export default [
         path: '/seatselection',
         component: '@/wrappers/auth/SeatSelection',
         routes: [
-          {
-            path: '/seatselection',
-            component: '@/pages/seatselection',
-            title: 'Seat List',
-            exact: true,
-          },
+          // {
+          //   path: '/seatselection',
+          //   component: '@/pages/seatselection/schedule',
+          //   title: 'Seat List',
+          //   exact: true,
+          // },
 
           {
             path: '/seatselection/table',
@@ -138,6 +138,11 @@ export default [
                 redirect: '/seatselection/setting/user',
               },
             ],
+          },
+
+          {
+            path: '/seatselection',
+            redirect: '/seatselection/schedule',
           },
         ],
       },
