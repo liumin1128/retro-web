@@ -115,7 +115,6 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                   {dayjs(startDate).format('YYYY')}
                 </Typography>
               </StyledTableCell>
-              <StyledTableCell align="center">Office</StyledTableCell>
               <StyledTableCell align="center">WFH</StyledTableCell>
               <StyledTableCell align="center">AL</StyledTableCell>
               {days.map((day) => {
@@ -156,7 +155,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                 if (obj?.status === 'PM') alDays += 0.5;
                 if (obj?.status === 'MC') alDays += 1;
               });
-              const officeDays = days.length - wfhDays - alDays;
+              // const officeDays = days.length - wfhDays - alDays;
 
               return (
                 <TableRow key={row?._id as string}>
@@ -172,9 +171,9 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                     </Stack>
                   </StyledTableCell>
 
-                  <StyledTableCell align="center" component="th" scope="row">
+                  {/* <StyledTableCell align="center" component="th" scope="row">
                     {officeDays}
-                  </StyledTableCell>
+                  </StyledTableCell> */}
 
                   <StyledTableCell align="center" component="th" scope="row">
                     {wfhDays}
