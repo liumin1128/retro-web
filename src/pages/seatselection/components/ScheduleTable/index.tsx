@@ -1,38 +1,23 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import ConfigProvider from 'antd/es/config-provider';
+import AntdTable from 'antd/es/table/Table';
+import { ColumnsType } from 'antd/es/table';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
-import {
-  UserFieldsFragment,
-  useFindUserInfoQuery,
-  SeatFieldsFragment,
-} from '@/generated/graphql';
+import { UserFieldsFragment, useFindUserInfoQuery } from '@/generated/graphql';
 import SeatList from './components/SeatList';
 import StatusList from './components/StatusList';
 import StyledTableCell from './components/StyledTableCell';
-import useSchedule from './hooks/useSchedule';
+import useSchedule, { Info, RowItem } from './hooks/useSchedule';
+import styles from './index.less';
 
 interface Props {
   startDate: number;
   endDate: number;
-}
-
-interface Info {
-  status?: string;
-  seat?: SeatFieldsFragment;
-}
-
-interface RowItem extends UserFieldsFragment {
-  [key: string]: unknown;
 }
 
 export default function CustomizedTables({ startDate, endDate }: Props) {
@@ -87,134 +72,156 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
 
   console.log('rows', rows);
 
+  const columns: ColumnsType<UserFieldsFragment> = [
+    {
+      key: 'nickname',
+      fixed: 'left',
+      width: 128,
+      align: 'center' as any,
+      // eslint-disable-next-line react/no-unstable-nested-components
+      title: () => {
+        return (
+          <Stack sx={{ p: 1 }}>
+            <Typography
+              sx={{
+                fontSize: 20,
+                fontweight: 'bold',
+              }}
+            >
+              {dayjs(startDate).format('MMM YYYY')}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 12,
+                fontStyle: 'italic',
+              }}
+            >
+              Nickname
+            </Typography>
+          </Stack>
+        );
+      },
+      render: (_, row: UserFieldsFragment) => {
+        return (
+          <Stack direction="row" spacing={1} sx={{ px: 1 }}>
+            <Avatar
+              sx={{ width: 20, height: 20 }}
+              src={row?.avatarUrl as string}
+            />
+            <Typography
+              sx={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '100%',
+              }}
+            >
+              {row?.nickname}
+            </Typography>
+          </Stack>
+        );
+      },
+    },
+    {
+      key: 'wfhDays',
+      dataIndex: 'wfhDays',
+      title: 'WFH',
+      width: 64,
+      align: 'center' as any,
+    },
+    {
+      key: 'alDays',
+      title: 'AL',
+      dataIndex: 'alDays',
+      width: 64,
+      align: 'center' as any,
+    },
+    ...days.map((day) => {
+      const key = day.format('D');
+      return {
+        key,
+        // eslint-disable-next-line react/no-unstable-nested-components
+        title: () => {
+          return (
+            <Stack>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  fontStyle: 'italic',
+                }}
+              >
+                {day.format('ddd')}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: 20,
+                  fontweight: 'bold',
+                }}
+              >
+                {day.format('DD')}
+              </Typography>
+            </Stack>
+          );
+        },
+        dataIndex: key,
+        width: 64,
+        align: 'center' as any,
+        render: (info: Info, row: RowItem) => {
+          let text = info.seat?.id || info.status;
+          if (text === 'Office') text = '';
+
+          let onClick;
+          if (isAdmin || row.isMe) {
+            onClick = () => {
+              handleClickCell(day, row);
+            };
+          }
+
+          return (
+            <StyledTableCell
+              key={key}
+              onClick={onClick}
+              status={info?.status}
+              workingDay={info?.workingDay}
+              hasSeat={!!info?.seat?.id}
+            >
+              {text}
+            </StyledTableCell>
+          );
+        },
+      };
+    }),
+  ];
+
   return (
     <>
       <TableContainer>
-        <Table
-          stickyHeader
-          sx={{ minWidth: 700 }}
-          aria-label="customized table"
-        >
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center" sx={{ width: 48 }}>
-                <Typography
-                  sx={{
-                    fontSize: 20,
-                    fontweight: 'bold',
-                  }}
-                >
-                  {dayjs(startDate).format('MMM')}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 12,
-                    fontStyle: 'italic',
-                  }}
-                >
-                  {dayjs(startDate).format('YYYY')}
-                </Typography>
-              </StyledTableCell>
-              <StyledTableCell align="center">WFH</StyledTableCell>
-              <StyledTableCell align="center">AL</StyledTableCell>
-              {days.map((day) => {
-                return (
-                  <StyledTableCell align="center" key={day.unix()}>
-                    <Typography
-                      sx={{
-                        fontSize: 12,
-                        fontStyle: 'italic',
-                      }}
-                    >
-                      {day.format('ddd')}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 20,
-                        fontweight: 'bold',
-                      }}
-                    >
-                      {day.format('DD')}
-                    </Typography>
-                  </StyledTableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => {
-              const isMe = row?._id === userInfoRes.data?.findUserInfo?._id;
-
-              let wfhDays = 0;
-              let alDays = 0;
-              Object.keys(row).forEach((key) => {
-                const obj = row[key] as Info;
-                if (obj?.status === 'WFH') wfhDays += 1;
-                if (obj?.status === 'AL') alDays += 1;
-                if (obj?.status === 'AM') alDays += 0.5;
-                if (obj?.status === 'PM') alDays += 0.5;
-                if (obj?.status === 'MC') alDays += 1;
-              });
-              // const officeDays = days.length - wfhDays - alDays;
-
-              return (
-                <TableRow key={row?._id as string}>
-                  <StyledTableCell align="left" component="th" scope="row">
-                    <Stack direction="row" spacing={1}>
-                      <Avatar
-                        sx={{ width: 20, height: 20 }}
-                        src={row?.avatarUrl as string}
-                      />
-                      <Typography sx={{ whiteSpace: 'nowrap' }}>
-                        {row?.nickname}
-                      </Typography>
-                    </Stack>
-                  </StyledTableCell>
-
-                  {/* <StyledTableCell align="center" component="th" scope="row">
-                    {officeDays}
-                  </StyledTableCell> */}
-
-                  <StyledTableCell align="center" component="th" scope="row">
-                    {wfhDays}
-                  </StyledTableCell>
-
-                  <StyledTableCell align="center" component="th" scope="row">
-                    {alDays}
-                  </StyledTableCell>
-
-                  {days.map((day) => {
-                    const info = row[day.format('D')] as Info;
-
-                    let text = info.seat?.id || info.status;
-                    if (text === 'Office') text = '';
-
-                    let onClick;
-                    if (isAdmin || isMe) {
-                      onClick = () => {
-                        handleClickCell(day, row);
-                      };
-                    }
-
-                    return (
-                      <StyledTableCell
-                        key={day.format('D')}
-                        align="center"
-                        onClick={onClick}
-                        status={info?.status}
-                        workingDay={day.day() !== 0 && day.day() !== 6}
-                        hasSeat={!!info?.seat?.id}
-                      >
-                        {text}
-                      </StyledTableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        <Stack className={styles.table}>
+          <ConfigProvider
+            theme={{
+              token: {
+                borderRadius: 0,
+              },
+              components: {
+                Table: {
+                  paddingContentVerticalLG: 0,
+                  padding: 0,
+                },
+              },
+            }}
+          >
+            <AntdTable
+              bordered
+              rowKey="_id"
+              dataSource={rows}
+              columns={columns}
+              scroll={{ x: 2000 }}
+              pagination={false}
+            />
+          </ConfigProvider>
+        </Stack>
       </TableContainer>
+
       <Modal ref={modalRef} showCancel={false} showConfirm={false} />
     </>
   );

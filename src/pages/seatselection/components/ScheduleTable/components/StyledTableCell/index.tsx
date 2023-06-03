@@ -1,34 +1,20 @@
 import { styled } from '@mui/material/styles';
-import TableCell, {
-  tableCellClasses,
-  TableCellProps,
-} from '@mui/material/TableCell';
+import Box, { BoxProps } from '@mui/material/Box';
 
-interface StyledTableCellProps extends TableCellProps {
+interface StyledBoxPropsProps extends BoxProps {
   workingDay?: boolean;
   status?: string;
   hasSeat?: boolean;
 }
 
-const StyledTableCell = styled(TableCell, {
+const StyledTableCell = styled(Box, {
   shouldForwardProp: (prop) =>
     prop !== 'success' &&
     prop !== 'workingDay' &&
     prop !== 'status' &&
     prop !== 'hasSeat',
-})<StyledTableCellProps>(({ theme, status, workingDay, hasSeat }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    height: 64,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    borderRight:
-      theme.palette.mode === 'dark'
-        ? '1px solid rgba(46, 50, 54, 1)'
-        : '1px solid rgba(241, 243, 244, 1)',
-  },
-  minWidth: 64,
+})<StyledBoxPropsProps>(({ theme, status, workingDay, hasSeat }) => ({
+  minHeight: 32,
   padding: '4px 8px',
   cursor: 'pointer',
   ...(workingDay !== undefined &&
@@ -38,6 +24,11 @@ const StyledTableCell = styled(TableCell, {
           ? 'rgba(255, 255, 255, 0.05)'
           : 'rgba(0, 0, 0, 0.03)',
     }),
+  ...(hasSeat && {
+    backgroundColor: 'green',
+    color: 'white',
+  }),
+
   ...(status === 'WFH' && {
     backgroundColor: '#0e63b6',
     color: 'white',
@@ -56,10 +47,6 @@ const StyledTableCell = styled(TableCell, {
   }),
   ...(status === 'MC' && {
     backgroundColor: '#f44336',
-    color: 'white',
-  }),
-  ...(hasSeat && {
-    backgroundColor: 'green',
     color: 'white',
   }),
 }));

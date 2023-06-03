@@ -105,6 +105,11 @@ export default function SeatList(props: Props) {
                           title = 'disabled';
                         }
 
+                        if (isAdmin) {
+                          disabled = false;
+                          title = '';
+                        }
+
                         const variant = currentSelect ? 'contained' : undefined;
 
                         return (

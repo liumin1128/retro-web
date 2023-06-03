@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { getMonthDays } from '@/utils/common';
 import {
   UserFieldsFragment,
+  SeatFieldsFragment,
   useFindUsersQuery,
   useFindSchedulesQuery,
   useFindUserInfoQuery,
@@ -18,12 +19,13 @@ interface Props {
   endDate: number;
 }
 
-interface Info {
-  status?: string | null;
-  seat?: unknown;
+export interface Info {
+  status?: string;
+  seat?: SeatFieldsFragment;
+  workingDay?: boolean;
 }
 
-interface RowItem extends UserFieldsFragment {
+export interface RowItem extends UserFieldsFragment {
   [key: string]: unknown;
 }
 
@@ -101,10 +103,20 @@ export default ({ startDate, endDate }: Props) => {
     (userRes.data?.findUsers?.map((i) => {
       // eslint-disable-next-line
       // @ts-ignore
-      const obj: RowItem = { ...i };
+      const obj: RowItem = {
+        ...i,
+        isMe: i._id === userInfoRes.data?.findUserInfo?._id,
+      };
+
+      let wfhDays = 0;
+      let alDays = 0;
+
       // eslint-disable-next-line array-callback-return
       days.map((day) => {
-        const temp: Info = {};
+        const temp: Info = {
+          workingDay: day.day() !== 0 && day.day() !== 6,
+        };
+
         const cur = scheduleRes.data?.findSchedules?.find(
           (j) =>
             j?.user?._id === i?._id &&
@@ -112,8 +124,12 @@ export default ({ startDate, endDate }: Props) => {
         );
         if (cur) {
           temp.status = cur?.status;
-          // obj[day.format('D')] = cur.status;
         }
+        if (cur?.status === 'WFH') wfhDays += 1;
+        if (cur?.status === 'AL') alDays += 1;
+        if (cur?.status === 'AM') alDays += 0.5;
+        if (cur?.status === 'PM') alDays += 0.5;
+        if (cur?.status === 'MC') alDays += 1;
 
         const curSeat = userToSeatRes.data?.list?.find(
           (j) =>
@@ -125,6 +141,10 @@ export default ({ startDate, endDate }: Props) => {
         }
         obj[day.format('D')] = temp;
       });
+
+      obj.wfhDays = wfhDays;
+      obj.alDays = alDays;
+
       return obj;
     }) as RowItem[]) || [];
 
