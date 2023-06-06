@@ -36,14 +36,11 @@ const Retro: React.FunctionComponent = () => {
       <Container sx={{ mt: 3 }}>
         <Stack direction="row" sx={{ mb: 2 }} alignItems="center">
           <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
-            Seat Table
+            Schedule
           </Typography>
           <MonthSelect date={date} onChange={handleDateChange} />
         </Stack>
-
         <Table startDate={startDate} endDate={endDate} />
-
-        <br />
       </Container>
     </Box>
   );

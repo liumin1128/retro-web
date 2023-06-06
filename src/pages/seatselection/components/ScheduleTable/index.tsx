@@ -70,14 +70,11 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
     });
   };
 
-  console.log('rows', rows);
-
   const columns: ColumnsType<UserFieldsFragment> = [
     {
       key: 'nickname',
       fixed: 'left',
       width: 128,
-      align: 'center' as any,
       // eslint-disable-next-line react/no-unstable-nested-components
       title: () => {
         return (
