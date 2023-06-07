@@ -101,7 +101,12 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
       render: (_, row: UserFieldsFragment) => {
         return (
           <Stack direction="row" spacing={1} sx={{ px: 1 }}>
-            <Avatar size={20} src={row?.avatarUrl as string} />
+            <Avatar
+              size={24}
+              sx={{ width: '20px', height: '20px' }}
+              src={row?.avatarUrl as string}
+            />
+
             <Typography
               sx={{
                 whiteSpace: 'nowrap',

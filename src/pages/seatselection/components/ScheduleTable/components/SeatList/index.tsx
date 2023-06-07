@@ -130,7 +130,8 @@ export default function SeatList(props: Props) {
                               >
                                 {itemUser ? (
                                   <Avatar
-                                    size={22}
+                                    size={24}
+                                    sx={{ width: '20px', height: '20px' }}
                                     src={itemUser.avatarUrl as string}
                                   />
                                 ) : (

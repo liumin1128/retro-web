@@ -6,15 +6,9 @@ interface Props extends AvatarProps {
 }
 
 const Thumbnail = (props: Props) => {
-  const { src, size, sx, ...other } = props;
+  const { src, size, ...other } = props;
   const thumbnail = `${src}?imageView2/0/w/${size}`;
-  return (
-    <Avatar
-      {...other}
-      src={thumbnail}
-      sx={{ ...sx, width: size, height: size }}
-    />
-  );
+  return <Avatar {...other} src={thumbnail} />;
 };
 
 export default Thumbnail;
