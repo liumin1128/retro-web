@@ -1,6 +1,5 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
@@ -9,6 +8,7 @@ import AntdTable from 'antd/es/table/Table';
 import { ColumnsType } from 'antd/es/table';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
 import { UserFieldsFragment, useFindUserInfoQuery } from '@/generated/graphql';
+import Avatar from '@/components/Avatar/Thumbnail';
 import SeatList from './components/SeatList';
 import StatusList from './components/StatusList';
 import StyledTableCell from './components/StyledTableCell';
@@ -101,10 +101,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
       render: (_, row: UserFieldsFragment) => {
         return (
           <Stack direction="row" spacing={1} sx={{ px: 1 }}>
-            <Avatar
-              sx={{ width: 20, height: 20 }}
-              src={row?.avatarUrl as string}
-            />
+            <Avatar size={20} src={row?.avatarUrl as string} />
             <Typography
               sx={{
                 whiteSpace: 'nowrap',

@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
+import Avatar from '@/components/Avatar/Thumbnail';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import list from '@/pages/seatselection/components/SeatList/seatData';
@@ -86,8 +86,8 @@ export default function SeatList({ date, currentUser, isAdmin }: Props) {
                           >
                             {itemUser ? (
                               <Avatar
+                                size={22}
                                 src={itemUser.avatarUrl as string}
-                                sx={{ height: 22, width: 22 }}
                               />
                             ) : (
                               seat.id
