@@ -75,6 +75,22 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
       key: 'nickname',
       fixed: 'left',
       width: 128,
+      filters: [
+        {
+          text: 'WMP',
+          value: 'WMP',
+        },
+        {
+          text: 'Apps',
+          value: 'Apps',
+        },
+      ],
+      onFilter: (
+        value: string | number | boolean,
+        record: UserFieldsFragment,
+      ): boolean => {
+        return !!record?.tags?.includes(value as string);
+      },
       // eslint-disable-next-line react/no-unstable-nested-components
       title: () => {
         return (
@@ -85,7 +101,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                 fontweight: 'bold',
               }}
             >
-              {dayjs(startDate).format('MMM YYYY')}
+              {dayjs(startDate).format('MMM')}
             </Typography>
             <Typography
               sx={{
@@ -93,7 +109,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                 fontStyle: 'italic',
               }}
             >
-              Nickname
+              {dayjs(startDate).format('YYYY')}
             </Typography>
           </Stack>
         );
