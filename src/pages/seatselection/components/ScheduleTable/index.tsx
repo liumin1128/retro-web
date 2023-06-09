@@ -84,11 +84,17 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
           text: 'Apps',
           value: 'Apps',
         },
+        {
+          text: 'Me',
+          value: 'Me',
+        },
       ],
       onFilter: (
         value: string | number | boolean,
         record: UserFieldsFragment,
       ): boolean => {
+        if (value === 'Me')
+          return record?._id === userInfoRes.data?.findUserInfo?._id;
         return !!record?.tags?.includes(value as string);
       },
       // eslint-disable-next-line react/no-unstable-nested-components
