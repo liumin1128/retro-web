@@ -26,6 +26,8 @@ export interface Info {
 }
 
 export interface RowItem extends UserFieldsFragment {
+  wfhDays: number;
+  alDays: number;
   [key: string]: unknown;
 }
 

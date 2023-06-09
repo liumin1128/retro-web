@@ -70,7 +70,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
     });
   };
 
-  const columns: ColumnsType<UserFieldsFragment> = [
+  const columns: ColumnsType<RowItem> = [
     {
       key: 'nickname',
       fixed: 'left',
@@ -97,8 +97,8 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
           return record?._id === userInfoRes.data?.findUserInfo?._id;
         return !!record?.tags?.includes(value as string);
       },
-      sorter: (a, b) =>
-        a.tags?.join(',').localeCompare(b.tags?.join(',') || ''),
+      sorter: (a, b): number =>
+        a.tags?.join(',').localeCompare(b.tags?.join(',') || '') as number,
       // sortOrder: 'ascend',
       // eslint-disable-next-line react/no-unstable-nested-components
       title: () => {
@@ -151,7 +151,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
       dataIndex: 'wfhDays',
       title: 'WFH',
       width: 64,
-      align: 'center' as any,
+      align: 'center',
       sorter: (a, b) => a.wfhDays - b.wfhDays,
     },
     {
@@ -159,7 +159,8 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
       title: 'AL',
       dataIndex: 'alDays',
       width: 64,
-      align: 'center' as any,
+      align: 'center',
+      sorter: (a, b) => a.alDays - b.alDays,
     },
     ...days.map((day) => {
       const key = day.format('D');
