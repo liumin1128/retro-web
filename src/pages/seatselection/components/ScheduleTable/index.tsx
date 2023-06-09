@@ -97,6 +97,9 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
           return record?._id === userInfoRes.data?.findUserInfo?._id;
         return !!record?.tags?.includes(value as string);
       },
+      sorter: (a, b) =>
+        a.tags?.join(',').localeCompare(b.tags?.join(',') || ''),
+      // sortOrder: 'ascend',
       // eslint-disable-next-line react/no-unstable-nested-components
       title: () => {
         return (
@@ -149,6 +152,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
       title: 'WFH',
       width: 64,
       align: 'center' as any,
+      sorter: (a, b) => a.wfhDays - b.wfhDays,
     },
     {
       key: 'alDays',
