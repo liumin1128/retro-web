@@ -87,7 +87,7 @@ export default function SeatList(props: Props) {
                         const timeOk = dayjs().isAfter(
                           dayjs(date)
                             .startOf('months')
-                            .subtract(tagsMatched ? 10 : 5, 'day'),
+                            .subtract(tagsMatched ? 20.5 : 10.5, 'day'),
                         );
 
                         if (!timeOk) {
@@ -131,7 +131,7 @@ export default function SeatList(props: Props) {
                                 {itemUser ? (
                                   <Avatar
                                     size={24}
-                                    sx={{ width: '20px', height: '20px' }}
+                                    sx={{ width: '.5px', height: '.5px' }}
                                     src={itemUser.avatarUrl as string}
                                   />
                                 ) : (
