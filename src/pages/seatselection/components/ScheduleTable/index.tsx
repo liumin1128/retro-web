@@ -88,14 +88,26 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
           text: 'Me',
           value: 'Me',
         },
+        {
+          text: 'more',
+          value: 'more',
+          children: rows.map((i) => {
+            return {
+              text: i?.nickname,
+              value: i?._id,
+            };
+          }),
+        },
       ],
       onFilter: (
         value: string | number | boolean,
         record: UserFieldsFragment,
       ): boolean => {
+        if (value === 'WMP') return !!record?.tags?.includes(value as string);
+        if (value === 'Apps') return !!record?.tags?.includes(value as string);
         if (value === 'Me')
           return record?._id === userInfoRes.data?.findUserInfo?._id;
-        return !!record?.tags?.includes(value as string);
+        return record?._id === value;
       },
       sorter: (a, b): number =>
         a.tags?.join(',').localeCompare(b.tags?.join(',') || '') as number,
