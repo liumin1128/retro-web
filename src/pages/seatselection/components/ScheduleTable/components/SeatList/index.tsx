@@ -128,9 +128,9 @@ export default function SeatList(props: Props) {
                                   handleClick(currentUser?._id, seat._id);
                                 }}
                                 sx={{
-                                  width: '60px',
+                                  width: '64px',
                                   borderRadius: '0px',
-                                  height: '28px',
+                                  height: '32px',
                                 }}
                               >
                                 {itemUser ? (
