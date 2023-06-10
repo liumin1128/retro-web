@@ -127,12 +127,16 @@ export default function SeatList(props: Props) {
                                 onClick={() => {
                                   handleClick(currentUser?._id, seat._id);
                                 }}
-                                sx={{ width: '60px', borderRadius: '0px' }}
+                                sx={{
+                                  width: '60px',
+                                  borderRadius: '0px',
+                                  height: '28px',
+                                }}
                               >
                                 {itemUser ? (
                                   <Avatar
                                     size={24}
-                                    sx={{ width: '.5px', height: '.5px' }}
+                                    sx={{ width: '24px', height: '24px' }}
                                     src={itemUser.avatarUrl as string}
                                   />
                                 ) : (
