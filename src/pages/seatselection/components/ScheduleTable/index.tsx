@@ -204,6 +204,14 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
         dataIndex: key,
         width: 64,
         align: 'center' as any,
+        sorter: (a: RowItem, b: RowItem) => {
+          let atext = a[key].seat?.id || a[key].status || '0';
+          if (atext === 'Office') atext = '0';
+          let btext = b[key].sebt?.id || b[key].status || '0';
+          if (btext === 'Office') btext = '0';
+          return atext.localeCompare(btext);
+        },
+        sortDirections: ['descend'] as any,
         render: (info: Info, row: RowItem) => {
           let text = info.seat?.id || info.status;
           if (text === 'Office') text = '';
