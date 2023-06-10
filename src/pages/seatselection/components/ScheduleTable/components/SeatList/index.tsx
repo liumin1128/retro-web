@@ -87,7 +87,8 @@ export default function SeatList(props: Props) {
                         const timeOk = dayjs().isAfter(
                           dayjs(date)
                             .startOf('months')
-                            .subtract(tagsMatched ? 20.5 : 10.5, 'day'),
+                            .subtract(tagsMatched ? 20 : 10, 'days')
+                            .subtract(12, 'hours'),
                         );
 
                         if (!timeOk) {
