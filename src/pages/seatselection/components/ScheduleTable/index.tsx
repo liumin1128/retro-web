@@ -248,6 +248,11 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
         </Stack>
       </TableContainer>
 
+      <br />
+      <br />
+      <br />
+      <br />
+
       <Modal ref={modalRef} showCancel={false} showConfirm={false} />
     </>
   );
