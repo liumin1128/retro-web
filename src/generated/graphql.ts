@@ -842,6 +842,22 @@ export type Subscription = {
   userToSeatDeleted?: Maybe<UserToSeat>;
 };
 
+
+export type SubscriptionUserToSeatCreatedArgs = {
+  endDate?: InputMaybe<Scalars['Float']>;
+  seat?: InputMaybe<Scalars['ID']>;
+  startDate?: InputMaybe<Scalars['Float']>;
+  user?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type SubscriptionUserToSeatDeletedArgs = {
+  endDate?: InputMaybe<Scalars['Float']>;
+  seat?: InputMaybe<Scalars['ID']>;
+  startDate?: InputMaybe<Scalars['Float']>;
+  user?: InputMaybe<Scalars['ID']>;
+};
+
 export type ToggleUserToSeatInput = {
   date: Scalars['Float'];
   seat: Scalars['ID'];
@@ -1333,14 +1349,14 @@ export type FindUserToSeatsQueryVariables = Exact<{
 }>;
 
 
-export type FindUserToSeatsQuery = { __typename?: 'Query', list?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null> | null };
+export type FindUserToSeatsQuery = { __typename?: 'Query', findUserToSeats?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null> | null };
 
 export type FindUserToSeatQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
 
-export type FindUserToSeatQuery = { __typename?: 'Query', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type FindUserToSeatQuery = { __typename?: 'Query', findUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type CreateUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1348,7 +1364,7 @@ export type CreateUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type CreateUserToSeatMutation = { __typename?: 'Mutation', createUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type DeleteUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1356,7 +1372,7 @@ export type DeleteUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type DeleteUserToSeatMutation = { __typename?: 'Mutation', deleteUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type ToggleUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1365,17 +1381,27 @@ export type ToggleUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type ToggleUserToSeatMutation = { __typename?: 'Mutation', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type ToggleUserToSeatMutation = { __typename?: 'Mutation', toggleUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
-export type UserToSeatCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type UserToSeatCreatedSubscriptionVariables = Exact<{
+  seat?: InputMaybe<Scalars['ID']>;
+  user?: InputMaybe<Scalars['ID']>;
+  startDate?: InputMaybe<Scalars['Float']>;
+  endDate?: InputMaybe<Scalars['Float']>;
+}>;
 
 
-export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userToSeatCreated?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
-export type UserToSeatDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type UserToSeatDeletedSubscriptionVariables = Exact<{
+  seat?: InputMaybe<Scalars['ID']>;
+  user?: InputMaybe<Scalars['ID']>;
+  startDate?: InputMaybe<Scalars['Float']>;
+  endDate?: InputMaybe<Scalars['Float']>;
+}>;
 
 
-export type UserToSeatDeletedSubscription = { __typename?: 'Subscription', userToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type UserToSeatDeletedSubscription = { __typename?: 'Subscription', userToSeatDeleted?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export const CommentFieldsFragmentDoc = gql`
     fragment commentFields on Comment {
@@ -3182,7 +3208,7 @@ export type PullSeatsTagsMutationResult = Apollo.MutationResult<PullSeatsTagsMut
 export type PullSeatsTagsMutationOptions = Apollo.BaseMutationOptions<PullSeatsTagsMutation, PullSeatsTagsMutationVariables>;
 export const FindUserToSeatsDocument = gql`
     query FindUserToSeats($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
-  list: findUserToSeats(
+  findUserToSeats(
     seat: $seat
     user: $user
     startDate: $startDate
@@ -3225,7 +3251,7 @@ export type FindUserToSeatsLazyQueryHookResult = ReturnType<typeof useFindUserTo
 export type FindUserToSeatsQueryResult = Apollo.QueryResult<FindUserToSeatsQuery, FindUserToSeatsQueryVariables>;
 export const FindUserToSeatDocument = gql`
     query FindUserToSeat($_id: ID!) {
-  userToSeat: findUserToSeat(_id: $_id) {
+  findUserToSeat(_id: $_id) {
     ...userToSeatFields
   }
 }
@@ -3260,7 +3286,7 @@ export type FindUserToSeatLazyQueryHookResult = ReturnType<typeof useFindUserToS
 export type FindUserToSeatQueryResult = Apollo.QueryResult<FindUserToSeatQuery, FindUserToSeatQueryVariables>;
 export const CreateUserToSeatDocument = gql`
     mutation CreateUserToSeat($seat: ID!, $date: Float!) {
-  userToSeat: createUserToSeat(input: {seat: $seat, date: $date}) {
+  createUserToSeat(input: {seat: $seat, date: $date}) {
     ...userToSeatFields
   }
 }
@@ -3294,7 +3320,7 @@ export type CreateUserToSeatMutationResult = Apollo.MutationResult<CreateUserToS
 export type CreateUserToSeatMutationOptions = Apollo.BaseMutationOptions<CreateUserToSeatMutation, CreateUserToSeatMutationVariables>;
 export const DeleteUserToSeatDocument = gql`
     mutation DeleteUserToSeat($seat: ID!, $date: Float!) {
-  userToSeat: deleteUserToSeat(input: {seat: $seat, date: $date}) {
+  deleteUserToSeat(input: {seat: $seat, date: $date}) {
     ...userToSeatFields
   }
 }
@@ -3328,7 +3354,7 @@ export type DeleteUserToSeatMutationResult = Apollo.MutationResult<DeleteUserToS
 export type DeleteUserToSeatMutationOptions = Apollo.BaseMutationOptions<DeleteUserToSeatMutation, DeleteUserToSeatMutationVariables>;
 export const ToggleUserToSeatDocument = gql`
     mutation ToggleUserToSeat($seat: ID!, $date: Float!, $user: ID!) {
-  userToSeat: toggleUserToSeat(input: {seat: $seat, date: $date, user: $user}) {
+  toggleUserToSeat(input: {seat: $seat, date: $date, user: $user}) {
     ...userToSeatFields
   }
 }
@@ -3362,8 +3388,13 @@ export type ToggleUserToSeatMutationHookResult = ReturnType<typeof useToggleUser
 export type ToggleUserToSeatMutationResult = Apollo.MutationResult<ToggleUserToSeatMutation>;
 export type ToggleUserToSeatMutationOptions = Apollo.BaseMutationOptions<ToggleUserToSeatMutation, ToggleUserToSeatMutationVariables>;
 export const UserToSeatCreatedDocument = gql`
-    subscription UserToSeatCreated {
-  userToSeat: userToSeatCreated {
+    subscription UserToSeatCreated($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
+  userToSeatCreated(
+    seat: $seat
+    user: $user
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...userToSeatFields
   }
 }
@@ -3381,6 +3412,10 @@ export const UserToSeatCreatedDocument = gql`
  * @example
  * const { data, loading, error } = useUserToSeatCreatedSubscription({
  *   variables: {
+ *      seat: // value for 'seat'
+ *      user: // value for 'user'
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
  *   },
  * });
  */
@@ -3391,8 +3426,13 @@ export function useUserToSeatCreatedSubscription(baseOptions?: Apollo.Subscripti
 export type UserToSeatCreatedSubscriptionHookResult = ReturnType<typeof useUserToSeatCreatedSubscription>;
 export type UserToSeatCreatedSubscriptionResult = Apollo.SubscriptionResult<UserToSeatCreatedSubscription>;
 export const UserToSeatDeletedDocument = gql`
-    subscription UserToSeatDeleted {
-  userToSeat: userToSeatDeleted {
+    subscription UserToSeatDeleted($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
+  userToSeatDeleted(
+    seat: $seat
+    user: $user
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...userToSeatFields
   }
 }
@@ -3410,6 +3450,10 @@ export const UserToSeatDeletedDocument = gql`
  * @example
  * const { data, loading, error } = useUserToSeatDeletedSubscription({
  *   variables: {
+ *      seat: // value for 'seat'
+ *      user: // value for 'user'
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
  *   },
  * });
  */

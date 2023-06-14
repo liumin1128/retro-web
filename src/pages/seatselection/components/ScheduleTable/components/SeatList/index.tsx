@@ -5,8 +5,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import list from '@/pages/seatselection/components/SeatList/seatData';
 import {
+  FindUserToSeatsDocument,
   useFindUserToSeatsQuery,
   UserFieldsFragment,
+  FindUserToSeatsQuery,
+  UserToRoleFieldsFragment,
   useUserToSeatDeletedSubscription,
   useUserToSeatCreatedSubscription,
   useFindSeatsQuery,
@@ -32,21 +35,52 @@ interface Props {
 export default function SeatList(props: Props) {
   const { date, currentUser, isAdmin, onChange } = props;
 
-  const { data, refetch } = useFindUserToSeatsQuery({
-    variables: { startDate: date },
+  const variables = { startDate: date };
+
+  const { data } = useFindUserToSeatsQuery({
+    variables,
+    pollInterval: 1000 * 60,
   });
 
   const seatsRes = useFindSeatsQuery();
 
-  useUserToSeatDeletedSubscription({
-    onSubscriptionData: () => {
-      refetch();
+  useUserToSeatCreatedSubscription({
+    variables,
+    // eslint-disable-next-line no-shadow
+    onData: ({ client, data }) => {
+      const cache = client.readQuery<FindUserToSeatsQuery>({
+        query: FindUserToSeatsDocument,
+        variables,
+      });
+      const findUserToSeats = cache?.findUserToSeats || [];
+      client.writeQuery({
+        query: FindUserToSeatsDocument,
+        variables,
+        data: {
+          findUserToSeats: [...findUserToSeats, data?.data?.userToSeatCreated],
+        },
+      });
     },
   });
 
-  useUserToSeatCreatedSubscription({
-    onSubscriptionData: () => {
-      refetch();
+  useUserToSeatDeletedSubscription({
+    variables,
+    // eslint-disable-next-line no-shadow
+    onData: ({ client, data }) => {
+      const cache = client.readQuery<FindUserToSeatsQuery>({
+        query: FindUserToSeatsDocument,
+        variables,
+      });
+      const findUserToSeats = cache?.findUserToSeats || [];
+      client.writeQuery({
+        query: FindUserToSeatsDocument,
+        variables,
+        data: {
+          findUserToSeats: findUserToSeats.filter(
+            (i) => i._id !== data?.data?.userToSeatDeleted?._id,
+          ),
+        },
+      });
     },
   });
 
@@ -69,7 +103,7 @@ export default function SeatList(props: Props) {
                           (i) => i._id === seat._id,
                         );
 
-                        const itemUser = data?.list?.find(
+                        const itemUser = data?.findUserToSeats?.find(
                           (k) => k?.seat?._id === seat._id,
                         )?.user;
 

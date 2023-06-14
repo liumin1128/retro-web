@@ -2,17 +2,20 @@ import dayjs from 'dayjs';
 import { getMonthDays } from '@/utils/common';
 import {
   UserFieldsFragment,
+  FindUserToSeatsDocument,
+  FindUserToSeatsQuery,
   SeatFieldsFragment,
   useFindUsersQuery,
   useFindSchedulesQuery,
   useFindUserInfoQuery,
   useFindUserToSeatsQuery,
-  useUserToSeatDeletedSubscription,
-  useUserToSeatCreatedSubscription,
   useScheduleCreatedSubscription,
   useCreateScheduleMutation,
   useToggleUserToSeatMutation,
+  useUserToSeatCreatedSubscription,
+  useUserToSeatDeletedSubscription,
 } from '@/generated/graphql';
+// import useSubscriptionUserToSeat from './useSubscriptionUserToSeat';
 
 interface Props {
   startDate: number;
@@ -43,33 +46,66 @@ export default ({ startDate, endDate }: Props) => {
 
   const userRes = useFindUsersQuery({
     variables: { tags: ['ComTech'] },
+    pollInterval: 1000 * 60, // 每分钟，自动同步一次数据
   });
 
+  const variables = { startDate, endDate };
+
   const scheduleRes = useFindSchedulesQuery({
-    variables: { startDate, endDate },
+    variables,
+    pollInterval: 1000 * 60, // 每分钟，自动同步一次数据
   });
 
   const userToSeatRes = useFindUserToSeatsQuery({
-    variables: { startDate, endDate },
+    variables,
+    pollInterval: 1000 * 60, // 每分钟，自动同步一次数据
   });
 
   const [createSchedule] = useCreateScheduleMutation();
   const [toggleUserToSeat] = useToggleUserToSeatMutation();
 
-  useUserToSeatDeletedSubscription({
-    onSubscriptionData: () => {
-      userToSeatRes.refetch();
+  useUserToSeatCreatedSubscription({
+    variables,
+    // eslint-disable-next-line no-shadow
+    onData: ({ client, data }) => {
+      const cache = client.readQuery<FindUserToSeatsQuery>({
+        query: FindUserToSeatsDocument,
+        variables,
+      });
+      const findUserToSeats = cache?.findUserToSeats || [];
+      client.writeQuery({
+        query: FindUserToSeatsDocument,
+        variables,
+        data: {
+          findUserToSeats: [...findUserToSeats, data?.data?.userToSeatCreated],
+        },
+      });
     },
   });
 
-  useUserToSeatCreatedSubscription({
-    onSubscriptionData: () => {
-      userToSeatRes.refetch();
+  useUserToSeatDeletedSubscription({
+    variables,
+    // eslint-disable-next-line no-shadow
+    onData: ({ client, data }) => {
+      const cache = client.readQuery<FindUserToSeatsQuery>({
+        query: FindUserToSeatsDocument,
+        variables,
+      });
+      const findUserToSeats = cache?.findUserToSeats || [];
+      client.writeQuery({
+        query: FindUserToSeatsDocument,
+        variables,
+        data: {
+          findUserToSeats: findUserToSeats.filter(
+            (i) => i._id !== data?.data?.userToSeatDeleted?._id,
+          ),
+        },
+      });
     },
   });
 
   useScheduleCreatedSubscription({
-    onSubscriptionData: () => {
+    onData: () => {
       scheduleRes.refetch();
     },
   });
@@ -133,7 +169,7 @@ export default ({ startDate, endDate }: Props) => {
         if (cur?.status === 'PM') alDays += 0.5;
         if (cur?.status === 'MC') alDays += 1;
 
-        const curSeat = userToSeatRes.data?.list?.find(
+        const curSeat = userToSeatRes.data?.findUserToSeats?.find(
           (j) =>
             j?.user?._id === i?._id &&
             dayjs(j?.date).format('D') === day.format('D'),
