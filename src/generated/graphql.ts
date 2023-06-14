@@ -843,6 +843,13 @@ export type Subscription = {
 };
 
 
+export type SubscriptionScheduleCreatedArgs = {
+  endDate?: InputMaybe<Scalars['Float']>;
+  startDate?: InputMaybe<Scalars['Float']>;
+  user?: InputMaybe<Scalars['ID']>;
+};
+
+
 export type SubscriptionUserToSeatCreatedArgs = {
   endDate?: InputMaybe<Scalars['Float']>;
   seat?: InputMaybe<Scalars['ID']>;
@@ -1245,12 +1252,16 @@ export type CreateScheduleMutationVariables = Exact<{
 }>;
 
 
-export type CreateScheduleMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type CreateScheduleMutation = { __typename?: 'Mutation', createSchedule?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
-export type ScheduleCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type ScheduleCreatedSubscriptionVariables = Exact<{
+  user?: InputMaybe<Scalars['ID']>;
+  startDate?: InputMaybe<Scalars['Float']>;
+  endDate?: InputMaybe<Scalars['Float']>;
+}>;
 
 
-export type ScheduleCreatedSubscription = { __typename?: 'Subscription', schedule?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type ScheduleCreatedSubscription = { __typename?: 'Subscription', scheduleCreated?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
 
 export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null };
 
@@ -2762,7 +2773,7 @@ export type FindSchedulesLazyQueryHookResult = ReturnType<typeof useFindSchedule
 export type FindSchedulesQueryResult = Apollo.QueryResult<FindSchedulesQuery, FindSchedulesQueryVariables>;
 export const CreateScheduleDocument = gql`
     mutation CreateSchedule($status: String!, $date: Float!, $user: ID) {
-  schedule: createSchedule(input: {status: $status, date: $date, user: $user}) {
+  createSchedule(input: {status: $status, date: $date, user: $user}) {
     ...scheduleFields
   }
 }
@@ -2796,8 +2807,8 @@ export type CreateScheduleMutationHookResult = ReturnType<typeof useCreateSchedu
 export type CreateScheduleMutationResult = Apollo.MutationResult<CreateScheduleMutation>;
 export type CreateScheduleMutationOptions = Apollo.BaseMutationOptions<CreateScheduleMutation, CreateScheduleMutationVariables>;
 export const ScheduleCreatedDocument = gql`
-    subscription scheduleCreated {
-  schedule: scheduleCreated {
+    subscription scheduleCreated($user: ID, $startDate: Float, $endDate: Float) {
+  scheduleCreated(user: $user, startDate: $startDate, endDate: $endDate) {
     ...scheduleFields
   }
 }
@@ -2815,6 +2826,9 @@ export const ScheduleCreatedDocument = gql`
  * @example
  * const { data, loading, error } = useScheduleCreatedSubscription({
  *   variables: {
+ *      user: // value for 'user'
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
  *   },
  * });
  */

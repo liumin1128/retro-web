@@ -3,7 +3,9 @@ import { getMonthDays } from '@/utils/common';
 import {
   UserFieldsFragment,
   FindUserToSeatsDocument,
+  FindSchedulesDocument,
   FindUserToSeatsQuery,
+  FindSchedulesQuery,
   SeatFieldsFragment,
   useFindUsersQuery,
   useFindSchedulesQuery,
@@ -66,7 +68,6 @@ export default ({ startDate, endDate }: Props) => {
 
   useUserToSeatCreatedSubscription({
     variables,
-    // eslint-disable-next-line no-shadow
     onData: ({ client, data }) => {
       const cache = client.readQuery<FindUserToSeatsQuery>({
         query: FindUserToSeatsDocument,
@@ -85,7 +86,6 @@ export default ({ startDate, endDate }: Props) => {
 
   useUserToSeatDeletedSubscription({
     variables,
-    // eslint-disable-next-line no-shadow
     onData: ({ client, data }) => {
       const cache = client.readQuery<FindUserToSeatsQuery>({
         query: FindUserToSeatsDocument,
@@ -105,8 +105,22 @@ export default ({ startDate, endDate }: Props) => {
   });
 
   useScheduleCreatedSubscription({
-    onData: () => {
-      scheduleRes.refetch();
+    onData: ({ client, data }) => {
+      const cache = client.readQuery<FindSchedulesQuery>({
+        query: FindSchedulesDocument,
+        variables,
+      });
+      let findSchedules = cache?.findSchedules || [];
+      findSchedules = findSchedules.filter(
+        (i) => i._id !== data?.data?.scheduleCreated?._id,
+      );
+      client.writeQuery({
+        query: FindSchedulesDocument,
+        variables,
+        data: {
+          findSchedules: [...findSchedules, data?.data?.scheduleCreated],
+        },
+      });
     },
   });
 
