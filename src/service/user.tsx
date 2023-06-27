@@ -1,16 +1,12 @@
-import { history } from 'umi';
 import { setStorage, removeStorage, getStorage } from '@/utils/store';
 import { PATH_BEFORELOGIN, USER_TOKEN } from '@/configs/base';
 
 export async function handleLogin(token: string) {
-  let path = await getStorage(PATH_BEFORELOGIN);
-  if (path) {
-    await removeStorage(PATH_BEFORELOGIN);
-  } else {
-    path = '/';
-  }
+  const path = await getStorage(PATH_BEFORELOGIN);
+  await removeStorage(PATH_BEFORELOGIN);
   await setStorage(USER_TOKEN, token);
-  history.push(path);
+  window.location.href = `/#${path || '/'}`;
+  // history.push(path);
 }
 
 export async function handleLogout() {
