@@ -85,6 +85,10 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
           value: 'Apps',
         },
         {
+          text: 'DS',
+          value: 'DS',
+        },
+        {
           text: 'Me',
           value: 'Me',
         },
@@ -104,6 +108,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
         record: UserFieldsFragment,
       ): boolean => {
         if (value === 'WMP') return !!record?.tags?.includes(value as string);
+        if (value === 'DS') return !!record?.tags?.includes(value as string);
         if (value === 'Apps') return !!record?.tags?.includes(value as string);
         if (value === 'Me')
           return record?._id === userInfoRes.data?.findUserInfo?._id;
