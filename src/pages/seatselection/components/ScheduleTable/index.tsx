@@ -108,6 +108,7 @@ export default function CustomizedTables({
           }),
         },
       ],
+      showSorterTooltip: false,
       onFilter: (
         value: string | number | boolean,
         record: UserFieldsFragment,
@@ -174,6 +175,8 @@ export default function CustomizedTables({
       title: 'WFH',
       width: 64,
       align: 'center',
+      showSorterTooltip: false,
+
       sorter: (a, b) => a.wfhDays - b.wfhDays,
     },
     {
@@ -182,6 +185,8 @@ export default function CustomizedTables({
       dataIndex: 'alDays',
       width: 64,
       align: 'center',
+      showSorterTooltip: false,
+
       sorter: (a, b) => a.alDays - b.alDays,
     },
     ...days.map((day) => {
@@ -214,6 +219,8 @@ export default function CustomizedTables({
         dataIndex: key,
         width: 64,
         align: 'center' as any,
+        showSorterTooltip: false,
+
         sorter: (a: RowItem, b: RowItem) => {
           let atext = a[key].seat?.id || a[key].status || '0';
           if (atext === 'Office') atext = '0';
