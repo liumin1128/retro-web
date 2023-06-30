@@ -50,27 +50,17 @@ export default [
       '@/wrappers/snackbar',
       // '@/wrappers/auth',
     ],
+    component: '@/layouts/retro',
+
     routes: [
       {
         path: '/retro',
-        component: '@/layouts/retro',
+
         routes: [
           {
             path: '/retro',
             component: '@/pages/retro',
             title: 'Retro List',
-            exact: true,
-          },
-          {
-            path: '/retro/organization',
-            component: '@/pages/retro/organization',
-            title: 'Organization List',
-            exact: true,
-          },
-          {
-            path: '/retro/organization/create',
-            component: '@/pages/retro/organization/create',
-            title: 'Organization Create',
             exact: true,
           },
           {
@@ -84,26 +74,12 @@ export default [
 
       {
         path: '/seatselection',
-        component: '@/wrappers/auth/SeatSelection',
+        wrappers: ['@/wrappers/auth/SeatSelection'],
         routes: [
-          // {
-          //   path: '/seatselection',
-          //   component: '@/pages/seatselection/schedule',
-          //   title: 'Seat List',
-          //   exact: true,
-          // },
-
-          {
-            path: '/seatselection/table',
-            component: '@/pages/seatselection/table',
-            title: 'Seat Table',
-            exact: true,
-          },
-
           {
             path: '/seatselection/schedule',
             component: '@/pages/seatselection/schedule',
-            title: 'Seat Schedule',
+            title: 'Seat Table',
             exact: true,
           },
 
@@ -141,7 +117,7 @@ export default [
           },
 
           {
-            path: '/seatselection',
+            path: '/seatselection/',
             redirect: '/seatselection/schedule',
           },
         ],

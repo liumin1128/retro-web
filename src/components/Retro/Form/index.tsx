@@ -136,7 +136,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           <Button
             disabled={loading}
             loading={loading}
-            size="large"
+            // size="large"
             variant="contained"
             color={color}
             type="submit"

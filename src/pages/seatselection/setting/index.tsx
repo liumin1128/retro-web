@@ -52,17 +52,7 @@ const Retro: React.FunctionComponent = () => {
 
   return (
     <Box>
-      <AppBar color="default" position="static">
-        <Toolbar>
-          <Stack sx={{ flexGrow: 1 }}>
-            <NavTabs />
-          </Stack>
-          <MaterialUISwitch />
-          <UserAvatar />
-        </Toolbar>
-      </AppBar>
-
-      <Container sx={{ mt: 8 }}>
+      <Container sx={{ mt: 4 }}>
         <Grid container spacing={4}>
           <Grid item xs={12} md="auto">
             <Tabs

@@ -283,130 +283,105 @@ const Section = () => {
   const listGroup = groupBy(list, 'type');
 
   return (
-    <Box
-      sx={{
-        height: '100vh',
-        width: '100vw',
-      }}
-    >
-      <AppBar color="default" position="static">
-        <Toolbar>
-          <IconButton
-            onClick={() => {
-              history.push('/');
-            }}
-          >
-            <Logo sx={{ width: 40, height: 40, color: '#000' }} />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {data?.retro?.title}
-          </Typography>
-          <QRCodeIconButton content={window.location.href} />
-          <MaterialUISwitch />
-          <UserAvatar />
-        </Toolbar>
-      </AppBar>
+    <Container sx={{ height: 'calc(100vh - 72px)' }}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid
+          container
+          spacing={1}
+          sx={{
+            height: '100%',
+          }}
+        >
+          {TYPES.map((type) => (
+            <Grid
+              key={type}
+              item
+              xs={12}
+              md={3}
+              sx={{
+                display: 'flex',
+                height: '100%',
+                flexDirection: 'column',
+              }}
+            >
+              <Box sx={{ p: 0.5 }}>
+                <Card>{renderForm(type)}</Card>
+              </Box>
 
-      <Container sx={{ height: 'calc(100vh - 56px)' }}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Grid
-            container
-            spacing={1}
-            sx={{
-              height: '100%',
-            }}
-          >
-            {TYPES.map((type) => (
-              <Grid
-                key={type}
-                item
-                xs={12}
-                md={3}
+              <Box
                 sx={{
-                  display: 'flex',
+                  overflowY: 'auto',
+                  overflowX: 'hidden',
+                  flex: 1,
                   height: '100%',
-                  flexDirection: 'column',
                 }}
               >
-                <Box sx={{ p: 0.5, mt: 1 }}>
-                  <Card>{renderForm(type)}</Card>
-                </Box>
+                <Droppable key={type} droppableId={type}>
+                  {(
+                    droppableProvided: DroppableProvided,
+                    droppableSnapshot: DroppableStateSnapshot,
+                  ) => {
+                    let background = '';
+                    let border = '';
 
-                <Box
-                  sx={{
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                    flex: 1,
-                    height: '100%',
+                    if (droppableSnapshot.isDraggingOver) {
+                      background = 'rgba(173,216,230,0.1)';
+                      border = '1px rgba(173,216,230,1) dashed';
+                    }
+
+                    return (
+                      <Box
+                        {...droppableProvided.droppableProps}
+                        ref={droppableProvided.innerRef}
+                        sx={{
+                          height: '100%',
+                          background,
+                          border,
+                        }}
+                      >
+                        {Array.isArray(listGroup[type]) &&
+                          listGroup[type]
+                            .sort(sortItem)
+                            .map((item, idx: number) => {
+                              if (!item) return null;
+                              return (
+                                <Draggable
+                                  key={item._id}
+                                  draggableId={item._id}
+                                  index={idx}
+                                >
+                                  {(
+                                    draggableProvided: DraggableProvided,
+                                    // snapshot: DraggableStateSnapshot,
+                                  ) => (
+                                    <Box
+                                      ref={draggableProvided.innerRef}
+                                      {...draggableProvided.draggableProps}
+                                      {...draggableProvided.dragHandleProps}
+                                      sx={{
+                                        userSelect: 'none',
+                                        mb: 1,
+                                        ...draggableProvided.draggableProps
+                                          .style,
+                                      }}
+                                    >
+                                      {renderItem(item)}
+                                    </Box>
+                                  )}
+                                </Draggable>
+                              );
+                            })}
+                        {droppableProvided.placeholder}
+                      </Box>
+                    );
                   }}
-                >
-                  <Droppable key={type} droppableId={type}>
-                    {(
-                      droppableProvided: DroppableProvided,
-                      droppableSnapshot: DroppableStateSnapshot,
-                    ) => {
-                      let background = '';
-                      let border = '';
-
-                      if (droppableSnapshot.isDraggingOver) {
-                        background = 'rgba(173,216,230,0.1)';
-                        border = '1px rgba(173,216,230,1) dashed';
-                      }
-
-                      return (
-                        <Box
-                          {...droppableProvided.droppableProps}
-                          ref={droppableProvided.innerRef}
-                          sx={{
-                            height: '100%',
-                            background,
-                            border,
-                          }}
-                        >
-                          {Array.isArray(listGroup[type]) &&
-                            listGroup[type]
-                              .sort(sortItem)
-                              .map((item, idx: number) => {
-                                if (!item) return null;
-                                return (
-                                  <Draggable
-                                    key={item._id}
-                                    draggableId={item._id}
-                                    index={idx}
-                                  >
-                                    {(
-                                      draggableProvided: DraggableProvided,
-                                      // snapshot: DraggableStateSnapshot,
-                                    ) => (
-                                      <Box
-                                        ref={draggableProvided.innerRef}
-                                        {...draggableProvided.draggableProps}
-                                        {...draggableProvided.dragHandleProps}
-                                        sx={{
-                                          userSelect: 'none',
-                                          mb: 1,
-                                          ...draggableProvided.draggableProps
-                                            .style,
-                                        }}
-                                      >
-                                        {renderItem(item)}
-                                      </Box>
-                                    )}
-                                  </Draggable>
-                                );
-                              })}
-                          {droppableProvided.placeholder}
-                        </Box>
-                      );
-                    }}
-                  </Droppable>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </DragDropContext>
-      </Container>
-    </Box>
+                </Droppable>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </DragDropContext>
+    </Container>
   );
 };
 

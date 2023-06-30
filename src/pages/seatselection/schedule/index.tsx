@@ -24,16 +24,7 @@ const Retro: React.FunctionComponent = () => {
 
   return (
     <Box>
-      <AppBar color="default" position="static">
-        <Toolbar>
-          <Stack sx={{ flexGrow: 1 }}>
-            <NavTabs />
-          </Stack>
-          <MaterialUISwitch />
-          <UserAvatar />
-        </Toolbar>
-      </AppBar>
-      <Container sx={{ mt: 3 }}>
+      <Container>
         <Stack direction="row" sx={{ mb: 2 }} alignItems="center">
           <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
             Schedule
