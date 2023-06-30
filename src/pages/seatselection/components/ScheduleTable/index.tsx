@@ -18,9 +18,14 @@ import styles from './index.less';
 interface Props {
   startDate: number;
   endDate: number;
+  scroll: any;
 }
 
-export default function CustomizedTables({ startDate, endDate }: Props) {
+export default function CustomizedTables({
+  startDate,
+  endDate,
+  scroll,
+}: Props) {
   const userInfoRes = useFindUserInfoQuery();
   const isAdmin =
     userInfoRes.data?.findUserInfo?.tags?.includes('SeatSelectionAdmin');
@@ -266,8 +271,9 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
               rowKey="_id"
               dataSource={rows}
               columns={columns}
-              scroll={{ x: 2000 }}
+              // scroll={{ x: 2000, y: height }}
               pagination={false}
+              scroll={scroll}
             />
           </ConfigProvider>
         </Stack>

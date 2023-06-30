@@ -33,8 +33,8 @@ const Retro: React.FunctionComponent = () => {
         {fullScreen ? (
           <Tooltip
             title="FullscreenExit"
-            disableFocusListener
-            disableTouchListener
+            // disableFocusListener
+            // disableTouchListener
             placement="top"
             arrow
           >
@@ -50,8 +50,8 @@ const Retro: React.FunctionComponent = () => {
         ) : (
           <Tooltip
             title="FullScreen"
-            disableFocusListener
-            disableTouchListener
+            // disableFocusListener
+            // disableTouchListener
             placement="top"
             arrow
           >
@@ -68,8 +68,8 @@ const Retro: React.FunctionComponent = () => {
 
         <Tooltip
           title="Previous Month"
-          disableFocusListener
-          disableTouchListener
+          // disableFocusListener
+          // disableTouchListener
           placement="top"
           arrow
         >
@@ -85,8 +85,8 @@ const Retro: React.FunctionComponent = () => {
 
         <Tooltip
           title="Next Month"
-          disableFocusListener
-          disableTouchListener
+          // disableFocusListener
+          // disableTouchListener
           placement="top"
           arrow
         >
@@ -109,12 +109,27 @@ const Retro: React.FunctionComponent = () => {
 
   return (
     <Container>
-      <Stack direction="row" sx={{ mb: 2 }} alignItems="center">
-        {toolbar()}
-      </Stack>
+      {!fullScreen && (
+        <Stack direction="row" sx={{ mb: 2 }} alignItems="center">
+          {toolbar()}
+        </Stack>
+      )}
 
       <FullScreen fullScreen={fullScreen} renderToolbar={toolbar}>
-        <Table startDate={startDate} endDate={endDate} />
+        <Table
+          startDate={startDate}
+          endDate={endDate}
+          scroll={
+            fullScreen
+              ? {
+                  x: 2000,
+                  y: window.innerHeight - 120,
+                }
+              : {
+                  x: 2000,
+                }
+          }
+        />
       </FullScreen>
     </Container>
   );
