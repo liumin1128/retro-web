@@ -144,7 +144,7 @@ const theme = createTheme(common, {
     },
     background: {
       paper: '#fff',
-      default: '#fff',
+      default: '#f8f8f8',
       neutral: '#F4F6F8',
       gradient: 'red',
     },

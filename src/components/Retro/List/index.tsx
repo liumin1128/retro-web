@@ -36,7 +36,7 @@ const App: React.FunctionComponent<IAppProps> = ({ data }) => {
     history.push(`/retro/${_id}`);
   };
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ pb: 2 }}>
       {data?.map((i) => {
         return (
           <Grid item xs={12} sm={12} md={6} lg={4} key={i._id}>

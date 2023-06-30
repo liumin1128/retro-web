@@ -12,7 +12,7 @@ import NavTabs from './NavTabs';
 const BaseLayout = () => {
   return (
     <Stack spacing={2}>
-      <AppBar color="default" position="static">
+      <AppBar position="static">
         <Toolbar>
           <Stack
             direction="row"
