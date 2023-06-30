@@ -5,7 +5,9 @@ export async function handleLogin(token: string) {
   const path = await getStorage(PATH_BEFORELOGIN);
   await removeStorage(PATH_BEFORELOGIN);
   await setStorage(USER_TOKEN, token);
-  window.location.href = `/#${path || '/'}`;
+  setTimeout(() => {
+    window.location.href = `/#${path || '/'}`;
+  }, 1000);
   // history.push(path);
 }
 
