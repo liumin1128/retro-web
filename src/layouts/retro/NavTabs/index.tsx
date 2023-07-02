@@ -2,7 +2,7 @@ import { useLocation, history } from 'umi';
 import Tabs, { TabsProps } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
-import useNavList from './useNavList';
+import useNavList from '../useNavList';
 
 const StyledTabs = styled((props: TabsProps) => (
   <Tabs

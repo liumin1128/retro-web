@@ -175,7 +175,7 @@ const Section = () => {
     return (
       <Box
         sx={{
-          height: isUpMd ? 'calc(100vh - 4px)' : 'calc(100vh - 64px)',
+          height: isUpMd ? 'calc(100vh - 4px)' : 'calc(100vh - 64px - 56px)',
           display: 'flex',
           flexDirection: 'column',
         }}

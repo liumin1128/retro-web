@@ -110,7 +110,7 @@ const Retro: React.FunctionComponent = () => {
   return (
     <Container>
       {!fullScreen && (
-        <Stack direction="row" sx={{ mb: 2 }} alignItems="center">
+        <Stack direction="row" sx={{ my: 2 }} alignItems="center">
           {toolbar()}
         </Stack>
       )}
