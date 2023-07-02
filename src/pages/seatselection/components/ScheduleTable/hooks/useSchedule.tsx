@@ -47,7 +47,7 @@ export default ({ startDate, endDate }: Props) => {
   const userInfoRes = useFindUserInfoQuery();
 
   const userRes = useFindUsersQuery({
-    variables: { tags: ['ComTech'] },
+    variables: { tags: ['ComTech'], sortKey: 'index', sortOrder: 1 },
     pollInterval: 1000 * 60, // 每分钟，自动同步一次数据
   });
 

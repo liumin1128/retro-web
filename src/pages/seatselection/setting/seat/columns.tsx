@@ -40,7 +40,6 @@ export default ({ onEditTags, onSwitchDisabled }) => [
                 return <Chip key={tag} label={tag} />;
               })}
           </Stack>
-
           <Button onClick={() => onEditTags(row)}>
             <Stack spacing={1} direction="row">
               <Typography variant="caption">Edit</Typography>

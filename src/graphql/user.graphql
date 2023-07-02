@@ -10,10 +10,25 @@ fragment userFields on User {
   position
   company
   tags
+  index
 }
 
-query FindUsers($search: String, $tags: [String], $limit: Int, $skip: Int) {
-  findUsers(search: $search, tags: $tags, limit: $limit, skip: $skip) {
+query FindUsers(
+  $search: String
+  $tags: [String]
+  $limit: Int
+  $skip: Int
+  $sortKey: String
+  $sortOrder: Int
+) {
+  findUsers(
+    search: $search
+    tags: $tags
+    limit: $limit
+    skip: $skip
+    sortKey: $sortKey
+    sortOrder: $sortOrder
+  ) {
     ...userFields
   }
 }
@@ -47,6 +62,12 @@ mutation AdminPushUsersTags($users: [ID], $tags: [String]) {
 
 mutation AdminPullUsersTags($users: [ID], $tags: [String]) {
   adminPullUsersTags(users: $users, tags: $tags) {
+    success
+  }
+}
+
+mutation AdminUpdateUserInfo($id: ID, $input: AdminUpdateUserInfoInput) {
+  adminUpdateUserInfo(id: $id, input: $input) {
     success
   }
 }

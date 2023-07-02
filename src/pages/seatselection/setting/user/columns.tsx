@@ -2,8 +2,10 @@ import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import EditIcon from '@mui/icons-material/EditOutlined';
+import Button from '@mui/material/Button';
 
-export default ({ onDeleteTag }) => [
+export default ({ onDeleteTag, onEdit }) => [
   {
     key: 'avatarUrl',
     title: 'AvatarUrl',
@@ -25,6 +27,20 @@ export default ({ onDeleteTag }) => [
       );
     },
   },
+
+  {
+    key: 'index',
+    title: 'Index',
+    dataIndex: 'index',
+    render: (_, row) => {
+      return (
+        <Stack>
+          <Typography>{row?.index}</Typography>
+        </Stack>
+      );
+    },
+  },
+
   {
     key: 'tags',
     title: 'Tags',
@@ -44,6 +60,24 @@ export default ({ onDeleteTag }) => [
               />
             );
           })}
+        </Stack>
+      );
+    },
+  },
+
+  {
+    key: 'actions',
+    title: 'Actions',
+    dataIndex: 'actions',
+    render: (tags: string[], row) => {
+      return (
+        <Stack direction="row" flexWrap="wrap">
+          <Button onClick={() => onEdit(row)}>
+            <Stack spacing={1} direction="row">
+              <Typography variant="caption">Edit</Typography>
+              <EditIcon sx={{ fontSize: 'inherit' }} />
+            </Stack>
+          </Button>
         </Stack>
       );
     },

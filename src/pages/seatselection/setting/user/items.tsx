@@ -1,22 +1,10 @@
 import get from 'lodash/get';
-import UserSelect from '../../components/UserSelect';
-import TagsSelect from '../../components/TagsSelect';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import UserSelect from '../../components/UserSelect';
+import TagsSelect from '../../components/TagsSelect';
 
 export default [
-  // {
-  //   key: 'content',
-  //   label: 'Content',
-  //   registerOptions: {
-  //     required: { value: true, message: 'Content is required' },
-  //   },
-  //   componentProps: {
-  //     fullWidth: true,
-  //     label: 'Content',
-  //   },
-  // },
-
   {
     key: 'users',
     label: 'User',

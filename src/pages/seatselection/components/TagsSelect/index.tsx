@@ -20,7 +20,7 @@ export default React.forwardRef((props, ref) => {
   const error = !!get(errors, name, '');
   const helperText = get(errors, `${name}.message`, '');
 
-  const [chips, setChips] = React.useState<string[]>([]);
+  const [chips, setChips] = React.useState<string[]>(value || []);
 
   const handleChange = (newChips: string[]) => {
     setChips(newChips);

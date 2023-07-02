@@ -8,24 +8,31 @@ import {
   useFindUsersQuery,
   useAdminPushUsersTagsMutation,
   useAdminPullUsersTagsMutation,
+  useAdminUpdateUserInfoMutation,
 } from '@/generated/graphql';
 import Table from '@/components/Table';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
 import Form, { FormRefInstance } from '@/components/Form/v2';
 import getColumns from './columns';
 import items from './items';
+import updateItems from './update.items';
 
 const Retro: React.FunctionComponent = () => {
   const { data, loading, error, refetch } = useFindUsersQuery({
     variables: {
       tags: ['ComTech'],
+      sortKey: 'index',
+      sortOrder: 1,
     },
   });
   const [pushTag] = useAdminPushUsersTagsMutation();
   const [pullTag] = useAdminPullUsersTagsMutation();
+  const [updateUserInfo] = useAdminUpdateUserInfoMutation();
 
-  const modalRef = React.useRef<ModalMethods>(null);
-  const formRef = React.useRef<FormRefInstance>(null);
+  const modalCreateUserRef = React.useRef<ModalMethods>(null);
+  const createUserFormRef = React.useRef<FormRefInstance>(null);
+  const modalUpdateUserRef = React.useRef<ModalMethods>(null);
+  const updateUserFormRef = React.useRef<FormRefInstance>(null);
 
   const handleSubmit = async (values: Record<string, unknown>) => {
     await pushTag({
@@ -37,15 +44,51 @@ const Retro: React.FunctionComponent = () => {
     await refetch();
   };
 
+  const handleUpdateSubmit =
+    (id) => async (values: Record<string, unknown>) => {
+      console.log('values');
+      console.log(values);
+      await updateUserInfo({
+        variables: {
+          id: id,
+          input: values,
+        },
+      });
+      await refetch();
+    };
+
   const handelAddUser = () => {
-    modalRef?.current?.open({
+    modalCreateUserRef?.current?.open({
       title: 'Add User',
       onConfirm: async () => {
-        await formRef.current?.submit();
+        await createUserFormRef.current?.submit();
       },
       render: () => (
         <Stack spacing={1} sx={{ py: 2 }}>
-          <Form items={items} ref={formRef} onSubmit={handleSubmit} />
+          <Form items={items} ref={createUserFormRef} onSubmit={handleSubmit} />
+        </Stack>
+      ),
+    });
+  };
+
+  const handelUpdateUser = (row) => {
+    modalUpdateUserRef?.current?.open({
+      title: 'Add User',
+      onConfirm: async () => {
+        await updateUserFormRef.current?.submit();
+      },
+      render: () => (
+        <Stack spacing={1} sx={{ py: 2 }}>
+          <Form
+            items={updateItems}
+            ref={updateUserFormRef}
+            onSubmit={handleUpdateSubmit(row._id)}
+            defaultValues={{
+              tags: row?.tags,
+              nickname: row?.nickname,
+              index: row?.index,
+            }}
+          />
         </Stack>
       ),
     });
@@ -67,6 +110,9 @@ const Retro: React.FunctionComponent = () => {
   const columns = getColumns({
     onDeleteTag: (row, tag) => {
       handleDeleteTag(row._id, tag);
+    },
+    onEdit: (row) => {
+      handelUpdateUser(row);
     },
   });
 
@@ -90,7 +136,8 @@ const Retro: React.FunctionComponent = () => {
           </Stack>
         </Stack>
       </Container>
-      <Modal ref={modalRef} fullWidth />
+      <Modal ref={modalCreateUserRef} fullWidth />
+      <Modal ref={modalUpdateUserRef} fullWidth />
     </Box>
   );
 };

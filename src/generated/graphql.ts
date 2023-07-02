@@ -16,6 +16,12 @@ export type Scalars = {
   Date: any;
 };
 
+export type AdminUpdateUserInfoInput = {
+  index?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type Comment = Document & {
   __typename?: 'Comment';
   _id: Scalars['ID'];
@@ -236,6 +242,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   adminPullUsersTags?: Maybe<Result>;
   adminPushUsersTags?: Maybe<Result>;
+  adminUpdateUserInfo?: Maybe<Result>;
   createComment?: Maybe<Comment>;
   createDynamic?: Maybe<Dynamic>;
   createFollow?: Maybe<Follow>;
@@ -280,6 +287,12 @@ export type MutationAdminPullUsersTagsArgs = {
 export type MutationAdminPushUsersTagsArgs = {
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+
+export type MutationAdminUpdateUserInfoArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+  input?: InputMaybe<AdminUpdateUserInfoInput>;
 };
 
 
@@ -660,6 +673,8 @@ export type QueryFindUsersArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   search?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
+  sortKey?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['Int']>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -919,6 +934,7 @@ export type User = {
   birthday?: Maybe<Scalars['String']>;
   company?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
+  index?: Maybe<Scalars['Int']>;
   nickname?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   position?: Maybe<Scalars['String']>;
@@ -1071,7 +1087,7 @@ export type OrganizationFieldsFragment = { __typename?: 'Organization', _id: str
 export type FindOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindOrganizationsQuery = { __typename?: 'Query', currentOrganization?: { __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null, myOrganizations?: Array<{ __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null> | null, currentOrganizationUsers?: Array<{ __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null> | null };
+export type FindOrganizationsQuery = { __typename?: 'Query', currentOrganization?: { __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null, myOrganizations?: Array<{ __typename?: 'Organization', _id: string, name?: string | null, description?: string | null, logo?: string | null } | null> | null, currentOrganizationUsers?: Array<{ __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null> | null };
 
 export type FindOrganizationQueryVariables = Exact<{
   _id: Scalars['ID'];
@@ -1206,7 +1222,7 @@ export type RetroMessageDeletedSubscription = { __typename?: 'Subscription', ret
 
 export type UserRoleFieldsFragment = { __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null };
 
-export type UserToRoleFieldsFragment = { __typename?: 'UserToRole', _id: string, createdAt?: string | null, role: { __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null }, user: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } };
+export type UserToRoleFieldsFragment = { __typename?: 'UserToRole', _id: string, createdAt?: string | null, role: { __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null }, user: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } };
 
 export type UserWithRoleFieldsFragment = { __typename?: 'UserWithRole', _id: string, username?: string | null, nickname?: string | null, avatarUrl?: string | null, roles?: Array<{ __typename?: 'UserRole', _id: string, name: string, scope: string, description?: string | null } | null> | null };
 
@@ -1234,7 +1250,7 @@ export type CreateUserToRoleMutationVariables = Exact<{
 
 export type CreateUserToRoleMutation = { __typename?: 'Mutation', createUserToRole?: { __typename?: 'UserToRole', _id: string } | null };
 
-export type ScheduleFieldsFragment = { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
+export type ScheduleFieldsFragment = { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null };
 
 export type FindSchedulesQueryVariables = Exact<{
   user?: InputMaybe<Scalars['ID']>;
@@ -1243,7 +1259,7 @@ export type FindSchedulesQueryVariables = Exact<{
 }>;
 
 
-export type FindSchedulesQuery = { __typename?: 'Query', findSchedules?: Array<{ __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null> | null };
+export type FindSchedulesQuery = { __typename?: 'Query', findSchedules?: Array<{ __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null> | null };
 
 export type CreateScheduleMutationVariables = Exact<{
   status: Scalars['String'];
@@ -1252,7 +1268,7 @@ export type CreateScheduleMutationVariables = Exact<{
 }>;
 
 
-export type CreateScheduleMutation = { __typename?: 'Mutation', createSchedule?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type CreateScheduleMutation = { __typename?: 'Mutation', createSchedule?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type ScheduleCreatedSubscriptionVariables = Exact<{
   user?: InputMaybe<Scalars['ID']>;
@@ -1261,38 +1277,40 @@ export type ScheduleCreatedSubscriptionVariables = Exact<{
 }>;
 
 
-export type ScheduleCreatedSubscription = { __typename?: 'Subscription', scheduleCreated?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type ScheduleCreatedSubscription = { __typename?: 'Subscription', scheduleCreated?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
-export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null };
+export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null };
 
 export type FindUsersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  sortKey?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type FindUsersQuery = { __typename?: 'Query', findUsers?: Array<{ __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null> | null };
+export type FindUsersQuery = { __typename?: 'Query', findUsers?: Array<{ __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null> | null };
 
 export type FindUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindUserInfoQuery = { __typename?: 'Query', findUserInfo?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
+export type FindUserInfoQuery = { __typename?: 'Query', findUserInfo?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null };
 
 export type LoginQueryVariables = Exact<{
   input?: InputMaybe<LoginUserInput>;
 }>;
 
 
-export type LoginQuery = { __typename?: 'Query', login?: { __typename?: 'UserWithToken', token: string, user: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } } | null };
+export type LoginQuery = { __typename?: 'Query', login?: { __typename?: 'UserWithToken', token: string, user: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } } | null };
 
 export type UpdateUserInfoMutationVariables = Exact<{
   input?: InputMaybe<UpdateUserInfoInput>;
 }>;
 
 
-export type UpdateUserInfoMutation = { __typename?: 'Mutation', updateUserInfo?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
+export type UpdateUserInfoMutation = { __typename?: 'Mutation', updateUserInfo?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null };
 
 export type AdminPushUsersTagsMutationVariables = Exact<{
   users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
@@ -1310,9 +1328,17 @@ export type AdminPullUsersTagsMutationVariables = Exact<{
 
 export type AdminPullUsersTagsMutation = { __typename?: 'Mutation', adminPullUsersTags?: { __typename?: 'Result', success?: boolean | null } | null };
 
+export type AdminUpdateUserInfoMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  input?: InputMaybe<AdminUpdateUserInfoInput>;
+}>;
+
+
+export type AdminUpdateUserInfoMutation = { __typename?: 'Mutation', adminUpdateUserInfo?: { __typename?: 'Result', success?: boolean | null } | null };
+
 export type SeatFieldsFragment = { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null };
 
-export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null };
+export type UserToSeatFieldsFragment = { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null };
 
 export type FindSeatsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1360,14 +1386,14 @@ export type FindUserToSeatsQueryVariables = Exact<{
 }>;
 
 
-export type FindUserToSeatsQuery = { __typename?: 'Query', findUserToSeats?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null> | null };
+export type FindUserToSeatsQuery = { __typename?: 'Query', findUserToSeats?: Array<{ __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null> | null };
 
 export type FindUserToSeatQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
 
-export type FindUserToSeatQuery = { __typename?: 'Query', findUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type FindUserToSeatQuery = { __typename?: 'Query', findUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type CreateUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1375,7 +1401,7 @@ export type CreateUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserToSeatMutation = { __typename?: 'Mutation', createUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type CreateUserToSeatMutation = { __typename?: 'Mutation', createUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type DeleteUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1383,7 +1409,7 @@ export type DeleteUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUserToSeatMutation = { __typename?: 'Mutation', deleteUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type DeleteUserToSeatMutation = { __typename?: 'Mutation', deleteUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type ToggleUserToSeatMutationVariables = Exact<{
   seat: Scalars['ID'];
@@ -1392,7 +1418,7 @@ export type ToggleUserToSeatMutationVariables = Exact<{
 }>;
 
 
-export type ToggleUserToSeatMutation = { __typename?: 'Mutation', toggleUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type ToggleUserToSeatMutation = { __typename?: 'Mutation', toggleUserToSeat?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type UserToSeatCreatedSubscriptionVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
@@ -1402,7 +1428,7 @@ export type UserToSeatCreatedSubscriptionVariables = Exact<{
 }>;
 
 
-export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userToSeatCreated?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userToSeatCreated?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type UserToSeatDeletedSubscriptionVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
@@ -1412,7 +1438,7 @@ export type UserToSeatDeletedSubscriptionVariables = Exact<{
 }>;
 
 
-export type UserToSeatDeletedSubscription = { __typename?: 'Subscription', userToSeatDeleted?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type UserToSeatDeletedSubscription = { __typename?: 'Subscription', userToSeatDeleted?: { __typename?: 'UserToSeat', _id: string, createdAt?: string | null, date?: number | null, seat?: { __typename?: 'Seat', _id: string, id: string, tags?: Array<string | null> | null, disabled?: boolean | null } | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export const CommentFieldsFragmentDoc = gql`
     fragment commentFields on Comment {
@@ -1588,6 +1614,7 @@ export const UserFieldsFragmentDoc = gql`
   position
   company
   tags
+  index
 }
     `;
 export const UserToRoleFieldsFragmentDoc = gql`
@@ -2839,8 +2866,15 @@ export function useScheduleCreatedSubscription(baseOptions?: Apollo.Subscription
 export type ScheduleCreatedSubscriptionHookResult = ReturnType<typeof useScheduleCreatedSubscription>;
 export type ScheduleCreatedSubscriptionResult = Apollo.SubscriptionResult<ScheduleCreatedSubscription>;
 export const FindUsersDocument = gql`
-    query FindUsers($search: String, $tags: [String], $limit: Int, $skip: Int) {
-  findUsers(search: $search, tags: $tags, limit: $limit, skip: $skip) {
+    query FindUsers($search: String, $tags: [String], $limit: Int, $skip: Int, $sortKey: String, $sortOrder: Int) {
+  findUsers(
+    search: $search
+    tags: $tags
+    limit: $limit
+    skip: $skip
+    sortKey: $sortKey
+    sortOrder: $sortOrder
+  ) {
     ...userFields
   }
 }
@@ -2862,6 +2896,8 @@ export const FindUsersDocument = gql`
  *      tags: // value for 'tags'
  *      limit: // value for 'limit'
  *      skip: // value for 'skip'
+ *      sortKey: // value for 'sortKey'
+ *      sortOrder: // value for 'sortOrder'
  *   },
  * });
  */
@@ -3049,6 +3085,40 @@ export function useAdminPullUsersTagsMutation(baseOptions?: Apollo.MutationHookO
 export type AdminPullUsersTagsMutationHookResult = ReturnType<typeof useAdminPullUsersTagsMutation>;
 export type AdminPullUsersTagsMutationResult = Apollo.MutationResult<AdminPullUsersTagsMutation>;
 export type AdminPullUsersTagsMutationOptions = Apollo.BaseMutationOptions<AdminPullUsersTagsMutation, AdminPullUsersTagsMutationVariables>;
+export const AdminUpdateUserInfoDocument = gql`
+    mutation AdminUpdateUserInfo($id: ID, $input: AdminUpdateUserInfoInput) {
+  adminUpdateUserInfo(id: $id, input: $input) {
+    success
+  }
+}
+    `;
+export type AdminUpdateUserInfoMutationFn = Apollo.MutationFunction<AdminUpdateUserInfoMutation, AdminUpdateUserInfoMutationVariables>;
+
+/**
+ * __useAdminUpdateUserInfoMutation__
+ *
+ * To run a mutation, you first call `useAdminUpdateUserInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAdminUpdateUserInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [adminUpdateUserInfoMutation, { data, loading, error }] = useAdminUpdateUserInfoMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAdminUpdateUserInfoMutation(baseOptions?: Apollo.MutationHookOptions<AdminUpdateUserInfoMutation, AdminUpdateUserInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AdminUpdateUserInfoMutation, AdminUpdateUserInfoMutationVariables>(AdminUpdateUserInfoDocument, options);
+      }
+export type AdminUpdateUserInfoMutationHookResult = ReturnType<typeof useAdminUpdateUserInfoMutation>;
+export type AdminUpdateUserInfoMutationResult = Apollo.MutationResult<AdminUpdateUserInfoMutation>;
+export type AdminUpdateUserInfoMutationOptions = Apollo.BaseMutationOptions<AdminUpdateUserInfoMutation, AdminUpdateUserInfoMutationVariables>;
 export const FindSeatsDocument = gql`
     query FindSeats {
   findSeats {
