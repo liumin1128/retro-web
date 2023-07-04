@@ -32,7 +32,9 @@ const Retro: React.FunctionComponent = () => {
         <Grid container spacing={4}>
           <Grid item xs={12} md="auto">
             <Tabs
-              orientation="vertical"
+              textColor="inherit"
+              indicatorColor="primary"
+              orientation={isUpMd ? 'vertical' : 'horizontal'}
               variant="scrollable"
               value={TABS.findIndex((i) => i.pathname === location.pathname)}
               onChange={(_, idx) => {

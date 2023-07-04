@@ -32,7 +32,7 @@ function a11yProps(index: number) {
 const Retro: React.FunctionComponent = () => {
   const location = useLocation();
   const theme = useTheme();
-  const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
+  const isUpMd = useMediaQuery(theme.breakpoints.up('lg'));
 
   const { data } = useFindUserInfoQuery();
 
@@ -56,8 +56,10 @@ const Retro: React.FunctionComponent = () => {
         <Grid container spacing={4}>
           <Grid item xs={12} md="auto">
             <Tabs
-              orientation="vertical"
-              // orientation={isUpMd ? 'vertical' : 'horizontal'}
+              textColor="inherit"
+              indicatorColor="primary"
+              // orientation="vertical"
+              orientation={isUpMd ? 'vertical' : 'horizontal'}
               variant="scrollable"
               value={navValue}
               onChange={(_, idx) => {
@@ -94,7 +96,7 @@ const Retro: React.FunctionComponent = () => {
             </Tabs>
           </Grid>
 
-          <Grid item xs={12} md>
+          <Grid item xs={12} md="auto">
             <Outlet />
           </Grid>
         </Grid>
