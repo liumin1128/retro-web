@@ -59,7 +59,7 @@ const nextTheme = createTheme(common, {
     // },
 
     primary: {
-      main: '#00266b',
+      main: '#005bff',
       contrastText: '#fff',
     },
     secondary: {

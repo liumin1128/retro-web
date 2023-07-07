@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import ConfigProvider from 'antd/es/config-provider';
 import AntdTable from 'antd/es/table/Table';
 import { ColumnsType } from 'antd/es/table';
+import { useTheme } from '@mui/material/styles';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
 import { UserFieldsFragment, useFindUserInfoQuery } from '@/generated/graphql';
 import Avatar from '@/components/Avatar/Thumbnail';
@@ -26,6 +27,8 @@ export default function CustomizedTables({
   endDate,
   scroll,
 }: Props) {
+  const theme = useTheme();
+
   const userInfoRes = useFindUserInfoQuery();
   const isAdmin =
     userInfoRes.data?.findUserInfo?.tags?.includes('SeatSelectionAdmin');
@@ -264,6 +267,14 @@ export default function CustomizedTables({
             theme={{
               token: {
                 borderRadius: 0,
+
+                ...(theme.palette.mode === 'dark'
+                  ? {
+                      colorBgContainer: '#161C24',
+                      colorText: '#fff',
+                      colorBorderSecondary: 'rgba(255, 255, 255, 0.1)',
+                    }
+                  : {}),
               },
               components: {
                 Table: {
