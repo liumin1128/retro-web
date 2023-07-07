@@ -1,9 +1,10 @@
-import ButtonGroup from '@mui/material/ButtonGroup';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import HomeIcon from '@mui/icons-material/Home';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
+import Tooltip from '@mui/material/Tooltip';
 
 // import Typography from '@mui/material/Typography';
 // import list from '@/pages/seatselection/components/StatusList/seatData';
@@ -51,6 +52,20 @@ const list = [
     color: '#ff0000',
     icon: <MedicalServicesIcon />,
   },
+  {
+    value: 'DT',
+    label: 'Duty Travel',
+    bgcolor: '#f5f5f5',
+    color: '#fed563',
+    icon: <DirectionsRunIcon />,
+  },
+  {
+    value: 'Other',
+    label: 'Other',
+    bgcolor: '#f5f5f5',
+    color: '#fed563',
+    icon: <DirectionsRunIcon />,
+  },
 ];
 
 interface Props {
@@ -61,22 +76,23 @@ interface Props {
 export default function StatusList({ value = 'Office', onChange }: Props) {
   return (
     <div>
-      <ButtonGroup size="small" aria-label="vertical outlined button group">
+      <Box sx={{ maxWidth: 300 }}>
         {list.map((i) => {
           return (
-            <Button
-              key={i.value}
-              onClick={() => {
-                onChange(i.value);
-              }}
-              variant={value === i.value ? 'contained' : undefined}
-              sx={{ width: '60px', borderRadius: '0px' }}
-            >
-              {i.value}
-            </Button>
+            <Tooltip placement="top" title={i.label} arrow key={i.value}>
+              <Button
+                onClick={() => {
+                  onChange(i.value);
+                }}
+                variant={value === i.value ? 'contained' : 'outlined'}
+                sx={{ width: '64px', height: '32px', borderRadius: '0px' }}
+              >
+                {i.value}
+              </Button>
+            </Tooltip>
           );
         })}
-      </ButtonGroup>
+      </Box>
     </div>
   );
 }

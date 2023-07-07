@@ -25,7 +25,7 @@ const StyledTableCell = styled(Box, {
           : 'rgba(0, 0, 0, 0.03)',
     }),
   ...(hasSeat && {
-    backgroundColor: 'green',
+    backgroundColor: '#389e0d',
     color: 'white',
   }),
 
@@ -34,19 +34,27 @@ const StyledTableCell = styled(Box, {
     color: 'white',
   }),
   ...(status === 'AL' && {
-    backgroundColor: '#fed563',
+    backgroundColor: '#faad14',
     color: 'white',
   }),
   ...(status === 'AM' && {
-    backgroundColor: '#fed563',
+    backgroundColor: '#ffc53d',
     color: 'white',
   }),
   ...(status === 'PM' && {
-    backgroundColor: '#fed563',
+    backgroundColor: '#ffc53d',
     color: 'white',
   }),
   ...(status === 'MC' && {
-    backgroundColor: '#f44336',
+    backgroundColor: '#ff4d4f',
+    color: 'white',
+  }),
+  ...(status === 'DT' && {
+    backgroundColor: '#13c2c2',
+    color: 'white',
+  }),
+  ...(status === 'Other' && {
+    backgroundColor: '#d3adf7',
     color: 'white',
   }),
 }));
