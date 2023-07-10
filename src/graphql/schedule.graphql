@@ -3,6 +3,7 @@ fragment scheduleFields on Schedule {
   createdAt
   date
   status
+  comment
   user {
     ...userFields
   }
@@ -14,8 +15,15 @@ query FindSchedules($user: ID, $startDate: Float, $endDate: Float) {
   }
 }
 
-mutation CreateSchedule($status: String!, $date: Float!, $user: ID) {
-  createSchedule(input: { status: $status, date: $date, user: $user }) {
+mutation CreateSchedule(
+  $status: String!
+  $comment: String
+  $date: Float!
+  $user: ID
+) {
+  createSchedule(
+    input: { status: $status, comment: $comment, date: $date, user: $user }
+  ) {
     ...scheduleFields
   }
 }

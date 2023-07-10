@@ -118,6 +118,7 @@ export type CreateRoleInput = {
 };
 
 export type CreateScheduleInput = {
+  comment?: InputMaybe<Scalars['String']>;
   date: Scalars['Float'];
   status: Scalars['String'];
   user?: InputMaybe<Scalars['ID']>;
@@ -810,6 +811,7 @@ export enum Role {
 export type Schedule = Document & {
   __typename?: 'Schedule';
   _id: Scalars['ID'];
+  comment?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['String']>;
@@ -1250,7 +1252,7 @@ export type CreateUserToRoleMutationVariables = Exact<{
 
 export type CreateUserToRoleMutation = { __typename?: 'Mutation', createUserToRole?: { __typename?: 'UserToRole', _id: string } | null };
 
-export type ScheduleFieldsFragment = { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null };
+export type ScheduleFieldsFragment = { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, comment?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null };
 
 export type FindSchedulesQueryVariables = Exact<{
   user?: InputMaybe<Scalars['ID']>;
@@ -1259,16 +1261,17 @@ export type FindSchedulesQueryVariables = Exact<{
 }>;
 
 
-export type FindSchedulesQuery = { __typename?: 'Query', findSchedules?: Array<{ __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null> | null };
+export type FindSchedulesQuery = { __typename?: 'Query', findSchedules?: Array<{ __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, comment?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null> | null };
 
 export type CreateScheduleMutationVariables = Exact<{
   status: Scalars['String'];
+  comment?: InputMaybe<Scalars['String']>;
   date: Scalars['Float'];
   user?: InputMaybe<Scalars['ID']>;
 }>;
 
 
-export type CreateScheduleMutation = { __typename?: 'Mutation', createSchedule?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
+export type CreateScheduleMutation = { __typename?: 'Mutation', createSchedule?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, comment?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type ScheduleCreatedSubscriptionVariables = Exact<{
   user?: InputMaybe<Scalars['ID']>;
@@ -1277,7 +1280,7 @@ export type ScheduleCreatedSubscriptionVariables = Exact<{
 }>;
 
 
-export type ScheduleCreatedSubscription = { __typename?: 'Subscription', scheduleCreated?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
+export type ScheduleCreatedSubscription = { __typename?: 'Subscription', scheduleCreated?: { __typename?: 'Schedule', _id: string, createdAt?: string | null, date?: number | null, status?: string | null, comment?: string | null, user?: { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null } | null } | null };
 
 export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null, sign?: string | null, birthday?: string | null, sex?: number | null, position?: string | null, company?: string | null, tags?: Array<string | null> | null, index?: number | null };
 
@@ -1647,6 +1650,7 @@ export const ScheduleFieldsFragmentDoc = gql`
   createdAt
   date
   status
+  comment
   user {
     ...userFields
   }
@@ -2799,8 +2803,10 @@ export type FindSchedulesQueryHookResult = ReturnType<typeof useFindSchedulesQue
 export type FindSchedulesLazyQueryHookResult = ReturnType<typeof useFindSchedulesLazyQuery>;
 export type FindSchedulesQueryResult = Apollo.QueryResult<FindSchedulesQuery, FindSchedulesQueryVariables>;
 export const CreateScheduleDocument = gql`
-    mutation CreateSchedule($status: String!, $date: Float!, $user: ID) {
-  createSchedule(input: {status: $status, date: $date, user: $user}) {
+    mutation CreateSchedule($status: String!, $comment: String, $date: Float!, $user: ID) {
+  createSchedule(
+    input: {status: $status, comment: $comment, date: $date, user: $user}
+  ) {
     ...scheduleFields
   }
 }
@@ -2821,6 +2827,7 @@ export type CreateScheduleMutationFn = Apollo.MutationFunction<CreateScheduleMut
  * const [createScheduleMutation, { data, loading, error }] = useCreateScheduleMutation({
  *   variables: {
  *      status: // value for 'status'
+ *      comment: // value for 'comment'
  *      date: // value for 'date'
  *      user: // value for 'user'
  *   },

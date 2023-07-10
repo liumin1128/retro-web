@@ -1,5 +1,9 @@
+import { useRef, useState } from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import HomeIcon from '@mui/icons-material/Home';
@@ -70,21 +74,29 @@ const list = [
 
 interface Props {
   value?: string;
-  onChange: (status: string) => void;
+  onChange: (status: string, comment?: string) => void;
 }
 
 export default function StatusList({ value = 'Office', onChange }: Props) {
+  const [status, setStatus] = useState(value);
+
+  const ref = useRef<HTMLTextAreaElement>(null);
+
   return (
-    <div>
+    <Stack spacing={2}>
       <Box sx={{ maxWidth: 300 }}>
         {list.map((i) => {
           return (
             <Tooltip placement="top" title={i.label} arrow key={i.value}>
               <Button
                 onClick={() => {
-                  onChange(i.value);
+                  setStatus(i.value);
+                  if (i.value !== 'Other') {
+                    onChange(i.value);
+                  }
+                  // onChange(i.value);
                 }}
-                variant={value === i.value ? 'contained' : 'outlined'}
+                variant={status === i.value ? 'contained' : 'outlined'}
                 sx={{ width: '64px', height: '32px', borderRadius: '0px' }}
               >
                 {i.value}
@@ -93,6 +105,38 @@ export default function StatusList({ value = 'Office', onChange }: Props) {
           );
         })}
       </Box>
-    </div>
+
+      {status === 'Other' && (
+        <>
+          <Typography variant="caption">comments:</Typography>
+
+          <TextField
+            fullWidth
+            multiline
+            autoFocus
+            rows={3}
+            InputProps={{
+              sx: {
+                borderRadius: 0,
+              },
+            }}
+            inputRef={ref}
+          />
+
+          <Box>
+            <Button
+              variant="contained"
+              sx={{ width: '64px', height: '32px', borderRadius: '0px' }}
+              onClick={() => {
+                console.log(ref?.current?.value);
+                onChange('Other', ref?.current?.value);
+              }}
+            >
+              Submit
+            </Button>
+          </Box>
+        </>
+      )}
+    </Stack>
   );
 }

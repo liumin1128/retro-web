@@ -1,6 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
 import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
 import ConfigProvider from 'antd/es/config-provider';
@@ -53,11 +54,12 @@ export default function CustomizedTables({
             <Typography variant="caption">Status</Typography>
             <StatusList
               value={obj?.status}
-              onChange={async (status) => {
+              onChange={async (status, comment) => {
                 await toggleSchedule({
                   date: day.valueOf(),
                   user: row._id,
                   status,
+                  comment,
                 });
                 modalRef.current?.close();
               }}
@@ -242,6 +244,20 @@ export default function CustomizedTables({
               handleClickCell(day, row);
             };
           }
+
+          if (info?.comment)
+            return (
+              <Tooltip key={key} title={info?.comment} placement="top" arrow>
+                <StyledTableCell
+                  onClick={onClick}
+                  status={info?.status}
+                  workingDay={info?.workingDay}
+                  hasSeat={!!info?.seat?.id}
+                >
+                  {text}
+                </StyledTableCell>
+              </Tooltip>
+            );
 
           return (
             <StyledTableCell

@@ -33,6 +33,7 @@ export interface Info {
 export interface RowItem extends UserFieldsFragment {
   wfhDays: number;
   alDays: number;
+  comment?: string;
   [key: string]: unknown;
 }
 
@@ -127,16 +128,13 @@ export default ({ startDate, endDate }: Props) => {
   const isAdmin =
     userInfoRes.data?.findUserInfo?.tags?.includes('SeatSelectionAdmin');
 
-  const toggleSchedule = async ({
-    status,
-    date,
-    user,
-  }: {
+  const toggleSchedule = async (args: {
     status: string;
     date: number;
     user?: string;
+    comment?: string;
   }) => {
-    await createSchedule({ variables: { status, date, user } });
+    await createSchedule({ variables: args });
   };
 
   const toggleSeat = async ({
@@ -176,6 +174,7 @@ export default ({ startDate, endDate }: Props) => {
         );
         if (cur) {
           temp.status = cur?.status;
+          temp.comment = cur?.comment;
         }
         if (cur?.status === 'WFH') wfhDays += 1;
         if (cur?.status === 'AL') alDays += 1;
