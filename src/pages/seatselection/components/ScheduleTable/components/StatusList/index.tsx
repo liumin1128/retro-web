@@ -87,21 +87,20 @@ export default function StatusList({ value = 'Office', onChange }: Props) {
       <Box sx={{ maxWidth: 300 }}>
         {list.map((i) => {
           return (
-            <Tooltip placement="top" title={i.label} arrow key={i.value}>
-              <Button
-                onClick={() => {
-                  setStatus(i.value);
-                  if (i.value !== 'Other') {
-                    onChange(i.value);
-                  }
-                  // onChange(i.value);
-                }}
-                variant={status === i.value ? 'contained' : 'outlined'}
-                sx={{ width: '64px', height: '32px', borderRadius: '0px' }}
-              >
-                {i.value}
-              </Button>
-            </Tooltip>
+            <Button
+              key={i.value}
+              onClick={() => {
+                setStatus(i.value);
+                if (i.value !== 'Other') {
+                  onChange(i.value);
+                }
+                // onChange(i.value);
+              }}
+              variant={status === i.value ? 'contained' : 'outlined'}
+              sx={{ width: '64px', height: '32px', borderRadius: '0px' }}
+            >
+              {i.value}
+            </Button>
           );
         })}
       </Box>
