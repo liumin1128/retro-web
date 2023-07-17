@@ -112,35 +112,11 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                 direction="row"
                 sx={{ mb: -1 }}
               >
-                {!anonymous && status !== 'FOCUSED' && (
+                {!anonymous && (
                   <UserInfo
                     avatarUrl={user?.avatarUrl as string}
                     nickname={(user?.nickname || user?.username) as string}
                   />
-                )}
-
-                {hasAuth && status === 'FOCUSED' && (
-                  <Button
-                    onClick={() => {
-                      onUpdateStatus({
-                        status: 'NORMAL',
-                      });
-                    }}
-                  >
-                    Cancel
-                  </Button>
-
-                  // <IconButton
-                  //   size="large"
-                  //   onClick={(e) => {
-                  //     e.stopPropagation();
-                  //     onUpdate({
-                  //       status: 'NORMAL',
-                  //     });
-                  //   }}
-                  // >
-                  //   <CloseIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
-                  // </IconButton>
                 )}
 
                 <Box sx={{ flex: 1 }} />
@@ -149,12 +125,14 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                   <CheckCircleOutlineOutlinedIcon color="secondary" sx={{}} />
                 ) : (
                   <>
-                    <Piaise
-                      count={like}
-                      onClick={(likeCount: number) => {
-                        onLike(likeCount);
-                      }}
-                    />
+                    {status !== 'FOCUSED' && (
+                      <Piaise
+                        count={like}
+                        onClick={(likeCount: number) => {
+                          onLike(likeCount);
+                        }}
+                      />
+                    )}
 
                     {hasAuth && status !== 'FOCUSED' && (
                       <IconButton
@@ -166,6 +144,18 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                       >
                         <EditIcon sx={{ fontSize: '20px', color: '#bdbdbd' }} />
                       </IconButton>
+                    )}
+
+                    {hasAuth && status === 'FOCUSED' && (
+                      <Button
+                        onClick={() => {
+                          onUpdateStatus({
+                            status: 'NORMAL',
+                          });
+                        }}
+                      >
+                        Cancel
+                      </Button>
                     )}
 
                     {hasAuth && status === 'FOCUSED' && (
