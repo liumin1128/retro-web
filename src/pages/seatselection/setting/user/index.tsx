@@ -86,7 +86,7 @@ const Retro: React.FunctionComponent = () => {
             defaultValues={{
               tags: row?.tags,
               nickname: row?.nickname,
-              index: row?.index,
+              index: row?.index + '',
             }}
           />
         </Stack>
