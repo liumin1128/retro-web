@@ -123,13 +123,13 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
             </IconButton>
           </Wrapper>
 
-          {/* <IconButton
+          <IconButton
             onClick={() => {
               setAnonymous(!anonymous);
             }}
           >
             {anonymous ? <FaceRetouchingOffIcon /> : <FaceIcon />}
-          </IconButton> */}
+          </IconButton>
 
           <Box sx={{ flex: 1 }} />
 
