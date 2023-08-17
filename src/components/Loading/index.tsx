@@ -3,7 +3,7 @@ import LogoAnimation from '@/components/Icon/LoadingCat';
 
 const Loading = () => {
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <LogoAnimation sx={{ width: 100, height: 100 }} />
     </div>
   );
