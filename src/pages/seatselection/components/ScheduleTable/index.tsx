@@ -50,8 +50,10 @@ export default function CustomizedTables({
       title: `${row.nickname} ${day.format('YYYY-MM-DD')}`,
       render: () => {
         return (
-          <Stack spacing={2}>
-            <Typography variant="caption">Status</Typography>
+          <Stack spacing={1}>
+            <Typography variant="h6" sx={{ fontSize: 12 }}>
+              Status
+            </Typography>
             <StatusList
               value={obj?.status}
               onChange={async (status, comment) => {
@@ -64,7 +66,9 @@ export default function CustomizedTables({
                 modalRef.current?.close();
               }}
             />
-            <Typography variant="caption">SeatNo</Typography>
+            <Typography variant="h6" sx={{ fontSize: 12 }}>
+              SeatNo
+            </Typography>
             <SeatList
               currentUser={row}
               date={day.valueOf()}

@@ -95,7 +95,6 @@ export default function SeatList({ date }: Props) {
         {list.map((line) => {
           return (
             <Fragment key={line.key}>
-              <Typography variant="caption">{line.key}</Typography>
               <div>
                 {line.list.map((seats) => {
                   return (
