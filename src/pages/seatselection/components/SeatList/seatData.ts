@@ -108,4 +108,16 @@ export default [
       },
     ],
   },
+
+  {
+    key: 'line6',
+    list: [
+      {
+        key: 's1',
+        seats: [
+          { id: 31, _id: '64f6ef97f5e14c800aea9131', direction: 2, status: 1 },
+        ],
+      },
+    ],
+  },
 ];
