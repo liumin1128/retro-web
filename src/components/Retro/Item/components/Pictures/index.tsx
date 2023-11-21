@@ -54,7 +54,7 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
       <PhotoProvider>
         <Grid container spacing={1}>
           {pictures?.map((picture, index) => {
-            const size = 100;
+            const size = 200;
             const thumbnail = `${picture}?imageView2/0/w/${size}`;
 
             return (
