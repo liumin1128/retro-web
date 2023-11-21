@@ -79,6 +79,9 @@ dependencies:
   react-hook-form:
     specifier: ^7.43.9
     version: 7.43.9(react@18.2.0)
+  react-photo-view:
+    specifier: ^1.2.3
+    version: 1.2.3(react-dom@18.2.0)(react@18.2.0)
   rxjs:
     specifier: ^7.8.0
     version: 7.8.0
@@ -11437,6 +11440,16 @@ packages:
 
   /react-merge-refs@1.1.0:
     resolution: {integrity: sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==}
+    dev: false
+
+  /react-photo-view@1.2.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-dtaFjU8nAB/rD8mxBaaJcvESlDOweAd1tmvXujS/d3oh1QyGew3xD4C02l46E6Dhn3Tshzl2+IM1h0MWV9nG7g==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-redux@7.2.9(react-dom@18.2.0)(react@18.2.0):
