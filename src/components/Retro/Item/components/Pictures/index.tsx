@@ -25,13 +25,16 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
         </video>
       );
     }
+
+    const thumbnail = `${pictures[0]}?imageView2/0/w/400`;
+
     return (
       <Box sx={{ maxWidth: 400 }}>
         <PhotoProvider>
           <PhotoView src={pictures[0]}>
             <CardMedia
               component="img"
-              image={pictures[0]}
+              image={thumbnail}
               sx={{
                 width: '100%',
                 maxWidth: '400px',
