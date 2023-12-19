@@ -24,7 +24,7 @@ interface IItemProps {
   anonymous?: boolean;
   content?: string;
   pictures?: string[];
-  status?: string;
+  status: string;
   user?: User;
   like?: number;
   hasAuth?: boolean;
@@ -110,7 +110,12 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
               <Stack
                 justifyContent="flex-start"
                 direction="row"
-                sx={{ mb: -1 }}
+                sx={{
+                  mb: -1,
+                  height: '36px',
+
+                  // border: '1px red solid'
+                }}
               >
                 {!anonymous && (
                   <UserInfo
@@ -136,7 +141,6 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
 
                     {hasAuth && status !== 'FOCUSED' && (
                       <IconButton
-                        size="large"
                         onClick={(e) => {
                           e.stopPropagation();
                           setEdit(!edit);
@@ -148,6 +152,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
 
                     {hasAuth && status === 'FOCUSED' && (
                       <Button
+                        color="inherit"
                         onClick={() => {
                           onUpdateStatus({
                             status: 'NORMAL',
