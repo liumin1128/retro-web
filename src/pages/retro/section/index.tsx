@@ -1,8 +1,5 @@
-// tslint:disable
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { useState, useRef } from 'react';
-import { useParams, history } from 'umi';
+import { useParams } from 'umi';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import { useTheme } from '@mui/material/styles';
@@ -12,8 +9,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
@@ -28,9 +23,10 @@ import {
   DraggableProvided,
   DropResult,
 } from 'react-beautiful-dnd';
-import { user, placeholders, colors, TYPES, TabLabels } from './constants';
+import { user, placeholders, colors, TYPES } from './constants';
 import { sortItem } from './utils';
 import useRetroMessage from './useRetroMessage';
+import DownMdTabs from './DownMd/Tabs';
 
 interface UpdateParams {
   content?: string;
@@ -107,7 +103,6 @@ const Section = () => {
         placeholder={placeholder}
         onSubmit={(values) => {
           handleCreate(type, values);
-          modalRef.current?.close();
         }}
       />
     );
@@ -160,77 +155,36 @@ const Section = () => {
     );
   };
 
-  function renderItems(type: string) {
-    const items = list.filter((i) => i.type === type).sort(sortItem);
-    return (
-      <Box
-        sx={{
-          height: isUpMd ? 'calc(100vh - 4px)' : 'calc(100vh - 64px - 56px)',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Box
-          sx={{
-            overflowY: 'auto',
-            overflowX: 'hidden',
-            flex: 1,
-          }}
-        >
-          {items.map((i) => {
-            return renderItem(i);
-          })}
-        </Box>
-      </Box>
-    );
-  }
-
   if (!isUpMd) {
+    const items = list.filter((i) => i.type === currentType).sort(sortItem);
+    const color = colors[currentType];
+    const placeholder = placeholders[currentType];
+
     return (
       <Box>
-        <Tabs
-          value={currentType}
-          onChange={(e, v) => {
-            setCurrentType(v);
-          }}
-          TabIndicatorProps={{
-            children: <span className="MuiTabs-indicatorSpan" />,
-          }}
+        <DownMdTabs type={currentType} onClick={setCurrentType} />
+
+        <Box
           sx={{
-            '& .MuiTabs-indicator': {
-              display: 'flex',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              height: 4,
-            },
-            '& .MuiTabs-indicatorSpan': {
-              width: '100%',
-              height: 4,
-              backgroundColor: '#fff',
-            },
+            height: 'calc(100vh - 48px - 56px)',
+            display: 'flex',
+            flexDirection: 'column',
+            p: 1,
           }}
         >
-          {TYPES.map((i) => {
-            const label = TabLabels[i];
-            const color = colors[i];
-            return (
-              <Tab
-                key={i}
-                label={label}
-                sx={{
-                  width: '25%',
-                  bgcolor: `${color}.main`,
-                  color: '#fff !important',
-                }}
-                value={i}
-              />
-            );
-          })}
-        </Tabs>
-
-        <Container sx={{ p: isUpMd ? undefined : 1 }}>
-          {renderItems(currentType)}
-        </Container>
+          <Box
+            sx={{
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              flex: 1,
+            }}
+          >
+            {items.map((i) => {
+              return renderItem(i);
+            })}
+            <Box sx={{ height: 80 }} />
+          </Box>
+        </Box>
 
         <Fab
           sx={{
@@ -263,7 +217,19 @@ const Section = () => {
             },
           }}
           render={() => {
-            return <Box>{renderForm(currentType, true)}</Box>;
+            return (
+              <Box>
+                <Form
+                  autoFocus
+                  color={color}
+                  placeholder={placeholder}
+                  onSubmit={(values) => {
+                    handleCreate(currentType, values);
+                    modalRef.current?.close();
+                  }}
+                />
+              </Box>
+            );
           }}
         />
       </Box>
