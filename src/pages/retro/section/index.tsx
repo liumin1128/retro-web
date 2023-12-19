@@ -239,104 +239,111 @@ const Section = () => {
   const listGroup = groupBy(list, 'type');
 
   return (
-    <Container sx={{ height: 'calc(100vh - 72px)' }}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Grid
-          container
-          spacing={1}
-          sx={{
-            height: '100%',
-          }}
-        >
-          {TYPES.map((type) => (
-            <Grid
-              key={type}
-              item
-              xs={12}
-              md={3}
-              sx={{
-                display: 'flex',
-                height: '100%',
-                flexDirection: 'column',
-              }}
-            >
-              <Box sx={{ p: 0.5 }}>
-                <Card>{renderForm(type)}</Card>
-              </Box>
-
-              <Box
+    <Container sx={{ height: 'calc(100vh - 64px)' }}>
+      <Box
+        sx={{
+          height: '100%',
+          pt: 1,
+        }}
+      >
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Grid
+            container
+            spacing={1}
+            sx={{
+              height: '100%',
+            }}
+          >
+            {TYPES.map((type) => (
+              <Grid
+                key={type}
+                item
+                xs={12}
+                md={3}
                 sx={{
-                  overflowY: 'auto',
-                  overflowX: 'hidden',
-                  flex: 1,
+                  display: 'flex',
                   height: '100%',
+                  flexDirection: 'column',
                 }}
               >
-                <Droppable key={type} droppableId={type}>
-                  {(
-                    droppableProvided: DroppableProvided,
-                    droppableSnapshot: DroppableStateSnapshot,
-                  ) => {
-                    let background = '';
-                    let border = '';
+                <Box sx={{ p: 0.5 }}>
+                  <Card>{renderForm(type)}</Card>
+                </Box>
 
-                    if (droppableSnapshot.isDraggingOver) {
-                      background = 'rgba(173,216,230,0.1)';
-                      border = '1px rgba(173,216,230,1) dashed';
-                    }
-
-                    return (
-                      <Box
-                        {...droppableProvided.droppableProps}
-                        ref={droppableProvided.innerRef}
-                        sx={{
-                          height: '100%',
-                          background,
-                          border,
-                        }}
-                      >
-                        {Array.isArray(listGroup[type]) &&
-                          listGroup[type]
-                            .sort(sortItem)
-                            .map((item, idx: number) => {
-                              if (!item) return null;
-                              return (
-                                <Draggable
-                                  key={item._id}
-                                  draggableId={item._id}
-                                  index={idx}
-                                >
-                                  {(
-                                    draggableProvided: DraggableProvided,
-                                    // snapshot: DraggableStateSnapshot,
-                                  ) => (
-                                    <Box
-                                      ref={draggableProvided.innerRef}
-                                      {...draggableProvided.draggableProps}
-                                      {...draggableProvided.dragHandleProps}
-                                      sx={{
-                                        userSelect: 'none',
-                                        mb: 1,
-                                        ...draggableProvided.draggableProps
-                                          .style,
-                                      }}
-                                    >
-                                      {renderItem(item)}
-                                    </Box>
-                                  )}
-                                </Draggable>
-                              );
-                            })}
-                        {droppableProvided.placeholder}
-                      </Box>
-                    );
+                <Box
+                  sx={{
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                    flex: 1,
+                    height: '100%',
                   }}
-                </Droppable>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </DragDropContext>
+                >
+                  <Droppable key={type} droppableId={type}>
+                    {(
+                      droppableProvided: DroppableProvided,
+                      droppableSnapshot: DroppableStateSnapshot,
+                    ) => {
+                      let background = '';
+                      let border = '';
+
+                      if (droppableSnapshot.isDraggingOver) {
+                        background = 'rgba(173,216,230,0.1)';
+                        border = '1px rgba(173,216,230,1) dashed';
+                      }
+
+                      return (
+                        <Box
+                          {...droppableProvided.droppableProps}
+                          ref={droppableProvided.innerRef}
+                          sx={{
+                            height: '100%',
+                            background,
+                            border,
+                          }}
+                        >
+                          {Array.isArray(listGroup[type]) &&
+                            listGroup[type]
+                              .sort(sortItem)
+                              .map((item, idx: number) => {
+                                if (!item) return null;
+                                return (
+                                  <Draggable
+                                    key={item._id}
+                                    draggableId={item._id}
+                                    index={idx}
+                                  >
+                                    {(
+                                      draggableProvided: DraggableProvided,
+                                      // snapshot: DraggableStateSnapshot,
+                                    ) => (
+                                      <Box
+                                        ref={draggableProvided.innerRef}
+                                        {...draggableProvided.draggableProps}
+                                        {...draggableProvided.dragHandleProps}
+                                        sx={{
+                                          userSelect: 'none',
+                                          mb: 1,
+                                          ...draggableProvided.draggableProps
+                                            .style,
+                                        }}
+                                      >
+                                        {renderItem(item)}
+                                      </Box>
+                                    )}
+                                  </Draggable>
+                                );
+                              })}
+                          {droppableProvided.placeholder}
+                        </Box>
+                      );
+                    }}
+                  </Droppable>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </DragDropContext>
+      </Box>
     </Container>
   );
 };
