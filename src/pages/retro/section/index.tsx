@@ -14,15 +14,9 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Toolbar from '@mui/material/Toolbar';
-import AppBar from '@mui/material/AppBar';
-import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Item from '@/components/Retro/Item';
 import Form from '@/components/Retro/Form';
 import Card from '@/components/Retro/Card';
-import QRCodeIconButton from '@/components/QRCodeIconButton';
-import IconButton from '@mui/material/IconButton';
 import ModalRef, { ModalRefInstance } from '@/components/ModalRef/Dialog';
 import { RetroMessageType } from '@/generated/graphql';
 import {
@@ -34,9 +28,6 @@ import {
   DraggableProvided,
   DropResult,
 } from 'react-beautiful-dnd';
-import UserAvatar from '@/container/UserInfo/Avatar';
-import Logo from '@/components/Icon/Logo';
-
 import { user, placeholders, colors, TYPES, TabLabels } from './constants';
 import { sortItem } from './utils';
 import useRetroMessage from './useRetroMessage';
@@ -50,7 +41,6 @@ interface UpdateParams {
 const Section = () => {
   const params = useParams();
   const { retro } = params;
-
   const modalRef = useRef<ModalRefInstance<unknown>>();
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));

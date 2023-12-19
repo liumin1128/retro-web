@@ -41,6 +41,27 @@ export default [
     ],
   },
 
+  // {
+  //   path: '/',
+  //   wrappers: [
+  //     '@/wrappers/sentry',
+  //     '@/wrappers/apollo',
+  //     '@/wrappers/material-ui',
+  //     '@/wrappers/snackbar',
+  //   ],
+
+  //   component: '@/layouts/blank',
+
+  //   routes: [
+  //     {
+  //       path: '/retro/:retro',
+  //       component: '@/pages/retro/section',
+  //       title: 'Retro',
+  //       exact: true,
+  //     },
+  //   ],
+  // },
+
   {
     path: '/',
     wrappers: [
@@ -49,7 +70,8 @@ export default [
       '@/wrappers/material-ui',
       '@/wrappers/snackbar',
     ],
-    component: '@/layouts/retro',
+
+    component: '@/layouts/base',
 
     routes: [
       {
