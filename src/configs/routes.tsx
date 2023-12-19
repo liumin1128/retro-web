@@ -48,7 +48,6 @@ export default [
       '@/wrappers/apollo',
       '@/wrappers/material-ui',
       '@/wrappers/snackbar',
-      // '@/wrappers/auth',
     ],
     component: '@/layouts/retro',
 
