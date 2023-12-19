@@ -1,4 +1,3 @@
-import { history } from 'umi';
 import { Observable } from 'rxjs';
 import { gql, split, InMemoryCache, ApolloClient, from } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
@@ -8,7 +7,7 @@ import { RetryLink } from '@apollo/client/link/retry';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getStorage, setStorage } from '@/utils/store';
-import { USER_TOKEN, PATH_BEFORELOGIN } from '@/configs/base';
+import { USER_TOKEN, HREF_BEFORE_LOGOUT } from '@/configs/base';
 import { onError } from '@apollo/client/link/error';
 import typeDefs from './typeDefs';
 
@@ -75,14 +74,18 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const autoLogout = async () => {
+  await setStorage(HREF_BEFORE_LOGOUT, window.location.href);
+  window.location.href = '/#/login';
+};
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   console.log('errorLink networkError:', networkError);
   console.log('errorLink graphQLErrors:', graphQLErrors);
   if (graphQLErrors) {
     graphQLErrors.forEach((i) => {
       if (i?.extensions?.code === 'UNAUTHENTICATED') {
-        setStorage(PATH_BEFORELOGIN, history.location.pathname);
-        history.push('/login');
+        autoLogout();
       }
       if (i?.extensions?.code === 'INTERNAL_SERVER_ERROR') {
         window?.snackbar?.enqueueSnackbar(i.message, {

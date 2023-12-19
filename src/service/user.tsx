@@ -1,14 +1,11 @@
 import { setStorage, removeStorage, getStorage } from '@/utils/store';
-import { PATH_BEFORELOGIN, USER_TOKEN } from '@/configs/base';
+import { HREF_BEFORE_LOGOUT, USER_TOKEN } from '@/configs/base';
 
 export async function handleLogin(token: string) {
-  const path = await getStorage(PATH_BEFORELOGIN);
-  await removeStorage(PATH_BEFORELOGIN);
   await setStorage(USER_TOKEN, token);
-  setTimeout(() => {
-    window.location.href = `/#${path || '/'}`;
-  }, 1000);
-  // history.push(path);
+  const path = await getStorage(HREF_BEFORE_LOGOUT);
+  await removeStorage(HREF_BEFORE_LOGOUT);
+  window.location.href = `${path || '/'}`;
 }
 
 export async function handleLogout() {

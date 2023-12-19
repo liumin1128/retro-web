@@ -12,7 +12,7 @@ export const CURRENT_PATCH = 'react.mobi.theme.key';
 export const USER_TOKEN = 'react.mobi.user.token';
 export const USER_INFO_KEY = 'react.mobi.user.info';
 export const USER_SETTING_THEME = 'react.mobi.user.setting.theme';
-export const PATH_BEFORELOGIN = 'react.mobi.path.before.login';
+export const HREF_BEFORE_LOGOUT = 'react.mobi.path.before.login';
 export const QINIUURL = 'https://imgs.react.mobi';
 export const QINIU_UPLOADURL = 'https://upload-z1.qiniup.com';
 
