@@ -1,8 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import TableContainer from '@mui/material/TableContainer';
 import ConfigProvider from 'antd/es/config-provider';
 import AntdTable from 'antd/es/table/Table';
@@ -16,6 +18,18 @@ import StatusList from './components/StatusList';
 import StyledTableCell from './components/StyledTableCell';
 import useSchedule, { Info, RowItem } from './hooks/useSchedule';
 import styles from './index.less';
+
+dayjs.extend(isBetween);
+
+const holidays = {
+  元旦: ['2023-12-30', '2024-01-01'],
+  春节: ['2024-02-10', '2024-02-17'],
+  清明节: ['2024-04-04', '2024-04-06'],
+  劳动节: ['2024-05-01', '2024-05-05'],
+  端午节: ['2024-06-08', '2024-06-10'],
+  中秋节: ['2024-09-15', '2024-09-17'],
+  国庆节: ['2024-10-01', '2024-10-07'],
+};
 
 interface Props {
   startDate: number;
@@ -200,12 +214,42 @@ export default function CustomizedTables({
     },
     ...days.map((day) => {
       const key = day.format('D');
+
+      const holiday = Object.keys(holidays).find((key) => {
+        const v = holidays[key];
+        return day.isBetween(dayjs(v[0]), dayjs(v[1]), 'day', '[]');
+      });
+
       return {
         key,
         // eslint-disable-next-line react/no-unstable-nested-components
         title: () => {
           return (
-            <Stack>
+            <Box
+              sx={{
+                position: 'relative',
+                height: '100%',
+                pt: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  fontSize: 10,
+                  position: 'absolute',
+                  top: '0px',
+                  left: '0px',
+                  width: '64px',
+                  overflow: 'hidden',
+                  padding: '0px 2px',
+                  backgroundColor: '#0b2567',
+                  borderRadisu: '4px',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  // paddingRight: '16px',
+                }}
+              >
+                {holiday}
+              </Box>
               <Typography
                 sx={{
                   fontSize: 12,
@@ -214,6 +258,7 @@ export default function CustomizedTables({
               >
                 {day.format('ddd')}
               </Typography>
+
               <Typography
                 sx={{
                   fontSize: 20,
@@ -222,7 +267,7 @@ export default function CustomizedTables({
               >
                 {day.format('DD')}
               </Typography>
-            </Stack>
+            </Box>
           );
         },
         dataIndex: key,
