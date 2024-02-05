@@ -5,6 +5,7 @@ interface StyledBoxPropsProps extends BoxProps {
   workingDay?: boolean;
   status?: string;
   hasSeat?: boolean;
+  holiday?: boolean;
 }
 
 const StyledTableCell = styled(Box, {
@@ -13,7 +14,7 @@ const StyledTableCell = styled(Box, {
     prop !== 'workingDay' &&
     prop !== 'status' &&
     prop !== 'hasSeat',
-})<StyledBoxPropsProps>(({ theme, status, workingDay, hasSeat }) => ({
+})<StyledBoxPropsProps>(({ theme, status, workingDay, hasSeat, holiday }) => ({
   minHeight: 32,
   padding: '4px 8px',
   cursor: 'pointer',
@@ -55,6 +56,10 @@ const StyledTableCell = styled(Box, {
   }),
   ...(status === 'Other' && {
     backgroundColor: '#d3adf7',
+    color: 'white',
+  }),
+  ...(holiday && {
+    backgroundColor: '#eb3333',
     color: 'white',
   }),
 }));

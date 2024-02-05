@@ -24,12 +24,21 @@ dayjs.extend(isBetween);
 const holidays = {
   元旦: ['2023-12-30', '2024-01-01'],
   春节: ['2024-02-10', '2024-02-17'],
-  清明节: ['2024-04-04', '2024-04-06'],
+  清明: ['2024-04-04', '2024-04-06'],
   劳动节: ['2024-05-01', '2024-05-05'],
-  端午节: ['2024-06-08', '2024-06-10'],
-  中秋节: ['2024-09-15', '2024-09-17'],
-  国庆节: ['2024-10-01', '2024-10-07'],
+  端午: ['2024-06-08', '2024-06-10'],
+  中秋: ['2024-09-15', '2024-09-17'],
+  国庆: ['2024-10-01', '2024-10-07'],
 };
+
+// 元旦，春节，清明节，劳动节，端午节，中秋节，国庆节
+// 元旦 - New Year's Day (NYD)
+// 春节 - Spring Festival (SF)
+// 清明节 - Tomb Sweeping Day (TSD)
+// 劳动节 - Labor Day (LD)
+// 端午节 - Dragon Boat Festival (DBF)
+// 中秋节 - Mid-Autumn Festival (MAF)
+// 国庆节 - National Day (ND)
 
 interface Props {
   startDate: number;
@@ -229,27 +238,8 @@ export default function CustomizedTables({
               sx={{
                 position: 'relative',
                 height: '100%',
-                pt: 2,
               }}
             >
-              <Box
-                sx={{
-                  fontSize: 10,
-                  position: 'absolute',
-                  top: '0px',
-                  left: '0px',
-                  width: '64px',
-                  overflow: 'hidden',
-                  padding: '0px 2px',
-                  backgroundColor: '#0b2567',
-                  borderRadisu: '4px',
-                  color: 'white',
-                  fontWeight: 'bold',
-                  // paddingRight: '16px',
-                }}
-              >
-                {holiday}
-              </Box>
               <Typography
                 sx={{
                   fontSize: 12,
@@ -315,8 +305,9 @@ export default function CustomizedTables({
               status={info?.status}
               workingDay={info?.workingDay}
               hasSeat={!!info?.seat?.id}
+              holiday={!!holiday}
             >
-              {text}
+              {holiday || text}
             </StyledTableCell>
           );
         },
