@@ -278,7 +278,7 @@ export default function CustomizedTables({
           if (text === 'Office') text = '';
 
           let onClick;
-          if (isAdmin || row.isMe) {
+          if (isAdmin || (row.isMe && day.isAfter(dayjs(), 'day'))) {
             onClick = () => {
               handleClickCell(day, row);
             };
