@@ -1,7 +1,7 @@
 export default [
   {
     path: '/login',
-    component: '@/layouts/base',
+    component: '@/layouts/blank',
     wrappers: [
       '@/wrappers/sentry',
       '@/wrappers/apollo',
@@ -25,7 +25,7 @@ export default [
 
   {
     path: '/register',
-    component: '@/layouts/base',
+    component: '@/layouts/blank',
     wrappers: [
       '@/wrappers/sentry',
       '@/wrappers/apollo',
@@ -41,27 +41,6 @@ export default [
     ],
   },
 
-  // {
-  //   path: '/',
-  //   wrappers: [
-  //     '@/wrappers/sentry',
-  //     '@/wrappers/apollo',
-  //     '@/wrappers/material-ui',
-  //     '@/wrappers/snackbar',
-  //   ],
-
-  //   component: '@/layouts/blank',
-
-  //   routes: [
-  //     {
-  //       path: '/retro/:retro',
-  //       component: '@/pages/retro/section',
-  //       title: 'Retro',
-  //       exact: true,
-  //     },
-  //   ],
-  // },
-
   {
     path: '/',
     wrappers: [
@@ -70,9 +49,7 @@ export default [
       '@/wrappers/material-ui',
       '@/wrappers/snackbar',
     ],
-
     component: '@/layouts/base',
-
     routes: [
       {
         path: '/retro',
@@ -92,7 +69,6 @@ export default [
           },
         ],
       },
-
       {
         path: '/seatselection',
         wrappers: ['@/wrappers/auth/SeatSelection'],
@@ -103,7 +79,6 @@ export default [
             title: 'Seat Table',
             exact: true,
           },
-
           {
             path: '/seatselection/setting',
             component: '@/pages/seatselection/setting',
@@ -115,28 +90,24 @@ export default [
                 title: 'Seat List Date',
                 exact: true,
               },
-
               {
                 path: '/seatselection/setting/seat',
                 component: '@/pages/seatselection/setting/seat',
                 title: 'Seat List Seat',
                 exact: true,
               },
-
               {
                 path: '/seatselection/setting/user',
                 component: '@/pages/seatselection/setting/user',
                 title: 'Seat Setting User',
                 exact: true,
               },
-
               {
                 path: '/seatselection/setting',
                 redirect: '/seatselection/setting/user',
               },
             ],
           },
-
           {
             path: '/seatselection/',
             redirect: '/seatselection/schedule',
