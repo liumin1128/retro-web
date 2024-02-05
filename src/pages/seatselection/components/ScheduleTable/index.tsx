@@ -141,10 +141,7 @@ export default function CustomizedTables({
         },
       ],
       showSorterTooltip: false,
-      onFilter: (
-        value: string | number | boolean,
-        record: UserFieldsFragment,
-      ): boolean => {
+      onFilter: (value: unknown, record: UserFieldsFragment): boolean => {
         if (value === 'WMP') return !!record?.tags?.includes(value as string);
         if (value === 'DS') return !!record?.tags?.includes(value as string);
         if (value === 'Apps') return !!record?.tags?.includes(value as string);
@@ -193,6 +190,7 @@ export default function CustomizedTables({
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 width: '100%',
+                fontSize: 14,
               }}
             >
               {row?.nickname}
@@ -208,7 +206,6 @@ export default function CustomizedTables({
       width: 64,
       align: 'center',
       showSorterTooltip: false,
-
       sorter: (a, b) => a.wfhDays - b.wfhDays,
     },
     {
@@ -218,14 +215,15 @@ export default function CustomizedTables({
       width: 64,
       align: 'center',
       showSorterTooltip: false,
-
       sorter: (a, b) => a.alDays - b.alDays,
     },
     ...days.map((day) => {
       const key = day.format('D');
 
-      const holiday = Object.keys(holidays).find((key) => {
-        const v = holidays[key];
+      const holiday = Object.keys(holidays).find((h: string) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore-next-line
+        const v = holidays[h];
         return day.isBetween(dayjs(v[0]), dayjs(v[1]), 'day', '[]');
       });
 
@@ -234,12 +232,7 @@ export default function CustomizedTables({
         // eslint-disable-next-line react/no-unstable-nested-components
         title: () => {
           return (
-            <Box
-              sx={{
-                position: 'relative',
-                height: '100%',
-              }}
-            >
+            <Box>
               <Typography
                 sx={{
                   fontSize: 12,
@@ -248,11 +241,12 @@ export default function CustomizedTables({
               >
                 {day.format('ddd')}
               </Typography>
-
               <Typography
                 sx={{
                   fontSize: 20,
                   fontweight: 'bold',
+                  // textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                  fontFamily: 'monospace',
                 }}
               >
                 {day.format('DD')}
@@ -266,9 +260,9 @@ export default function CustomizedTables({
         showSorterTooltip: false,
 
         sorter: (a: RowItem, b: RowItem) => {
-          let atext = a[key].seat?.id || a[key].status || '0';
+          let atext = a[key]?.seat?.id || a[key].status || '0';
           if (atext === 'Office') atext = '0';
-          let btext = b[key].sebt?.id || b[key].status || '0';
+          let btext = b[key]?.seat?.id || b[key].status || '0';
           if (btext === 'Office') btext = '0';
           return atext.localeCompare(btext);
         },
@@ -284,7 +278,7 @@ export default function CustomizedTables({
             };
           }
 
-          if (info?.comment)
+          if (info?.comment) {
             return (
               <Tooltip key={key} title={info?.comment} placement="top" arrow>
                 <StyledTableCell
@@ -297,6 +291,7 @@ export default function CustomizedTables({
                 </StyledTableCell>
               </Tooltip>
             );
+          }
 
           return (
             <StyledTableCell
@@ -307,7 +302,7 @@ export default function CustomizedTables({
               hasSeat={!!info?.seat?.id}
               holiday={!!holiday}
             >
-              {holiday || text}
+              {text || holiday}
             </StyledTableCell>
           );
         },
