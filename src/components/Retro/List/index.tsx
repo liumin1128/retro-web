@@ -19,9 +19,12 @@ const CountList = [
     key: 'happyCount',
     icon: <SentimentSatisfiedAltIcon sx={{ fontSize: 20 }} />,
   },
-  { key: 'unhappyCount', icon: <SentimentNeutralIcon sx={{ fontSize: 20 }} /> },
   {
     key: 'wonderringCount',
+    icon: <SentimentNeutralIcon sx={{ fontSize: 20 }} />,
+  },
+  {
+    key: 'unhappyCount',
     icon: <SentimentVeryDissatisfiedIcon sx={{ fontSize: 20 }} />,
   },
   { key: 'todoCount', icon: <FormatListNumberedIcon sx={{ fontSize: 20 }} /> },
