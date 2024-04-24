@@ -97,26 +97,26 @@ mutation DeleteRetroMessage($_id: ID!) {
   }
 }
 
-subscription RetroMessageCreated {
-  retroMessage: retroMessageCreated {
+subscription RetroMessageCreated($retroID: ID!) {
+  retroMessage: retroMessageCreated(retroID: $retroID) {
     ...retroMessageFields
   }
 }
 
-subscription RetroMessageUpdated {
-  retroMessage: retroMessageUpdated {
+subscription RetroMessageUpdated($retroID: ID!) {
+  retroMessage: retroMessageUpdated(retroID: $retroID) {
     ...retroMessageFields
   }
 }
 
-subscription RetroMessageLiked {
-  retroMessage: retroMessageLiked {
+subscription RetroMessageLiked($retroID: ID!) {
+  retroMessage: retroMessageLiked(retroID: $retroID) {
     ...retroMessageFields
   }
 }
 
-subscription RetroMessageDeleted {
-  retroMessage: retroMessageDeleted {
+subscription RetroMessageDeleted($retroID: ID!) {
+  retroMessage: retroMessageDeleted(retroID: $retroID) {
     ...retroMessageFields
   }
 }

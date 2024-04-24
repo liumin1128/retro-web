@@ -778,6 +778,7 @@ export type RetroMessage = Document & {
   __typename?: 'RetroMessage';
   _id: Scalars['ID'];
   anonymous?: Maybe<Scalars['Boolean']>;
+  comments?: Maybe<Array<Comment>>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   like?: Maybe<Scalars['Int']>;
@@ -857,6 +858,26 @@ export type Subscription = {
   userToRoleCreated?: Maybe<UserToRole>;
   userToSeatCreated?: Maybe<UserToSeat>;
   userToSeatDeleted?: Maybe<UserToSeat>;
+};
+
+
+export type SubscriptionRetroMessageCreatedArgs = {
+  retroID?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type SubscriptionRetroMessageDeletedArgs = {
+  retroID?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type SubscriptionRetroMessageLikedArgs = {
+  retroID?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type SubscriptionRetroMessageUpdatedArgs = {
+  retroID?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -1202,22 +1223,30 @@ export type DeleteRetroMessageMutationVariables = Exact<{
 
 export type DeleteRetroMessageMutation = { __typename?: 'Mutation', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroMessageCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type RetroMessageCreatedSubscriptionVariables = Exact<{
+  retroID: Scalars['ID'];
+}>;
 
 
 export type RetroMessageCreatedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroMessageUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type RetroMessageUpdatedSubscriptionVariables = Exact<{
+  retroID: Scalars['ID'];
+}>;
 
 
 export type RetroMessageUpdatedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroMessageLikedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type RetroMessageLikedSubscriptionVariables = Exact<{
+  retroID: Scalars['ID'];
+}>;
 
 
 export type RetroMessageLikedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
 
-export type RetroMessageDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type RetroMessageDeletedSubscriptionVariables = Exact<{
+  retroID: Scalars['ID'];
+}>;
 
 
 export type RetroMessageDeletedSubscription = { __typename?: 'Subscription', retroMessage?: { __typename?: 'RetroMessage', _id: string, content?: string | null, status?: RetroMessageStatus | null, type?: RetroMessageType | null, like?: number | null, createdAt?: string | null, updatedAt?: string | null, pictures?: Array<string> | null, anonymous?: boolean | null, user?: { __typename?: 'User', _id: string, nickname?: string | null, username?: string | null, avatarUrl?: string | null } | null } | null };
@@ -2538,8 +2567,8 @@ export type DeleteRetroMessageMutationHookResult = ReturnType<typeof useDeleteRe
 export type DeleteRetroMessageMutationResult = Apollo.MutationResult<DeleteRetroMessageMutation>;
 export type DeleteRetroMessageMutationOptions = Apollo.BaseMutationOptions<DeleteRetroMessageMutation, DeleteRetroMessageMutationVariables>;
 export const RetroMessageCreatedDocument = gql`
-    subscription RetroMessageCreated {
-  retroMessage: retroMessageCreated {
+    subscription RetroMessageCreated($retroID: ID!) {
+  retroMessage: retroMessageCreated(retroID: $retroID) {
     ...retroMessageFields
   }
 }
@@ -2557,18 +2586,19 @@ export const RetroMessageCreatedDocument = gql`
  * @example
  * const { data, loading, error } = useRetroMessageCreatedSubscription({
  *   variables: {
+ *      retroID: // value for 'retroID'
  *   },
  * });
  */
-export function useRetroMessageCreatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageCreatedSubscription, RetroMessageCreatedSubscriptionVariables>) {
+export function useRetroMessageCreatedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RetroMessageCreatedSubscription, RetroMessageCreatedSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<RetroMessageCreatedSubscription, RetroMessageCreatedSubscriptionVariables>(RetroMessageCreatedDocument, options);
       }
 export type RetroMessageCreatedSubscriptionHookResult = ReturnType<typeof useRetroMessageCreatedSubscription>;
 export type RetroMessageCreatedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageCreatedSubscription>;
 export const RetroMessageUpdatedDocument = gql`
-    subscription RetroMessageUpdated {
-  retroMessage: retroMessageUpdated {
+    subscription RetroMessageUpdated($retroID: ID!) {
+  retroMessage: retroMessageUpdated(retroID: $retroID) {
     ...retroMessageFields
   }
 }
@@ -2586,18 +2616,19 @@ export const RetroMessageUpdatedDocument = gql`
  * @example
  * const { data, loading, error } = useRetroMessageUpdatedSubscription({
  *   variables: {
+ *      retroID: // value for 'retroID'
  *   },
  * });
  */
-export function useRetroMessageUpdatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageUpdatedSubscription, RetroMessageUpdatedSubscriptionVariables>) {
+export function useRetroMessageUpdatedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RetroMessageUpdatedSubscription, RetroMessageUpdatedSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<RetroMessageUpdatedSubscription, RetroMessageUpdatedSubscriptionVariables>(RetroMessageUpdatedDocument, options);
       }
 export type RetroMessageUpdatedSubscriptionHookResult = ReturnType<typeof useRetroMessageUpdatedSubscription>;
 export type RetroMessageUpdatedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageUpdatedSubscription>;
 export const RetroMessageLikedDocument = gql`
-    subscription RetroMessageLiked {
-  retroMessage: retroMessageLiked {
+    subscription RetroMessageLiked($retroID: ID!) {
+  retroMessage: retroMessageLiked(retroID: $retroID) {
     ...retroMessageFields
   }
 }
@@ -2615,18 +2646,19 @@ export const RetroMessageLikedDocument = gql`
  * @example
  * const { data, loading, error } = useRetroMessageLikedSubscription({
  *   variables: {
+ *      retroID: // value for 'retroID'
  *   },
  * });
  */
-export function useRetroMessageLikedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageLikedSubscription, RetroMessageLikedSubscriptionVariables>) {
+export function useRetroMessageLikedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RetroMessageLikedSubscription, RetroMessageLikedSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<RetroMessageLikedSubscription, RetroMessageLikedSubscriptionVariables>(RetroMessageLikedDocument, options);
       }
 export type RetroMessageLikedSubscriptionHookResult = ReturnType<typeof useRetroMessageLikedSubscription>;
 export type RetroMessageLikedSubscriptionResult = Apollo.SubscriptionResult<RetroMessageLikedSubscription>;
 export const RetroMessageDeletedDocument = gql`
-    subscription RetroMessageDeleted {
-  retroMessage: retroMessageDeleted {
+    subscription RetroMessageDeleted($retroID: ID!) {
+  retroMessage: retroMessageDeleted(retroID: $retroID) {
     ...retroMessageFields
   }
 }
@@ -2644,10 +2676,11 @@ export const RetroMessageDeletedDocument = gql`
  * @example
  * const { data, loading, error } = useRetroMessageDeletedSubscription({
  *   variables: {
+ *      retroID: // value for 'retroID'
  *   },
  * });
  */
-export function useRetroMessageDeletedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RetroMessageDeletedSubscription, RetroMessageDeletedSubscriptionVariables>) {
+export function useRetroMessageDeletedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RetroMessageDeletedSubscription, RetroMessageDeletedSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<RetroMessageDeletedSubscription, RetroMessageDeletedSubscriptionVariables>(RetroMessageDeletedDocument, options);
       }

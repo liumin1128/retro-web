@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { StoreObject } from '@apollo/client';
 import {
-  RetroMessageCreatedDocument,
+  RetroMessageFieldsFragmentDoc,
   useFindRetroSectionQuery,
   useCreateRetroMessageMutation,
   useUpdateRetroMessageMutation,
   useDeleteRetroMessageMutation,
   useLikeRetroMessageMutation,
   useRetroMessageLikedSubscription,
+  useRetroMessageCreatedSubscription,
   useRetroMessageUpdatedSubscription,
   useRetroMessageDeletedSubscription,
 } from '@/generated/graphql';
@@ -19,7 +20,6 @@ export default function useRetroMessage({ retro }: { retro: string }) {
     loading,
     refetch,
     error,
-    subscribeToMore,
   } = useFindRetroSectionQuery({
     variables: {
       retro,
@@ -31,30 +31,43 @@ export default function useRetroMessage({ retro }: { retro: string }) {
   const [deleteRetro] = useDeleteRetroMessageMutation();
   const [likeRetro] = useLikeRetroMessageMutation();
 
-  useRetroMessageUpdatedSubscription();
-  useRetroMessageLikedSubscription();
+  useRetroMessageCreatedSubscription({
+    variables: {
+      retroID: retro,
+    },
+    // eslint-disable-next-line no-shadow
+    onData: ({ client, data }) => {
+      client.cache.modify({
+        fields: {
+          findRetroMessages(list = []) {
+            const item = client.cache.writeFragment({
+              data: data.data?.retroMessage,
+              fragment: RetroMessageFieldsFragmentDoc,
+            });
+            return [item, ...list];
+          },
+        },
+      });
+    },
+  });
 
-  // 订阅断线重连
-  useEffect(() => {
-    const subscription = source$.subscribe({
-      next: (type) => {
-        switch (type) {
-          case 'connected': {
-            console.log('断线重连...');
-            refetch();
-            break;
-          }
-          default:
-        }
-      },
-    });
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [refetch]);
+  useRetroMessageUpdatedSubscription({
+    variables: {
+      retroID: retro,
+    },
+  });
+
+  useRetroMessageLikedSubscription({
+    variables: {
+      retroID: retro,
+    },
+  });
 
   // https://www.apollographql.com/docs/react/v2/api/react-hooks/#usesubscription
   useRetroMessageDeletedSubscription({
+    variables: {
+      retroID: retro,
+    },
     onSubscriptionData: ({ client, subscriptionData }) => {
       client.cache.modify({
         fields: {
@@ -70,26 +83,24 @@ export default function useRetroMessage({ retro }: { retro: string }) {
     },
   });
 
+  // 订阅断线重连
   useEffect(() => {
-    subscribeToMore({
-      document: RetroMessageCreatedDocument,
-      updateQuery: (prev, args) => {
-        // eslint-disable-next-line
-        // @ts-ignore
-        const { subscriptionData } = args;
-        if (!subscriptionData.data) return prev;
-        // eslint-disable-next-line
-        // @ts-ignore
-        const newItem = subscriptionData.data.retroMessage;
-        return {
-          ...prev,
-          // eslint-disable-next-line
-          // @ts-ignore
-          retroMessages: [...prev.retroMessages, newItem],
-        };
+    const subscription = source$.subscribe({
+      next: (type) => {
+        switch (type) {
+          case 'connected': {
+            console.log('reconnected');
+            refetch();
+            break;
+          }
+          default:
+        }
       },
     });
-  }, [subscribeToMore]);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [refetch]);
 
   return {
     data,

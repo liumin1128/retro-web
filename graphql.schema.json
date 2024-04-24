@@ -5452,6 +5452,26 @@
             "deprecationReason": null
           },
           {
+            "name": "comments",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Comment",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "content",
             "description": null,
             "args": [],
@@ -6058,7 +6078,20 @@
           {
             "name": "retroMessageCreated",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "retroID",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "OBJECT",
               "name": "RetroMessage",
@@ -6070,7 +6103,20 @@
           {
             "name": "retroMessageDeleted",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "retroID",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "OBJECT",
               "name": "RetroMessage",
@@ -6082,7 +6128,20 @@
           {
             "name": "retroMessageLiked",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "retroID",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "OBJECT",
               "name": "RetroMessage",
@@ -6094,7 +6153,20 @@
           {
             "name": "retroMessageUpdated",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "retroID",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "OBJECT",
               "name": "RetroMessage",
