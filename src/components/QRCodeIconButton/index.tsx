@@ -22,8 +22,8 @@ export default function BasicPopover({ content }: { content: string }) {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <div>
-      <IconButton aria-describedby={id} onClick={handleClick}>
+    <>
+      <IconButton aria-describedby={id} onClick={handleClick} color="inherit">
         <PhotoCamera />
       </IconButton>
 
@@ -47,6 +47,6 @@ export default function BasicPopover({ content }: { content: string }) {
           />
         </Box>
       </Popover>
-    </div>
+    </>
   );
 }

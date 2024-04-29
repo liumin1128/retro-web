@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'umi';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
@@ -23,6 +23,8 @@ import {
   DraggableProvided,
   DropResult,
 } from 'react-beautiful-dnd';
+import { useHeaderContext } from '@/context/useHeaderContext';
+import QRCodeIconButton from '@/components/QRCodeIconButton';
 import { user, placeholders, colors, TYPES } from './constants';
 import { sortItem } from './utils';
 import useRetroMessage from './useRetroMessage';
@@ -79,6 +81,15 @@ const Section = () => {
       variables: { type, retro, ...values },
     });
   };
+
+  const { setHeaderContent } = useHeaderContext();
+
+  useEffect(() => {
+    setHeaderContent(<QRCodeIconButton content={window.location.href} />); // 在进入页面时设置header内容
+    return () => {
+      setHeaderContent(null); // 在离开页面时清除header内容
+    };
+  }, [setHeaderContent]);
 
   if (loading) return 'loading';
   if (error) return 'error';

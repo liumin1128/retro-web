@@ -48,6 +48,7 @@ export default [
       '@/wrappers/apollo',
       '@/wrappers/material-ui',
       '@/wrappers/snackbar',
+      '@/wrappers/header',
     ],
     component: '@/layouts/base',
     routes: [

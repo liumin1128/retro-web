@@ -17,9 +17,7 @@ export interface IProps {
 export const ThemeContextProvider = ({ children }: IProps) => {
   const globalSettings = useGlobalSettingsContext();
   const { paletteMode } = globalSettings;
-
   const theme = useMemo(() => themeMap[paletteMode], [paletteMode]);
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

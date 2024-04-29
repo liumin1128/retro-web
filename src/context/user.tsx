@@ -37,13 +37,7 @@ export const UserContext = createContext<UContenxt>({});
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [user, setUser] = useState<User>({});
-  const userValue = useMemo(
-    () => ({
-      user,
-      setUser,
-    }),
-    [user],
-  );
+  const userValue = useMemo(() => ({ user, setUser }), [user]);
   return (
     <UserContext.Provider value={userValue}>{children}</UserContext.Provider>
   );

@@ -12,6 +12,7 @@ import MaterialUISwitch from '@/components/MaterialUISwitch';
 import Logo from '@/components/Icon/Logo';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
+import { useHeaderContext } from '@/context/useHeaderContext';
 import NavTabs from './NavTabs';
 import NavMenus from './NavMenus';
 
@@ -19,6 +20,7 @@ const BaseLayout = () => {
   const theme = useTheme();
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const [visible, setVisible] = useState(false);
+  const { headerContent } = useHeaderContext();
 
   const toggleMenu = () => {
     setVisible(!visible);
@@ -41,13 +43,13 @@ const BaseLayout = () => {
               spacing={2}
               style={{ alignItems: 'center', width: '100%' }}
             >
-              {/* <IconButton
+              <IconButton
                 onClick={() => {
                   history.push('/');
                 }}
               >
-                <Logo sx={{ width: 40, height: 40, color: '#000' }} />
-              </IconButton> */}
+                <Logo sx={{ width: 40, height: 40 }} fill="#ffffff" />
+              </IconButton>
               {!isUpMd && (
                 <IconButton
                   size="large"
@@ -61,6 +63,7 @@ const BaseLayout = () => {
               )}
               {isUpMd && <NavTabs />}
               <div style={{ flex: 1 }} />
+              {headerContent}
               <MaterialUISwitch />
               <UserAvatar />
             </Stack>
