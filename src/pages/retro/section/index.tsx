@@ -156,7 +156,8 @@ const Section = () => {
   };
 
   if (!isUpMd) {
-    const items = list.filter((i) => i.type === currentType).sort(sortItem);
+    const items = list.filter((i) => i.type === currentType);
+    // .sort(sortItem);
     const color = colors[currentType];
     const placeholder = placeholders[currentType];
 
@@ -303,7 +304,7 @@ const Section = () => {
                         >
                           {Array.isArray(listGroup[type]) &&
                             listGroup[type]
-                              .sort(sortItem)
+                              // .sort(sortItem)
                               .map((item, idx: number) => {
                                 if (!item) return null;
                                 return (
