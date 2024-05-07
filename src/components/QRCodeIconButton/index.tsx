@@ -37,10 +37,21 @@ export default function BasicPopover({ content }: { content: string }) {
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: 0.5,
+            },
+          },
         }}
       >
-        <Box p={1} sx={{ bgcolor: '#fff' }}>
+        <Box p={1.5} sx={{ bgcolor: '#fff' }}>
           <Stack direction="column" spacing={1}>
             <QRCode
               id={content}
