@@ -37,6 +37,7 @@
     "@sentry/tracing": "^7.88.0",
     "antd": "^5.12.2",
     "axios": "^1.6.2",
+    "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.10",
     "dynamic-file": "^0.2.1",
     "graphql": "^16.8.1",

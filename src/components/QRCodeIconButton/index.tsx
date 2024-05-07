@@ -1,4 +1,7 @@
 import * as React from 'react';
+import copy from 'copy-to-clipboard';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
 import QRCode from 'qrcode.react';
 import IconButton from '@mui/material/IconButton';
@@ -37,14 +40,25 @@ export default function BasicPopover({ content }: { content: string }) {
           horizontal: 'left',
         }}
       >
-        <Box p={2} sx={{ bgcolor: '#fff' }}>
-          <QRCode
-            id={content}
-            value={content}
-            size={200}
-            // bgColor="rgba(255,255,255,0)"
-            // fgColor="#ffffff" //二维码的颜色
-          />
+        <Box p={1} sx={{ bgcolor: '#fff' }}>
+          <Stack direction="column" spacing={1}>
+            <QRCode
+              id={content}
+              value={content}
+              size={200}
+              // bgColor="rgba(255,255,255,0)"
+              // fgColor="#ffffff" //二维码的颜色
+            />
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={() => {
+                copy(content);
+              }}
+            >
+              copy to clipboard
+            </Button>
+          </Stack>
         </Box>
       </Popover>
     </>
