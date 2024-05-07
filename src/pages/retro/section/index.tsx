@@ -29,6 +29,7 @@ import { user, placeholders, colors, TYPES } from './constants';
 import { sortItem } from './utils';
 import useRetroMessage from './useRetroMessage';
 import DownMdTabs from './DownMd/Tabs';
+import Loading from '@/components/Loading';
 
 interface UpdateParams {
   content?: string;
@@ -91,7 +92,7 @@ const Section = () => {
     };
   }, [setHeaderContent]);
 
-  if (loading) return 'loading';
+  if (loading) return <Loading />;
   if (error) return 'error';
   if (!data) return 'error';
 
