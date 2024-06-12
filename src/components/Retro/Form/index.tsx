@@ -93,7 +93,7 @@ const MessageForm: React.FunctionComponent<IFormProps> = ({
           {...register('content', { required: true })}
           type="submit"
           onKeyDown={(e) => {
-            if (e.code === 'Enter') {
+            if (e.code === 'Enter' && (e.ctrlKey || e.altKey)) {
               handleSubmit(onSubmit)(e);
               reset();
             }

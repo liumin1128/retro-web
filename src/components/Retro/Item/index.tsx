@@ -93,6 +93,7 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
                   fontSize: 20,
                   overflow: 'hidden',
                   wordWrap: 'break-word',
+                  whiteSpace: 'pre-wrap',
                   mb: 2,
                 }}
               >
