@@ -280,7 +280,7 @@ const Section = () => {
                 }}
               >
                 <Box sx={{ p: 0.5 }}>
-                  <Card>{renderForm(type)}</Card>
+                  <Card elevation={0}>{renderForm(type)}</Card>
                 </Box>
 
                 <Box
