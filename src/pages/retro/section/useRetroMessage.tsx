@@ -44,7 +44,7 @@ export default function useRetroMessage({ retro }: { retro: string }) {
               data: data.data?.retroMessage,
               fragment: RetroMessageFieldsFragmentDoc,
             });
-            return [item, ...list];
+            return [...list, item];
           },
         },
       });
