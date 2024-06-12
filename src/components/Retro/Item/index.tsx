@@ -12,6 +12,7 @@ import GradientBackground from '@/components/GradientBackground';
 import UserInfo from './components/UserInfo';
 import Form from './components/Form';
 import Pictures from './components/Pictures';
+import ShareLinks from './components/ShareLinks';
 
 interface User {
   nickname: string;
@@ -97,6 +98,8 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
               >
                 {content}
               </Typography>
+
+              <ShareLinks text={content} />
 
               <Box
                 onClick={(e) => {
