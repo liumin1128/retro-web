@@ -35,6 +35,7 @@ const Retro: React.FunctionComponent = () => {
   const handleClickMultiSelect = () => {
     modalRef.current?.open({
       title: `Schedule Preferences`,
+      showCancel: true,
       render: () => {
         return (
           <Stack style={{ width: 480 }} spacing={1}>
@@ -48,6 +49,10 @@ const Retro: React.FunctionComponent = () => {
   const toolbar = () => {
     return (
       <>
+        <Typography component="div" sx={{ flexGrow: 1 }}>
+          {date.format('MMMM YYYY')}
+        </Typography>
+
         {fullScreen ? (
           <Tooltip
             title="FullscreenExit"
@@ -117,10 +122,6 @@ const Retro: React.FunctionComponent = () => {
             <KeyboardArrowRightIcon />
           </IconButton>
         </Tooltip>
-
-        <Typography component="div" sx={{ flexGrow: 1 }}>
-          {date.format('MMMM YYYY')}
-        </Typography>
 
         <Tooltip title="Schedule Preferences" placement="top" arrow>
           <IconButton

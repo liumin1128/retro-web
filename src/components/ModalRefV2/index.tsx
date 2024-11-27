@@ -81,15 +81,17 @@ export default forwardRef((props: ModalProps, ref: Ref<ModalMethods>) => {
 
       {render && <DialogContent>{render(injectProps)}</DialogContent>}
 
-      {showConfirm && showCancel && (
-        <DialogActions>
-          {showCancel && <Button onClick={handleCancel}>Cancel</Button>}
-          {showConfirm && (
-            <Button onClick={handleConfirm} autoFocus>
-              Confirm
-            </Button>
-          )}
-        </DialogActions>
+      {(showConfirm || showCancel) && (
+        <DialogContent>
+          <DialogActions>
+            {showCancel && <Button onClick={handleCancel}>Cancel</Button>}
+            {showConfirm && (
+              <Button onClick={handleConfirm} autoFocus>
+                Confirm
+              </Button>
+            )}
+          </DialogActions>
+        </DialogContent>
       )}
     </Dialog>
   );

@@ -56,6 +56,8 @@ function isArrayContained(a = [], b = []) {
 
 export default function MultiSelect(props: Props) {
   const { startDate } = props;
+
+  const [setting, setSetting] = useState(false);
   const [logs, setLogs] = useState<Record<string, Log>>({});
   const [values, setValues] = useState<number[]>([-1, -1, -1, -1, -1, -1, -1]);
   const modalRef = React.useRef<ModalMethods>(null);
@@ -76,9 +78,8 @@ export default function MultiSelect(props: Props) {
     setStorage(cacheKey, values);
   }, [values]);
 
-  const isAdmin = userRes.data?.findUserInfo?.tags?.includes(
-    'SeatSelectionAdmin2',
-  );
+  const isAdmin =
+    userRes.data?.findUserInfo?.tags?.includes('SeatSelectionAdmin');
 
   const toggleSchedule = async (args: {
     status: string;
@@ -262,6 +263,8 @@ export default function MultiSelect(props: Props) {
     };
 
     const processDays = async () => {
+      setSetting(true);
+
       for (let i = 0; i < days.length; i += 1) {
         const zIdx = days[i].weekday() % 7;
         const seat = values[zIdx];
@@ -270,6 +273,8 @@ export default function MultiSelect(props: Props) {
         // eslint-disable-next-line no-await-in-loop
         await sleep(300);
       }
+
+      setSetting(false);
     };
 
     processDays();
@@ -347,7 +352,7 @@ export default function MultiSelect(props: Props) {
       </Stack>
       <br />
 
-      <Button onClick={handleSubmit} variant="contained">
+      <Button disabled={setting} onClick={handleSubmit} variant="contained">
         Start
       </Button>
       <br />
@@ -363,7 +368,7 @@ export default function MultiSelect(props: Props) {
             color = 'red';
           }
           return (
-            <Typography variant="caption" color={color}>
+            <Typography key={i} variant="caption" color={color}>
               {i} - {logs[i].text}
             </Typography>
           );
