@@ -9,8 +9,11 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import Tooltip from '@mui/material/Tooltip';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
+import Modal, { ModalMethods } from '@/components/ModalRefV2';
 import Table from '../components/ScheduleTable';
 import FullScreen from '../components/FullScreen';
+import MultiSelect from '../components/MultiSelect';
 
 const Retro: React.FunctionComponent = () => {
   const [date, setDate] = useState<Dayjs>(dayjs().startOf('day'));
@@ -24,8 +27,23 @@ const Retro: React.FunctionComponent = () => {
     setDate(date.add(n, 'month'));
   };
 
+  const modalRef = React.useRef<ModalMethods>(null);
+
   const startDate = dayjs(date).startOf('month').valueOf();
   const endDate = dayjs(date).endOf('month').valueOf();
+
+  const handleClickMultiSelect = () => {
+    modalRef.current?.open({
+      title: `Schedule Preferences`,
+      render: () => {
+        return (
+          <Stack style={{ width: 480 }} spacing={1}>
+            <MultiSelect startDate={startDate} endDate={endDate} />
+          </Stack>
+        );
+      },
+    });
+  };
 
   const toolbar = () => {
     return (
@@ -103,6 +121,17 @@ const Retro: React.FunctionComponent = () => {
         <Typography component="div" sx={{ flexGrow: 1 }}>
           {date.format('MMMM YYYY')}
         </Typography>
+
+        <Tooltip title="Schedule Preferences" placement="top" arrow>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            onClick={handleClickMultiSelect}
+          >
+            <ChecklistRtlIcon />
+          </IconButton>
+        </Tooltip>
       </>
     );
   };
@@ -131,6 +160,8 @@ const Retro: React.FunctionComponent = () => {
           }
         />
       </FullScreen>
+
+      <Modal ref={modalRef} showCancel={false} showConfirm={false} />
     </Container>
   );
 };
