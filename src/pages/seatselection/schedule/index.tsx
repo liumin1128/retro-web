@@ -35,7 +35,7 @@ const Retro: React.FunctionComponent = () => {
   const handleClickMultiSelect = () => {
     modalRef.current?.open({
       title: `Schedule Preferences`,
-      showCancel: true,
+      showConfirm: true,
       render: () => {
         return (
           <Stack style={{ width: 480 }} spacing={1}>
