@@ -130,6 +130,18 @@ export default function MultiSelect(props: Props) {
     const currentUser = userRes?.data?.findUserInfo;
 
     const processDay = async (day: Dayjs, seat: number) => {
+      if (day.isBefore(dayjs().startOf('day'))) {
+        setLogs((prev) => {
+          return {
+            ...prev,
+            [day.format('YYYY-MM-DD ddd')]: {
+              status: 'info',
+              text: 'date invalid',
+            },
+          };
+        });
+        return;
+      }
       if (seat === -1) {
         setLogs((prev) => {
           return {
