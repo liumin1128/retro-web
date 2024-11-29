@@ -1,6 +1,7 @@
 import { Outlet, history } from 'umi';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -73,6 +74,17 @@ const BaseLayout = () => {
 
       <Box sx={{ overflow: 'auto', flex: 1, height: '100%' }}>
         <Outlet />
+      </Box>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Link
+          sx={{ color: '#666', fontSize: 12 }}
+          component="a"
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
+        >
+          吉ICP备15006191号-2
+        </Link>
       </Box>
 
       <Drawer open={visible} onClose={toggleMenu}>

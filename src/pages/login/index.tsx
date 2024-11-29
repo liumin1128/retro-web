@@ -68,7 +68,6 @@ export default function Home() {
       </Stack>
 
       <Stack
-        direction="row"
         sx={{
           justifyContent: 'center',
           minHeight: '100vh',
@@ -76,119 +75,141 @@ export default function Home() {
         }}
       >
         <Stack
+          direction="row"
           sx={{
+            width: '100%',
+            justifyContent: 'center',
             flex: 1,
-            display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' },
+            alignItems: 'center',
           }}
         >
-          <Stack>
-            <Lottie
-              sx={{
-                width: 648,
-                height: 648,
-                margin: '-128px',
-              }}
-              path="/lottie/adventure/Community.json"
-              // path="https://imgs.react.mobi/lottie%2Fadventure%2FSocial%2520Media.json"
-              // path="https://imgs.react.mobi/lottie%2Fadventure%2FCommunity.json"
-              // path="https://imgs.react.mobi/lottie%2Fadventure%2FTeam%2520Work.json"
-            />
+          <Stack
+            sx={{
+              flex: 1,
+              display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' },
+            }}
+          >
+            <Stack>
+              <Lottie
+                sx={{
+                  width: 648,
+                  height: 648,
+                  margin: '-128px',
+                }}
+                path="/lottie/adventure/Community.json"
+                // path="https://imgs.react.mobi/lottie%2Fadventure%2FSocial%2520Media.json"
+                // path="https://imgs.react.mobi/lottie%2Fadventure%2FCommunity.json"
+                // path="https://imgs.react.mobi/lottie%2Fadventure%2FTeam%2520Work.json"
+              />
+            </Stack>
+          </Stack>
+
+          <Stack
+            sx={{
+              flex: 1,
+              maxWidth: 480,
+            }}
+          >
+            <Stack spacing={4}>
+              <Stack
+                direction="row"
+                sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+              >
+                <Stack>
+                  <Typography variant="h3">Sign in to Retro</Typography>
+                  <Typography variant="body2">
+                    Enter your details below.
+                  </Typography>
+                </Stack>
+              </Stack>
+
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={2}>
+                  <Stack spacing={3}>
+                    <TextField
+                      {...register('username')}
+                      error={!!get(errors, 'username', '')}
+                      helperText={`${get(errors, `${'username'}.message`, '')}`}
+                      autoComplete="username"
+                      label="Username"
+                    />
+
+                    <Password
+                      {...register('password')}
+                      error={!!get(errors, 'password', '')}
+                      helperText={`${get(errors, `${'password'}.message`, '')}`}
+                      autoComplete="current-password"
+                      label="Password"
+                    />
+                  </Stack>
+
+                  <Stack
+                    direction="row"
+                    sx={{
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={remember}
+                          onChange={() => {
+                            setRemenber(!remember);
+                          }}
+                        />
+                      }
+                      label="Remember me"
+                    />
+
+                    <Link href="/Forgot password">Forgot password?</Link>
+                  </Stack>
+
+                  <LoadingButton
+                    type="submit"
+                    size="large"
+                    variant="contained"
+                    loading={loading}
+                  >
+                    Login
+                  </LoadingButton>
+
+                  <Typography variant="body1" align="center">
+                    Don’t have an account?
+                    <Link href="/register">Get started</Link>
+                  </Typography>
+                </Stack>
+              </form>
+
+              <Divider>or</Divider>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ alignItems: 'center', justifyContent: 'center' }}
+              >
+                <Stack>
+                  <Link component="a" href={WECHAT_OAUTH_URL}>
+                    Wechat
+                  </Link>
+                </Stack>
+                <Stack>
+                  <Link component="a" href={GITHUB_OAUTH_URL}>
+                    Github
+                  </Link>
+                </Stack>
+              </Stack>
+            </Stack>
           </Stack>
         </Stack>
 
-        <Stack
-          sx={{
-            flex: 1,
-            maxWidth: 480,
-          }}
+        <Link
+          sx={{ color: '#666', fontSize: 12 }}
+          component="a"
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
         >
-          <Stack spacing={4}>
-            <Stack
-              direction="row"
-              sx={{ alignItems: 'center', justifyContent: 'space-between' }}
-            >
-              <Stack>
-                <Typography variant="h3">Sign in to Retro</Typography>
-                <Typography variant="body2">
-                  Enter your details below.
-                </Typography>
-              </Stack>
-            </Stack>
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={2}>
-                <Stack spacing={3}>
-                  <TextField
-                    {...register('username')}
-                    error={!!get(errors, 'username', '')}
-                    helperText={`${get(errors, `${'username'}.message`, '')}`}
-                    autoComplete="username"
-                    label="Username"
-                  />
-
-                  <Password
-                    {...register('password')}
-                    error={!!get(errors, 'password', '')}
-                    helperText={`${get(errors, `${'password'}.message`, '')}`}
-                    autoComplete="current-password"
-                    label="Password"
-                  />
-                </Stack>
-
-                <Stack
-                  direction="row"
-                  sx={{ alignItems: 'center', justifyContent: 'space-between' }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={remember}
-                        onChange={() => {
-                          setRemenber(!remember);
-                        }}
-                      />
-                    }
-                    label="Remember me"
-                  />
-
-                  <Link href="/Forgot password">Forgot password?</Link>
-                </Stack>
-
-                <LoadingButton
-                  type="submit"
-                  size="large"
-                  variant="contained"
-                  loading={loading}
-                >
-                  Login
-                </LoadingButton>
-
-                <Typography variant="body1" align="center">
-                  Don’t have an account?
-                  <Link href="/register">Get started</Link>
-                </Typography>
-              </Stack>
-            </form>
-
-            <Divider>or</Divider>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{ alignItems: 'center', justifyContent: 'center' }}
-            >
-              <Stack>
-                <Link component="a" href={WECHAT_OAUTH_URL}>
-                  Wechat
-                </Link>
-              </Stack>
-              <Stack>
-                <Link component="a" href={GITHUB_OAUTH_URL}>
-                  Github
-                </Link>
-              </Stack>
-            </Stack>
-          </Stack>
-        </Stack>
+          吉ICP备15006191号-2
+        </Link>
       </Stack>
     </Container>
   );
