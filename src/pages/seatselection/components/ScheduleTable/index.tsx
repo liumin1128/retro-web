@@ -21,16 +21,6 @@ import styles from './index.less';
 
 dayjs.extend(isBetween);
 
-const holidays = {
-  元旦: ['2023-12-30', '2024-01-01'],
-  春节: ['2024-02-10', '2024-02-17'],
-  清明: ['2024-04-04', '2024-04-06'],
-  劳动节: ['2024-05-01', '2024-05-05'],
-  端午: ['2024-06-08', '2024-06-10'],
-  中秋: ['2024-09-15', '2024-09-17'],
-  国庆: ['2024-10-01', '2024-10-07'],
-};
-
 // 元旦，春节，清明节，劳动节，端午节，中秋节，国庆节
 // 元旦 - New Year's Day (NYD)
 // 春节 - Spring Festival (SF)
@@ -39,6 +29,31 @@ const holidays = {
 // 端午节 - Dragon Boat Festival (DBF)
 // 中秋节 - Mid-Autumn Festival (MAF)
 // 国庆节 - National Day (ND)
+
+const getHolidays = (year: number) => {
+  const data = {
+    2024: {
+      元旦: ['2023-12-30', '2024-01-01'],
+      春节: ['2024-02-10', '2024-02-17'],
+      清明: ['2024-04-04', '2024-04-06'],
+      劳动节: ['2024-05-01', '2024-05-05'],
+      端午: ['2024-06-08', '2024-06-10'],
+      中秋: ['2024-09-15', '2024-09-17'],
+      国庆: ['2024-10-01', '2024-10-07'],
+    },
+    2025: {
+      元旦: ['2024-12-30', '2025-01-01'],
+      春节: ['2025-01-28', '2025-02-04'],
+      清明: ['2025-04-04', '2025-04-06'],
+      劳动节: ['2025-05-01', '2025-05-05'],
+      端午: ['2025-05-31', '2025-06-02'],
+      国庆: ['2025-10-01', '2025-10-05'],
+      中秋: ['2025-10-05', '2025-10-08'],
+    },
+  };
+
+  return data[year];
+};
 
 interface Props {
   startDate: number;
@@ -219,6 +234,9 @@ export default function CustomizedTables({
     },
     ...days.map((day) => {
       const key = day.format('D');
+
+      const year = day.format('YYYY');
+      const holidays = getHolidays(year);
 
       const holiday = Object.keys(holidays).find((h: string) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
