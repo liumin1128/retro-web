@@ -115,15 +115,15 @@ export default [
       {
         key: 's2',
         seats: [
+          { id: 31, _id: '64f6ef97f5e14c800aea9131', direction: 2, status: 1 },
           { id: 32, _id: '677ce910b05fcad173f63eed', direction: 2, status: 1 },
           { id: 33, _id: '677ce920b05fcad173f63eef', direction: 2, status: 1 },
-          { id: 34, _id: '677ce931b05fcad173f63ef1', direction: 0, status: 0 },
         ],
       },
       {
         key: 's1',
         seats: [
-          { id: 31, _id: '64f6ef97f5e14c800aea9131', direction: 2, status: 1 },
+          { id: 34, _id: '677ce931b05fcad173f63ef1', direction: 0, status: 0 },
         ],
       },
     ],
