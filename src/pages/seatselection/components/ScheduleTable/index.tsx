@@ -245,6 +245,14 @@ export default function CustomizedTables({
         return day.isBetween(dayjs(v[0]), dayjs(v[1]), 'day', '[]');
       });
 
+      const statusList = rows.map((i) => {
+        return i[key]?.status;
+      });
+
+      const wfhDaysCount = statusList.filter((i) => i === 'WFH').length;
+      const officeCount = statusList.filter((i) => i === 'Office').length;
+      const halfCount = Math.floor(rows.length / 2);
+
       return {
         key,
         // eslint-disable-next-line react/no-unstable-nested-components
@@ -253,21 +261,51 @@ export default function CustomizedTables({
             <Box>
               <Typography
                 sx={{
-                  fontSize: 12,
+                  fontSize: 22,
+                  fontweight: 'bold',
+                  fontFamily: 'monospace',
+                  lineHeight: 1,
+                  display: 'flex',
                   fontStyle: 'italic',
+                  color: '#333',
                 }}
               >
-                {day.format('ddd')}
+                <span
+                  style={{
+                    fontSize: 14,
+                    fontStyle: 'italic',
+                    marginRight: 2,
+                    color: '#666',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {day.format('ddd')}
+                </span>
+                {day.format('DD')}
               </Typography>
               <Typography
                 sx={{
-                  fontSize: 20,
-                  fontweight: 'bold',
-                  // textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
-                  fontFamily: 'monospace',
+                  fontSize: 14,
+                  color: '#ccc',
+                  height: '1em',
+                  textAlign: 'right',
                 }}
               >
-                {day.format('DD')}
+                {officeCount > 0 && (
+                  <span style={{ color: '#389e0d' }}>{officeCount}</span>
+                )}
+
+                {(officeCount || wfhDaysCount) > 0 && ' | '}
+
+                {wfhDaysCount > 0 && (
+                  <span
+                    style={{
+                      color: wfhDaysCount > halfCount ? 'red' : '#0e63b6',
+                    }}
+                  >
+                    {wfhDaysCount}
+                  </span>
+                )}
               </Typography>
             </Box>
           );
