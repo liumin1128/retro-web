@@ -261,6 +261,17 @@ export default function CustomizedTables({
             <Box>
               <Typography
                 sx={{
+                  fontSize: 14,
+                  fontStyle: 'italic',
+                  marginRight: 2,
+                  color: '#666',
+                  fontWeight: 'bold',
+                }}
+              >
+                {day.format('ddd')}
+              </Typography>
+              <Typography
+                sx={{
                   fontSize: 22,
                   fontweight: 'bold',
                   fontFamily: 'monospace',
@@ -268,19 +279,9 @@ export default function CustomizedTables({
                   display: 'flex',
                   fontStyle: 'italic',
                   color: '#333',
+                  pl: 0.5,
                 }}
               >
-                <span
-                  style={{
-                    fontSize: 14,
-                    fontStyle: 'italic',
-                    marginRight: 2,
-                    color: '#666',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {day.format('ddd')}
-                </span>
                 {day.format('DD')}
               </Typography>
               <Typography
@@ -294,9 +295,7 @@ export default function CustomizedTables({
                 {officeCount > 0 && (
                   <span style={{ color: '#389e0d' }}>{officeCount}</span>
                 )}
-
                 {(officeCount || wfhDaysCount) > 0 && ' | '}
-
                 {wfhDaysCount > 0 && (
                   <span
                     style={{
