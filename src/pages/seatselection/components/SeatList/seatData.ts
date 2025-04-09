@@ -120,10 +120,55 @@ export default [
           { id: 33, _id: '677ce920b05fcad173f63eef', direction: 2, status: 1 },
         ],
       },
+    ],
+  },
+
+  {
+    key: 'line7',
+    list: [
       {
         key: 's1',
         seats: [
           { id: 34, _id: '677ce931b05fcad173f63ef1', direction: 0, status: 0 },
+          { id: 35, _id: '67f6446a4cc080661cf59b71', direction: 0, status: 0 },
+          { id: 36, _id: '67f6447a4cc080661cf59b77', direction: 0, status: 0 },
+        ],
+      },
+    ],
+  },
+
+  {
+    key: 'line7',
+    list: [
+      {
+        key: 's1',
+        seats: [
+          { id: 37, _id: '67f644874cc080661cf59b7a', direction: 0, status: 0 },
+          { id: 38, _id: '67f644934cc080661cf59b7c', direction: 0, status: 0 },
+        ],
+      },
+      {
+        key: 's2',
+        seats: [
+          { id: 39, _id: '67f6449f4cc080661cf59b7e', direction: 0, status: 0 },
+        ],
+      },
+    ],
+  },
+
+  {
+    key: 'line7',
+    list: [
+      {
+        key: 's1',
+        seats: [
+          { id: 40, _id: '67f644a84cc080661cf59b80', direction: 0, status: 0 },
+        ],
+      },
+      {
+        key: 's2',
+        seats: [
+          { id: 41, _id: '67f644b14cc080661cf59b86', direction: 0, status: 0 },
         ],
       },
     ],

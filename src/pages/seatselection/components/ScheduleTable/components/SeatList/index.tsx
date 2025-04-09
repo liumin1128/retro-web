@@ -189,6 +189,13 @@ export default function SeatList(props: Props) {
           );
         })}
       </Stack>
+      <br />
+      <a
+        target="__blank"
+        href="https://imgs.react.mobi/FpHcbVA8Q7eNRGp4a-AIXr0HZfk3.jpg"
+      >
+        seat layout
+      </a>
     </div>
   );
 }
