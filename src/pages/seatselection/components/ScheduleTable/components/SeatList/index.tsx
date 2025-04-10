@@ -9,12 +9,11 @@ import {
   useFindUserToSeatsQuery,
   UserFieldsFragment,
   FindUserToSeatsQuery,
-  UserToRoleFieldsFragment,
   useUserToSeatDeletedSubscription,
   useUserToSeatCreatedSubscription,
   useFindSeatsQuery,
 } from '@/generated/graphql';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 function isArrayContained(a = [], b = []) {
   for (let i = 0; i < b.length; i += 1) {
@@ -22,6 +21,25 @@ function isArrayContained(a = [], b = []) {
       return false;
     }
   }
+  return true;
+}
+
+function isTimeInRange(date1: Dayjs, date2: Dayjs, tagsMatched: boolean) {
+  if (date1.add(1, 'month').format('YYYY-MM') !== date2.format('YYYY-MM')) {
+    return false;
+  }
+
+  if (
+    date1.isBefore(
+      date1
+        .startOf('months')
+        .add(tagsMatched ? 10 : 20, 'days')
+        .subtract(12, 'hours'),
+    )
+  ) {
+    return false;
+  }
+
   return true;
 }
 
@@ -118,14 +136,21 @@ export default function SeatList(props: Props) {
                           currentSeat?.tags as string[],
                         );
 
-                        const timeOk = dayjs().isAfter(
-                          dayjs(date)
-                            .startOf('months')
-                            .subtract(tagsMatched ? 20 : 10, 'days')
-                            .subtract(12, 'hours'),
+                        // 仅能前一个月的10号，20号可以选座
+                        const inTimeRange = isTimeInRange(
+                          dayjs(),
+                          dayjs(date),
+                          tagsMatched,
                         );
 
-                        if (!timeOk) {
+                        // const inTimeRange = dayjs().isAfter(
+                        //   dayjs(date)
+                        //     .startOf('months')
+                        //     .subtract(tagsMatched ? 20 : 10, 'days')
+                        //     .subtract(12, 'hours'),
+                        // );
+
+                        if (!inTimeRange) {
                           disabled = true;
                           title = 'out of time range';
                         }
@@ -190,10 +215,7 @@ export default function SeatList(props: Props) {
         })}
       </Stack>
       <br />
-      <a
-        target="__blank"
-        href="https://imgs.react.mobi/FpHcbVA8Q7eNRGp4a-AIXr0HZfk3.jpg"
-      >
+      <a href="https://imgs.react.mobi/FpHcbVA8Q7eNRGp4a-AIXr0HZfk3.jpg">
         seat layout
       </a>
     </div>
