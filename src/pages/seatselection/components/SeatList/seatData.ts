@@ -163,12 +163,13 @@ export default [
         key: 's1',
         seats: [
           { id: 40, _id: '67f644a84cc080661cf59b80', direction: 0, status: 0 },
+          { id: 41, _id: '67f644b14cc080661cf59b86', direction: 0, status: 0 },
         ],
       },
       {
         key: 's2',
         seats: [
-          { id: 41, _id: '67f644b14cc080661cf59b86', direction: 0, status: 0 },
+          { id: 42, _id: '69030c5006be78b1267a54a5', direction: 0, status: 0 },
         ],
       },
     ],
