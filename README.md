@@ -23,3 +23,16 @@ kill -9 [pid]
 
 oavDF5vQVX2LTlOa-xPwDwG_RwdY
 admin
+
+
+db.seats.insertMany([ // collection: seats
+	{
+		"_id": ObjectId("69030c5006be78b1267a54a5"),
+		"id": "42",
+		"tags": [],
+		"deleted": false,
+		"createdAt": ISODate("2025-01-07T16:42:56.592+08:00"),
+		"updatedAt": ISODate("2025-01-07T16:42:56.592+08:00"),
+		"__v": 0
+	}
+])

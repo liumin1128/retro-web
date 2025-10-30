@@ -215,7 +215,7 @@ export default function SeatList(props: Props) {
         })}
       </Stack>
       <br />
-      <a href="https://imgs.react.mobi/FpHcbVA8Q7eNRGp4a-AIXr0HZfk3.jpg">
+      <a href="https://imgs.react.mobi/FnNguHEitUv13fzqVYXK_CM22IbG.png">
         seat layout
       </a>
     </div>
