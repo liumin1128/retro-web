@@ -26,9 +26,9 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
   const preloadVideoAndGetDimensions = (
     videoUrl: string,
   ): Promise<{ width: number; height: number }> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const video = document.createElement('video');
-      video.src = videoUrl;
+      video.preload = 'metadata';
       video.onloadedmetadata = () => {
         const { videoWidth, videoHeight } = video;
 
@@ -54,6 +54,10 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
 
         resolve({ width: finalWidth, height: finalHeight });
       };
+      video.onerror = () => {
+        reject(new Error('Video load failed'));
+      };
+      video.src = videoUrl;
     });
   };
 
@@ -85,7 +89,7 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
     return null;
   }
 
-  if (pictures.length === 1) {
+  function renderSinglePicture() {
     if (isVideo(pictures[0])) {
       return (
         <Box sx={{ maxWidth: 400, position: 'relative' }}>
@@ -97,11 +101,11 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
               maxWidth: '400px',
               maxHeight: '400px',
             }}
-            onClick={() => handleVideoClick(pictures[0])}
+            // onClick={() => handleVideoClick(pictures[0])}
             poster={`${pictures[0]}?vframe/jpg/offset/1`} // 视频第1秒截图作为封面
           >
             <source src={pictures[0]} type="video/mp4" />
-            <track kind="captions" label="Empty" />
+            <track kind="captions" />
           </video>
           <Box
             sx={{
@@ -149,88 +153,93 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
     );
   }
 
-  return (
-    <Box sx={{ maxWidth: 400 }}>
-      <PhotoProvider>
-        <Grid container spacing={1}>
-          {pictures?.map((picture) => {
-            const size = 200;
+  function renderMultiplePictures() {
+    return (
+      <Box sx={{ maxWidth: 400 }}>
+        <PhotoProvider>
+          <Grid container spacing={1}>
+            {pictures?.map((picture, index) => {
+              const size = 200;
 
-            // 如果是视频，显示缩略图和播放按钮
-            if (isVideo(picture)) {
+              // 如果是视频，显示缩略图和播放按钮
+              if (isVideo(picture)) {
+                return (
+                  <Grid key={`${picture}-${index}`} item xs={4}>
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        width: '100%',
+                        paddingTop: '100%',
+                      }}
+                    >
+                      <video
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                        }}
+                        poster={`${picture}?vframe/jpg/offset/1`} // 视频第1秒截图作为封面
+                        onClick={() => handleVideoClick(picture)}
+                      >
+                        <source src={picture} type="video/mp4" />
+                        <track kind="captions" />
+                      </video>
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                          borderRadius: '50%',
+                          width: 30,
+                          height: 30,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => handleVideoClick(picture)}
+                      >
+                        <PlayArrowIcon sx={{ color: 'white', fontSize: 16 }} />
+                      </Box>
+                    </Box>
+                  </Grid>
+                );
+              }
+
+              const thumbnail = `${picture}?imageView2/0/w/${size}`;
+
               return (
-                <Grid key={picture} item xs={4}>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      width: '100%',
-                      paddingTop: '100%',
-                    }}
-                  >
-                    <video
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
+                <Grid key={`${thumbnail}-${index}`} item xs={4}>
+                  <PhotoView src={picture}>
+                    <CardMedia
+                      image={thumbnail}
+                      sx={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover',
+                        paddingTop: '100%',
                         borderRadius: '4px',
                         cursor: 'pointer',
                       }}
-                      poster={`${picture}?vframe/jpg/offset/1`} // 视频第1秒截图作为封面
-                      onClick={() => handleVideoClick(picture)}
-                    >
-                      <source src={picture} type="video/mp4" />
-                      <track kind="captions" label="Empty" />
-                    </video>
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                        borderRadius: '50%',
-                        width: 30,
-                        height: 30,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => handleVideoClick(picture)}
-                    >
-                      <PlayArrowIcon sx={{ color: 'white', fontSize: 16 }} />
-                    </Box>
-                  </Box>
+                    />
+                  </PhotoView>
                 </Grid>
               );
-            }
+            })}
+          </Grid>
+        </PhotoProvider>
+      </Box>
+    );
+  }
 
-            const thumbnail = `${picture}?imageView2/0/w/${size}`;
-
-            return (
-              <Grid key={thumbnail} item xs={4}>
-                <PhotoView src={picture}>
-                  <CardMedia
-                    image={thumbnail}
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      paddingTop: '100%',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                    }}
-                  />
-                </PhotoView>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </PhotoProvider>
-
-      {/* 视频播放模态框 */}
+  function renderVideoModal() {
+    return (
       <Modal
         open={videoModalOpen}
         onClose={handleCloseModal}
@@ -278,16 +287,24 @@ const Pictures: React.FunctionComponent<IPicturesProps> = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'fill',
+                objectFit: 'contain',
               }}
             >
               <source src={currentVideo} type="video/mp4" />
-              <track kind="captions" label="Empty" />
+              <track kind="captions" />
             </video>
           )}
         </Box>
       </Modal>
-    </Box>
+    );
+  }
+
+  return (
+    <>
+      {pictures.length === 1 && renderSinglePicture()}
+      {pictures.length > 1 && renderMultiplePictures()}
+      {renderVideoModal()}
+    </>
   );
 };
 
