@@ -24,17 +24,14 @@ function isArrayContained(a = [], b = []) {
   return true;
 }
 
-function isTimeInRange(date1: Dayjs, date2: Dayjs, tagsMatched: boolean) {
+function isTimeInRange(date1: Dayjs, date2: Dayjs) {
   if (date1.add(1, 'month').format('YYYY-MM') !== date2.format('YYYY-MM')) {
     return false;
   }
 
   if (
     date1.isBefore(
-      date1
-        .startOf('months')
-        .add(tagsMatched ? 10 : 20, 'days')
-        .subtract(12, 'hours'),
+      date1.startOf('months').add(10, 'days').subtract(12, 'hours'),
     )
   ) {
     return false;
@@ -137,22 +134,14 @@ export default function SeatList(props: Props) {
                         );
 
                         // 仅能前一个月的10号，20号可以选座
-                        const inTimeRange = isTimeInRange(
-                          dayjs(),
-                          dayjs(date),
-                          tagsMatched,
-                        );
+                        const inTimeRange = isTimeInRange(dayjs(), dayjs(date));
 
-                        // const inTimeRange = dayjs().isAfter(
-                        //   dayjs(date)
-                        //     .startOf('months')
-                        //     .subtract(tagsMatched ? 20 : 10, 'days')
-                        //     .subtract(12, 'hours'),
-                        // );
-
-                        if (!inTimeRange) {
+                        if (!tagsMatched) {
                           disabled = true;
-                          title = 'out of time range';
+                          title = 'Grouping mismatch';
+                        } else if (!inTimeRange) {
+                          disabled = true;
+                          title = 'Out of time range';
                         }
 
                         if (itemUser && itemUser?._id !== currentUser?._id) {
@@ -165,6 +154,7 @@ export default function SeatList(props: Props) {
                           title = 'disabled';
                         }
 
+                        // 管理员权限可以覆盖限制
                         if (isAdmin) {
                           disabled = false;
                           title = '';
