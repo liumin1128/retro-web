@@ -8,10 +8,14 @@ import Box from '@mui/material/Box';
 import TableContainer from '@mui/material/TableContainer';
 import ConfigProvider from 'antd/es/config-provider';
 import AntdTable from 'antd/es/table/Table';
-import { ColumnsType } from 'antd/es/table';
+import { ColumnsType, TableProps } from 'antd/es/table';
 import { useTheme } from '@mui/material/styles';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
-import { UserFieldsFragment, useFindUserInfoQuery } from '@/generated/graphql';
+import {
+  UserFieldsFragment,
+  useFindUserInfoQuery,
+  useFindUsersQuery,
+} from '@/generated/graphql';
 import Avatar from '@/components/Avatar/Thumbnail';
 import SeatList from './components/SeatList';
 import StatusList from './components/StatusList';
@@ -20,6 +24,10 @@ import useSchedule, { Info, RowItem } from './hooks/useSchedule';
 import styles from './index.less';
 
 dayjs.extend(isBetween);
+
+const ME_FILTER_VALUE = '__me';
+const TAG_FILTER_PREFIX = 'tag:';
+const USER_FILTER_PREFIX = 'user:';
 
 // 元旦，春节，清明节，劳动节，端午节，中秋节，国庆节
 // 元旦 - New Year's Day (NYD)
@@ -67,7 +75,7 @@ const getHolidays = (year: number) => {
 interface Props {
   startDate: number;
   endDate: number;
-  scroll: any;
+  scroll: TableProps<RowItem>['scroll'];
 }
 
 export default function CustomizedTables({
@@ -78,6 +86,9 @@ export default function CustomizedTables({
   const theme = useTheme();
 
   const userInfoRes = useFindUserInfoQuery();
+  const allUsersRes = useFindUsersQuery({
+    variables: { tags: ['ComTech'], sortKey: 'index', sortOrder: 1 },
+  });
   const isAdmin =
     userInfoRes.data?.findUserInfo?.tags?.includes('SeatSelectionAdmin');
 
@@ -90,6 +101,22 @@ export default function CustomizedTables({
 
   // if (userRes.loading) return <p>loading</p>;
   // if (userRes.error) return <p>error</p>;
+
+  const tagFilters =
+    Array.from(
+      new Set(
+        allUsersRes.data?.findUsers?.flatMap((user) => {
+          return user?.tags?.filter((tag): tag is string => !!tag) || [];
+        }),
+      ),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((tag) => {
+        return {
+          text: tag,
+          value: `${TAG_FILTER_PREFIX}${tag}`,
+        };
+      }) || [];
 
   const handleClickCell = (day: dayjs.Dayjs, row: RowItem) => {
     const obj = row[day.format('D')] as Info;
@@ -137,21 +164,10 @@ export default function CustomizedTables({
       fixed: 'left',
       width: 128,
       filters: [
-        {
-          text: 'WMP',
-          value: 'WMP',
-        },
-        {
-          text: 'Apps',
-          value: 'Apps',
-        },
-        {
-          text: 'DS',
-          value: 'DS',
-        },
+        ...tagFilters,
         {
           text: 'Me',
-          value: 'Me',
+          value: ME_FILTER_VALUE,
         },
         {
           text: 'more',
@@ -159,19 +175,26 @@ export default function CustomizedTables({
           children: rows.map((i) => {
             return {
               text: i?.nickname,
-              value: i?._id,
+              value: `${USER_FILTER_PREFIX}${i?._id}`,
             };
           }),
         },
       ],
       showSorterTooltip: false,
       onFilter: (value: unknown, record: UserFieldsFragment): boolean => {
-        if (value === 'WMP') return !!record?.tags?.includes(value as string);
-        if (value === 'DS') return !!record?.tags?.includes(value as string);
-        if (value === 'Apps') return !!record?.tags?.includes(value as string);
-        if (value === 'Me')
+        const filterValue = String(value);
+
+        if (filterValue === ME_FILTER_VALUE)
           return record?._id === userInfoRes.data?.findUserInfo?._id;
-        return record?._id === value;
+        if (filterValue.startsWith(TAG_FILTER_PREFIX)) {
+          const tag = filterValue.slice(TAG_FILTER_PREFIX.length);
+          return !!record?.tags?.includes(tag);
+        }
+        if (filterValue.startsWith(USER_FILTER_PREFIX)) {
+          const userId = filterValue.slice(USER_FILTER_PREFIX.length);
+          return record?._id === userId;
+        }
+        return false;
       },
       sorter: (a, b): number =>
         a.tags?.join(',').localeCompare(b.tags?.join(',') || '') as number,
@@ -320,7 +343,7 @@ export default function CustomizedTables({
         },
         dataIndex: key,
         width: 64,
-        align: 'center' as any,
+        align: 'center',
         showSorterTooltip: false,
 
         sorter: (a: RowItem, b: RowItem) => {
@@ -330,7 +353,7 @@ export default function CustomizedTables({
           if (btext === 'Office') btext = '0';
           return atext.localeCompare(btext);
         },
-        sortDirections: ['descend'] as any,
+        sortDirections: ['descend'],
         render: (info: Info, row: RowItem) => {
           let text = info.seat?.id || info.status;
           if (text === 'Office') text = '';
