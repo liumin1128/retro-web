@@ -8,7 +8,13 @@ import Box from '@mui/material/Box';
 import TableContainer from '@mui/material/TableContainer';
 import ConfigProvider from 'antd/es/config-provider';
 import AntdTable from 'antd/es/table/Table';
-import { ColumnsType, TableProps } from 'antd/es/table';
+import { TableProps } from 'antd/es/table';
+import {
+  ColumnsType,
+  FilterValue,
+  SorterResult,
+  SortOrder,
+} from 'antd/es/table/interface';
 import { useTheme } from '@mui/material/styles';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
 import {
@@ -17,6 +23,7 @@ import {
   useFindUsersQuery,
 } from '@/generated/graphql';
 import Avatar from '@/components/Avatar/Thumbnail';
+import { getStorage, setStorage } from '@/utils/store';
 import SeatList from './components/SeatList';
 import StatusList from './components/StatusList';
 import StyledTableCell from './components/StyledTableCell';
@@ -25,9 +32,41 @@ import styles from './index.less';
 
 dayjs.extend(isBetween);
 
+type Holidays = Record<string, string[]>;
+
 const ME_FILTER_VALUE = '__me';
 const TAG_FILTER_PREFIX = 'tag:';
 const USER_FILTER_PREFIX = 'user:';
+const STORAGE_KEY = 'seatselection.schedule.tableParams';
+
+interface StoredTableParams {
+  filters?: Record<string, FilterValue | null>;
+  sorter?: {
+    columnKey?: string;
+    order?: SortOrder;
+  };
+}
+
+const getStoredTableParams = (): StoredTableParams => {
+  const value = getStorage(STORAGE_KEY);
+  if (!value || typeof value !== 'object') return {};
+  const stored = value as StoredTableParams;
+  return {
+    filters: stored.filters,
+    sorter: stored.sorter?.order ? stored.sorter : undefined,
+  };
+};
+
+const normalizeFilterValues = (value?: FilterValue | null) => {
+  return value?.map(String) || [];
+};
+
+const uniqueValues = (values: string[]) => Array.from(new Set(values));
+
+const isDefined = <T,>(value: T | null | undefined): value is T => !!value;
+
+const getDayInfo = (row: RowItem, key: string): Info =>
+  (row[key] || {}) as Info;
 
 // 元旦，春节，清明节，劳动节，端午节，中秋节，国庆节
 // 元旦 - New Year's Day (NYD)
@@ -38,8 +77,8 @@ const USER_FILTER_PREFIX = 'user:';
 // 中秋节 - Mid-Autumn Festival (MAF)
 // 国庆节 - National Day (ND)
 
-const getHolidays = (year: number) => {
-  const data = {
+const getHolidays = (year: string): Holidays => {
+  const data: Record<string, Holidays> = {
     2024: {
       元旦: ['2023-12-30', '2024-01-01'],
       春节: ['2024-02-10', '2024-02-17'],
@@ -86,16 +125,51 @@ export default function CustomizedTables({
   const theme = useTheme();
 
   const userInfoRes = useFindUserInfoQuery();
-  const allUsersRes = useFindUsersQuery({
-    variables: { tags: ['ComTech'], sortKey: 'index', sortOrder: 1 },
-  });
+  const [tableParams, setTableParams] =
+    React.useState<StoredTableParams>(getStoredTableParams);
   const isAdmin =
     userInfoRes.data?.findUserInfo?.tags?.includes('SeatSelectionAdmin');
+  const nicknameFilters = normalizeFilterValues(tableParams.filters?.nickname);
+  const selectedTags = uniqueValues(
+    nicknameFilters
+      .filter((value) => value.startsWith(TAG_FILTER_PREFIX))
+      .map((value) => value.slice(TAG_FILTER_PREFIX.length)),
+  );
+  const meSelected = nicknameFilters.includes(ME_FILTER_VALUE);
+  const selectedUsers = uniqueValues(
+    nicknameFilters.flatMap((value) => {
+      if (value.startsWith(USER_FILTER_PREFIX)) {
+        return [value.slice(USER_FILTER_PREFIX.length)];
+      }
+      if (value === ME_FILTER_VALUE && userInfoRes.data?.findUserInfo?._id) {
+        return [userInfoRes.data.findUserInfo._id];
+      }
+      return [];
+    }),
+  );
+  const shouldWaitForCurrentUser =
+    meSelected && !userInfoRes.data?.findUserInfo?._id;
+  const getColumnSortOrder = (columnKey: string) =>
+    tableParams.sorter?.columnKey === columnKey
+      ? tableParams.sorter?.order
+      : null;
 
   const { rows, days, toggleSchedule, toggleSeat } = useSchedule({
     startDate,
     endDate,
+    tags: selectedTags,
+    users: selectedUsers,
+    skip: shouldWaitForCurrentUser,
   });
+  const filterUsersRes = useFindUsersQuery({
+    variables: {
+      requiredTags: ['ComTech'],
+      sortKey: 'index',
+      sortOrder: 1,
+      limit: 1000,
+    },
+  });
+  const filterUsers = filterUsersRes.data?.findUsers?.filter(isDefined) || [];
 
   const modalRef = React.useRef<ModalMethods>(null);
 
@@ -103,13 +177,12 @@ export default function CustomizedTables({
   // if (userRes.error) return <p>error</p>;
 
   const tagFilters =
-    Array.from(
-      new Set(
-        allUsersRes.data?.findUsers?.flatMap((user) => {
-          return user?.tags?.filter((tag): tag is string => !!tag) || [];
-        }),
-      ),
-    )
+    uniqueValues([
+      ...selectedTags,
+      ...filterUsers.flatMap((user) => {
+        return user?.tags?.filter((tag): tag is string => !!tag) || [];
+      }),
+    ])
       .sort((a, b) => a.localeCompare(b))
       .map((tag) => {
         return {
@@ -117,6 +190,27 @@ export default function CustomizedTables({
           value: `${TAG_FILTER_PREFIX}${tag}`,
         };
       }) || [];
+
+  const handleTableChange: TableProps<RowItem>['onChange'] = (
+    _pagination,
+    filters,
+    sorter,
+  ) => {
+    const sorterValue = Array.isArray(sorter)
+      ? sorter.find((item) => item.order)
+      : (sorter as SorterResult<RowItem>);
+    const nextParams: StoredTableParams = {
+      filters,
+      sorter: sorterValue?.order
+        ? {
+            columnKey: String(sorterValue.columnKey || ''),
+            order: sorterValue.order,
+          }
+        : undefined,
+    };
+    setTableParams(nextParams);
+    setStorage(STORAGE_KEY, nextParams);
+  };
 
   const handleClickCell = (day: dayjs.Dayjs, row: RowItem) => {
     const obj = row[day.format('D')] as Info;
@@ -163,6 +257,7 @@ export default function CustomizedTables({
       key: 'nickname',
       fixed: 'left',
       width: 128,
+      filteredValue: tableParams.filters?.nickname || null,
       filters: [
         ...tagFilters,
         {
@@ -172,7 +267,7 @@ export default function CustomizedTables({
         {
           text: 'more',
           value: 'more',
-          children: rows.map((i) => {
+          children: filterUsers.map((i) => {
             return {
               text: i?.nickname,
               value: `${USER_FILTER_PREFIX}${i?._id}`,
@@ -197,8 +292,8 @@ export default function CustomizedTables({
         return false;
       },
       sorter: (a, b): number =>
-        a.tags?.join(',').localeCompare(b.tags?.join(',') || '') as number,
-      // sortOrder: 'ascend',
+        (a.tags?.join(',') || '').localeCompare(b.tags?.join(',') || ''),
+      sortOrder: getColumnSortOrder('nickname'),
       // eslint-disable-next-line react/no-unstable-nested-components
       title: () => {
         return (
@@ -254,6 +349,7 @@ export default function CustomizedTables({
       align: 'center',
       showSorterTooltip: false,
       sorter: (a, b) => a.wfhDays - b.wfhDays,
+      sortOrder: getColumnSortOrder('wfhDays'),
     },
     {
       key: 'alDays',
@@ -263,22 +359,21 @@ export default function CustomizedTables({
       align: 'center',
       showSorterTooltip: false,
       sorter: (a, b) => a.alDays - b.alDays,
+      sortOrder: getColumnSortOrder('alDays'),
     },
-    ...days.map((day) => {
+    ...days.map((day): ColumnsType<RowItem>[number] => {
       const key = day.format('D');
 
       const year = day.format('YYYY');
       const holidays = getHolidays(year);
 
       const holiday = Object.keys(holidays).find((h: string) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore-next-line
         const v = holidays[h];
         return day.isBetween(dayjs(v[0]), dayjs(v[1]), 'day', '[]');
       });
 
       const statusList = rows.map((i) => {
-        return i[key]?.status;
+        return getDayInfo(i, key).status;
       });
 
       const wfhDaysCount = statusList.filter((i) => i === 'WFH').length;
@@ -343,17 +438,20 @@ export default function CustomizedTables({
         },
         dataIndex: key,
         width: 64,
-        align: 'center',
+        align: 'center' as const,
         showSorterTooltip: false,
 
         sorter: (a: RowItem, b: RowItem) => {
-          let atext = a[key]?.seat?.id || a[key].status || '0';
+          const aInfo = getDayInfo(a, key);
+          const bInfo = getDayInfo(b, key);
+          let atext = aInfo.seat?.id || aInfo.status || '0';
           if (atext === 'Office') atext = '0';
-          let btext = b[key]?.seat?.id || b[key].status || '0';
+          let btext = bInfo.seat?.id || bInfo.status || '0';
           if (btext === 'Office') btext = '0';
           return atext.localeCompare(btext);
         },
-        sortDirections: ['descend'],
+        sortDirections: ['descend' as SortOrder],
+        sortOrder: getColumnSortOrder(key),
         render: (info: Info, row: RowItem) => {
           let text = info.seat?.id || info.status;
           if (text === 'Office') text = '';
@@ -430,6 +528,7 @@ export default function CustomizedTables({
               // scroll={{ x: 2000, y: height }}
               pagination={false}
               scroll={scroll}
+              onChange={handleTableChange}
             />
           </ConfigProvider>
         </Stack>

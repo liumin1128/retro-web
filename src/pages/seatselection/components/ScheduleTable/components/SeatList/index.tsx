@@ -15,7 +15,9 @@ import {
 } from '@/generated/graphql';
 import dayjs, { Dayjs } from 'dayjs';
 
-function isArrayContained(a = [], b = []) {
+const isDefined = <T,>(value: T | null | undefined): value is T => !!value;
+
+function isArrayContained(a: string[] = [], b: string[] = []) {
   for (let i = 0; i < b.length; i += 1) {
     if (a.indexOf(b[i]) === -1) {
       return false;
@@ -72,7 +74,10 @@ export default function SeatList(props: Props) {
         query: FindUserToSeatsDocument,
         variables,
         data: {
-          findUserToSeats: [...findUserToSeats, data?.data?.userToSeatCreated],
+          findUserToSeats: [
+            ...findUserToSeats,
+            data?.data?.userToSeatCreated,
+          ].filter(isDefined),
         },
       });
     },
@@ -92,7 +97,7 @@ export default function SeatList(props: Props) {
         variables,
         data: {
           findUserToSeats: findUserToSeats.filter(
-            (i) => i._id !== data?.data?.userToSeatDeleted?._id,
+            (i) => i?._id !== data?.data?.userToSeatDeleted?._id,
           ),
         },
       });
@@ -115,7 +120,7 @@ export default function SeatList(props: Props) {
                     <ButtonGroup size="small">
                       {seats.seats.map((seat) => {
                         const currentSeat = seatsRes.data?.findSeats?.find(
-                          (i) => i._id === seat._id,
+                          (i) => i?._id === seat._id,
                         );
 
                         const itemUser = data?.findUserToSeats?.find(
@@ -129,8 +134,8 @@ export default function SeatList(props: Props) {
                         let disabled = false;
 
                         const tagsMatched = isArrayContained(
-                          currentUser?.tags as string[],
-                          currentSeat?.tags as string[],
+                          currentUser?.tags?.filter(isDefined),
+                          currentSeat?.tags?.filter(isDefined),
                         );
 
                         // 仅能前一个月的10号，20号可以选座

@@ -50,12 +50,18 @@ mutation pullSeatsTags($ids: [ID], $tags: [String]) {
 query FindUserToSeats(
   $seat: ID
   $user: ID
+  $users: [ID]
+  $tags: [String]
+  $requiredTags: [String]
   $startDate: Float
   $endDate: Float
 ) {
   findUserToSeats(
     seat: $seat
     user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
     startDate: $startDate
     endDate: $endDate
   ) {
@@ -90,12 +96,18 @@ mutation ToggleUserToSeat($seat: ID!, $date: Float!, $user: ID!) {
 subscription UserToSeatCreated(
   $seat: ID
   $user: ID
+  $users: [ID]
+  $tags: [String]
+  $requiredTags: [String]
   $startDate: Float
   $endDate: Float
 ) {
   userToSeatCreated(
     seat: $seat
     user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
     startDate: $startDate
     endDate: $endDate
   ) {
@@ -106,12 +118,18 @@ subscription UserToSeatCreated(
 subscription UserToSeatDeleted(
   $seat: ID
   $user: ID
+  $users: [ID]
+  $tags: [String]
+  $requiredTags: [String]
   $startDate: Float
   $endDate: Float
 ) {
   userToSeatDeleted(
     seat: $seat
     user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
     startDate: $startDate
     endDate: $endDate
   ) {

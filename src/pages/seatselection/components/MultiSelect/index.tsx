@@ -45,7 +45,7 @@ list.map((i) => {
   });
 });
 
-function isArrayContained(a = [], b = []) {
+function isArrayContained(a: string[] = [], b: string[] = []) {
   for (let i = 0; i < b.length; i += 1) {
     if (a.indexOf(b[i]) === -1) {
       return false;
@@ -173,7 +173,6 @@ export default function MultiSelect(props: Props) {
           });
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-          console.log(error);
           setLogs((prev) => {
             return {
               ...prev,
@@ -261,12 +260,14 @@ export default function MultiSelect(props: Props) {
             };
           });
         } catch (error) {
+          const message =
+            error instanceof Error ? error.message : String(error);
           setLogs((prev) => {
             return {
               ...prev,
               [day.format('YYYY-MM-DD ddd')]: {
                 status: 'error',
-                text: `${error.message}`,
+                text: message,
               },
             };
           });

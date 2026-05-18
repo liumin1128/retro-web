@@ -7,6 +7,8 @@ import {
   FindUserToSeatsQuery,
   FindSchedulesQuery,
   SeatFieldsFragment,
+  ScheduleFieldsFragment,
+  UserToSeatFieldsFragment,
   useFindUsersQuery,
   useFindSchedulesQuery,
   useFindUserInfoQuery,
@@ -22,12 +24,16 @@ import {
 interface Props {
   startDate: number;
   endDate: number;
+  tags?: string[];
+  users?: string[];
+  skip?: boolean;
 }
 
 export interface Info {
   status?: string;
   seat?: SeatFieldsFragment;
   workingDay?: boolean;
+  comment?: string;
 }
 
 export interface RowItem extends UserFieldsFragment {
@@ -37,30 +43,48 @@ export interface RowItem extends UserFieldsFragment {
   [key: string]: unknown;
 }
 
+const isDefined = <T,>(value: T | null | undefined): value is T => !!value;
+
 // interface OutPut {
 //   rows: RowItem[];
 //   isAdmin: boolean;
 // }
 
-export default ({ startDate, endDate }: Props) => {
+export default ({ startDate, endDate, tags, users, skip }: Props) => {
   const days = getMonthDays(dayjs(startDate).format('YYYY-MM'));
 
   const userInfoRes = useFindUserInfoQuery();
 
   const userRes = useFindUsersQuery({
-    variables: { tags: ['ComTech'], sortKey: 'index', sortOrder: 1 },
+    variables: {
+      tags,
+      requiredTags: ['ComTech'],
+      users,
+      sortKey: 'index',
+      sortOrder: 1,
+      limit: 1000,
+    },
+    skip,
     pollInterval: 1000 * 60, // 每分钟，自动同步一次数据
   });
 
-  const variables = { startDate, endDate };
+  const variables = {
+    startDate,
+    endDate,
+    tags,
+    requiredTags: ['ComTech'],
+    users,
+  };
 
   const scheduleRes = useFindSchedulesQuery({
     variables,
+    skip,
     pollInterval: 1000 * 60, // 每分钟，自动同步一次数据
   });
 
   const userToSeatRes = useFindUserToSeatsQuery({
     variables,
+    skip,
     pollInterval: 1000 * 60, // 每分钟，自动同步一次数据
   });
 
@@ -69,6 +93,7 @@ export default ({ startDate, endDate }: Props) => {
 
   useUserToSeatCreatedSubscription({
     variables,
+    skip,
     onData: ({ client, data }) => {
       const cache = client.readQuery<FindUserToSeatsQuery>({
         query: FindUserToSeatsDocument,
@@ -79,7 +104,10 @@ export default ({ startDate, endDate }: Props) => {
         query: FindUserToSeatsDocument,
         variables,
         data: {
-          findUserToSeats: [...findUserToSeats, data?.data?.userToSeatCreated],
+          findUserToSeats: [
+            ...findUserToSeats,
+            data?.data?.userToSeatCreated,
+          ].filter(isDefined),
         },
       });
     },
@@ -87,6 +115,7 @@ export default ({ startDate, endDate }: Props) => {
 
   useUserToSeatDeletedSubscription({
     variables,
+    skip,
     onData: ({ client, data }) => {
       const cache = client.readQuery<FindUserToSeatsQuery>({
         query: FindUserToSeatsDocument,
@@ -98,7 +127,7 @@ export default ({ startDate, endDate }: Props) => {
         variables,
         data: {
           findUserToSeats: findUserToSeats.filter(
-            (i) => i._id !== data?.data?.userToSeatDeleted?._id,
+            (i) => i?._id !== data?.data?.userToSeatDeleted?._id,
           ),
         },
       });
@@ -106,6 +135,8 @@ export default ({ startDate, endDate }: Props) => {
   });
 
   useScheduleCreatedSubscription({
+    variables,
+    skip,
     onData: ({ client, data }) => {
       const cache = client.readQuery<FindSchedulesQuery>({
         query: FindSchedulesDocument,
@@ -113,13 +144,15 @@ export default ({ startDate, endDate }: Props) => {
       });
       let findSchedules = cache?.findSchedules || [];
       findSchedules = findSchedules.filter(
-        (i) => i._id !== data?.data?.scheduleCreated?._id,
+        (i) => i?._id !== data?.data?.scheduleCreated?._id,
       );
       client.writeQuery({
         query: FindSchedulesDocument,
         variables,
         data: {
-          findSchedules: [...findSchedules, data?.data?.scheduleCreated],
+          findSchedules: [...findSchedules, data?.data?.scheduleCreated].filter(
+            isDefined,
+          ),
         },
       });
     },
@@ -150,7 +183,7 @@ export default ({ startDate, endDate }: Props) => {
   };
 
   const rows =
-    (userRes.data?.findUsers?.map((i) => {
+    (userRes.data?.findUsers?.filter(isDefined).map((i) => {
       // eslint-disable-next-line
       // @ts-ignore
       const obj: RowItem = {
@@ -167,14 +200,16 @@ export default ({ startDate, endDate }: Props) => {
           workingDay: day.day() !== 0 && day.day() !== 6,
         };
 
-        const cur = scheduleRes.data?.findSchedules?.find(
-          (j) =>
-            j?.user?._id === i?._id &&
-            dayjs(j?.date).format('D') === day.format('D'),
-        );
+        const cur = scheduleRes.data?.findSchedules
+          ?.filter(isDefined)
+          .find(
+            (j) =>
+              j?.user?._id === i?._id &&
+              dayjs(j?.date).format('D') === day.format('D'),
+          ) as ScheduleFieldsFragment | undefined;
         if (cur) {
-          temp.status = cur?.status;
-          temp.comment = cur?.comment;
+          temp.status = cur?.status || undefined;
+          temp.comment = cur?.comment || undefined;
         }
         if (cur?.status === 'WFH') wfhDays += 1;
         if (cur?.status === 'AL') alDays += 1;
@@ -182,12 +217,14 @@ export default ({ startDate, endDate }: Props) => {
         if (cur?.status === 'PM') alDays += 0.5;
         if (cur?.status === 'MC') alDays += 1;
 
-        const curSeat = userToSeatRes.data?.findUserToSeats?.find(
-          (j) =>
-            j?.user?._id === i?._id &&
-            dayjs(j?.date).format('D') === day.format('D'),
-        );
-        if (curSeat) {
+        const curSeat = userToSeatRes.data?.findUserToSeats
+          ?.filter(isDefined)
+          .find(
+            (j) =>
+              j?.user?._id === i?._id &&
+              dayjs(j?.date).format('D') === day.format('D'),
+          ) as UserToSeatFieldsFragment | undefined;
+        if (curSeat?.seat) {
           temp.seat = curSeat.seat;
         }
         obj[day.format('D')] = temp;

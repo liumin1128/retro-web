@@ -9,8 +9,22 @@ fragment scheduleFields on Schedule {
   }
 }
 
-query FindSchedules($user: ID, $startDate: Float, $endDate: Float) {
-  findSchedules(user: $user, startDate: $startDate, endDate: $endDate) {
+query FindSchedules(
+  $user: ID
+  $users: [ID]
+  $tags: [String]
+  $requiredTags: [String]
+  $startDate: Float
+  $endDate: Float
+) {
+  findSchedules(
+    user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...scheduleFields
   }
 }
@@ -28,8 +42,22 @@ mutation CreateSchedule(
   }
 }
 
-subscription scheduleCreated($user: ID, $startDate: Float, $endDate: Float) {
-  scheduleCreated(user: $user, startDate: $startDate, endDate: $endDate) {
+subscription scheduleCreated(
+  $user: ID
+  $users: [ID]
+  $tags: [String]
+  $requiredTags: [String]
+  $startDate: Float
+  $endDate: Float
+) {
+  scheduleCreated(
+    user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...scheduleFields
   }
 }

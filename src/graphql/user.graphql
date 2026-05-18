@@ -16,6 +16,8 @@ fragment userFields on User {
 query FindUsers(
   $search: String
   $tags: [String]
+  $requiredTags: [String]
+  $users: [ID]
   $limit: Int
   $skip: Int
   $sortKey: String
@@ -24,6 +26,8 @@ query FindUsers(
   findUsers(
     search: $search
     tags: $tags
+    requiredTags: $requiredTags
+    users: $users
     limit: $limit
     skip: $skip
     sortKey: $sortKey

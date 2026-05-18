@@ -624,8 +624,11 @@ export type QueryFindScheduleArgs = {
 
 export type QueryFindSchedulesArgs = {
   endDate?: InputMaybe<Scalars['Float']>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   startDate?: InputMaybe<Scalars['Float']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 
@@ -664,19 +667,24 @@ export type QueryFindUserToSeatArgs = {
 
 export type QueryFindUserToSeatsArgs = {
   endDate?: InputMaybe<Scalars['Float']>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   seat?: InputMaybe<Scalars['ID']>;
   startDate?: InputMaybe<Scalars['Float']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 
 export type QueryFindUsersArgs = {
   limit?: InputMaybe<Scalars['Int']>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   search?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
   sortKey?: InputMaybe<Scalars['String']>;
   sortOrder?: InputMaybe<Scalars['Int']>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 
@@ -883,24 +891,33 @@ export type SubscriptionRetroMessageUpdatedArgs = {
 
 export type SubscriptionScheduleCreatedArgs = {
   endDate?: InputMaybe<Scalars['Float']>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   startDate?: InputMaybe<Scalars['Float']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 
 export type SubscriptionUserToSeatCreatedArgs = {
   endDate?: InputMaybe<Scalars['Float']>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   seat?: InputMaybe<Scalars['ID']>;
   startDate?: InputMaybe<Scalars['Float']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 
 export type SubscriptionUserToSeatDeletedArgs = {
   endDate?: InputMaybe<Scalars['Float']>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   seat?: InputMaybe<Scalars['ID']>;
   startDate?: InputMaybe<Scalars['Float']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type ToggleUserToSeatInput = {
@@ -1285,6 +1302,9 @@ export type ScheduleFieldsFragment = { __typename?: 'Schedule', _id: string, cre
 
 export type FindSchedulesQueryVariables = Exact<{
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   startDate?: InputMaybe<Scalars['Float']>;
   endDate?: InputMaybe<Scalars['Float']>;
 }>;
@@ -1304,6 +1324,9 @@ export type CreateScheduleMutation = { __typename?: 'Mutation', createSchedule?:
 
 export type ScheduleCreatedSubscriptionVariables = Exact<{
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   startDate?: InputMaybe<Scalars['Float']>;
   endDate?: InputMaybe<Scalars['Float']>;
 }>;
@@ -1316,6 +1339,8 @@ export type UserFieldsFragment = { __typename: 'User', _id: string, nickname?: s
 export type FindUsersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
   sortKey?: InputMaybe<Scalars['String']>;
@@ -1413,6 +1438,9 @@ export type PullSeatsTagsMutation = { __typename?: 'Mutation', pullSeatsTags?: {
 export type FindUserToSeatsQueryVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   startDate?: InputMaybe<Scalars['Float']>;
   endDate?: InputMaybe<Scalars['Float']>;
 }>;
@@ -1455,6 +1483,9 @@ export type ToggleUserToSeatMutation = { __typename?: 'Mutation', toggleUserToSe
 export type UserToSeatCreatedSubscriptionVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   startDate?: InputMaybe<Scalars['Float']>;
   endDate?: InputMaybe<Scalars['Float']>;
 }>;
@@ -1465,6 +1496,9 @@ export type UserToSeatCreatedSubscription = { __typename?: 'Subscription', userT
 export type UserToSeatDeletedSubscriptionVariables = Exact<{
   seat?: InputMaybe<Scalars['ID']>;
   user?: InputMaybe<Scalars['ID']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  requiredTags?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   startDate?: InputMaybe<Scalars['Float']>;
   endDate?: InputMaybe<Scalars['Float']>;
 }>;
@@ -2799,8 +2833,15 @@ export type CreateUserToRoleMutationHookResult = ReturnType<typeof useCreateUser
 export type CreateUserToRoleMutationResult = Apollo.MutationResult<CreateUserToRoleMutation>;
 export type CreateUserToRoleMutationOptions = Apollo.BaseMutationOptions<CreateUserToRoleMutation, CreateUserToRoleMutationVariables>;
 export const FindSchedulesDocument = gql`
-    query FindSchedules($user: ID, $startDate: Float, $endDate: Float) {
-  findSchedules(user: $user, startDate: $startDate, endDate: $endDate) {
+    query FindSchedules($user: ID, $users: [ID], $tags: [String], $requiredTags: [String], $startDate: Float, $endDate: Float) {
+  findSchedules(
+    user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...scheduleFields
   }
 }
@@ -2819,6 +2860,9 @@ export const FindSchedulesDocument = gql`
  * const { data, loading, error } = useFindSchedulesQuery({
  *   variables: {
  *      user: // value for 'user'
+ *      users: // value for 'users'
+ *      tags: // value for 'tags'
+ *      requiredTags: // value for 'requiredTags'
  *      startDate: // value for 'startDate'
  *      endDate: // value for 'endDate'
  *   },
@@ -2874,8 +2918,15 @@ export type CreateScheduleMutationHookResult = ReturnType<typeof useCreateSchedu
 export type CreateScheduleMutationResult = Apollo.MutationResult<CreateScheduleMutation>;
 export type CreateScheduleMutationOptions = Apollo.BaseMutationOptions<CreateScheduleMutation, CreateScheduleMutationVariables>;
 export const ScheduleCreatedDocument = gql`
-    subscription scheduleCreated($user: ID, $startDate: Float, $endDate: Float) {
-  scheduleCreated(user: $user, startDate: $startDate, endDate: $endDate) {
+    subscription scheduleCreated($user: ID, $users: [ID], $tags: [String], $requiredTags: [String], $startDate: Float, $endDate: Float) {
+  scheduleCreated(
+    user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
+    startDate: $startDate
+    endDate: $endDate
+  ) {
     ...scheduleFields
   }
 }
@@ -2894,6 +2945,9 @@ export const ScheduleCreatedDocument = gql`
  * const { data, loading, error } = useScheduleCreatedSubscription({
  *   variables: {
  *      user: // value for 'user'
+ *      users: // value for 'users'
+ *      tags: // value for 'tags'
+ *      requiredTags: // value for 'requiredTags'
  *      startDate: // value for 'startDate'
  *      endDate: // value for 'endDate'
  *   },
@@ -2906,10 +2960,12 @@ export function useScheduleCreatedSubscription(baseOptions?: Apollo.Subscription
 export type ScheduleCreatedSubscriptionHookResult = ReturnType<typeof useScheduleCreatedSubscription>;
 export type ScheduleCreatedSubscriptionResult = Apollo.SubscriptionResult<ScheduleCreatedSubscription>;
 export const FindUsersDocument = gql`
-    query FindUsers($search: String, $tags: [String], $limit: Int, $skip: Int, $sortKey: String, $sortOrder: Int) {
+    query FindUsers($search: String, $tags: [String], $requiredTags: [String], $users: [ID], $limit: Int, $skip: Int, $sortKey: String, $sortOrder: Int) {
   findUsers(
     search: $search
     tags: $tags
+    requiredTags: $requiredTags
+    users: $users
     limit: $limit
     skip: $skip
     sortKey: $sortKey
@@ -2934,6 +2990,8 @@ export const FindUsersDocument = gql`
  *   variables: {
  *      search: // value for 'search'
  *      tags: // value for 'tags'
+ *      requiredTags: // value for 'requiredTags'
+ *      users: // value for 'users'
  *      limit: // value for 'limit'
  *      skip: // value for 'skip'
  *      sortKey: // value for 'sortKey'
@@ -3331,10 +3389,13 @@ export type PullSeatsTagsMutationHookResult = ReturnType<typeof usePullSeatsTags
 export type PullSeatsTagsMutationResult = Apollo.MutationResult<PullSeatsTagsMutation>;
 export type PullSeatsTagsMutationOptions = Apollo.BaseMutationOptions<PullSeatsTagsMutation, PullSeatsTagsMutationVariables>;
 export const FindUserToSeatsDocument = gql`
-    query FindUserToSeats($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
+    query FindUserToSeats($seat: ID, $user: ID, $users: [ID], $tags: [String], $requiredTags: [String], $startDate: Float, $endDate: Float) {
   findUserToSeats(
     seat: $seat
     user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
     startDate: $startDate
     endDate: $endDate
   ) {
@@ -3357,6 +3418,9 @@ export const FindUserToSeatsDocument = gql`
  *   variables: {
  *      seat: // value for 'seat'
  *      user: // value for 'user'
+ *      users: // value for 'users'
+ *      tags: // value for 'tags'
+ *      requiredTags: // value for 'requiredTags'
  *      startDate: // value for 'startDate'
  *      endDate: // value for 'endDate'
  *   },
@@ -3512,10 +3576,13 @@ export type ToggleUserToSeatMutationHookResult = ReturnType<typeof useToggleUser
 export type ToggleUserToSeatMutationResult = Apollo.MutationResult<ToggleUserToSeatMutation>;
 export type ToggleUserToSeatMutationOptions = Apollo.BaseMutationOptions<ToggleUserToSeatMutation, ToggleUserToSeatMutationVariables>;
 export const UserToSeatCreatedDocument = gql`
-    subscription UserToSeatCreated($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
+    subscription UserToSeatCreated($seat: ID, $user: ID, $users: [ID], $tags: [String], $requiredTags: [String], $startDate: Float, $endDate: Float) {
   userToSeatCreated(
     seat: $seat
     user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
     startDate: $startDate
     endDate: $endDate
   ) {
@@ -3538,6 +3605,9 @@ export const UserToSeatCreatedDocument = gql`
  *   variables: {
  *      seat: // value for 'seat'
  *      user: // value for 'user'
+ *      users: // value for 'users'
+ *      tags: // value for 'tags'
+ *      requiredTags: // value for 'requiredTags'
  *      startDate: // value for 'startDate'
  *      endDate: // value for 'endDate'
  *   },
@@ -3550,10 +3620,13 @@ export function useUserToSeatCreatedSubscription(baseOptions?: Apollo.Subscripti
 export type UserToSeatCreatedSubscriptionHookResult = ReturnType<typeof useUserToSeatCreatedSubscription>;
 export type UserToSeatCreatedSubscriptionResult = Apollo.SubscriptionResult<UserToSeatCreatedSubscription>;
 export const UserToSeatDeletedDocument = gql`
-    subscription UserToSeatDeleted($seat: ID, $user: ID, $startDate: Float, $endDate: Float) {
+    subscription UserToSeatDeleted($seat: ID, $user: ID, $users: [ID], $tags: [String], $requiredTags: [String], $startDate: Float, $endDate: Float) {
   userToSeatDeleted(
     seat: $seat
     user: $user
+    users: $users
+    tags: $tags
+    requiredTags: $requiredTags
     startDate: $startDate
     endDate: $endDate
   ) {
@@ -3576,6 +3649,9 @@ export const UserToSeatDeletedDocument = gql`
  *   variables: {
  *      seat: // value for 'seat'
  *      user: // value for 'user'
+ *      users: // value for 'users'
+ *      tags: // value for 'tags'
+ *      requiredTags: // value for 'requiredTags'
  *      startDate: // value for 'startDate'
  *      endDate: // value for 'endDate'
  *   },
