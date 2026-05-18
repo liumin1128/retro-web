@@ -11,22 +11,12 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
 import Modal, { ModalMethods } from '@/components/ModalRefV2';
-import { getStorage, setStorage } from '@/utils/store';
 import Table from '../components/ScheduleTable';
 import FullScreen from '../components/FullScreen';
 import MultiSelect from '../components/MultiSelect';
 
-const STORAGE_KEY = 'seatselection.schedule.params';
-
-const getStoredDate = () => {
-  const value = getStorage(STORAGE_KEY);
-  const storedDate = dayjs(value?.date);
-  if (storedDate.isValid()) return storedDate.startOf('day');
-  return dayjs().startOf('day');
-};
-
 const Retro: React.FunctionComponent = () => {
-  const [date, setDate] = useState<Dayjs>(getStoredDate);
+  const [date, setDate] = useState<Dayjs>(dayjs().startOf('day'));
   const [fullScreen, setFullScreen] = useState(false);
 
   const toogleFullScreen = () => {
@@ -34,9 +24,7 @@ const Retro: React.FunctionComponent = () => {
   };
 
   const handleDateChange = (n: number) => () => {
-    const nextDate = date.add(n, 'month');
-    setDate(nextDate);
-    setStorage(STORAGE_KEY, { date: nextDate.valueOf() });
+    setDate(date.add(n, 'month'));
   };
 
   const modalRef = React.useRef<ModalMethods>(null);

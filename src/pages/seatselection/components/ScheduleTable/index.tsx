@@ -47,13 +47,21 @@ interface StoredTableParams {
   };
 }
 
+interface StoredTagFilters {
+  tags?: string[];
+}
+
 const getStoredTableParams = (): StoredTableParams => {
   const value = getStorage(STORAGE_KEY);
   if (!value || typeof value !== 'object') return {};
-  const stored = value as StoredTableParams;
+  const stored = value as StoredTagFilters;
+  const tagValues = stored.tags?.map((tag) => `${TAG_FILTER_PREFIX}${tag}`);
   return {
-    filters: stored.filters,
-    sorter: stored.sorter?.order ? stored.sorter : undefined,
+    filters: tagValues?.length
+      ? {
+          nickname: tagValues,
+        }
+      : undefined,
   };
 };
 
@@ -64,6 +72,12 @@ const normalizeFilterValues = (value?: FilterValue | null) => {
 const uniqueValues = (values: string[]) => Array.from(new Set(values));
 
 const isDefined = <T,>(value: T | null | undefined): value is T => !!value;
+
+const getStoredTagFilters = (filters: Record<string, FilterValue | null>) => {
+  return normalizeFilterValues(filters.nickname)
+    .filter((value) => value.startsWith(TAG_FILTER_PREFIX))
+    .map((value) => value.slice(TAG_FILTER_PREFIX.length));
+};
 
 const getDayInfo = (row: RowItem, key: string): Info =>
   (row[key] || {}) as Info;
@@ -209,7 +223,7 @@ export default function CustomizedTables({
         : undefined,
     };
     setTableParams(nextParams);
-    setStorage(STORAGE_KEY, nextParams);
+    setStorage(STORAGE_KEY, { tags: getStoredTagFilters(filters) });
   };
 
   const handleClickCell = (day: dayjs.Dayjs, row: RowItem) => {
