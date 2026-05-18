@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment } from 'react';
 import Stack from '@mui/material/Stack';
 import {
   useCreateUserToSeatMutation,
@@ -9,6 +9,11 @@ import {
 } from '@/generated/graphql';
 import { useSnackbar } from 'notistack';
 import { useUserInfo } from '@/hooks/useUserInfo';
+import {
+  createUserToSeat as createSeatSelection,
+  deleteUserToSeat as deleteSeatSelection,
+} from '../../services/userToSeatService';
+import { getErrorMessage } from '../../utils/common';
 import SeatCom from './Seat';
 import list from './seatData';
 
@@ -19,9 +24,9 @@ interface Props {
 export default function SeatList({ date }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { loading: userInfoLoading, data: userInfoData } = useUserInfo();
+  const { data: userInfoData } = useUserInfo();
 
-  const { loading, data, refetch } = useFindUserToSeatsQuery({
+  const { data, refetch } = useFindUserToSeatsQuery({
     variables: { startDate: date },
   });
 
@@ -44,11 +49,9 @@ export default function SeatList({ date }: Props) {
 
   const handleClick = async (_id: string) => {
     try {
-      const res = await createUserToSeat({
-        variables: { seat: _id, date },
-      });
+      await createSeatSelection(createUserToSeat, _id, date);
     } catch (err) {
-      enqueueSnackbar(err.message, {
+      enqueueSnackbar(getErrorMessage(err), {
         variant: 'error',
         autoHideDuration: 3000,
       });
@@ -56,19 +59,10 @@ export default function SeatList({ date }: Props) {
   };
 
   const handleCancel = async (_id: string) => {
-    // modalRef.current?.open();
-    // console.log('_id');
-    // console.log(_id);
     try {
-      const res = await deleteUserToSeat({
-        variables: { seat: _id, date },
-      });
-      console.log('res');
-      console.log(res);
+      await deleteSeatSelection(deleteUserToSeat, _id, date);
     } catch (err) {
-      console.log('err');
-      console.log(err);
-      enqueueSnackbar(err.message, {
+      enqueueSnackbar(getErrorMessage(err), {
         variant: 'error',
         autoHideDuration: 3000,
       });
@@ -86,20 +80,22 @@ export default function SeatList({ date }: Props) {
                   return (
                     <div key={seats.key} style={{ display: 'flex' }}>
                       {seats.seats.map((seat) => {
-                        const user = data?.list.find(
-                          (k) => k.seat._id === seat._id,
+                        const user = data?.findUserToSeats?.find(
+                          (userToSeat) => userToSeat?.seat?._id === seat._id,
                         )?.user;
+                        const selectedUser = user || undefined;
+
                         return (
                           <div key={seat.id}>
                             <SeatCom
                               seat={seat}
-                              user={user}
+                              user={selectedUser}
                               onClick={handleClick}
                               onCancel={handleCancel}
                               selected={
-                                !!user?._id &&
+                                !!selectedUser?._id &&
                                 !!userInfo?._id &&
-                                user._id === userInfo?._id
+                                selectedUser._id === userInfo?._id
                               }
                             />
                           </div>

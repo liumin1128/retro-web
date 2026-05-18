@@ -1,4 +1,5 @@
 import TagsSelect from '../../components/TagsSelect';
+import { FormRenderProps } from '../../utils/forms';
 
 export default [
   {
@@ -25,7 +26,7 @@ export default [
     label: 'Tags',
     placeholder: 'Tags',
     registerOptions: {},
-    render: (props) => {
+    render: (props: FormRenderProps) => {
       return <TagsSelect {...props} />;
     },
   },

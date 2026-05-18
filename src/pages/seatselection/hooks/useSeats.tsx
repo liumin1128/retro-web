@@ -7,6 +7,11 @@ import {
 } from '@/generated/graphql';
 import { useSnackbar } from 'notistack';
 import { useUserInfo } from '@/hooks/useUserInfo';
+import {
+  createUserToSeat as createSeatSelection,
+  deleteUserToSeat as deleteSeatSelection,
+} from '../services/userToSeatService';
+import { getErrorMessage } from '../utils/common';
 
 interface Props {
   startDate: number;
@@ -41,15 +46,9 @@ export default function useSeats({ startDate, endDate }: Props) {
 
   const handleClick = async (_id: string, date: number) => {
     try {
-      const res = await createUserToSeat({
-        variables: { seat: _id, date },
-      });
-      console.log('res');
-      console.log(res);
+      await createSeatSelection(createUserToSeat, _id, date);
     } catch (err) {
-      console.log('err');
-      console.log(err);
-      enqueueSnackbar(err.message, {
+      enqueueSnackbar(getErrorMessage(err), {
         variant: 'error',
         autoHideDuration: 3000,
       });
@@ -57,18 +56,10 @@ export default function useSeats({ startDate, endDate }: Props) {
   };
 
   const handleCancel = async (_id: string, date: number) => {
-    // console.log('_id');
-    // console.log(_id);
     try {
-      const res = await deleteUserToSeat({
-        variables: { seat: _id, date },
-      });
-      console.log('res');
-      console.log(res);
+      await deleteSeatSelection(deleteUserToSeat, _id, date);
     } catch (err) {
-      console.log('err');
-      console.log(err);
-      enqueueSnackbar(err.message, {
+      enqueueSnackbar(getErrorMessage(err), {
         variant: 'error',
         autoHideDuration: 3000,
       });

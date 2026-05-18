@@ -3,6 +3,7 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import UserSelect from '../../components/UserSelect';
 import TagsSelect from '../../components/TagsSelect';
+import { FormRenderProps, getHelperText } from '../../utils/forms';
 
 export default [
   {
@@ -12,18 +13,18 @@ export default [
     registerOptions: {
       required: { value: true, message: 'User is required' },
     },
-    render: (props) => {
+    render: (props: FormRenderProps) => {
       const { field, formState } = props;
-      const { onChange, value, name } = field;
+      const { onChange, name } = field;
       const { errors } = formState;
 
       const error = !!get(errors, name, '');
-      const helperText = get(errors, `${name}.message`, '');
+      const helperText = getHelperText(get(errors, `${name}.message`, ''));
 
       return (
         <FormControl fullWidth>
           <UserSelect
-            onChange={(e, v) => {
+            onChange={(_, v) => {
               onChange(v);
             }}
           />
@@ -46,7 +47,7 @@ export default [
     registerOptions: {
       required: { value: true, message: 'Tags is required' },
     },
-    render: (props) => {
+    render: (props: FormRenderProps) => {
       return <TagsSelect {...props} />;
     },
   },

@@ -1,24 +1,22 @@
 import React from 'react';
-import Stack from '@mui/material/Stack';
 import get from 'lodash/get';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { MuiChipsInput } from 'mui-chips-input';
 import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import Stack from '@mui/material/Stack';
+import { MuiChipsInput } from 'mui-chips-input';
+import { FormRenderProps, getHelperText } from '../../utils/forms';
 
 const list = [
   { label: 'ComTech', value: 'ComTech' },
   { label: 'SeatSelectionAdmin', value: 'SeatSelectionAdmin' },
 ];
 
-export default React.forwardRef((props, ref) => {
-  const { field, formState } = props;
+function TagsSelect({ field, formState }: FormRenderProps) {
   const { onChange, value, name } = field;
   const { errors } = formState;
 
   const error = !!get(errors, name, '');
-  const helperText = get(errors, `${name}.message`, '');
+  const helperText = getHelperText(get(errors, `${name}.message`, ''));
 
   const [chips, setChips] = React.useState<string[]>(value || []);
 
@@ -54,4 +52,6 @@ export default React.forwardRef((props, ref) => {
       </Stack>
     </FormControl>
   );
-});
+}
+
+export default React.forwardRef(TagsSelect);

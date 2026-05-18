@@ -1,14 +1,14 @@
 import React from 'react';
 import get from 'lodash/get';
 import { MuiChipsInput } from 'mui-chips-input';
+import { FormRenderProps, getHelperText } from '../../utils/forms';
 
-export default React.forwardRef((props, ref) => {
-  const { field, formState } = props;
+function SeatTagsSelect({ field, formState }: FormRenderProps) {
   const { onChange, value, name } = field;
   const { errors } = formState;
 
   const error = !!get(errors, name, '');
-  const helperText = get(errors, `${name}.message`, '');
+  const helperText = getHelperText(get(errors, `${name}.message`, ''));
 
   const [chips, setChips] = React.useState<string[]>(value || []);
 
@@ -27,4 +27,6 @@ export default React.forwardRef((props, ref) => {
       helperText={helperText}
     />
   );
-});
+}
+
+export default React.forwardRef(SeatTagsSelect);

@@ -28,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontweight: 'bold',
+    fontWeight: 'bold',
     borderRight: '1px rgba(0,0,0,0.1) solid',
   },
   padding: 0,
@@ -85,12 +85,11 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
       _id: i._id,
     } as { [key: string]: unknown };
 
-    // eslint-disable-next-line array-callback-return
-    days.map((day) => {
-      const cur = data?.list?.find(
+    days.forEach((day) => {
+      const cur = data?.findUserToSeats?.find(
         (j) =>
           j?.seat?._id === i._id &&
-          dayjs(j.date).format('D') === day.format('D'),
+          dayjs(j?.date).format('D') === day.format('D'),
       );
       if (cur) {
         obj[day.format('D')] = cur.user;
@@ -108,7 +107,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
               <Typography
                 sx={{
                   fontSize: 20,
-                  fontweight: 'bold',
+                  fontWeight: 'bold',
                 }}
               >
                 {dayjs(startDate).format('MMM')}
@@ -136,7 +135,7 @@ export default function CustomizedTables({ startDate, endDate }: Props) {
                   <Typography
                     sx={{
                       fontSize: 20,
-                      fontweight: 'bold',
+                      fontWeight: 'bold',
                     }}
                   >
                     {day.format('DD')}

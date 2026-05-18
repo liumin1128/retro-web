@@ -6,7 +6,7 @@ export interface Seat {
 }
 
 export interface User {
-  _id: number;
-  seatID: number;
-  avatarUrl: string;
+  _id: string;
+  seatID?: number;
+  avatarUrl?: string | null;
 }

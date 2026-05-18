@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {
+  AdminUpdateUserInfoInput,
+  UserFieldsFragment,
   useFindUsersQuery,
   useAdminPushUsersTagsMutation,
   useAdminPullUsersTagsMutation,
@@ -16,6 +18,9 @@ import Form, { FormRefInstance } from '@/components/Form/v2';
 import getColumns from './columns';
 import items from './items';
 import updateItems from './update.items';
+import { AddUserValues } from './types';
+
+type TableColumn = React.ComponentProps<typeof Table>['columns'][number];
 
 const Retro: React.FunctionComponent = () => {
   const { data, loading, error, refetch } = useFindUsersQuery({
@@ -35,23 +40,23 @@ const Retro: React.FunctionComponent = () => {
   const updateUserFormRef = React.useRef<FormRefInstance>(null);
 
   const handleSubmit = async (values: Record<string, unknown>) => {
+    const formValues = values as unknown as AddUserValues;
+
     await pushTag({
       variables: {
-        users: values.users.map((i) => i._id),
-        tags: values.tags,
+        users: formValues.users.map((user) => user._id),
+        tags: formValues.tags,
       },
     });
     await refetch();
   };
 
   const handleUpdateSubmit =
-    (id) => async (values: Record<string, unknown>) => {
-      console.log('values');
-      console.log(values);
+    (id: string) => async (values: Record<string, unknown>) => {
       await updateUserInfo({
         variables: {
-          id: id,
-          input: values,
+          id,
+          input: values as AdminUpdateUserInfoInput,
         },
       });
       await refetch();
@@ -71,7 +76,7 @@ const Retro: React.FunctionComponent = () => {
     });
   };
 
-  const handelUpdateUser = (row) => {
+  const handelUpdateUser = (row: UserFieldsFragment) => {
     modalUpdateUserRef?.current?.open({
       title: 'Add User',
       onConfirm: async () => {
@@ -86,7 +91,7 @@ const Retro: React.FunctionComponent = () => {
             defaultValues={{
               tags: row?.tags,
               nickname: row?.nickname,
-              index: row?.index + '',
+              index: `${row?.index || ''}`,
             }}
           />
         </Stack>
@@ -94,7 +99,7 @@ const Retro: React.FunctionComponent = () => {
     });
   };
 
-  const handleDeleteTag = async (_id, tag) => {
+  const handleDeleteTag = async (_id: string, tag: string) => {
     await pullTag({
       variables: {
         users: [_id],
@@ -114,7 +119,7 @@ const Retro: React.FunctionComponent = () => {
     onEdit: (row) => {
       handelUpdateUser(row);
     },
-  });
+  }) as TableColumn[];
 
   return (
     <Box>

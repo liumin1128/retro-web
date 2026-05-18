@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button';
+import { ComponentProps } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
@@ -39,6 +40,10 @@ function SelectWorkDays(props: {
   return <Button onClick={onClick}>Select Workdays</Button>;
 }
 
+type DateCalendarSlotProps = ComponentProps<
+  typeof DateCalendar<Dayjs>
+>['slotProps'];
+
 export default function BasicDateCalendar({
   value,
   onChange,
@@ -57,17 +62,17 @@ export default function BasicDateCalendar({
           previousIconButton: () => null,
           nextIconButton: SelectWorkDays,
         }}
-        slotProps={{
-          day: {
-            selectedDays: value,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any,
-          nextIconButton: {
-            onMultiChange,
-            currentMonth,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any,
-        }}
+        slotProps={
+          {
+            day: {
+              selectedDays: value,
+            },
+            nextIconButton: {
+              onMultiChange,
+              currentMonth,
+            },
+          } as DateCalendarSlotProps
+        }
       />
     </LocalizationProvider>
   );

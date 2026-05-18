@@ -1,20 +1,23 @@
 import React from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import { useFindRolesQuery } from '@/generated/graphql';
 import get from 'lodash/get';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { useFindRolesQuery } from '@/generated/graphql';
+import { FormRenderProps, getHelperText } from '../../utils/forms';
 
-export default React.forwardRef((props, ref) => {
+function RoleSelect(
+  { field, formState }: FormRenderProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const { data } = useFindRolesQuery();
-  const { field, formState } = props;
   const { onChange, value, name } = field;
   const { errors } = formState;
 
   const error = !!get(errors, name, '');
-  const helperText = get(errors, `${name}.message`, '');
+  const helperText = getHelperText(get(errors, `${name}.message`, ''));
 
   return (
     <FormControl fullWidth>
@@ -27,7 +30,7 @@ export default React.forwardRef((props, ref) => {
         ref={ref}
         name={name}
         value={value || []}
-        onChange={(e, v) => {
+        onChange={(e) => {
           onChange(e);
         }}
         error={error}
@@ -43,4 +46,6 @@ export default React.forwardRef((props, ref) => {
       {error && <FormHelperText error>{helperText}</FormHelperText>}
     </FormControl>
   );
-});
+}
+
+export default React.forwardRef(RoleSelect);

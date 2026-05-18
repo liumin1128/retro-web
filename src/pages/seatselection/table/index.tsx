@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import NavTabs from '../components/NavTabs';
 import UserAvatar from '@/container/UserInfo/Avatar';
+import NavTabs from '../components/NavTabs';
 
 import Table from './components/Table';
 

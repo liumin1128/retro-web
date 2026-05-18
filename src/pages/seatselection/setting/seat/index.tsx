@@ -14,6 +14,8 @@ import Form, { FormRefInstance } from '@/components/Form/v2';
 import getColumns from './columns';
 import items from './items';
 
+type TableColumn = React.ComponentProps<typeof Table>['columns'][number];
+
 const Retro: React.FunctionComponent = () => {
   const { data, loading, error, refetch } = useFindSeatsQuery();
   const [update] = useUpdateSeatMutation();
@@ -57,7 +59,7 @@ const Retro: React.FunctionComponent = () => {
         ),
       });
     },
-  });
+  }) as TableColumn[];
 
   return (
     <Box>

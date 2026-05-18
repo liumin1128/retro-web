@@ -5,18 +5,16 @@ import Avatar from '@mui/material/Avatar';
 import Popover from '@/components/Popover';
 import { Seat, User } from './type';
 
-const bgcolorMap = {
-  // 0: '#eaff8f',
-  // 1: '#fffb8f',
+const bgcolorMap: Record<number, string> = {
   [-1]: 'repeating-linear-gradient(45deg,rgba(0,0,0,0.1),rgba(0,0,0,0.1) 2px,transparent 0,transparent 4px)',
 };
 
 interface Props {
   seat: Seat;
   user?: User;
-
   selected?: boolean;
   onClick: (_id: string) => void;
+  onCancel: (_id: string) => void;
 }
 
 function SeatCom({ seat, user, selected, onClick, onCancel }: Props) {
@@ -51,8 +49,6 @@ function SeatCom({ seat, user, selected, onClick, onCancel }: Props) {
           borderBottom:
             seat.direction === 2 ? '2px #ccc solid' : '1px #ccc solid',
           position: 'relative',
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           background: bgcolorMap[seat.status],
         }}
       >
@@ -80,7 +76,7 @@ function SeatCom({ seat, user, selected, onClick, onCancel }: Props) {
             padding: 8,
           }}
         />
-        {user && <Avatar src={user.avatarUrl} />}
+        {user && <Avatar src={user.avatarUrl || undefined} />}
       </Box>
     );
   };
