@@ -3,13 +3,17 @@ import { gql, split, InMemoryCache, ApolloClient, from } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { onError } from '@apollo/client/link/error';
 import { RetryLink } from '@apollo/client/link/retry';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
-import { getStorage, setStorage } from '@/utils/store';
-import { USER_TOKEN, HREF_BEFORE_LOGOUT } from '@/configs/base';
-import { onError } from '@apollo/client/link/error';
+import { getStorage } from '@/utils/store';
+import { USER_TOKEN } from '@/configs/base';
+import { rememberLoginRedirectPath } from '@/service/user';
 import typeDefs from './typeDefs';
+
+const UNAUTHENTICATED_ERROR_CODE = 'UNAUTHENTICATED';
+const INTERNAL_SERVER_ERROR_CODE = 'INTERNAL_SERVER_ERROR';
 
 const wsLink = new GraphQLWsLink(
   createClient({
@@ -17,11 +21,11 @@ const wsLink = new GraphQLWsLink(
   }),
 );
 
-const onSubscribe = (observer: { next: (arg0: string) => void }) => {
+function onSubscribe(observer: { next: (value: string) => void }): void {
   wsLink.client.on('connected', () => {
     observer.next('connected');
   });
-};
+}
 
 export const source$ = new Observable(onSubscribe);
 
@@ -64,33 +68,49 @@ const retryLink = new RetryLink({
   },
 });
 
-const authLink = setContext((_, { headers }) => {
+function getUserToken(): string | undefined {
   const token = getStorage(USER_TOKEN);
+  return typeof token === 'string' ? token : undefined;
+}
+
+const authLink = setContext((_, { headers }) => {
+  const token = getUserToken();
   return {
+    authToken: token,
     headers: {
       ...headers,
-      Authorization: `Bearer ${token}`,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   };
 });
 
-const autoLogout = async () => {
-  await setStorage(HREF_BEFORE_LOGOUT, window.location.href);
-  window.location.href = '/#/login';
-};
+function autoLogout(requestToken?: string): void {
+  if (requestToken !== getUserToken()) {
+    return;
+  }
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+  rememberLoginRedirectPath();
+  window.location.replace('/#/login');
+}
+
+const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   console.log('errorLink networkError:', networkError);
   console.log('errorLink graphQLErrors:', graphQLErrors);
   if (graphQLErrors) {
+    const { authToken } = operation.getContext() as { authToken?: string };
+
     graphQLErrors.forEach((i) => {
-      if (i?.extensions?.code === 'UNAUTHENTICATED') {
-        autoLogout();
-      }
-      if (i?.extensions?.code === 'INTERNAL_SERVER_ERROR') {
-        window?.snackbar?.enqueueSnackbar(i.message, {
-          variant: 'error',
-        });
+      switch (i?.extensions?.code) {
+        case UNAUTHENTICATED_ERROR_CODE:
+          autoLogout(authToken);
+          break;
+        case INTERNAL_SERVER_ERROR_CODE:
+          window?.snackbar?.enqueueSnackbar(i.message, {
+            variant: 'error',
+          });
+          break;
+        default:
+          break;
       }
     });
   }
