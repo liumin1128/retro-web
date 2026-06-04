@@ -1,15 +1,28 @@
 import { matchRoutes } from 'umi';
-import type { RouteObject } from 'react-router-dom';
+import { handleOAuthLoginFromUrl } from '@/service/user';
+
+type ClientRoute = {
+  title?: string;
+};
+type MatchRoutesParams = Parameters<typeof matchRoutes>;
+
+export function render(oldRender: () => void) {
+  if (handleOAuthLoginFromUrl()) {
+    return;
+  }
+
+  oldRender();
+}
 
 // 监听路由变化
 export function onRouteChange({
   clientRoutes,
   location,
 }: {
-  clientRoutes: RouteObject[];
+  clientRoutes: MatchRoutesParams[0];
   location: Location;
 }) {
   const route = matchRoutes(clientRoutes, location.pathname)?.pop()
-    ?.route as RouteObject & { title: string };
+    ?.route as ClientRoute;
   if (route) document.title = route.title || '';
 }

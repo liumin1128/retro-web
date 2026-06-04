@@ -3,6 +3,15 @@ import { HREF_BEFORE_LOGOUT, USER_TOKEN } from '@/configs/base';
 
 const DEFAULT_AFTER_LOGIN_PATH = '/';
 const AUTH_PATHS = ['/login', '/register'];
+const OAUTH_TOKEN_KEYS = ['token', 'accessToken', 'access_token'];
+
+function findToken(searchParams: URLSearchParams): string | undefined {
+  const token = OAUTH_TOKEN_KEYS.map((key) => searchParams.get(key)).find(
+    (value): value is string => !!value,
+  );
+
+  return token;
+}
 
 function getRoutePathname(path: string): string {
   const pathname = path.split(/[?#]/)[0];
@@ -54,6 +63,36 @@ export function rememberLoginRedirectPath(): void {
 
 function toHashUrl(path: string): string {
   return `/#${path}`;
+}
+
+export function getLoginTokenFromUrl(
+  href = window.location.href,
+): string | undefined {
+  const url = new URL(href, window.location.origin);
+  const pageToken = findToken(url.searchParams);
+
+  if (pageToken) {
+    return pageToken;
+  }
+
+  const hashSearch = url.hash.split('?')[1];
+
+  if (!hashSearch) {
+    return undefined;
+  }
+
+  return findToken(new URLSearchParams(hashSearch));
+}
+
+export function handleOAuthLoginFromUrl(): boolean {
+  const token = getLoginTokenFromUrl();
+
+  if (!token) {
+    return false;
+  }
+
+  handleLogin(token);
+  return true;
 }
 
 export async function handleLogin(token: string): Promise<void> {

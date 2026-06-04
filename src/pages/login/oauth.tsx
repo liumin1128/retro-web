@@ -1,27 +1,11 @@
 import { useSearchParams } from 'umi';
 import { useEffect } from 'react';
-import { handleLogin } from '@/service/user';
-
-function getTokenFromUrl(searchParams: URLSearchParams): string | null {
-  const routeToken = searchParams.get('token');
-
-  if (routeToken) {
-    return routeToken;
-  }
-
-  const pageToken = new URLSearchParams(window.location.search).get('token');
-
-  if (pageToken) {
-    return pageToken;
-  }
-
-  const hashSearch = window.location.hash.split('?')[1];
-  return hashSearch ? new URLSearchParams(hashSearch).get('token') : null;
-}
+import { getLoginTokenFromUrl, handleLogin } from '@/service/user';
 
 export default function Home() {
   const [searchParams] = useSearchParams();
-  const token = getTokenFromUrl(searchParams);
+  const routeToken = searchParams.get('token');
+  const token = routeToken || getLoginTokenFromUrl();
 
   useEffect(() => {
     if (typeof token === 'string') {
